@@ -12,7 +12,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-gray-200 flex flex-col min-h-screen">
 <nav class="fixed top-0 left-0 w-full shadow-md z-50 bg-white">
     <div class="max-w-7xl mx-auto">
         <div class="flex h-16">
@@ -59,15 +59,17 @@
     </div>
 </nav>
 
-<main
-    class="relative flex flex-col items-center selection:bg-[#FF2D20] selection:text-white mt-20">
-    <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-        @yield('content')
+<main class="flex flex-grow items-center justify-center">
+    <div class="flex flex-col mt-20">
+        <div class="w-full max-w-2xl px-6 lg:max-w-7xl">
+            @yield('content')
+        </div>
     </div>
 </main>
 
+
 <!-- Footer -->
-<footer class="bg-blue-600 text-white py-6 mt-16">
+<footer class="bg-cyan-600 text-white py-6 mt-16">
     <div class="container mx-auto text-center">
         <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
     </div>

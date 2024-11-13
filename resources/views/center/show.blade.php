@@ -18,7 +18,7 @@
                     <p class="text-gray-600 mb-2">Адрес: г. Москва, ул. Пушкина, д. 10</p>
                     <p class="text-gray-600 mb-4">Юридический адрес: г. Москва, ул. Ленина, д. 5</p>
                     <p class="text-gray-600 mb-4">ИНН: 1234567890, КПП: 987654321</p>
-                    <a href="tel:+78001234567" class="text-blue-600 hover:underline">Позвоните нам: +7 (800)
+                    <a href="tel:+78001234567" class="text-cyan-600 hover:underline">Позвоните нам: +7 (800)
                         123-45-67</a>
                 </div>
             </div>
@@ -48,22 +48,22 @@
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-semibold text-gray-900 text-center mb-6">Услуги центра</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-blue-100 p-6 rounded-lg shadow-md">
+                <div class="bg-cyan-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Индивидуальные занятия</h3>
                     <p class="text-gray-700 mb-4">Мы предлагаем индивидуальные занятия с использованием методик
                         ABA-терапии, направленных на развитие коммуникативных навыков и социального поведения.</p>
                 </div>
-                <div class="bg-blue-100 p-6 rounded-lg shadow-md">
+                <div class="bg-cyan-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Групповые занятия</h3>
                     <p class="text-gray-700 mb-4">Групповые занятия для детей с аутизмом помогают развивать навыки
                         взаимодействия с другими детьми и усваивать основные жизненные навыки.</p>
                 </div>
-                <div class="bg-blue-100 p-6 rounded-lg shadow-md">
+                <div class="bg-cyan-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Тренировка социальных навыков</h3>
                     <p class="text-gray-700 mb-4">Наши специалисты помогают детям с аутизмом развивать навыки общения,
                         взаимодействия с окружающими, решать конфликтные ситуации и многое другое.</p>
                 </div>
-                <div class="bg-blue-100 p-6 rounded-lg shadow-md">
+                <div class="bg-cyan-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Консультации для родителей</h3>
                     <p class="text-gray-700 mb-4">Мы проводим консультации для родителей, обучая их методикам
                         ABA-терапии, которые они могут применять в повседневной жизни для помощи своим детям.</p>
@@ -81,13 +81,13 @@
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Интенсив по социальной адаптации</h3>
                     <p class="text-gray-700 mb-4">Курс, который поможет детям с аутизмом освоить базовые социальные
                         навыки, необходимые для успешной адаптации в обществе.</p>
-                    <a href="#" class="text-blue-600 hover:underline">Подробнее</a>
+                    <a href="#" class="text-cyan-600 hover:underline">Подробнее</a>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Интенсив по развитию речи</h3>
                     <p class="text-gray-700 mb-4">Курс, направленный на развитие коммуникативных навыков у детей с
                         аутизмом, включая использование жестов и символов для улучшения речи.</p>
-                    <a href="#" class="text-blue-600 hover:underline">Подробнее</a>
+                    <a href="#" class="text-cyan-600 hover:underline">Подробнее</a>
                 </div>
             </div>
         </div>

@@ -9,8 +9,8 @@
 
             <div class="mb-8">
                 <form class="flex justify-center space-x-6">
-                    <input type="text" placeholder="Поиск по ФИО или адресу" class="w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button type="submit" class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300">Поиск</button>
+                    <input type="text" placeholder="Поиск по ФИО или адресу" class="w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                    <button type="submit" class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">Поиск</button>
                 </form>
             </div>
 
@@ -38,7 +38,7 @@
                     <input type="text" id="location" placeholder="Введите город" class="w-full p-3 border border-gray-300 rounded-lg">
                 </div>
                 <div class="w-full text-center mt-6">
-                    <button type="submit" class="bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300">Найти</button>
+                    <button type="submit" class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">Найти</button>
                 </div>
             </form>
         </div>
@@ -75,7 +75,7 @@
                         </video>
                     </div>
                     <p class="text-gray-600 mb-4">Есть места: Да</p>
-                    <a href="#" class="text-blue-600 hover:underline">Подробнее</a>
+                    <a href="#" class="text-cyan-600 hover:underline">Подробнее</a>
                 </div>
 
                 <!-- Specialist Card 2 -->
@@ -103,7 +103,7 @@
                         </video>
                     </div>
                     <p class="text-gray-600 mb-4">Есть места: Нет</p>
-                    <a href="#" class="text-blue-600 hover:underline">Подробнее</a>
+                    <a href="#" class="text-cyan-600 hover:underline">Подробнее</a>
                 </div>
 
                 <!-- Add more cards as needed -->

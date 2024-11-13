@@ -25,9 +25,9 @@
 
                     <!-- Social Links -->
                     <div class="flex space-x-6">
-                        <a href="#" class="text-blue-600 hover:underline">Facebook</a>
-                        <a href="#" class="text-blue-600 hover:underline">Instagram</a>
-                        <a href="#" class="text-blue-600 hover:underline">LinkedIn</a>
+                        <a href="#" class="text-cyan-600 hover:underline">Facebook</a>
+                        <a href="#" class="text-cyan-600 hover:underline">Instagram</a>
+                        <a href="#" class="text-cyan-600 hover:underline">LinkedIn</a>
                     </div>
                 </div>
             </div>
