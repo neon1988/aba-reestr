@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ABA реестр</title>
+    <title>Реестр ABA специалистов и центров</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -25,14 +25,12 @@
             <!-- Левая часть навигации -->
             <div class="flex grow">
                 <a href="{{ route('specialists.index') }}"
-                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">реестр
-                    специалистов</a>
+                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Специалисты
+                </a>
                 <a href="{{ route('centers.index') }}"
-                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">реестр
-                    АВА-центров</a>
-                <a href=""
-                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">доска
-                    объявлений</a>
+                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Центры ABA</a>
             </div>
 
             <!-- Правая часть навигации -->
@@ -68,6 +66,11 @@
     </div>
 </main>
 
-<footer class="py-16 text-center text-sm text-black"></footer>
+<!-- Footer -->
+<footer class="bg-blue-600 text-white py-6 mt-16">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
+    </div>
+</footer>
 </body>
 </html>

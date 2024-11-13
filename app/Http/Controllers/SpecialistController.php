@@ -13,7 +13,7 @@ class SpecialistController extends Controller
      */
     public function index()
     {
-        //
+        return view('specialist.index');
     }
 
     /**
