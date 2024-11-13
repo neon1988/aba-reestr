@@ -457,5 +457,15 @@
     "Profile": "Профиль",
     "Email": "Почтовый ящик",
     "Name": "Имя",
-    "Login": "Логин"
+    "Login": "Вход",
+    "Log in": "Войти",
+    "Email Password Reset Link": "",
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Забыли свой пароль? Без проблем. Просто сообщите нам свой адрес электронной почты, и мы вышлем вам по электронной почте ссылку для сброса пароля, которая позволит вам выбрать новый.",
+    "Save": "Сохранить",
+    "Profile Information": "Информация профиля",
+    "Update your account's profile information and email address.": "Обновите информацию профиля и адрес электронной почты вашего аккаунта.",
+    "Update Password": "Обновить пароль",
+    "Ensure your account is using a long, random password to stay secure.": "Убедитесь, что ваш аккаунт использует длинный, случайный пароль для безопасности.",
+    "Current Password": "Текущий пароль",
+    "New Password": "Новый пароль"
 }
