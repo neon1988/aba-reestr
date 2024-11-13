@@ -19,8 +19,6 @@ class Center extends Model
     protected $fillable = [
         'name',
         'legal_name',
-        'address',
-        'legal_address',
         'inn',
         'kpp',
         'country',

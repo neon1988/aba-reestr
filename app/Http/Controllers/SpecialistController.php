@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSpecialistRequest;
 use App\Http\Requests\UpdateSpecialistRequest;
 use App\Models\Specialist;
+use Illuminate\Support\Facades\Auth;
 
 class SpecialistController extends Controller
 {
@@ -29,7 +30,9 @@ class SpecialistController extends Controller
      */
     public function store(StoreSpecialistRequest $request)
     {
-        $specialist = Specialist::create($request->validated());
+        $specialist = Specialist::make($request->validated());
+        $specialist->creator = Auth::user();
+        $specialist->save();
 
         return redirect()->route('centers.index')->with('success', 'Специалист успешно добавлен!');
     }
@@ -39,7 +42,7 @@ class SpecialistController extends Controller
      */
     public function show(Specialist $specialist)
     {
-        //
+        return view('specialist.show', compact('specialist'));
     }
 
     /**

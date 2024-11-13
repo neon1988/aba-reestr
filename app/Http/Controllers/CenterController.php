@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
 use App\Models\Center;
+use Illuminate\Support\Facades\Auth;
 
 class CenterController extends Controller
 {
@@ -29,7 +30,9 @@ class CenterController extends Controller
      */
     public function store(StoreCenterRequest $request)
     {
-        $center = Center::create($request->validated());
+        $center = Center::make($request->validated());
+        $center->creator()->associate(Auth::user());
+        $center->save();
 
         return redirect()->route('centers.index')->with('success', 'Центр успешно добавлен!');
     }
@@ -39,7 +42,7 @@ class CenterController extends Controller
      */
     public function show(Center $center)
     {
-        //
+        return view('center.show', compact('center'));
     }
 
     /**

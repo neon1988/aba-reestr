@@ -18,8 +18,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/join/specialist', [JoinController::class, 'specialist'])->name('join.specialist');
     Route::get('/join/center', [JoinController::class, 'center'])->name('join.center');
 
-    Route::resource('center', CenterController::class);
-    Route::resource('specialist', SpecialistController::class);
+    Route::resource('centers', CenterController::class);
+    Route::resource('specialists', SpecialistController::class);
 });
 
 Route::middleware('auth')->group(function () {

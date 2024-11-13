@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');  // Название центра
             $table->string('legal_name');  // Юридическое название
-            $table->string('address');  // Фактический адрес
-            $table->string('legal_address');  // Юридический адрес
             $table->string('inn')->unique();  // ИНН
             $table->string('kpp')->nullable();  // КПП (при наличии)
             $table->string('country');
-            $table->string('region');
+            $table->string('region')->nullable();
             $table->string('city');
+            $table->string('phone');
             $table->text('services')->nullable();  // Услуги, предоставляемые центром
             $table->text('intensives')->nullable();  // Интенсивы (если платно, можно сделать поле текстом)
             $table->integer('photo_id')->nullable();
