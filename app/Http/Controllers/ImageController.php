@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCenterRequest;
-use App\Http\Requests\UpdateCenterRequest;
-use App\Models\Center;
+use App\Http\Requests\StoreImageRequest;
+use App\Http\Requests\UpdateImageRequest;
+use App\Models\Image;
 
-class CenterController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('center.index');
+        //
     }
 
     /**
@@ -27,17 +27,15 @@ class CenterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCenterRequest $request)
+    public function store(StoreImageRequest $request)
     {
-        $center = Center::create($request->validated());
-
-        return redirect()->route('centers.index')->with('success', 'Центр успешно добавлен!');
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Center $center)
+    public function show(Image $image)
     {
         //
     }
@@ -45,7 +43,7 @@ class CenterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Center $center)
+    public function edit(Image $image)
     {
         //
     }
@@ -53,7 +51,7 @@ class CenterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCenterRequest $request, Center $center)
+    public function update(UpdateImageRequest $request, Image $image)
     {
         //
     }
@@ -61,7 +59,7 @@ class CenterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Center $center)
+    public function destroy(Image $image)
     {
         //
     }

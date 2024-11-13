@@ -29,7 +29,9 @@ class SpecialistController extends Controller
      */
     public function store(StoreSpecialistRequest $request)
     {
-        //
+        $specialist = Specialist::create($request->validated());
+
+        return redirect()->route('centers.index')->with('success', 'Специалист успешно добавлен!');
     }
 
     /**

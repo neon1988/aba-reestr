@@ -17,6 +17,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/join', [JoinController::class, 'join'])->name('join');
     Route::get('/join/specialist', [JoinController::class, 'specialist'])->name('join.specialist');
     Route::get('/join/center', [JoinController::class, 'center'])->name('join.center');
+
+    Route::resource('center', CenterController::class);
+    Route::resource('specialist', SpecialistController::class);
 });
 
 Route::middleware('auth')->group(function () {

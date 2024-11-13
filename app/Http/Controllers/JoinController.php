@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -12,13 +13,17 @@ class JoinController extends Controller
         return view('join.join');
     }
 
-    public function specialist(Request $request): View
+    public function specialist(Request $request)
     {
-        return view('join.specialist');
+        $countries = Country::orderBy('name', 'asc')->get();
+
+        return view('join.specialist', ['countries' => $countries]);
     }
 
     public function center(Request $request): View
     {
-        return view('join.center');
+        $countries = Country::orderBy('name', 'asc')->get();
+
+        return view('join.center', ['countries' => $countries]);
     }
 }

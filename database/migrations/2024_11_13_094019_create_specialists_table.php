@@ -13,7 +13,23 @@ return new class extends Migration
     {
         Schema::create('specialists', function (Blueprint $table) {
             $table->id();
+            $table->string('lastname');
+            $table->string('firstname');
+            $table->string('middlename');
+            $table->string('country');
+            $table->string('region');
+            $table->string('city');
+            $table->string('education');
+            $table->string('phone');
+            $table->unsignedBigInteger('center_id')->nullable();  // Связь с центром (если работает в центре)
+            $table->boolean('is_available')->default(true);  // Доступность специалиста
+            $table->integer('photo_id')->nullable();
+            $table->unsignedBigInteger('create_user_id');
             $table->timestamps();
+            $table->softDeletes();
+
+            // Связь с центром, если указан
+            $table->foreign('center_id')->references('id')->on('centers')->onDelete('set null');
         });
     }
 
