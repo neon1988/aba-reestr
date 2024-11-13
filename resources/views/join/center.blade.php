@@ -69,7 +69,7 @@
                     <!-- Кнопка отправки -->
                     <div class="text-center">
                         <button type="submit"
-                                class="bg-teal-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-teal-700 transition">
+                                class="bg-cyan-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-cyan-700 transition">
                             Подать заявку
                         </button>
                     </div>

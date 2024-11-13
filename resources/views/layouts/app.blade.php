@@ -34,7 +34,7 @@
             </div>
 
             <!-- Правая часть навигации -->
-            <div class="flex shrink bg-cyan-800">
+            <div class="flex shrink bg-cyan-600">
                 @if (Route::has('login'))
 
                     @auth

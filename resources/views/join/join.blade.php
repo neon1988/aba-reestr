@@ -17,7 +17,7 @@
             <li>✓ Делитесь фото и видео с занятий</li>
             <li>✓ Укажите центр, в котором работаете (если применимо)</li>
         </ul>
-        <a href="{{ route('join.specialist') }}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+        <a href="{{ route('join.specialist') }}" class="inline-block bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600 transition">
             Зарегистрироваться как специалист
         </a>
     </div>
