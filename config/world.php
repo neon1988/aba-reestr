@@ -16,5 +16,19 @@ return [
             ],
         ],
         'chunk_length' => 50,
-    ]
+    ],
+
+    'states' => [
+        'activation' => [
+            'default' => true,
+        ],
+        'chunk_length' => 2000,
+    ],
+
+    'cities' => [
+        'activation' => [
+            'default' => true,
+        ],
+        'chunk_length' => 2000,
+    ],
 ];
