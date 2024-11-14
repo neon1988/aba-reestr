@@ -23,7 +23,7 @@ class CenterFactory extends Factory
             'legal_name' => $this->faker->companySuffix . ' ' . $this->faker->company, // Юридическое название
             'inn' => $this->faker->unique()->numerify('##########'), // ИНН (10 цифр для примера)
             'kpp' => $this->faker->optional()->numerify('#########'), // КПП (9 цифр, может быть пустым)
-            'country' => $this->faker->country,                   // Страна
+            'country' => 'United Kingdom',                   // Страна
             'region' => $this->faker->state,                      // Регион
             'city' => $this->faker->city,                         // Город
             'phone' => $this->faker->phoneNumber,                 // Телефон

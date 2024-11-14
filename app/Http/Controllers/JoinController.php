@@ -2,14 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Center;
 use App\Models\Country;
+use App\Models\Specialist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class JoinController extends Controller
 {
-    public function join(Request $request): View
+    public function join(Request $request): \Illuminate\Http\RedirectResponse|View
     {
+        $specialist = Auth::user()->createdSpecialists()->sentOnReview()->first();
+
+        if (!empty($specialist))
+            return redirect()->route('specialists.show', compact('specialist'));
+
+        $center = Auth::user()->createdCenters()->sentOnReview()->first();
+
+        if (!empty($center))
+            return redirect()->route('centers.show', compact('center'));
+
         return view('join.join');
     }
 

@@ -22,7 +22,7 @@ class SpecialistFactory extends Factory
             'lastname' => $this->faker->lastName,
             'firstname' => $this->faker->firstName,
             'middlename' => $this->faker->firstName,
-            'country' => $this->faker->country,
+            'country' => 'United Kingdom',
             'region' => $this->faker->state,
             'city' => $this->faker->city,
             'education' => $this->faker->randomElement([

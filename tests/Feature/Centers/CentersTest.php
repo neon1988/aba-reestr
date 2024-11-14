@@ -73,5 +73,7 @@ class CentersTest extends TestCase
 
         // Проверяем, что центр был сохранен в базе данных
         $this->assertDatabaseHas('centers', $centerArray);
+
+        $this->assertTrue($center->isSentForReview());
     }
 }

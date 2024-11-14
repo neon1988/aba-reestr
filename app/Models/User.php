@@ -46,4 +46,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Связь с созданными специалистами
+    public function createdSpecialists()
+    {
+        return $this->hasMany(Specialist::class, 'create_user_id');
+    }
+
+    // Связь с созданными центрами
+    public function createdCenters()
+    {
+        return $this->hasMany(Center::class, 'create_user_id');
+    }
 }

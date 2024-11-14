@@ -33,7 +33,7 @@ class SpecialistController extends Controller
     public function store(StoreSpecialistRequest $request)
     {
         $specialist = Specialist::make($request->validated());
-        $specialist->creator = Auth::user();
+        $specialist->creator()->associate(Auth::user());
         $specialist->statusSentForReview();
         $specialist->save();
 
