@@ -42,19 +42,19 @@
             <!-- Страна -->
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h3 class="text-lg font-medium text-gray-700">Страна</h3>
-                <p class="text-gray-600">{{ $center->country }}</p>
+                <p class="text-gray-600">{{ __($center->country) }}</p>
             </div>
 
             <!-- Регион -->
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h3 class="text-lg font-medium text-gray-700">Регион</h3>
-                <p class="text-gray-600">{{ $center->region ?? 'Не указано' }}</p>
+                <p class="text-gray-600">{{ __($center->region) ?? 'Не указано' }}</p>
             </div>
 
             <!-- Город -->
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h3 class="text-lg font-medium text-gray-700">Город</h3>
-                <p class="text-gray-600">{{ $center->city }}</p>
+                <p class="text-gray-600">{{ __($center->city) }}</p>
             </div>
 
             <!-- Телефон -->

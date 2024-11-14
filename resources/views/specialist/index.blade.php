@@ -79,8 +79,8 @@
                         <p class="text-gray-600 mb-4">Образование: {{ $specialist->education ?? 'Не указано' }}</p>
 
                         <!-- Адрес специалиста -->
-                        <p class="text-gray-600 mb-4">Адрес: г. {{ $specialist->city ?? 'Не указан' }}
-                            , {{ $specialist->region ?? '' }}</p>
+                        <p class="text-gray-600 mb-4">Адрес: г. {{ __($specialist->city) ?? 'Не указан' }},
+                            {{ $specialist->region ?? '' }}</p>
 
                         @isset($specialist->center)
                             <!-- Центр, в котором работает специалист -->

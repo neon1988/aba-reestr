@@ -35,15 +35,15 @@
             <div class="mt-4 space-y-4">
                 <div class="flex justify-between">
                     <span class="text-gray-500">Страна:</span>
-                    <span class="text-gray-700">{{ $specialist->country }}</span>
+                    <span class="text-gray-700">{{ __($specialist->country) }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-500">Регион:</span>
-                    <span class="text-gray-700">{{ $specialist->region }}</span>
+                    <span class="text-gray-700">{{ __($specialist->region) }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-500">Город:</span>
-                    <span class="text-gray-700">{{ $specialist->city }}</span>
+                    <span class="text-gray-700">{{ __($specialist->city) }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-500">Образование:</span>
