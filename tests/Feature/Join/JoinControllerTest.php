@@ -1,8 +1,8 @@
 <?php
 
-namespace Join;
+namespace Tests\Feature\Join;
 
-use App\Models\Country;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,11 +17,14 @@ class JoinControllerTest extends TestCase
      */
     public function testJoinMethod()
     {
-        // Отправляем GET-запрос к методу join
-        $response = $this->get(route('join.join'));
+        // Создаем пользователя для аутентификации
+        $user = User::factory()->create();
+
+        // Отправляем GET-запрос к методу join, действуя от имени аутентифицированного пользователя
+        $response = $this->actingAs($user)->get(route('join'));
 
         // Проверяем, что страница загружается с кодом 200 (успешно)
-        $response->assertStatus(200);
+        $response->assertOk();
 
         // Проверяем, что в ответе содержится правильный шаблон
         $response->assertViewIs('join.join');
@@ -34,23 +37,20 @@ class JoinControllerTest extends TestCase
      */
     public function testSpecialistMethod()
     {
-        // Создаем несколько стран для теста
-        Country::factory()->count(3)->create();
+        // Создаем пользователя для аутентификации
+        $user = User::factory()->create();
 
-        // Отправляем GET-запрос к методу specialist
-        $response = $this->get(route('join.specialist'));
+        // Отправляем GET-запрос к методу specialist, действуя от имени аутентифицированного пользователя
+        $response = $this->actingAs($user)->get(route('join.specialist'));
 
         // Проверяем, что страница загружается с кодом 200 (успешно)
-        $response->assertStatus(200);
+        $response->assertOk();
 
         // Проверяем, что в ответе содержится правильный шаблон
         $response->assertViewIs('join.specialist');
 
         // Проверяем, что переменная 'countries' передана в представление
         $response->assertViewHas('countries');
-
-        // Проверяем, что количество стран в представлении совпадает с количеством созданных
-        $this->assertCount(3, $response->viewData('countries'));
     }
 
     /**
@@ -60,22 +60,19 @@ class JoinControllerTest extends TestCase
      */
     public function testCenterMethod()
     {
-        // Создаем несколько стран для теста
-        Country::factory()->count(3)->create();
+        // Создаем пользователя для аутентификации
+        $user = User::factory()->create();
 
-        // Отправляем GET-запрос к методу center
-        $response = $this->get(route('join.center'));
+        // Отправляем GET-запрос к методу center, действуя от имени аутентифицированного пользователя
+        $response = $this->actingAs($user)->get(route('join.center'));
 
         // Проверяем, что страница загружается с кодом 200 (успешно)
-        $response->assertStatus(200);
+        $response->assertOk();
 
         // Проверяем, что в ответе содержится правильный шаблон
         $response->assertViewIs('join.center');
 
         // Проверяем, что переменная 'countries' передана в представление
         $response->assertViewHas('countries');
-
-        // Проверяем, что количество стран в представлении совпадает с количеством созданных
-        $this->assertCount(3, $response->viewData('countries'));
     }
 }

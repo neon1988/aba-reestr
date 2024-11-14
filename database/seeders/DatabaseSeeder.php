@@ -26,9 +26,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-
-
-
-        #$this->call(WorldTableSeeder::class);
+        $this->call(WorldSeeder::class);
     }
 }

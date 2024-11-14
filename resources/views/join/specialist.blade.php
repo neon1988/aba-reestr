@@ -31,7 +31,7 @@
                         <label class="block text-gray-700">Страна *</label>
                         <select name="country" class="w-full border border-gray-300 rounded-md p-2" required>
                             @foreach($countries as $country)
-                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                <option value="{{ $country->id }}">{{ __($country->name) }}</option>
                             @endforeach
                         </select>
                     </div>

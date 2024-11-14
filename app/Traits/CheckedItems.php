@@ -16,7 +16,7 @@ trait CheckedItems
         return $this->hasOne('App\User', 'id', 'status_changed_user_id');
     }
 
-    public function getIsRejectedAttribute(): boo
+    public function getIsRejectedAttribute(): bool
     {
         return $this->isRejected();
     }
@@ -307,7 +307,7 @@ trait CheckedItems
         else
             return false;
     }
-
+/*
     protected function getArrayableAppends(): array
     {
         $this->appends = array_unique(array_merge($this->appends, [
@@ -320,4 +320,5 @@ trait CheckedItems
 
         return parent::getArrayableAppends();
     }
+*/
 }
