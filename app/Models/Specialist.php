@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Specialist extends Model
 {
-    use SoftDeletes, HasFactory, UserCreated;
+    use SoftDeletes, HasFactory, UserCreated, CheckedItems;
 
     protected $fillable = [
         'lastname',
@@ -38,5 +39,8 @@ class Specialist extends Model
         return $this->hasOne(Image::class, 'id', 'photo_id');
     }
 
-
+    public function scopeActive($query)
+    {
+        return $query->accepted();
+    }
 }

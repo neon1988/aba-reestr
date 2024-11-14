@@ -24,6 +24,9 @@ return new class extends Migration
             $table->text('services')->nullable();  // Услуги, предоставляемые центром
             $table->text('intensives')->nullable();  // Интенсивы (если платно, можно сделать поле текстом)
             $table->integer('photo_id')->nullable();
+            $table->smallInteger('status')->nullable();
+            $table->dateTime('status_changed_at')->nullable();
+            $table->integer('status_changed_user_id')->nullable();
             $table->unsignedBigInteger('create_user_id');
             $table->timestamps();
             $table->softDeletes();

@@ -6,7 +6,7 @@
             <div class="max-w-xl">
                 <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Регистрация АВА специалиста</h1>
 
-                <form action="{{ route('specialist.store') }}" method="POST" class="space-y-4">
+                <form action="{{ route('specialists.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <!-- Имя -->
                     <div>

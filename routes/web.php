@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [OtherController::class, 'home'])->name('home');
 
-Route::get('/specialists', [SpecialistController::class, 'index'])->name('specialists.index');
-Route::get('/centers', [CenterController::class, 'index'])->name('centers.index');
+
 //Route::get('/board', [OtherController::class, 'centers'])->name('board.index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -18,11 +17,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/join/specialist', [JoinController::class, 'specialist'])->name('join.specialist');
     Route::get('/join/center', [JoinController::class, 'center'])->name('join.center');
 
-    Route::resource('centers', CenterController::class);
-    Route::resource('specialists', SpecialistController::class);
+    Route::resource('centers', CenterController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
+    Route::resource('specialists', SpecialistController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
 });
 
+Route::resource('centers', CenterController::class)->only(['index', 'show']);
+Route::resource('specialists', SpecialistController::class)->only(['index', 'show']);
+
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

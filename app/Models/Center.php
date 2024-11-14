@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Center extends Model
 {
-    use SoftDeletes, HasFactory, UserCreated;
+    use SoftDeletes, HasFactory, UserCreated, CheckedItems;
 
     /**
      * Атрибуты, которые можно заполнять.
@@ -41,5 +42,10 @@ class Center extends Model
     public function files()
     {
         return $this->hasMany(File::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->accepted();
     }
 }

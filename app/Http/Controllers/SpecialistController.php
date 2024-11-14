@@ -14,7 +14,9 @@ class SpecialistController extends Controller
      */
     public function index()
     {
-        return view('specialist.index');
+        $specialists = Specialist::active()->paginate(9);
+
+        return view('specialist.index', compact('specialists'));
     }
 
     /**
@@ -32,9 +34,11 @@ class SpecialistController extends Controller
     {
         $specialist = Specialist::make($request->validated());
         $specialist->creator = Auth::user();
+        $specialist->statusSentForReview();
         $specialist->save();
 
-        return redirect()->route('centers.index')->with('success', 'Специалист успешно добавлен!');
+        return redirect()->route('specialists.show', compact('specialist'))
+            ->with('success', 'Специалист успешно добавлен!');
     }
 
     /**

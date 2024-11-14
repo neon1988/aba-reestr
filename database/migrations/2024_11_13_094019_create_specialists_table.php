@@ -25,6 +25,9 @@ return new class extends Migration
             $table->boolean('is_available')->default(true);  // Доступность специалиста
             $table->integer('photo_id')->nullable();
             $table->unsignedBigInteger('create_user_id');
+            $table->smallInteger('status')->nullable();
+            $table->dateTime('status_changed_at')->nullable();
+            $table->integer('status_changed_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

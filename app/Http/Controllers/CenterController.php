@@ -14,7 +14,9 @@ class CenterController extends Controller
      */
     public function index()
     {
-        return view('center.index');
+        $centers = Center::active()->paginate(9);
+
+        return view('center.index', compact('centers'));
     }
 
     /**
@@ -32,9 +34,11 @@ class CenterController extends Controller
     {
         $center = Center::make($request->validated());
         $center->creator()->associate(Auth::user());
+        $center->statusSentForReview();
         $center->save();
 
-        return redirect()->route('centers.index')->with('success', 'Центр успешно добавлен!');
+        return redirect()->route('centers.show', compact('center'))
+            ->with('success', 'Центр успешно добавлен!');
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\StatusEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,16 @@ class CenterFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->company,                     // Название компании
+            'legal_name' => $this->faker->companySuffix . ' ' . $this->faker->company, // Юридическое название
+            'inn' => $this->faker->unique()->numerify('##########'), // ИНН (10 цифр для примера)
+            'kpp' => $this->faker->optional()->numerify('#########'), // КПП (9 цифр, может быть пустым)
+            'country' => $this->faker->country,                   // Страна
+            'region' => $this->faker->state,                      // Регион
+            'city' => $this->faker->city,                         // Город
+            'phone' => $this->faker->phoneNumber,                 // Телефон
+            'status' => StatusEnum::Accepted,
+            'create_user_id' => User::factory(),
         ];
     }
 }

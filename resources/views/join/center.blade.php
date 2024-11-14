@@ -18,7 +18,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('center.store') }}" method="POST" class="space-y-4">
+                <form action="{{ route('centers.store') }}" method="POST" class="space-y-4">
                     @csrf
 
                     <!-- Название фактическое -->

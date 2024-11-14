@@ -3,6 +3,9 @@ import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    plugins: [forms],
+    darkMode: 'class',
+    important: false,
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -11,11 +14,12 @@ export default {
 
     theme: {
         extend: {
+            fontSize: {
+                base: '1rem'
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
-    },
-
-    plugins: [forms],
+    }
 };
