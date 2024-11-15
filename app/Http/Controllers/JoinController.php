@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Models\Center;
 use App\Models\Country;
 use App\Models\Specialist;
@@ -14,12 +15,12 @@ class JoinController extends Controller
 {
     public function join(Request $request): \Illuminate\Http\RedirectResponse|View
     {
-        $specialist = Auth::user()->createdSpecialists()->sentOnReview()->first();
+        $specialist = Auth::user()->createdSpecialists()->whereStatusIn([StatusEnum::Accepted, StatusEnum::OnReview])->first();
 
         if (!empty($specialist))
             return redirect()->route('specialists.show', compact('specialist'));
 
-        $center = Auth::user()->createdCenters()->sentOnReview()->first();
+        $center = Auth::user()->createdCenters()->whereStatusIn([StatusEnum::Accepted, StatusEnum::OnReview])->first();
 
         if (!empty($center))
             return redirect()->route('centers.show', compact('center'));

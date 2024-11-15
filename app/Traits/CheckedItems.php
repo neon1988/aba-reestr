@@ -136,7 +136,10 @@ trait CheckedItems
 		$array = [];
 
 		foreach ($statuses as $key) {
-			$array[] = StatusEnum::getValue($key);
+            if (!$key instanceof StatusEnum)
+                $array[] = $key;
+            else
+			    $array[] = StatusEnum::getValue($key);
 		}
 
 		return $query->whereIn($this->getTable() . '.' . $this->getStatusColumn(), $array)

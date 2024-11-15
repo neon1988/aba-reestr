@@ -68,7 +68,7 @@
                     <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
                         <!-- Фото специалиста -->
                         <div class="flex justify-center mb-4">
-                            <img src="{{ $specialist->profile_photo_url ?? 'https://via.placeholder.com/150' }}"
+                            <img src="{{ optional($specialist->photo)->url ?? 'https://via.placeholder.com/150' }}"
                                  alt="Фото специалиста" class="w-32 h-32 rounded-full object-cover">
                         </div>
 

@@ -22,7 +22,7 @@
         <div class="flex items-center space-x-4">
             <!-- Фото специалиста (если есть) -->
             <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
-                <img src="{{ $specialist->photo ?? asset('default-avatar.png') }}" alt="Profile Photo"
+                <img src="{{ $specialist->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
                      class="w-full h-full object-cover">
             </div>
 
