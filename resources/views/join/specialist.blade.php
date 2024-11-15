@@ -18,6 +18,13 @@
 
                 <form action="{{ route('specialists.store') }}" method="POST" class="space-y-4">
                     @csrf
+
+                    <div>
+                        <label class="block text-gray-700">Фото</label>
+                        <input name="photo" type="file" class="w-full border border-gray-300 rounded-md p-2">
+                        Максимальный размер {{ formatFileSize(config('uploads.image_max_size') * 1000) }}
+                    </div>
+
                     <!-- Имя -->
                     <div>
                         <label class="block text-gray-700">Имя *</label>
@@ -61,7 +68,8 @@
                                 class="w-full border @error('country') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                                 required>
                             @foreach($countries as $country)
-                                <option value="{{ $country->name }}" {{ old('country') == $country->name ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $country->name }}" {{ old('country') == $country->name ? 'selected' : '' }}>
                                     {{ __($country->name) }}
                                 </option>
                             @endforeach
@@ -122,12 +130,14 @@
                     <!-- Документы об АВА образовании -->
                     <div>
                         <label class="block text-gray-700">Документы об АВА образовании</label>
-                        <input type="file"
+                        <input name="file" type="file"
                                class="w-full border border-gray-300 rounded-md p-2
                                       @error('education_document') border-red-500 @enderror">
                         @error('education_document')
                         <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                         @enderror
+
+                        Максимальный размер {{ formatFileSize(config('uploads.document_max_size') * 1000) }}
                     </div>
 
                     <!-- Кнопка отправки -->

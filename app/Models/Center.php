@@ -31,17 +31,9 @@ class Center extends Model
     /**
      * Связь с фотографией центра.
      */
-    public function photo()
+    public function photo(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
-        return $this->belongsTo(Image::class);
-    }
-
-    /**
-     * Связь с файлами центра (дополнительные фотографии и документы).
-     */
-    public function files()
-    {
-        return $this->hasMany(File::class);
+        return $this->hasOne(Image::class, 'id', 'photo_id');
     }
 
     public function scopeActive($query)
@@ -62,5 +54,10 @@ class Center extends Model
 
         // Устанавливаем очищенный номер телефона
         $this->attributes['phone'] = $cleanPhone;
+    }
+
+    public function files()
+    {
+        return $this->belongsToMany(File::class, 'center_file');
     }
 }

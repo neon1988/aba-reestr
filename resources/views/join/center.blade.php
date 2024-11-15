@@ -21,6 +21,12 @@
                 <form action="{{ route('centers.store') }}" method="POST" class="space-y-4">
                     @csrf
 
+                    <div>
+                        <label class="block text-gray-700">Фото</label>
+                        <input name="photo" type="file" class="w-full border border-gray-300 rounded-md p-2">
+                        Максимальный размер {{ formatFileSize(config('uploads.image_max_size') * 1000) }}
+                    </div>
+
                     <!-- Название фактическое -->
                     <div>
                         <label class="block text-gray-700">Название фактическое *</label>
@@ -61,7 +67,8 @@
                                 class="w-full border @error('country') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                                 required>
                             @foreach($countries as $country)
-                                <option value="{{ $country->name }}" {{ old('country') == $country->name ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $country->name }}" {{ old('country') == $country->name ? 'selected' : '' }}>
                                     {{ __($country->name) }}
                                 </option>
                             @endforeach
@@ -107,7 +114,8 @@
                     <!-- Документы о регистрации юр. лица -->
                     <div>
                         <label class="block text-gray-700">Документы о регистрации юр. лица</label>
-                        <input type="file" class="w-full border border-gray-300 rounded-md p-2">
+                        <input name="file" type="file" class="w-full border border-gray-300 rounded-md p-2">
+                        Максимальный размер {{ formatFileSize(config('uploads.document_max_size') * 1000) }}
                     </div>
 
                     <!-- Кнопка отправки -->

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
 use App\Models\Center;
+use App\Models\File;
+use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+use Litlife\Url\Url;
 
 class CenterController extends Controller
 {
@@ -36,6 +39,22 @@ class CenterController extends Controller
         $center->creator()->associate(Auth::user());
         $center->statusSentForReview();
         $center->save();
+
+        $photo = new Image;
+        $photo->openImage($request->file('photo')->getRealPath());
+        $photo->storage = config('filesystems.default');
+        $photo->name = $request->file('photo')->getClientOriginalName();
+        $photo->save();
+
+        $center->photo_id = $photo->id;
+        $center->save();
+
+        $file = new File;
+        $file->name = $request->file('file')->getClientOriginalName();
+        $extension = Url::fromString($request->file('file')->getClientOriginalName())->getExtension();
+        $file->extension = $extension;
+        $file->open($request->file('file')->getRealPath());
+        $center->files()->save($file);
 
         return redirect()->route('centers.show', compact('center'))
             ->with('success', 'Центр успешно добавлен!');

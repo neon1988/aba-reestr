@@ -1,0 +1,23 @@
+<!-- resources/views/errors/403.blade.php -->
+
+@extends('layouts.app')
+
+@section('content')
+
+    <div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-6xl font-extrabold text-blue-500 pb-5">500</h1>
+        <h2 class="text-3xl font-semibold text-gray-800 pb-5">Внутренняя ошибка сервера</h2>
+        <p class="text-gray-600">Извините, но произошла непредвиденная ошибка на сервере. Пожалуйста, попробуйте
+            обновить страницу или зайдите позже.</p>
+        <a href="{{ url('/') }}"
+           class="inline-block px-6 py-3 mt-4 text-white bg-blue-500 hover:bg-blue-600 rounded-md text-lg font-medium transition duration-150 ease-in-out">
+            Вернуться на главную
+        </a>
+
+        <a href="{{ url()->previous() }}"
+           class="mt-4 inline-block px-4 py-2 text-blue-600 font-medium hover:text-blue-700 transition">
+            Вернуться назад
+        </a>
+    </div>
+
+@endsection

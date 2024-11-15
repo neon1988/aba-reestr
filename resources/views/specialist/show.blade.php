@@ -9,10 +9,12 @@
             <div class="mb-8 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 rounded-lg">
                 <h4 class="text-lg font-semibold">Ваш профиль находится на проверке!</h4>
                 <p class="text-gray-600">
-                    Мы благодарим вас за регистрацию и загрузку информации. Ваш профиль будет рассмотрен нашим модератором в ближайшее время. Пожалуйста, ожидайте уведомление о статусе вашего профиля.
+                    Мы благодарим вас за регистрацию и загрузку информации. Ваш профиль будет рассмотрен нашим
+                    модератором в ближайшее время. Пожалуйста, ожидайте уведомление о статусе вашего профиля.
                 </p>
                 <p class="mt-2 text-gray-600">
-                    Если будут нужны дополнительные данные или уточнения, мы свяжемся с вами по указанному номеру телефона. Благодарим за терпение!
+                    Если будут нужны дополнительные данные или уточнения, мы свяжемся с вами по указанному номеру
+                    телефона. Благодарим за терпение!
                 </p>
             </div>
         @endif
@@ -20,7 +22,8 @@
         <div class="flex items-center space-x-4">
             <!-- Фото специалиста (если есть) -->
             <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
-                <img src="{{ $specialist->photo ?? asset('default-avatar.png') }}" alt="Profile Photo" class="w-full h-full object-cover">
+                <img src="{{ $specialist->photo ?? asset('default-avatar.png') }}" alt="Profile Photo"
+                     class="w-full h-full object-cover">
             </div>
 
             <!-- Имя специалиста -->

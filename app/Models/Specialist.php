@@ -34,7 +34,7 @@ class Specialist extends Model
     /**
      * Связь "один к одному" с моделью File (для фото специалиста)
      */
-    public function photo(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function photo(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
         return $this->hasOne(Image::class, 'id', 'photo_id');
     }
@@ -57,5 +57,10 @@ class Specialist extends Model
 
         // Устанавливаем очищенный номер телефона
         $this->attributes['phone'] = $cleanPhone;
+    }
+
+    public function files()
+    {
+        return $this->belongsToMany(File::class, 'specialist_file');
     }
 }

@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpecialistRequest;
 use App\Http\Requests\UpdateSpecialistRequest;
+use App\Models\File;
+use App\Models\Image;
 use App\Models\Specialist;
 use Illuminate\Support\Facades\Auth;
+use Litlife\Url\Url;
 
 class SpecialistController extends Controller
 {
@@ -36,6 +39,22 @@ class SpecialistController extends Controller
         $specialist->creator()->associate(Auth::user());
         $specialist->statusSentForReview();
         $specialist->save();
+
+        $photo = new Image;
+        $photo->openImage($request->file('photo')->getRealPath());
+        $photo->storage = config('filesystems.default');
+        $photo->name = $request->file('photo')->getClientOriginalName();
+        $photo->save();
+
+        $specialist->photo_id = $photo->id;
+        $specialist->save();
+
+        $file = new File;
+        $file->name = $request->file('file')->getClientOriginalName();
+        $extension = Url::fromString($request->file('file')->getClientOriginalName())->getExtension();
+        $file->extension = $extension;
+        $file->open($request->file('file')->getRealPath());
+        $specialist->files()->save($file);
 
         return redirect()->route('specialists.show', compact('specialist'))
             ->with('success', 'Специалист успешно добавлен!');

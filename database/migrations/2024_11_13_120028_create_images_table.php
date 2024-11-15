@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('storage');  // Путь к файлу изображения
             $table->string('dirname');  // Имя файла
-            $table->string('filename');  // Тип файла (например, jpg, png)
-            $table->integer('width');
-            $table->integer('height');
+            $table->string('name');  // Тип файла (например, jpg, png)
+            $table->unsignedInteger('width');
+            $table->unsignedInteger('height');
+            $table->unsignedInteger('size');
+            $table->string('type');
             $table->unsignedBigInteger('create_user_id');
             $table->timestamps();
             $table->softDeletes();

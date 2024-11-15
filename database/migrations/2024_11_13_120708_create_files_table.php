@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('storage');
             $table->string('dirname');  // Путь к файлу
-            $table->string('filename')->nullable();  // Оригинальное имя файла
+            $table->string('name')->nullable();  // Оригинальное имя файла
+            $table->string('extension', 10);  // Оригинальное имя файла
+            $table->unsignedInteger('size');
             $table->unsignedBigInteger('create_user_id');  // Владелец файла, если пользователь
             $table->timestamps();
             $table->softDeletes();

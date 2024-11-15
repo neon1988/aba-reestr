@@ -22,6 +22,7 @@ class StoreSpecialistRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:'.config('uploads.image_max_size'),
             'lastname' => 'required|string|max:50',  // Обязательно, строка, максимум 50 символов
             'firstname' => 'required|string|max:50',  // Обязательно, строка, максимум 50 символов
             'middlename' => 'nullable|string|max:50',  // Необязательно, строка, максимум 50 символов
@@ -30,6 +31,7 @@ class StoreSpecialistRequest extends FormRequest
             'city' => 'required|string|max:100',  // Обязательно, строка, максимум 100 символов
             'education' => 'required|string|max:255',  // Обязательно, строка, максимум 255 символов
             'phone' => 'required|string|regex:/^\+?[0-9]{10,15}$/',  // Обязательно, строка, проверка формата телефона (10–15 цифр с опциональным "+")
+            'file' => 'required|file|max:'.config('uploads.document_max_size')
         ];
     }
 

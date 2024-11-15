@@ -6,8 +6,11 @@
     <section class="bg-cyan-100 text-center py-16">
         <div class="container mx-auto px-4">
             <h1 class="text-4xl font-bold text-gray-900 mb-4">Добро пожаловать в реестр ABA специалистов и центров</h1>
-            <p class="text-lg text-gray-700 mb-6">Здесь вы можете найти квалифицированных специалистов и центры, работающие в области ABA-терапии.</p>
-            <a href="#centers" class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700 transition duration-300">Найти центр</a>
+            <p class="text-lg text-gray-700 mb-6">Здесь вы можете найти квалифицированных специалистов и центры,
+                работающие в области ABA-терапии.</p>
+            <a href="#centers"
+               class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700 transition duration-300">Найти
+                центр</a>
         </div>
     </section>
 
@@ -16,8 +19,12 @@
         <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск специалистов и центров</h2>
             <form class="flex justify-center space-x-4">
-                <input type="text" placeholder="Поиск по имени или городу" class="w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                <button type="submit" class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">Поиск</button>
+                <input type="text" placeholder="Поиск по имени или городу"
+                       class="w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                <button type="submit"
+                        class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">
+                    Поиск
+                </button>
             </form>
         </div>
     </section>

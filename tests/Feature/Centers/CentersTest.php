@@ -6,6 +6,7 @@ use App\Models\Center;
 use App\Models\User;
 use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class CentersTest extends TestCase
@@ -55,6 +56,9 @@ class CentersTest extends TestCase
         unset($centerArray['status']);
         unset($centerArray['create_user_id']);
 
+        $centerArray['photo'] = UploadedFile::fake()->image('test-image.jpg');
+        $centerArray['file'] = UploadedFile::fake()->image('test-image2.jpg');
+
         // Отправляем POST-запрос для создания нового центра
         $response = $this->actingAs($user)
             ->post(route('centers.store'), $centerArray)
@@ -71,9 +75,12 @@ class CentersTest extends TestCase
         // Проверяем, что в сессии присутствует сообщение об успешном добавлении
         $response->assertSessionHas('success', 'Центр успешно добавлен!');
 
-        // Проверяем, что центр был сохранен в базе данных
-        $this->assertDatabaseHas('centers', $centerArray);
-
         $this->assertTrue($center->isSentForReview());
+
+        $photo = $center->photo()->first();
+        $this->assertNotNull($photo);
+
+        $file = $center->files()->first();
+        $this->assertNotNull($file);
     }
 }

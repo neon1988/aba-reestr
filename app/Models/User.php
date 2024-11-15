@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Center::class, 'create_user_id');
     }
+
+    public function files()
+    {
+        return $this->belongsToMany(File::class, 'file_user');
+    }
 }
