@@ -17,14 +17,11 @@ class Image extends Model
 {
     use SoftDeletes, HasFactory, UserCreated, ImageResizable;
 
-    public string $folder = '_i';
-
     public function getDirname(): string
     {
         $idDirname = new IdDirname($this->id);
-
-        $url = (new Url)->withDirname('images/' . implode('/', $idDirname->getDirnameArrayEncoded()));
-
+        $dirname = 'images/' . implode('/', $idDirname->getDirnameArrayEncoded());
+        $url = (new Url)->withDirname(trim($dirname, '/'));
         return $url->getPath();
     }
 }

@@ -36,11 +36,9 @@
             <!-- Правая часть навигации -->
             <div class="flex shrink bg-cyan-600">
                 @if (Route::has('login'))
-
                     @auth
                         <a href="{{ route('join') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
-
                         <a href="{{ route('profile.edit') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">{{ Auth::user()->name }}</a>
                     @else
@@ -49,9 +47,7 @@
                         <a href="{{ route('login') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Войти</a>
                     @endauth
-
                 @endif
-
                 <a href="{{ route('contacts') }}"
                    class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Контакты</a>
             </div>

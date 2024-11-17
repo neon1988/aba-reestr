@@ -18,27 +18,25 @@ use Litlife\Url\Url;
 class File extends Model
 {
     use SoftDeletes, HasFactory, UserCreated, Storable;
-    public string $folder = '_f';
 
     public function getDirname(): string
     {
         $idDirname = new IdDirname($this->id);
-
-        $url = (new Url)->withDirname('files/' . implode('/', $idDirname->getDirnameArrayEncoded()));
-
+        $dirname = 'files/' . implode('/', $idDirname->getDirnameArrayEncoded());
+        $url = (new Url)->withDirname(trim($dirname, '/'));
         return $url->getPath();
     }
 
-    protected $stream = null;
+    protected mixed $sourceStream = null;
 
-    public function setSourceStream(&$stream)
+    public function setSourceStream(&$sourceStream): void
     {
-        $this->stream = &$stream;
+        $this->sourceStream = &$sourceStream;
     }
 
     public function getSourceStream()
     {
-        return $this->stream;
+        return $this->sourceStream;
     }
 
     public function open($source, $extension = null)

@@ -6,7 +6,6 @@ use App\Models\File;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Litlife\Url\Url;
 
 
@@ -19,14 +18,14 @@ class FileObserver
      * @return void
      * @throws Exception
      */
-    public function creating(File $file)
+    public function creating(File $file): void
     {
         $file->creator()->associate(Auth::user());
         $file->dirname = '';
         $file->size = 0;
     }
 
-    public function created(File $file)
+    public function created(File $file): void
     {
         if (empty($file->dirname))
             $file->dirname = $file->getDirname();
@@ -40,18 +39,10 @@ class FileObserver
         if ($file->isFileExists())
             throw new Exception('File ' . $file->url . ' is storage ' . $file->storage . ' already exists ');
 
-        $stream = $file->getSourceStream();
+        rewind($file->getSourceStream());
 
-        if (is_resource($stream)) {
-            rewind($stream);
-            Storage::disk($file->storage)
-                ->put($file->dirname . '/' . $file->name, $stream);
-        } elseif (file_exists($stream)) {
-            Storage::disk($file->storage)
-                ->putFileAs($file->dirname, new \Illuminate\Http\File($stream), $file->name);
-        } else {
-            throw new Exception('resource or file not found');
-        }
+        Storage::disk($file->storage)
+            ->put($file->dirname . '/' . $file->name, $file->getSourceStream());
 
         $file->size = $file->getSize();
         $file->save();

@@ -79,8 +79,10 @@ class CentersTest extends TestCase
 
         $photo = $center->photo()->first();
         $this->assertNotNull($photo);
+        $this->assertEquals('images', $photo->dirname);
 
         $file = $center->files()->first();
         $this->assertNotNull($file);
+        $this->assertEquals('files', $file->dirname);
     }
 }

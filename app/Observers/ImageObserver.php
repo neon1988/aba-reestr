@@ -4,12 +4,8 @@ namespace App\Observers;
 
 use App\Models\Image;
 use Exception;
-use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Imagick;
-use Jenssegers\ImageHash\ImageHash;
-use Jenssegers\ImageHash\Implementations\DifferenceHash;
 use Litlife\Url\Url;
 
 class ImageObserver
@@ -21,7 +17,7 @@ class ImageObserver
      * @return void
      * @throws Exception
      */
-    public function creating(Image $image)
+    public function creating(Image $image): void
     {
         $image->creator()->associate(Auth::user());
 
@@ -45,7 +41,7 @@ class ImageObserver
     /**
      * @throws Exception
      */
-    public function created(Image $image)
+    public function created(Image $image): void
     {
         if (empty($image->dirname))
             $image->dirname = $image->getDirname();
@@ -67,16 +63,10 @@ class ImageObserver
         // пришлось вот сохранять источник файла, а не то что выходит через getImageBlob,
         // так как он сжимает изображение и получается измененный хеш
 
-        if (is_resource($image->source)) {
-            rewind($image->source);
-            Storage::disk($image->storage)
-                ->put($image->dirname . '/' . $image->name, $image->source);
-        } elseif (file_exists($image->source)) {
-            Storage::disk($image->storage)
-                ->putFileAs($image->dirname, new File($image->source), $image->name);
-        } else {
-            throw new Exception('resource or file not found');
-        }
+        rewind($image->getSourceStream());
+
+        Storage::disk($image->storage)
+            ->put($image->dirname . '/' . $image->name, $image->getSourceStream());
 
         // уточняем размер и тип
 
@@ -93,7 +83,7 @@ class ImageObserver
         //Storage::disk($image->storage)->delete($image->dirname . '/' . $image->name);
     }
 
-    public function deleted(Image $image)
+    public function deleted(Image $image): void
     {
         if ($image->isForceDeleting())
             if ($image->isFileExists())

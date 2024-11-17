@@ -19,7 +19,17 @@ trait ImageResizable
     public ?int $quality = null;
     public ?Imagick $imagick = null;
 
-    public $source = null;
+    protected mixed $sourceStream = null;
+
+    public function setSourceStream(&$sourceStream): void
+    {
+        $this->sourceStream = &$sourceStream;
+    }
+
+    public function getSourceStream()
+    {
+        return $this->sourceStream;
+    }
 
     public function setMaxWidthAttribute($width)
     {
@@ -116,7 +126,7 @@ trait ImageResizable
         if (!empty($this->getKey())) {
             if (empty($this->imagick)) {
                 $this->imagick = new Imagick();
-                $this->imagick->readImageFile($this->getStream());
+                $this->imagick->readImageFile($this->getSourceStream());
             }
         }
 
@@ -204,27 +214,29 @@ trait ImageResizable
                 }
             }
 
-            $this->source = tmpfile();
+            $sourceStream = tmpfile();
+            $this->setSourceStream($sourceStream);
 
-            $this->imagick->writeImagesFile($this->source);
+            $this->imagick->writeImagesFile($this->getSourceStream());
 
             $this->imagick = new Imagick();
-            $this->imagick->readImageFile($this->source);
+            $this->imagick->readImageFile($this->getSourceStream());
         }
     }
 
     public function openImageNotThroughImagick($source, $type = null)
     {
         if ($type == 'blob') {
-            $this->source = tmpfile();
-            fwrite($this->source, $source);
-            rewind($this->source);
+            $sourceStream = tmpfile();
+            $this->setSourceStream($sourceStream);
+            fwrite($this->getSourceStream(), $source);
+            rewind($this->getSourceStream());
         }
 
         $this->imagick = new Imagick();
-        $this->imagick->readImageFile($this->source);
+        $this->imagick->readImageFile($this->getSourceStream());
 
-        rewind($this->source);
+        rewind($this->getSourceStream());
     }
 
     /**
