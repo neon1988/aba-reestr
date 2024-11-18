@@ -34,15 +34,37 @@
                     Центры ABA</a>
             </div>
 
-            <!-- Правая часть навигации -->
             <div class="flex shrink bg-cyan-600">
+
                 @if (Route::has('login'))
                     @auth
                         <a href="{{ route('join') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
-                        <a href="{{ route('profile.edit') }}"
-                           class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">{{ Auth::user()->name }}</a>
+                        <!-- Меню пользователя -->
+                        <div class="relative" x-data="{ open: false }">
+                            <button id="userMenuButton" x-on:click="open = ! open"
+                                    class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">
+                                {{ Auth::user()->name }}
+                                <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                            <div id="userMenu" x-show="open" class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                                <a href="{{ route('profile.edit') }}"
+                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль</a>
+                                <a href="{{ route('profile.edit') }}"
+                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Кабинет</a>
+                                <form method="POST" action="{{ route('logout') }}" class="block">
+                                    @csrf
+                                    <button type="submit"
+                                            class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">Выйти</button>
+                                </form>
+                            </div>
+                        </div>
                     @else
+                        <!-- Для гостей -->
                         <a href="{{ route('register') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
                         <a href="{{ route('login') }}"

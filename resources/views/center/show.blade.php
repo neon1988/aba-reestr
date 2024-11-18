@@ -17,6 +17,12 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+            <!-- Фото специалиста (если есть) -->
+            <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
+                <img src="{{ $center->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
+                     class="w-full h-full object-cover">
+            </div>
+
             <!-- Название -->
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h3 class="text-lg font-medium text-gray-700">Название центра</h3>
@@ -64,7 +70,6 @@
                 <h3 class="text-lg font-medium text-gray-700">Телефон</h3>
                 <p class="text-gray-600">{{ $center->phone }}</p>
             </div>
-
         </div>
     </div>
 
