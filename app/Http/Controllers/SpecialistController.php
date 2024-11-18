@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpecialistRequest;
 use App\Http\Requests\UpdateSpecialistRequest;
+use App\Http\Resources\SpecialistResource;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
@@ -56,8 +57,16 @@ class SpecialistController extends Controller
         $file->open($request->file('file')->getRealPath());
         $specialist->files()->save($file);
 
-        return redirect()->route('specialists.show', compact('specialist'))
-            ->with('success', 'Специалист успешно добавлен!');
+        if ($request->expectsJson())
+        {
+            return [
+                'redirect_to' => route('specialists.show', compact('specialist')),
+                'specialist' => new SpecialistResource($specialist)
+            ];
+        }
+        else
+            return redirect()->route('specialists.show', compact('specialist'))
+                ->with('success', 'Специалист успешно добавлен!');
     }
 
     /**

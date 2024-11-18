@@ -35,9 +35,26 @@ class StoreSpecialistRequest extends FormRequest
         ];
     }
 
+    public function attributes(): array
+    {
+        return [
+            'photo' => 'Фото',
+            'lastname' => 'Фамилия',
+            'firstname' => 'Имя',
+            'middlename' => 'Отчество',
+            'country' => 'Страна',
+            'region' => 'Регион',
+            'city' => 'Город',
+            'education' => 'Образование',
+            'phone' => 'Телефон',
+            'file' => 'Документ',
+        ];
+    }
+
     public function messages()
     {
         return [
+
             'lastname.required' => 'Фамилия является обязательным полем.',
             'lastname.string' => 'Фамилия должна быть строкой.',
             'lastname.max' => 'Фамилия не может превышать 50 символов.',

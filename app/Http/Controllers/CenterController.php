@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
+use App\Http\Resources\CenterResource;
 use App\Models\Center;
 use App\Models\File;
 use App\Models\Image;
@@ -56,8 +57,16 @@ class CenterController extends Controller
         $file->open($request->file('file')->getRealPath());
         $center->files()->save($file);
 
-        return redirect()->route('centers.show', compact('center'))
-            ->with('success', 'Центр успешно добавлен!');
+        if ($request->expectsJson())
+        {
+            return [
+                'redirect_to' => route('centers.show', compact('center')),
+                'center' => new CenterResource($center)
+            ];
+        }
+        else
+            return redirect()->route('centers.show', compact('center'))
+                ->with('success', 'Центр успешно добавлен!');
     }
 
     /**
