@@ -7,10 +7,11 @@ use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Specialist extends Model
 {
-    use SoftDeletes, HasFactory, UserCreated, CheckedItems;
+    use SoftDeletes, HasFactory, UserCreated, CheckedItems, Searchable;
 
     protected $fillable = [
         'lastname',
@@ -22,6 +23,19 @@ class Specialist extends Model
         'education',
         'phone'
     ];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $keysToRemove = ['id', 'is_available', 'photo_id', 'create_user_id',
+            'status_changed_at', 'status_changed_user_id', 'created_at', 'updated_at', 'deleted_at'];
+
+        foreach ($keysToRemove as $key)
+            unset($array[$key]);
+
+        return $array;
+    }
 
     /**
      * Связь "один ко многим (обратная)" с моделью Center

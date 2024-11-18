@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\StoreCenterRequest;
 use App\Http\Requests\UpdateCenterRequest;
 use App\Http\Resources\CenterResource;
 use App\Models\Center;
 use App\Models\File;
 use App\Models\Image;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Litlife\Url\Url;
 
@@ -16,9 +18,19 @@ class CenterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $centers = Center::active()->paginate(9);
+        $centers = Center::search($request->input('search'))
+            ->where('status', StatusEnum::Accepted)
+            ->paginate(9)
+            ->withQueryString();
+
+        if ($request->ajax())
+        {
+            return response()->json([
+                'view' => view('center.list', compact('centers'))->render()
+            ]);
+        }
 
         return view('center.index', compact('centers'));
     }

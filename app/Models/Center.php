@@ -7,10 +7,11 @@ use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Center extends Model
 {
-    use SoftDeletes, HasFactory, UserCreated, CheckedItems;
+    use SoftDeletes, HasFactory, UserCreated, CheckedItems, Searchable;
 
     /**
      * Атрибуты, которые можно заполнять.
@@ -27,6 +28,19 @@ class Center extends Model
         'city',
         'phone'
     ];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $keysToRemove = ['id', 'photo_id', 'create_user_id',
+            'status_changed_at', 'status_changed_user_id', 'created_at', 'updated_at', 'deleted_at'];
+
+        foreach ($keysToRemove as $key)
+            unset($array[$key]);
+
+        return $array;
+    }
 
     /**
      * Связь с фотографией центра.

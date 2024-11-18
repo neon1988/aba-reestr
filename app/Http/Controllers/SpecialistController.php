@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Http\Requests\StoreSpecialistRequest;
 use App\Http\Requests\UpdateSpecialistRequest;
 use App\Http\Resources\SpecialistResource;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Litlife\Url\Url;
 
@@ -16,9 +18,12 @@ class SpecialistController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $specialists = Specialist::active()->paginate(9);
+        $specialists = Specialist::search($request->input('search'))
+            ->where('status', StatusEnum::Accepted)
+            ->paginate(9)
+            ->withQueryString();
 
         return view('specialist.index', compact('specialists'));
     }

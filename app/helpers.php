@@ -71,3 +71,9 @@ if (!function_exists("mb_str_replace")) {
         return implode($replace_text, mb_split($needle, $haystack));
     }
 }
+
+function replaceSimilarSymbols($searchText): string
+{
+    $searchText = mb_str_replace('ё', 'е', $searchText);
+    return mb_str_replace('Ё', 'Е', $searchText);
+}

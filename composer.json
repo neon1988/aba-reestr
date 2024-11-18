@@ -15,12 +15,14 @@
         "bensampo/laravel-enum": "^6.11",
         "jenssegers/imagehash": "^0.10.0",
         "laravel/framework": "^11.9",
+        "laravel/scout": "^10.11",
         "laravel/tinker": "^2.9",
         "league/flysystem": "^3.29",
         "league/flysystem-memory": "^3.29",
         "league/flysystem-ziparchive": "^3.29",
         "litlife/id-dirname": "^0.0.1",
         "litlife/url": "^2.0",
+        "meilisearch/meilisearch-php": "^1.11",
         "nelexa/zip": "^4.0"
     },
     "require-dev": {

@@ -55,9 +55,23 @@ services:
             - '${FORWARD_MEMCACHED_PORT:-11211}:11211'
         networks:
             - sail
+    meilisearch:
+        image: getmeili/meilisearch:v1.11.3
+        container_name: meilisearch
+        environment:
+            MEILI_NO_ANALYTICS: "true"
+        ports:
+            - "7700:7700"
+        volumes:
+            - meili_data:/meili_data
+        restart: unless-stopped
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    meili_data:
         driver: local

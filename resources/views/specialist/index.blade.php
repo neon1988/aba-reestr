@@ -7,10 +7,10 @@
         <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск специалистов ABA</h2>
 
-            <form x-data="{ open: false }" action="{{ route('specialists.index') }}" method="post" enctype="multipart/form-data">
-                @csrf
+            <form x-data="{ open: false }" action="{{ route('specialists.index') }}" method="get" enctype="multipart/form-data">
+
                 <div class="flex justify-center space-x-6">
-                    <input name="search" type="text" value="{{ old('search') }}" placeholder="Поиск по ФИО или адресу"
+                    <input name="search" type="text" value="{{ Request::input('search') }}" placeholder="Поиск по ФИО или адресу"
                            class="w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
                     <button type="submit"
                             class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">
@@ -65,25 +65,7 @@
     <!-- Specialists List Section -->
     <section id="specialists" class="py-16 px-5 bg-gray-50 rounded-b">
         <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Список специалистов ABA</h2>
-
-            @if ($specialists->hasPages())
-                <div class="mb-5">
-                    {{ $specialists->links() }}
-                </div>
-            @endif
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach($specialists->items() as $specialist)
-                    @include('specialist.card')
-                @endforeach
-            </div>
-
-            @if ($specialists->hasPages())
-                <div class="mt-5">
-                    {{ $specialists->links() }}
-                </div>
-            @endif
+            @include('specialist.list')
         </div>
     </section>
 
