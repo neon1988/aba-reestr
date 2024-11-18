@@ -51,7 +51,7 @@
                                           d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div id="userMenu" x-show="open" class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                            <div id="userMenu" x-show="open" class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg" style="display: none">
                                 <a href="{{ route('profile.edit') }}"
                                    class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль</a>
                                 <a href="{{ route('profile.edit') }}"
@@ -86,9 +86,8 @@
     </div>
 </main>
 
-
 <!-- Footer -->
-<footer class="bg-cyan-600 text-white py-6 mt-16">
+<footer class="bg-cyan-600 text-white py-6 mt-4">
     <div class="container mx-auto text-center">
         <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
     </div>

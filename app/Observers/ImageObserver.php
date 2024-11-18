@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Image;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,8 @@ class ImageObserver
      */
     public function creating(Image $image): void
     {
-        $image->creator()->associate(Auth::user());
+        if (!$image->creator instanceof User)
+            $image->creator()->associate(Auth::user());
 
         if (empty($image->size))
             $image->size = $image->imagick->getImageLength();

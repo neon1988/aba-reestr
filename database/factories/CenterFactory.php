@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\StatusEnum;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,6 +30,7 @@ class CenterFactory extends Factory
             'phone' => $this->faker->phoneNumber,                 // Телефон
             'status' => StatusEnum::Accepted,
             'create_user_id' => User::factory(),
+            'photo_id' => Image::factory()
         ];
     }
 }

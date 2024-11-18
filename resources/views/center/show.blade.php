@@ -15,25 +15,21 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
+        <div class="flex items-center space-x-4">
             <!-- Фото специалиста (если есть) -->
             <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
                 <img src="{{ $center->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
                      class="w-full h-full object-cover">
             </div>
 
-            <!-- Название -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">Название центра</h3>
-                <p class="text-gray-600">{{ $center->name }}</p>
+            <!-- Имя специалиста -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-800">{{ $center->name }}</h2>
+                <p class="text-sm text-gray-600">{{ $center->legal_name }}</p>
             </div>
+        </div>
 
-            <!-- Название юридическое -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">Юридическое название</h3>
-                <p class="text-gray-600">{{ $center->legal_name }}</p>
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
 
             <!-- ИНН -->
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\File;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,9 @@ class FileObserver
      */
     public function creating(File $file): void
     {
-        $file->creator()->associate(Auth::user());
+        if (!$file->creator instanceof User)
+            $file->creator()->associate(Auth::user());
+
         $file->dirname = '';
         $file->size = 0;
     }

@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
-use App\Models\Center;
 use App\Models\Country;
-use App\Models\Specialist;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class JoinController extends Controller
 {
-    public function join(Request $request): \Illuminate\Http\RedirectResponse|View
+    public function join(Request $request): RedirectResponse|View
     {
         $specialist = Auth::user()->createdSpecialists()->whereStatusIn([StatusEnum::Accepted, StatusEnum::OnReview])->first();
 
