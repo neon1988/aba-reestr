@@ -25,6 +25,8 @@ class CenterController extends Controller
             ->paginate(9)
             ->withQueryString();
 
+        $centers->load('photo');
+
         if ($request->ajax())
         {
             return response()->json([

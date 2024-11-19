@@ -68,6 +68,7 @@
                         <select name="country" x-model="formData.country"
                                 class="w-full border @error('country') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                                >
+                            <option value="" disabled></option>
                             @foreach($countries as $country)
                                 <option
                                     value="{{ $country->name }}" {{ old('country') == $country->name ? 'selected' : '' }}>

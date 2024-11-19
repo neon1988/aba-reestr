@@ -25,6 +25,15 @@ class SpecialistController extends Controller
             ->paginate(9)
             ->withQueryString();
 
+        $specialists->load('photo');
+
+        if ($request->ajax())
+        {
+            return response()->json([
+                'view' => view('specialist.list', compact('specialists'))->render()
+            ]);
+        }
+
         return view('specialist.index', compact('specialists'));
     }
 
