@@ -3,15 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes;
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -62,5 +64,13 @@ class User extends Authenticatable
     public function files()
     {
         return $this->belongsToMany(File::class, 'file_user');
+    }
+
+    /**
+     * Связь с фотографией центра.
+     */
+    public function photo(): \Illuminate\Database\Eloquent\Relations\hasOne
+    {
+        return $this->hasOne(Image::class, 'id', 'photo_id');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Center;
+use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -62,5 +63,15 @@ class CenterPolicy
     public function forceDelete(User $user, Center $center): bool
     {
         //
+    }
+
+    public function approve(User $user, Center $center): Response
+    {
+        return Response::allow();
+    }
+
+    public function reject(User $user, Center $center): Response
+    {
+        return Response::allow();
     }
 }

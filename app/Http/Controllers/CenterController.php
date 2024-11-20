@@ -9,12 +9,17 @@ use App\Http\Resources\CenterResource;
 use App\Models\Center;
 use App\Models\File;
 use App\Models\Image;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Litlife\Url\Url;
 
 class CenterController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +39,20 @@ class CenterController extends Controller
             ]);
         }
 
+        if ($request->expectsJson())
+            return CenterResource::collection($centers);
+
         return view('center.index', compact('centers'));
+    }
+
+    public function on_check(Request $request)
+    {
+        $centers = Center::search($request->input('search'))
+            ->where('status', StatusEnum::OnReview)
+            ->paginate(9)
+            ->withQueryString();
+
+        return CenterResource::collection($centers);
     }
 
     /**
@@ -86,8 +104,11 @@ class CenterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Center $center)
+    public function show(Request $request, Center $center)
     {
+        if ($request->expectsJson())
+            return new CenterResource($center);
+
         return view('center.show', compact('center'));
     }
 
@@ -113,5 +134,40 @@ class CenterController extends Controller
     public function destroy(Center $center)
     {
         //
+    }
+
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function approve(Center $center): JsonResponse
+    {
+        $this->authorize('approve', $center);
+
+        $center->status = StatusEnum::Accepted;
+        $center->save();
+
+        return response()
+            ->json([
+                'center' => new CenterResource($center),
+                'message' => 'Центр одобрен'
+            ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function reject(Center $center): JsonResponse
+    {
+        $this->authorize('reject', $center);
+
+        $center->status = StatusEnum::Rejected;
+        $center->save();
+
+        return response()
+            ->json([
+                'center' => new CenterResource($center),
+                'message' => 'Центр отклонен'
+            ]);
     }
 }

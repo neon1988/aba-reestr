@@ -9,12 +9,17 @@ use App\Http\Resources\SpecialistResource;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Litlife\Url\Url;
 
 class SpecialistController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -33,8 +38,20 @@ class SpecialistController extends Controller
                 'view' => view('specialist.list', compact('specialists'))->render()
             ]);
         }
+        if ($request->expectsJson())
+            return SpecialistResource::collection($specialists);
 
         return view('specialist.index', compact('specialists'));
+    }
+
+    public function on_check(Request $request)
+    {
+        $specialists = Specialist::search($request->input('search'))
+            ->where('status', StatusEnum::OnReview)
+            ->paginate(9)
+            ->withQueryString();
+
+        return SpecialistResource::collection($specialists);
     }
 
     /**
@@ -86,8 +103,11 @@ class SpecialistController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Specialist $specialist)
+    public function show(Request $request, Specialist $specialist)
     {
+        if ($request->expectsJson())
+            return new SpecialistResource($specialist);
+
         return view('specialist.show', compact('specialist'));
     }
 
@@ -113,5 +133,39 @@ class SpecialistController extends Controller
     public function destroy(Specialist $specialist)
     {
         //
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function approve(Specialist $specialist): JsonResponse
+    {
+        $this->authorize('approve', $specialist);
+
+        $specialist->status = StatusEnum::Accepted;
+        $specialist->save();
+
+        return response()
+            ->json([
+                'specialist' => new SpecialistResource($specialist),
+                'message' => 'Специалист подтвержден'
+            ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function reject(Specialist $specialist): JsonResponse
+    {
+        $this->authorize('reject', $specialist);
+
+        $specialist->status = StatusEnum::Rejected;
+        $specialist->save();
+
+        return response()
+            ->json([
+                'specialist' => new SpecialistResource($specialist),
+                'message' => 'Специалист отклонен'
+            ]);
     }
 }

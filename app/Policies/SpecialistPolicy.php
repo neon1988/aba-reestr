@@ -63,4 +63,14 @@ class SpecialistPolicy
     {
         //
     }
+
+    public function approve(User $user, Specialist $specialist): Response
+    {
+        return Response::allow();
+    }
+
+    public function reject(User $user, Specialist $specialist): Response
+    {
+        return Response::allow();
+    }
 }

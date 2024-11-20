@@ -14,6 +14,8 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $array = parent::toArray($request);
+        $array['photo'] = new ImageResource($this->whenLoaded('photo'));
+        return $array;
     }
 }
