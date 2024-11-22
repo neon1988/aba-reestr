@@ -24,6 +24,7 @@ services:
         depends_on:
             - pgsql
             - memcached
+            - redis
     pgsql:
         image: 'postgres:17'
         ports:
@@ -67,6 +68,14 @@ services:
         restart: unless-stopped
         networks:
             - sail
+    redis:
+        image: redis:alpine
+        ports:
+            - "6379:6379"
+        volumes:
+            - redis-data:/data
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
@@ -74,4 +83,6 @@ volumes:
     sail-pgsql:
         driver: local
     meili_data:
+        driver: local
+    redis-data:
         driver: local
