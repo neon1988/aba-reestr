@@ -33,7 +33,8 @@ class CenterController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        $centers->loadMissing('photo');
+        if (method_exists($centers, 'loadMissing'))
+            $centers->loadMissing('photo');
 
         if ($request->ajax())
         {
