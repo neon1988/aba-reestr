@@ -33,8 +33,7 @@ class CenterController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        if (method_exists($centers, 'loadMissing'))
-            $centers->loadMissing('photo');
+        $centers->loadMissing('photo');
 
         if ($request->ajax())
         {
@@ -72,10 +71,14 @@ class CenterController extends Controller
      */
     public function store(StoreCenterRequest $request)
     {
+        $user = Auth::user();
+
         $center = Center::make($request->validated());
         $center->creator()->associate(Auth::user());
         $center->statusSentForReview();
         $center->save();
+
+        $user->centers()->attach($center, ['roleable_type' => Center::class]);
 
         $photo = new Image;
         $photo->openImage($request->file('photo')->getRealPath());

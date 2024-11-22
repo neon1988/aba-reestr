@@ -33,8 +33,7 @@ class SpecialistController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        if (method_exists($specialists, 'loadMissing'))
-            $specialists->loadMissing('photo');
+        $specialists->loadMissing('photo');
 
         if ($request->ajax())
         {
@@ -71,10 +70,14 @@ class SpecialistController extends Controller
      */
     public function store(StoreSpecialistRequest $request)
     {
+        $user = Auth::user();
+
         $specialist = Specialist::make($request->validated());
         $specialist->creator()->associate(Auth::user());
         $specialist->statusSentForReview();
         $specialist->save();
+
+        $user->specialists()->attach($specialist);
 
         $photo = new Image;
         $photo->openImage($request->file('photo')->getRealPath());

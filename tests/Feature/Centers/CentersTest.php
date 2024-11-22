@@ -65,7 +65,7 @@ class CentersTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
-        $center = Center::where('kpp', $center->kpp)->first();
+        $center = $user->centers()->first();
 
         $this->assertNotNull($center);
 

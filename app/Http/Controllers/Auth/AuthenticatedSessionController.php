@@ -28,7 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('profile.edit'));
+        if (Auth::user()->isCenter())
+            return redirect()->intended(route('centers.show', Auth::user()->getCenterId()));
+        elseif (Auth::user()->isSpecialist())
+            return redirect()->intended(route('specialists.show', Auth::user()->getSpecialistId()));
+        else
+            return redirect()->intended(route('join'));
     }
 
     /**

@@ -66,6 +66,10 @@ class SpecialistsTest extends TestCase
             ->assertSessionHasNoErrors()
             ->assertRedirect();
 
+        $specialist = $user->specialists()->first();
+
+        $this->assertNotNull($specialist);
+
         // Проверяем, что после сохранения происходит редирект на страницу специалиста
         $specialist = Specialist::where('lastname', $lastname)->first();
         $response->assertRedirect(route('specialists.show', $specialist));

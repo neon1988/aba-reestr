@@ -6,6 +6,7 @@ use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
 
@@ -76,5 +77,13 @@ class Specialist extends Model
     public function files()
     {
         return $this->belongsToMany(File::class, 'specialist_file');
+    }
+
+    /**
+     * Полиморфная связь с пользователями.
+     */
+    public function users(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'roleable', 'roleables', 'roleable_id', 'user_id');
     }
 }

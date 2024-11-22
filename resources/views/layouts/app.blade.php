@@ -38,28 +38,45 @@
 
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ route('join') }}"
-                           class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
+                        @if (!Auth::user()->hasSpecialistOrCenter())
+                            <a href="{{ route('join') }}"
+                               class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
+                        @endif
                         <!-- Меню пользователя -->
                         <div class="relative" x-data="{ open: false }">
                             <button id="userMenuButton" x-on:click="open = ! open"
                                     class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">
                                 {{ Auth::user()->name }}
-                                <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                     viewBox="0 0 24 24"
                                      stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                           d="M19 9l-7 7-7-7"/>
                                 </svg>
                             </button>
-                            <div id="userMenu" x-show="open" class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg" style="display: none">
+                            <div id="userMenu" x-show="open"
+                                 class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg"
+                                 style="display: none">
+                                @if (Auth::user()->isSpecialist())
+                                    <a href="{{ route('centers.show', Auth::user()->getSpecialistId()) }}"
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль специалиста</a>
+                                @endif
+                                @if (Auth::user()->isCenter())
+                                    <a href="{{ route('centers.show', Auth::user()->getCenterId()) }}"
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль центра</a>
+                                @endif
+                                @if (Auth::user()->isStaff())
+                                    <a href=""
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                        Перейти в админку</a>
+                                @endif
                                 <a href="{{ route('profile.edit') }}"
-                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль</a>
-                                <a href="{{ route('profile.edit') }}"
-                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Кабинет</a>
+                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки аккаунта</a>
                                 <form method="POST" action="{{ route('logout') }}" class="block">
                                     @csrf
                                     <button type="submit"
-                                            class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">Выйти</button>
+                                            class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100">Выйти
+                                    </button>
                                 </form>
                             </div>
                         </div>
