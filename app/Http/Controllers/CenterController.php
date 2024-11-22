@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Litlife\Url\Url;
 
 class CenterController extends Controller
@@ -26,11 +27,11 @@ class CenterController extends Controller
     public function index(Request $request)
     {
         $centers = Center::search($request->input('search'))
-            ->where('status', StatusEnum::Accepted)
+            ->where('status', $request->input('status'))
             ->paginate(9)
             ->withQueryString();
 
-        $centers->load('photo');
+        $centers->loadMissing('photo');
 
         if ($request->ajax())
         {
@@ -106,6 +107,8 @@ class CenterController extends Controller
      */
     public function show(Request $request, Center $center)
     {
+        $center->loadMissing('photo', 'files');
+
         if ($request->expectsJson())
             return new CenterResource($center);
 
@@ -146,6 +149,10 @@ class CenterController extends Controller
 
         $center->status = StatusEnum::Accepted;
         $center->save();
+        $center->loadMissing('photo');
+
+        Cache::forget('stats.centersCount');
+        Cache::forget('stats.centersOnReviewCount');
 
         return response()
             ->json([
@@ -163,6 +170,10 @@ class CenterController extends Controller
 
         $center->status = StatusEnum::Rejected;
         $center->save();
+        $center->loadMissing('photo');
+
+        Cache::forget('stats.centersCount');
+        Cache::forget('stats.centersOnReviewCount');
 
         return response()
             ->json([

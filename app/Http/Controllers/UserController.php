@@ -8,17 +8,25 @@ use App\Http\Resources\CenterResource;
 use App\Http\Resources\UserResource;
 use App\Models\Image;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $users = User::orderBy('name', 'asc')->paginate(9)
+            ->withQueryString();
+
+        $users->load('photo');
+
+        return UserResource::collection($users);
     }
 
     /**
@@ -59,6 +67,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
+        $this->authorize('update', $user);
+
         $user->fill($request->validated());
         $user->save();
         $user->load('photo');

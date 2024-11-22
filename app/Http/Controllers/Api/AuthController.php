@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->firstOrFail();
         $user->load('photo');
 
         if ($user && Hash::check($request->password, $user->password)) {

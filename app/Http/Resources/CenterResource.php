@@ -14,6 +14,9 @@ class CenterResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $array = parent::toArray($request);
+        $array['photo'] = new ImageResource($this->whenLoaded('photo'));
+        $array['files'] = FileResource::collection($this->whenLoaded('files'));
+        return $array;
     }
 }

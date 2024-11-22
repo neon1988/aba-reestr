@@ -2,17 +2,20 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CenterController;
+use App\Http\Controllers\OtherController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-
+Route::get('/stats', [OtherController::class, 'stat'])->name('stat');
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/user', [AuthController::class, 'user'])->name('user');
 
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::post('/users/{user}/photos', [UserController::class, 'updatePhoto'])->name('users.photos.update');

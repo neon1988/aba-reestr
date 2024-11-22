@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Litlife\Url\Url;
 
 class SpecialistController extends Controller
@@ -26,7 +27,7 @@ class SpecialistController extends Controller
     public function index(Request $request)
     {
         $specialists = Specialist::search($request->input('search'))
-            ->where('status', StatusEnum::Accepted)
+            ->where('status', $request->input('status'))
             ->paginate(9)
             ->withQueryString();
 
@@ -105,6 +106,8 @@ class SpecialistController extends Controller
      */
     public function show(Request $request, Specialist $specialist)
     {
+        $specialist->loadMissing('photo', 'files');
+
         if ($request->expectsJson())
             return new SpecialistResource($specialist);
 
@@ -144,6 +147,10 @@ class SpecialistController extends Controller
 
         $specialist->status = StatusEnum::Accepted;
         $specialist->save();
+        $specialist->loadMissing('photo');
+
+        Cache::forget('stats.specialistsCount');
+        Cache::forget('stats.specialistsOnReviewCount');
 
         return response()
             ->json([
@@ -161,6 +168,10 @@ class SpecialistController extends Controller
 
         $specialist->status = StatusEnum::Rejected;
         $specialist->save();
+        $specialist->loadMissing('photo');
+
+        Cache::forget('stats.specialistsCount');
+        Cache::forget('stats.specialistsOnReviewCount');
 
         return response()
             ->json([
