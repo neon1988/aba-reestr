@@ -33,7 +33,7 @@ class SpecialistController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        $specialists->load('photo');
+        $specialists->loadMissing('photo');
 
         if ($request->ajax())
         {
