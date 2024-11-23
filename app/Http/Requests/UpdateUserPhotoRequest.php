@@ -29,7 +29,7 @@ class UpdateUserPhotoRequest extends FormRequest
             'photo' => [
                 'required',
                 File::image()
-                    ->types(['jpeg', 'png', 'jpg', 'gif'])
+                    ->types(config('upload.support_images_formats'))
                     ->min(config('upload.image_min_size'))
                     ->max(config('upload.image_max_size'))
             ]
