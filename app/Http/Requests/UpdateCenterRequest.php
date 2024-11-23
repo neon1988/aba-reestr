@@ -39,7 +39,7 @@ class UpdateCenterRequest extends FormRequest
                 File::image()
                     ->types(['jpeg', 'png', 'jpg', 'gif'])
                     ->min(config('upload.image_min_size'))
-                    ->max(config('upload.document_max_size'))
+                    ->max(config('upload.image_max_size'))
             ],
         ];
 
