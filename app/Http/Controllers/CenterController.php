@@ -130,10 +130,11 @@ class CenterController extends Controller
     {
         $center->fill($request->validated());
 
-        $center->photo->delete();
-
         // Обработка фото (если новое фото загружено)
         if ($request->hasFile('photo')) {
+            if ($center->photo instanceof Image)
+                $center->photo->delete();
+
             $photo = new Image;
             $photo->openImage($request->file('photo')->getRealPath());
             $photo->storage = config('filesystems.default');

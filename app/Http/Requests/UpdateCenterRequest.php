@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class UpdateCenterRequest extends FormRequest
 {
@@ -34,10 +35,11 @@ class UpdateCenterRequest extends FormRequest
                 new PhoneRule(10, 15), // Используем кастомное правило для телефона
             ],
             'photo' => [
-                'required',
-                'image',
-                'mimes:jpeg,png,jpg,gif',
-                'max:' . config('uploads.image_max_size'),
+                'nullable',
+                File::image()
+                    ->types(['jpeg', 'png', 'jpg', 'gif'])
+                    ->min(config('upload.image_min_size'))
+                    ->max(config('upload.document_max_size'))
             ],
         ];
 

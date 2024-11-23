@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class UpdateUserPhotoRequest extends FormRequest
 {
@@ -27,9 +28,10 @@ class UpdateUserPhotoRequest extends FormRequest
         return [
             'photo' => [
                 'required',
-                'image',
-                'mimes:jpeg,png,jpg,gif',
-                'max:' . config('uploads.image_max_size'),
+                File::image()
+                    ->types(['jpeg', 'png', 'jpg', 'gif'])
+                    ->min(config('upload.image_min_size'))
+                    ->max(config('upload.document_max_size'))
             ]
         ];
     }

@@ -8,6 +8,7 @@ use App\Rules\KppRule;
 use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class StoreCenterRequest extends FormRequest
 {
@@ -29,9 +30,10 @@ class StoreCenterRequest extends FormRequest
         return [
             'photo' => [
                 'required',
-                'image',
-                'mimes:jpeg,png,jpg,gif',
-                'max:' . config('uploads.image_max_size'),
+                File::image()
+                    ->types(['jpeg', 'png', 'jpg', 'gif'])
+                    ->min(config('upload.image_min_size'))
+                    ->max(config('upload.document_max_size'))
             ],
             'name' => [
                 'required',
@@ -83,7 +85,7 @@ class StoreCenterRequest extends FormRequest
             'file' => [
                 'required',
                 'file',
-                'max:' . config('uploads.document_max_size'),
+                'max:' . config('upload.document_max_size'),
             ],
         ];
     }

@@ -65,6 +65,7 @@
                             <img src="{{ $specialist->photo->url }}" alt="Фото специалиста" class="w-32 h-32 rounded-full object-cover mb-2">
                         @endisset
                         <input type="file" name="photo" accept="image/*" class="mt-2 block w-full text-sm">
+                        Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
                     </div>
                 </div>
             </div>

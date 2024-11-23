@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\PhoneRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class UpdateSpecialistRequest extends FormRequest
 {
@@ -25,10 +26,11 @@ class UpdateSpecialistRequest extends FormRequest
     {
         return [
             'photo' => [
-                'required',
-                'image',
-                'mimes:jpeg,png,jpg,gif',
-                'max:' . config('uploads.image_max_size'),
+                'nullable',
+                File::image()
+                    ->types(['jpeg', 'png', 'jpg', 'gif'])
+                    ->min(config('upload.image_min_size'))
+                    ->max(config('upload.document_max_size'))
             ],
             'phone' => [
                 'required',

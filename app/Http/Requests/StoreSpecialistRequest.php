@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StoreSpecialistRequest extends FormRequest
 {
@@ -25,9 +26,10 @@ class StoreSpecialistRequest extends FormRequest
         return [
             'photo' => [
                 'required',
-                'image',
-                'mimes:jpeg,png,jpg,gif',
-                'max:' . config('uploads.image_max_size'),
+                File::image()
+                    ->types(['jpeg', 'png', 'jpg', 'gif'])
+                    ->min(config('upload.image_min_size'))
+                    ->max(config('upload.document_max_size'))
             ],
             'lastname' => [
                 'required',
@@ -73,7 +75,7 @@ class StoreSpecialistRequest extends FormRequest
             'file' => [
                 'required',
                 'file',
-                'max:' . config('uploads.document_max_size'),
+                'max:' . config('upload.document_max_size'),
             ],
         ];
 

@@ -192,25 +192,25 @@ trait ImageResizable
             if (in_array(mb_strtolower($this->imagick->getImageFormat()), ['svg', 'mvg']))
                 throw new Exception('Unsupport image extension');
 
-            if (!in_array(strtolower($this->imagick->getImageFormat()), config('uploads.support_images_formats')))
+            if (!in_array(strtolower($this->imagick->getImageFormat()), config('upload.support_images_formats')))
                 $this->imagick->setImageFormat('jpeg');
 
             if (strtolower($this->imagick->getImageFormat()) == 'gif') {
-                if (($this->imagick->getImageWidth() > config('uploads.animation_max_image_width')) or ($this->imagick->getImageHeight() > config('uploads.animation_max_image_height'))) {
+                if (($this->imagick->getImageWidth() > config('upload.animation_max_image_width')) or ($this->imagick->getImageHeight() > config('upload.animation_max_image_height'))) {
 
                     $this->imagick = $this->imagick->coalesceImages();
 
                     foreach ($this->imagick as $frame)
-                        $frame->scaleImage(config('uploads.animation_max_image_width'), config('uploads.animation_max_image_height'), true);
+                        $frame->scaleImage(config('upload.animation_max_image_width'), config('upload.animation_max_image_height'), true);
                 }
             } else {
-                if (($this->imagick->getImageWidth() > config('uploads.max_image_width')) or
-                    ($this->imagick->getImageHeight() > config('uploads.max_image_height'))) {
+                if (($this->imagick->getImageWidth() > config('upload.max_image_width')) or
+                    ($this->imagick->getImageHeight() > config('upload.max_image_height'))) {
 
                     $this->imagick = $this->imagick->coalesceImages();
 
                     foreach ($this->imagick as $frame)
-                        $frame->scaleImage(config('uploads.max_image_width'), config('uploads.max_image_height'), true);
+                        $frame->scaleImage(config('upload.max_image_width'), config('upload.max_image_height'), true);
                 }
             }
 

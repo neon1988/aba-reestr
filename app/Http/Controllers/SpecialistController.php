@@ -129,10 +129,11 @@ class SpecialistController extends Controller
     {
         $specialist->fill($request->validated());
 
-        $specialist->photo->delete();
-
         // Обработка фото (если новое фото загружено)
         if ($request->hasFile('photo')) {
+            if ($specialist->photo instanceof Image)
+                $specialist->photo->delete();
+
             $photo = new Image;
             $photo->openImage($request->file('photo')->getRealPath());
             $photo->storage = config('filesystems.default');

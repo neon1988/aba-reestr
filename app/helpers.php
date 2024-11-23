@@ -10,15 +10,49 @@ if (!function_exists('formatFileSize')) {
      */
     function formatFileSize($bytes, $precision = 2)
     {
-        $units = ['Б', 'КБ', 'МБ', 'ГБ', 'ТБ'];
+        $units = ['Б', 'Кб', 'Мб', 'Гб', 'Тб'];
 
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $bytes /= pow(1024, $pow);
 
-        return round($bytes, $precision) . ' ' . $units[$pow];
+        return round($bytes, $precision) . '' . $units[$pow];
     }
 }
+
+function convertToBytes($size) {
+    // Список поддерживаемых единиц с их кратностью
+    $units = [
+        'B'  => 1,
+        'K'  => 1024,
+        'KB' => 1024,
+        'M'  => 1024 ** 2,
+        'MB' => 1024 ** 2,
+        'G'  => 1024 ** 3,
+        'GB' => 1024 ** 3,
+        'T'  => 1024 ** 4,
+        'TB' => 1024 ** 4,
+        'P'  => 1024 ** 5,
+        'PB' => 1024 ** 5,
+    ];
+
+    // Удаляем пробелы и переводим строку в верхний регистр
+    $size = strtoupper(trim($size));
+
+    // Ищем в строке числа и единицы измерения
+    if (preg_match('/^([\d.]+)\s*([KMGTPE]B?|B)?$/i', $size, $matches)) {
+        $value = (float)$matches[1]; // Числовое значение
+        $unit = $matches[2] ?? 'B';  // Единица измерения (по умолчанию байты)
+
+        // Проверяем, существует ли единица в массиве
+        if (isset($units[$unit])) {
+            return $value * $units[$unit];
+        }
+    }
+
+    throw new InvalidArgumentException("Invalid size format: $size");
+}
+
 
 function fileNameFormat($name): array|string|null
 {
