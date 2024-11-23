@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <h1 class="text-3xl font-bold text-center text-gray-800 mb-8">Выберите тип регистрации</h1>
+    <h1 class="text-3xl font-bold text-center text-gray-800 mt-4 mb-8">Выберите тип регистрации</h1>
 
-    <div class="grid gap-8 md:grid-cols-2">
+    <div class="max-w-4xl grid gap-4 md:grid-cols-2">
         <!-- Блок для регистрации специалиста -->
-        <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
+        <div class="bg-white shadow-md sm:rounded-lg p-6 hover:shadow-lg transition">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Регистрация как АВА-специалист</h2>
             <p class="text-gray-600 mb-6">
                 Зарегистрируйтесь как специалист, чтобы привлечь клиентов, демонстрировать свои навыки и опыт, а также
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Блок для регистрации центра -->
-        <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition">
+        <div class="bg-white shadow-md sm:rounded-lg p-6 hover:shadow-lg transition">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Регистрация как Центр</h2>
             <p class="text-gray-600 mb-6">
                 Зарегистрируйтесь как центр, чтобы управлять услугами, создавать расписание, добавлять интенсивы и

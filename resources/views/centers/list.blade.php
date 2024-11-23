@@ -4,10 +4,10 @@
         {{ $centers->links() }}
     </div>
 @endif
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
     @if ($centers->count() > 0)
         @foreach($centers->items() as $center)
-            @include('center.card')
+            @include('centers.card')
         @endforeach
     @else
         Ни одного центра не найдено

@@ -13,15 +13,13 @@ class JoinController extends Controller
 {
     public function join(Request $request): RedirectResponse|View
     {
-        $specialist = Auth::user()->createdSpecialists()->whereStatusIn([StatusEnum::Accepted, StatusEnum::OnReview])->first();
+        $user = Auth::user();
 
-        if (!empty($specialist))
-            return redirect()->route('specialists.show', compact('specialist'));
+        if ($user->isSpecialist())
+            return redirect()->route('specialists.show', Auth::user()->getSpecialistId());
 
-        $center = Auth::user()->createdCenters()->whereStatusIn([StatusEnum::Accepted, StatusEnum::OnReview])->first();
-
-        if (!empty($center))
-            return redirect()->route('centers.show', compact('center'));
+        if ($user->isCenter())
+            return redirect()->route('centers.show', Auth::user()->getCenterId());
 
         return view('join.join');
     }

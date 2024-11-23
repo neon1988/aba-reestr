@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use InvalidArgumentException;
 use Laravel\Scout\Searchable;
 
 class Specialist extends Model
@@ -67,8 +68,13 @@ class Specialist extends Model
      */
     public function setPhoneAttribute($value)
     {
-        // Убираем все ненужные символы (например, пробелы, скобки, дефисы и т. д.)
-        $cleanPhone = preg_replace('/\D/', '', $value);
+        // Проверяем, начинается ли значение с "+"
+        if (!str_starts_with($value, '+')) {
+            throw new InvalidArgumentException('Phone number must start with a "+" symbol.');
+        }
+
+        // Оставляем "+" в начале, а затем удаляем все остальные нецифровые символы
+        $cleanPhone = preg_replace('/(?!^\+)[^\d]/', '', $value);
 
         // Устанавливаем очищенный номер телефона
         $this->attributes['phone'] = $cleanPhone;

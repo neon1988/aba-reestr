@@ -6,10 +6,10 @@
     </div>
 @endif
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
     @if ($specialists->count() > 0)
         @foreach($specialists->items() as $specialist)
-            @include('specialist.card')
+            @include('specialists.card')
         @endforeach
     @else
         Ни одного специалиста не найдено

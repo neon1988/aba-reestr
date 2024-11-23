@@ -25,7 +25,12 @@ class UpdateUserPhotoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:'.config('uploads.image_max_size')]
+            'photo' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg,gif',
+                'max:' . config('uploads.image_max_size'),
+            ]
         ];
     }
 

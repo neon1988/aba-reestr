@@ -4,37 +4,35 @@
 
     <div x-data="searchResults()" x-init="container = $refs.contentElement.innerHTML">
         <!-- Search Section -->
-        <section class="py-12 bg-white rounded-t">
+        <section class="pt-12 pb-12 bg-white sm:rounded-t">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск центров ABA</h2>
-                <form @submit.prevent="submitForm" x-ref="form" action="{{ route('centers.index') }}" method="get"
-                      enctype="multipart/form-data" class="space-y-6">
-                    <!-- Простое поле поиска -->
-                    <div class="flex justify-center space-x-4">
-                        <input name="search" x-model.debounce.500ms="formData.search" value="{{ Request::input('search') }}" type="text"
-                               placeholder="Поиск по названию или городу или ИНН"
-                               class="w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск специалистов ABA</h2>
+                <form @submit.prevent="submitForm" x-ref="form" action="{{ route('specialists.index') }}" method="get" enctype="multipart/form-data">
+                    <div class="flex justify-center space-x-4 flex-wrap">
+                        <input name="search" x-model.debounce.500ms="formData.search"  type="text" value="{{ Request::input('search') }}"
+                               placeholder="Поиск по ФИО или городу или центру"
+                               class="sm:w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
                         <button type="submit"
                                 class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">
                             Поиск
                         </button>
                     </div>
+
                 </form>
             </div>
         </section>
 
-        <!-- Centers List Section -->
-        <section id="centers" class="py-16 px-5 bg-gray-50 rounded-b">
+        <!-- Specialists List Section -->
+        <section id="specialists" class="pb-4 lg:pb-16 px-4 lg:px-8 bg-gray-50 sm:rounded-b">
+            <div x-html="container" x-ref="contentElement" class="container mx-auto text-center">
+                @include('specialists.list')
+            </div>
             <!-- Заглушка -->
             <div x-show="isLoading" x-transition
                  class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center z-10">
-                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-            </div>
-            <div x-html="container" x-ref="contentElement" class="container mx-auto text-center">
-                @include('center.list')
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-cyan-500"></div>
             </div>
         </section>
-
     </div>
 
     <script>

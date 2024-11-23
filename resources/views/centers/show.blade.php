@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h1 class="text-3xl font-semibold text-gray-800 mb-6">Профиль центра</h1>
+        <h3 class="text-lg font-semibold text-gray-800 mb-8">Профиль центра</h3>
 
         @if ($center->isSentForReview())
             <!-- Сообщение о модерации -->
@@ -65,6 +65,13 @@
             <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h3 class="text-lg font-medium text-gray-700">Телефон</h3>
                 <p class="text-gray-600">{{ $center->phone }}</p>
+            </div>
+
+            <!-- Кнопка для редактирования -->
+            <div class="mt-6">
+                <a href="{{ route('centers.edit', $center->id) }}" class="text-white bg-cyan-600 hover:bg-cyan-700 rounded-lg px-4 py-2">
+                    Редактировать профиль
+                </a>
             </div>
         </div>
     </div>

@@ -58,6 +58,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- Кнопка для редактирования -->
+        <div class="mt-6">
+            <a href="{{ route('specialists.edit', $specialist->id) }}"
+               class="text-white bg-cyan-600 hover:bg-cyan-700 rounded-lg px-4 py-2">
+                Редактировать профиль
+            </a>
+        </div>
     </div>
 
 @endsection

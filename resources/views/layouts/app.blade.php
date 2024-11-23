@@ -13,28 +13,35 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-200 flex flex-col min-h-screen">
+<body x-data="{ drawer_open: false }" class="font-sans antialiased bg-gray-200 flex flex-col min-h-screen">
 <nav class="fixed top-0 left-0 w-full shadow-md z-50 bg-white">
     <div class="max-w-7xl mx-auto">
-        <div class="flex h-16">
-
-            <a href="{{ route('home') }}" class="flex shrink lg:justify-center lg:col-start-2 h-16 w-16 self-center">
-                <img
-                    src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5"/>
-            </a>
+        <div class="flex justify-between h-16">
 
             <!-- Левая часть навигации -->
-            <div class="flex grow">
+            <div class="flex">
+                <!-- Sidebar Toggle Button -->
+                <button x-on:click="drawer_open = ! drawer_open" class="sm:hidden block px-3">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+
+                <a href="{{ route('home') }}" class="h-12 w-12 self-center mx-3 h-full flex items-center justify-center">
+                    <img src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5"/>
+                </a>
+
                 <a href="{{ route('specialists.index') }}"
-                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Специалисты
                 </a>
                 <a href="{{ route('centers.index') }}"
-                   class="text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Центры ABA</a>
             </div>
 
-            <div class="flex shrink bg-cyan-600">
+            <div class="flex bg-cyan-600">
 
                 @if (Route::has('login'))
                     @auth
@@ -58,7 +65,7 @@
                                  class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg"
                                  style="display: none">
                                 @if (Auth::user()->isSpecialist())
-                                    <a href="{{ route('centers.show', Auth::user()->getSpecialistId()) }}"
+                                    <a href="{{ route('specialists.show', Auth::user()->getSpecialistId()) }}"
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль специалиста</a>
                                 @endif
                                 @if (Auth::user()->isCenter())
@@ -89,15 +96,51 @@
                     @endauth
                 @endif
                 <a href="{{ route('contacts') }}"
-                   class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Контакты</a>
+                   class="hidden sm:flex text-white font-semibold py-2 px-3 h-full items-center justify-center">Контакты</a>
             </div>
         </div>
     </div>
 </nav>
 
+
+<!-- drawer component -->
+<div id="drawer-navigation"
+     class="sm:hidden block fixed top-16 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800"
+     :class="drawer_open && 'transform-none'"
+     tabindex="-1" aria-labelledby="drawer-navigation-label">
+    <div class="overflow-y-auto">
+        <ul class="space-y-2 font-medium">
+            <li>
+                <a href="{{ route('home') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="ms-3">Главная</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('specialists.index') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="ms-3">Специалисты</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('centers.index') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Центры ABA</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('contacts') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Контакты</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <main class="flex flex-grow items-center justify-center">
     <div class="flex flex-col mt-20">
-        <div class="w-full max-w-2xl px-6 lg:max-w-7xl">
+        <div class="w-full max-w-2xl sm:px-3 lg:max-w-7xl">
             @yield('content')
         </div>
     </div>
@@ -109,5 +152,14 @@
         <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
     </div>
 </footer>
+
+<div
+    x-on:click="drawer_open = false"
+    x-show="drawer_open"
+    :class="{ 'hidden': !drawer_open }"
+    class="bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30 sm:hidden"
+    style="display: none;">
+</div>
+
 </body>
 </html>

@@ -38,13 +38,13 @@ class SpecialistController extends Controller
         if ($request->ajax())
         {
             return response()->json([
-                'view' => view('specialist.list', compact('specialists'))->render()
+                'view' => view('specialists.list', compact('specialists'))->render()
             ]);
         }
         if ($request->expectsJson())
             return SpecialistResource::collection($specialists);
 
-        return view('specialist.index', compact('specialists'));
+        return view('specialists.index', compact('specialists'));
     }
 
     public function on_check(Request $request)
@@ -117,23 +117,36 @@ class SpecialistController extends Controller
         if ($request->expectsJson())
             return new SpecialistResource($specialist);
 
-        return view('specialist.show', compact('specialist'));
+        return view('specialists.show', compact('specialist'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Specialist $specialist)
     {
-        //
+        return view('specialists.edit', compact('specialist'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateSpecialistRequest $request, Specialist $specialist)
     {
-        //
+        $specialist->fill($request->validated());
+
+        $specialist->photo->delete();
+
+        // Обработка фото (если новое фото загружено)
+        if ($request->hasFile('photo')) {
+            $photo = new Image;
+            $photo->openImage($request->file('photo')->getRealPath());
+            $photo->storage = config('filesystems.default');
+            $photo->name = $request->file('photo')->getClientOriginalName();
+            $photo->save();
+
+            $specialist->photo_id = $photo->id;
+        }
+
+        $specialist->save();
+
+        return redirect()
+            ->route('specialists.show', $specialist->id)
+            ->with('success', 'Профиль специалиста обновлен.');
     }
 
     /**

@@ -31,7 +31,7 @@ class SpecialistFactory extends Factory
                 'Психологическое образование',
                 'Медицинское образование'
             ]),
-            'phone' => $this->faker->phoneNumber,
+            'phone' => $this->faker->numerify('+###########'),
             'status' => StatusEnum::Accepted,
             'create_user_id' => User::factory(),
             'photo_id' => Image::factory()

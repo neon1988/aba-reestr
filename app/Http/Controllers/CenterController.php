@@ -38,14 +38,14 @@ class CenterController extends Controller
         if ($request->ajax())
         {
             return response()->json([
-                'view' => view('center.list', compact('centers'))->render()
+                'view' => view('centers.list', compact('centers'))->render()
             ]);
         }
 
         if ($request->expectsJson())
             return CenterResource::collection($centers);
 
-        return view('center.index', compact('centers'));
+        return view('centers.index', compact('centers'));
     }
 
     public function on_check(Request $request)
@@ -118,23 +118,36 @@ class CenterController extends Controller
         if ($request->expectsJson())
             return new CenterResource($center);
 
-        return view('center.show', compact('center'));
+        return view('centers.show', compact('center'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Center $center)
     {
-        //
+        return view('centers.edit', compact('center'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCenterRequest $request, Center $center)
     {
-        //
+        $center->fill($request->validated());
+
+        $center->photo->delete();
+
+        // Обработка фото (если новое фото загружено)
+        if ($request->hasFile('photo')) {
+            $photo = new Image;
+            $photo->openImage($request->file('photo')->getRealPath());
+            $photo->storage = config('filesystems.default');
+            $photo->name = $request->file('photo')->getClientOriginalName();
+            $photo->save();
+
+            $center->photo_id = $photo->id;
+        }
+
+        $center->save();
+
+        return redirect()
+            ->route('centers.show', $center->id)
+            ->with('success', 'Профиль центра обновлен.');
     }
 
     /**

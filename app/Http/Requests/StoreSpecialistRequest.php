@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PhoneRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreSpecialistRequest extends FormRequest
@@ -22,33 +23,65 @@ class StoreSpecialistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:'.config('uploads.image_max_size'),
-            'lastname' => 'required|string|max:50',  // Обязательно, строка, максимум 50 символов
-            'firstname' => 'required|string|max:50',  // Обязательно, строка, максимум 50 символов
-            'middlename' => 'nullable|string|max:50',  // Необязательно, строка, максимум 50 символов
-            'country' => 'required|string|max:100|exists:App\Models\Country,name',  // Обязательно, строка, максимум 100 символов
-            'region' => 'nullable|string|max:100',  // Необязательно, строка, максимум 100 символов
-            'city' => 'required|string|max:100',  // Обязательно, строка, максимум 100 символов
-            'education' => 'required|string|max:255',  // Обязательно, строка, максимум 255 символов
-            'phone' => 'required|string|regex:/^\+?[0-9]{10,15}$/',  // Обязательно, строка, проверка формата телефона (10–15 цифр с опциональным "+")
-            'file' => 'required|file|max:'.config('uploads.document_max_size')
+            'photo' => [
+                'required',
+                'image',
+                'mimes:jpeg,png,jpg,gif',
+                'max:' . config('uploads.image_max_size'),
+            ],
+            'lastname' => [
+                'required',
+                'string',
+                'max:50',
+            ],
+            'firstname' => [
+                'required',
+                'string',
+                'max:50',
+            ],
+            'middlename' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'country' => [
+                'required',
+                'string',
+                'max:100',
+                'exists:App\Models\Country,name',
+            ],
+            'region' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'city' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+            'education' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'phone' => [
+                'required',
+                'string',
+                new PhoneRule(),
+            ],
+            'file' => [
+                'required',
+                'file',
+                'max:' . config('uploads.document_max_size'),
+            ],
         ];
+
     }
 
     public function attributes(): array
     {
-        return [
-            'photo' => 'Фото',
-            'lastname' => 'Фамилия',
-            'firstname' => 'Имя',
-            'middlename' => 'Отчество',
-            'country' => 'Страна',
-            'region' => 'Регион',
-            'city' => 'Город',
-            'education' => 'Образование',
-            'phone' => 'Телефон',
-            'file' => 'Документ',
-        ];
+        return __('specialist');
     }
 
     public function messages()

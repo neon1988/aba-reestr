@@ -31,7 +31,7 @@ class SpecialistsTest extends TestCase
         $response = $this->actingAs($user)
             ->get(route('specialists.index'))
             ->assertOk()
-            ->assertViewIs('specialist.index')
+            ->assertViewIs('specialists.index')
             ->assertViewHas('specialists');
 
         // Проверяем, что на странице есть список специалистов
