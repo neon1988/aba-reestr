@@ -39,18 +39,11 @@
                         </div>
                     </div>
 
-                    <!-- Имя -->
-                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                        <h3 class="text-lg font-medium text-gray-700">Имя центра</h3>
-                        <input type="text" name="name" value="{{ old('name', $center->name) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-                    </div>
-
-                    <!-- Телефон -->
-                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                        <h3 class="text-lg font-medium text-gray-700">Телефон</h3>
-                        <input type="text" name="phone" value="{{ old('phone', $center->phone) }}"
-                               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    <div>
+                        <x-input-label for="phone" value="Телефон"/>
+                        <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $center->phone)"
+                                      required autocomplete="phone"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('phone')"/>
                     </div>
 
                 </div>

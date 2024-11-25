@@ -31,7 +31,11 @@
                     <label class="block text-gray-700">Фото</label>
                     <input name="photo" type="file" x-ref="photo" class="w-full border border-gray-300 rounded-md p-2">
                     Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
-                    <p x-show="errors.photo" x-text="errors.photo" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.photo">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Название фактическое -->
@@ -40,7 +44,11 @@
                     <input name="name" type="text" x-model="formData.name"
                            class="w-full border @error('name') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                            value="{{ old('name') }}">
-                    <p x-show="errors.name" x-text="errors.name" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.name">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Название юридическое -->
@@ -49,7 +57,11 @@
                     <input name="legal_name" type="text" x-model="formData.legal_name"
                            class="w-full border @error('legal_name') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                            value="{{ old('legal_name') }}">
-                    <p x-show="errors.legal_name" x-text="errors.legal_name" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.legal_name">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- ИНН -->
@@ -58,7 +70,11 @@
                     <input name="inn" type="text" x-model="formData.inn"
                            class="w-full border @error('inn') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                            value="{{ old('inn') }}">
-                    <p x-show="errors.inn" x-text="errors.inn" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.inn">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Страна -->
@@ -75,7 +91,11 @@
                             </option>
                         @endforeach
                     </select>
-                    <p x-show="errors.country" x-text="errors.country" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.country">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Регион -->
@@ -84,7 +104,11 @@
                     <input name="region" type="text" x-model="formData.region"
                            class="w-full border @error('region') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                            value="{{ old('region') }}">
-                    <p x-show="errors.region" x-text="errors.region" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.region">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Город -->
@@ -93,7 +117,11 @@
                     <input name="city" type="text" x-model="formData.city"
                            class="w-full border @error('city') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                            value="{{ old('city') }}">
-                    <p x-show="errors.city" x-text="errors.city" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.city">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Телефон -->
@@ -102,7 +130,11 @@
                     <input name="phone" type="tel" x-model="formData.phone"
                            class="w-full border @error('phone') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
                            value="{{ old('phone') }}">
-                    <p x-show="errors.phone" x-text="errors.phone" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.phone">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Документы о регистрации юр. лица -->
@@ -110,7 +142,11 @@
                     <label class="block text-gray-700">Документы о регистрации юр. лица</label>
                     <input name="file" type="file" x-ref="file" class="w-full border border-gray-300 rounded-md p-2">
                     Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
-                    <p x-show="errors.file" x-text="errors.file" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.file">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <x-primary-button>Отправить заявку</x-primary-button>
@@ -174,6 +210,7 @@
                         this.isLoading = false
                         const errorData = await response.json();
                         this.errors = errorData.errors || ['Неизвестная ошибка'];
+                        console.log(this.errors);
                     }
                 }
             };

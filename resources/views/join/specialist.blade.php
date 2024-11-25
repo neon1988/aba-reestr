@@ -33,7 +33,11 @@
                            class="w-full border border-gray-300 rounded-md p-2">
                     Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
 
-                    <p x-show="errors.photo" x-text="errors.photo" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.photo">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Имя -->
@@ -54,7 +58,11 @@
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('lastname') border-red-500 @enderror"
                            value="{{ old('lastname') }}">
-                    <p x-show="errors.lastname" x-text="errors.lastname" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.lastname">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Отчество -->
@@ -64,7 +72,11 @@
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('middlename') border-red-500 @enderror"
                            value="{{ old('middlename') }}">
-                    <p x-show="errors.middlename" x-text="errors.middlename" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.middlename">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Страна -->
@@ -80,7 +92,11 @@
                             </option>
                         @endforeach
                     </select>
-                    <p x-show="errors.country" x-text="errors.country" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.country">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Регион -->
@@ -90,7 +106,11 @@
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('region') border-red-500 @enderror"
                            value="{{ old('region') }}">
-                    <p x-show="errors.region" x-text="errors.region" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.region">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Город -->
@@ -100,7 +120,11 @@
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('city') border-red-500 @enderror"
                            value="{{ old('city') }}">
-                    <p x-show="errors.city" x-text="errors.city" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.city">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Образование -->
@@ -110,7 +134,11 @@
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('education') border-red-500 @enderror"
                            value="{{ old('education') }}">
-                    <p x-show="errors.education" x-text="errors.education" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.education">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Телефон -->
@@ -120,7 +148,11 @@
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('phone') border-red-500 @enderror"
                            value="{{ old('phone') }}">
-                    <p x-show="errors.phone" x-text="errors.phone" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.phone">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
                 </div>
 
                 <!-- Документы об АВА образовании -->
@@ -129,7 +161,11 @@
                     <input name="file" type="file" x-ref="file"
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('education_document') border-red-500 @enderror">
-                    <p x-show="errors.file" x-text="errors.file" class="text-sm text-red-500 mt-1"></p>
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.file">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
 
                     Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
                 </div>

@@ -75,9 +75,9 @@
                 @can('update', $center)
                     <!-- Кнопка для редактирования -->
                     <div class="mt-4">
-                        <x-primary-button href="{{ route('centers.edit', $center->id) }}">
+                        <x-primary-link-button href="{{ route('centers.edit', $center->id) }}">
                             Редактировать профиль
-                        </x-primary-button>
+                        </x-primary-link-button>
                     </div>
                 @endcan
             </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\OtherController;
+use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/notification-preview', [PreviewController::class, 'notification']);
 
 
 Route::get('/contacts', [OtherController::class, 'contacts'])->name('contacts');

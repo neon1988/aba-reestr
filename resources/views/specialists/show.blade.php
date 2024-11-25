@@ -63,9 +63,9 @@
 
             @can('update', $specialist)
                 <div class="mt-4">
-                    <x-primary-button href="{{ route('specialists.edit', $specialist->id) }}">
+                    <x-primary-link-button href="{{ route('specialists.edit', $specialist->id) }}">
                         Редактировать профиль
-                    </x-primary-button>
+                    </x-primary-link-button>
                 </div>
             @endcan
 

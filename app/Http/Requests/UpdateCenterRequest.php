@@ -24,16 +24,6 @@ class UpdateCenterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'phone' => [
-                'required',
-                'string',
-                new PhoneRule(10, 15), // Используем кастомное правило для телефона
-            ],
             'photo' => [
                 'nullable',
                 File::image()
@@ -41,8 +31,12 @@ class UpdateCenterRequest extends FormRequest
                     ->min(config('upload.image_min_size'))
                     ->max(config('upload.image_max_size'))
             ],
+            'phone' => [
+                'required',
+                'string',
+                new PhoneRule(10, 15), // Используем кастомное правило для телефона
+            ],
         ];
-
     }
 
     public function attributes(): array
