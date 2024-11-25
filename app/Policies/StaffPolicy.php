@@ -6,7 +6,7 @@ use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class StaffPolicy
+class StaffPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.

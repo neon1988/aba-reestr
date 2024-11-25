@@ -7,7 +7,7 @@ use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class CenterPolicy
+class CenterPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.
@@ -38,7 +38,12 @@ class CenterPolicy
      */
     public function update(User $user, Center $center): bool
     {
-        //
+        if ($user->isCenter())
+        {
+            return $center->id == $user->getCenterId();
+        }
+
+        return False;
     }
 
     /**

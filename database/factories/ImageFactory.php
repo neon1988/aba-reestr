@@ -31,8 +31,10 @@ class ImageFactory extends Factory
         return $this->afterMaking(function (Image $image) {
             if (App::environment('testing')) {
                 $imagick = new Imagick();
-                $imagick->newImage(300, 300, new ImagickPixel('red')); // 300x300 пикселей, красный фон
+                $imagick->newImage(500, 500, new ImagickPixel('red')); // 300x300 пикселей, красный фон
+                $imagick->addNoiseImage(Imagick::NOISE_GAUSSIAN);
                 $imagick->setImageFormat('jpeg');
+                //dd(strlen($imagick->getImageBlob()));
                 $image->openImage($imagick, 'jpeg', true);
             } else {
                 // Вызываем openImage до того как данные сохранятся в базу

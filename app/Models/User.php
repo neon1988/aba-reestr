@@ -110,12 +110,12 @@ class User extends Authenticatable
         return $this->roles->whereIn('roleable_type', Center::class)->count() > 0;
     }
 
-    public function getCenterId(): bool
+    public function getCenterId(): int
     {
         return $this->roles->whereIn('roleable_type', Center::class)->first()['roleable_id'];
     }
 
-    public function getSpecialistId(): bool
+    public function getSpecialistId(): int
     {
         return $this->roles->whereIn('roleable_type', Specialist::class)->first()['roleable_id'];
     }

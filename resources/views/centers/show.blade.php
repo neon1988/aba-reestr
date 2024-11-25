@@ -2,76 +2,84 @@
 
 @section('content')
 
-    <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-        <h3 class="text-lg font-semibold text-gray-800 mb-8">Профиль центра</h3>
+    <div class="mx-4">
+        <div class="max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg">
+            <h3 class="text-lg font-semibold text-gray-800 mb-8">Профиль центра</h3>
 
-        @if ($center->isSentForReview())
-            <!-- Сообщение о модерации -->
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 mb-6 rounded-lg">
-                <p class="text-lg font-medium">Ваш центр находится на стадии модерации.</p>
-                <p>Мы внимательно проверяем информацию о вашем центре, чтобы убедиться в ее точности. Это может занять
-                    некоторое время. Пожалуйста, будьте терпеливы. Мы уведомим вас, как только процесс модерации будет
-                    завершен.</p>
-            </div>
-        @endif
+            @if ($center->isSentForReview())
+                <!-- Сообщение о модерации -->
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 mb-6 rounded-lg">
+                    <p class="text-lg font-medium">Ваш центр находится на стадии модерации.</p>
+                    <p>Мы внимательно проверяем информацию о вашем центре, чтобы убедиться в ее точности. Это может
+                        занять
+                        некоторое время. Пожалуйста, будьте терпеливы. Мы уведомим вас, как только процесс модерации
+                        будет
+                        завершен.</p>
+                </div>
+            @endif
 
-        <div class="flex items-center space-x-4">
-            <!-- Фото специалиста (если есть) -->
-            <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
-                <img src="{{ $center->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
-                     class="w-full h-full object-cover">
-            </div>
+            <div class="flex items-center space-x-4">
+                <!-- Фото специалиста (если есть) -->
+                <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
+                    <img src="{{ $center->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
+                         class="w-full h-full object-cover">
+                </div>
 
-            <!-- Имя специалиста -->
-            <div>
-                <h2 class="text-2xl font-semibold text-gray-800">{{ $center->name }}</h2>
-                <p class="text-sm text-gray-600">{{ $center->legal_name }}</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-
-            <!-- ИНН -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">ИНН</h3>
-                <p class="text-gray-600">{{ $center->inn }}</p>
+                <!-- Имя специалиста -->
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">{{ $center->name }}</h2>
+                    <p class="text-sm text-gray-600">{{ $center->legal_name }}</p>
+                </div>
             </div>
 
-            <!-- КПП -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">КПП</h3>
-                <p class="text-gray-600">{{ $center->kpp ?? 'Не указано' }}</p>
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 
-            <!-- Страна -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">Страна</h3>
-                <p class="text-gray-600">{{ __($center->country) }}</p>
-            </div>
+                <!-- ИНН -->
+                <div class="flex flex-col sm:flex-row justify-between">
+                    <span class="text-gray-500">ИНН</span>
+                    <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $center->inn }}</span>
+                </div>
 
-            <!-- Регион -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">Регион</h3>
-                <p class="text-gray-600">{{ __($center->region) ?? 'Не указано' }}</p>
-            </div>
+                <!-- КПП -->
+                <div class="flex flex-col sm:flex-row justify-between">
+                    <span class="text-gray-500">КПП</span>
+                    <span
+                        class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $center->kpp ?? 'Не указано' }}</span>
+                </div>
 
-            <!-- Город -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">Город</h3>
-                <p class="text-gray-600">{{ __($center->city) }}</p>
-            </div>
+                <!-- Страна -->
+                <div class="flex flex-col sm:flex-row justify-between">
+                    <span class="text-gray-500">Страна</span>
+                    <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ __($center->country) }}</span>
+                </div>
 
-            <!-- Телефон -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
-                <h3 class="text-lg font-medium text-gray-700">Телефон</h3>
-                <p class="text-gray-600">{{ $center->phone }}</p>
-            </div>
+                <!-- Регион -->
+                <div class="flex flex-col sm:flex-row justify-between">
+                    <span class="text-gray-500">Регион</span>
+                    <span
+                        class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ __($center->region) ?? 'Не указано' }}</span>
+                </div>
 
-            <!-- Кнопка для редактирования -->
-            <div class="mt-6">
-                <a href="{{ route('centers.edit', $center->id) }}" class="text-white bg-cyan-600 hover:bg-cyan-700 rounded-lg px-4 py-2">
-                    Редактировать профиль
-                </a>
+                <!-- Город -->
+                <div class="flex flex-col sm:flex-row justify-between">
+                    <span class="text-gray-500">Город</span>
+                    <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ __($center->city) }}</span>
+                </div>
+
+                <!-- Телефон -->
+                <div class="flex flex-col sm:flex-row justify-between">
+                    <span class="text-gray-500">Телефон</span>
+                    <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $center->phone }}</span>
+                </div>
+
+                @can('update', $center)
+                    <!-- Кнопка для редактирования -->
+                    <div class="mt-4">
+                        <x-primary-button href="{{ route('centers.edit', $center->id) }}">
+                            Редактировать профиль
+                        </x-primary-button>
+                    </div>
+                @endcan
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\UserRoleable;
 use Illuminate\Auth\Access\Response;
 
-class UserRoleablePolicy
+class UserRoleablePolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.

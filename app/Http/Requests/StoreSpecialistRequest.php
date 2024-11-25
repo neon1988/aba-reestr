@@ -74,8 +74,8 @@ class StoreSpecialistRequest extends FormRequest
             ],
             'file' => [
                 'required',
-                'file',
-                'max:' . config('upload.document_max_size'),
+                File::default()->min(config('upload.document_min_size'))
+                    ->max(config('upload.document_max_size'))
             ],
         ];
 

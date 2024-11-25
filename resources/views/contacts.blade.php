@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <div class="max-w-4xl mx-auto bg-white p-4 sm:p-6 rounded-lg shadow-lg">
         <h1 class="text-3xl font-bold text-center mb-8">Свяжитесь с нами</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">

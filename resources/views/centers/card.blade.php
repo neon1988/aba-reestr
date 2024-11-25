@@ -1,4 +1,4 @@
-<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+<div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
     <img src="{{ optional($center->photo)->url ?? 'https://via.placeholder.com/150' }}"
          alt="Фото центра"
          class="w-full h-48 object-cover rounded-lg mb-4">

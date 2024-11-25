@@ -56,8 +56,8 @@ class CentersTest extends TestCase
         unset($centerArray['status']);
         unset($centerArray['create_user_id']);
 
-        $centerArray['photo'] = UploadedFile::fake()->image('test-image.jpg');
-        $centerArray['file'] = UploadedFile::fake()->image('test-image2.jpg');
+        $centerArray['photo'] = UploadedFile::fake()->image('test-image.jpg', 500, 500);
+        $centerArray['file'] = UploadedFile::fake()->image('test-image2.jpg', 500, 500);
 
         // Отправляем POST-запрос для создания нового центра
         $response = $this->actingAs($user)

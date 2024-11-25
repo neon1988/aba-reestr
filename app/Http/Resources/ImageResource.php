@@ -16,7 +16,7 @@ class ImageResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
-        $array['url'] = (string)Url::fromString($this->url)->withHost('localhost');
+        $array['url'] = (string)Url::fromString($this->url);
         return $array;
     }
 }

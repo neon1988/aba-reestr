@@ -57,8 +57,8 @@ class SpecialistsTest extends TestCase
         unset($specialistArray['status']);
         unset($specialistArray['create_user_id']);
 
-        $specialistArray['photo'] = UploadedFile::fake()->image('test-image.jpg');
-        $specialistArray['file'] = UploadedFile::fake()->image('test-image2.jpg');
+        $specialistArray['photo'] = UploadedFile::fake()->image('test-image.jpg', 500, 500);
+        $specialistArray['file'] = UploadedFile::fake()->image('test-image2.jpg', 500, 500);
 
         // Отправляем POST-запрос с данными для создания специалиста
         $response = $this->actingAs($user)

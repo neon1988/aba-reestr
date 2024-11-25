@@ -6,7 +6,7 @@ use App\Models\SpecialistFile;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SpecialistFilePolicy
+class SpecialistFilePolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.

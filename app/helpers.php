@@ -111,3 +111,57 @@ function replaceSimilarSymbols($searchText): string
     $searchText = mb_str_replace('ё', 'е', $searchText);
     return mb_str_replace('Ё', 'Е', $searchText);
 }
+
+
+function zeros($string, $length)
+{
+    return str_pad($string, $length, '0', STR_PAD_LEFT);
+}
+
+// Генерация ИНН для физических лиц
+function generateINNFL()
+{
+    $region = zeros(strval(rand(1, 92)), 2); // Код региона
+    $inspection = zeros(strval(rand(1, 99)), 2); // Код подразделения
+    $numba = zeros(strval(rand(1, 999999)), 6); // Уникальный номер
+    $rezult = $region . $inspection . $numba;
+
+    // Вычисление первой контрольной цифры
+    $kontrol1 = (
+            7 * $rezult[0] + 2 * $rezult[1] + 4 * $rezult[2] +
+            10 * $rezult[3] + 3 * $rezult[4] + 5 * $rezult[5] +
+            9 * $rezult[6] + 4 * $rezult[7] + 6 * $rezult[8] +
+            8 * $rezult[9]
+        ) % 11 % 10;
+    $rezult .= $kontrol1;
+
+    // Вычисление второй контрольной цифры
+    $kontrol2 = (
+            3 * $rezult[0] + 7 * $rezult[1] + 2 * $rezult[2] +
+            4 * $rezult[3] + 10 * $rezult[4] + 3 * $rezult[5] +
+            5 * $rezult[6] + 9 * $rezult[7] + 4 * $rezult[8] +
+            6 * $rezult[9] + 8 * $rezult[10]
+        ) % 11 % 10;
+    $rezult .= $kontrol2;
+
+    return $rezult;
+}
+
+// Генерация ИНН для юридических лиц
+function generateINNUL()
+{
+    $region = zeros(strval(rand(1, 92)), 2); // Код региона
+    $inspection = zeros(strval(rand(1, 99)), 2); // Код подразделения
+    $numba = zeros(strval(rand(1, 99999)), 5); // Уникальный номер
+    $rezult = $region . $inspection . $numba;
+
+    // Вычисление контрольной цифры
+    $kontrol = (
+            2 * $rezult[0] + 4 * $rezult[1] + 10 * $rezult[2] +
+            3 * $rezult[3] + 5 * $rezult[4] + 9 * $rezult[5] +
+            4 * $rezult[6] + 6 * $rezult[7] + 8 * $rezult[8]
+        ) % 11 % 10;
+    $rezult .= $kontrol;
+
+    return $rezult;
+}

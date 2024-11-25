@@ -32,6 +32,7 @@
                     <input name="photo" type="file" x-ref="photo"
                            class="w-full border border-gray-300 rounded-md p-2">
                     Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+
                     <p x-show="errors.photo" x-text="errors.photo" class="text-sm text-red-500 mt-1"></p>
                 </div>
 
@@ -130,10 +131,10 @@
                                       @error('education_document') border-red-500 @enderror">
                     <p x-show="errors.file" x-text="errors.file" class="text-sm text-red-500 mt-1"></p>
 
-                    Максимальный размер {{ formatFileSize(config('upload.document_max_size') * 1000) }}
+                    Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
                 </div>
 
-                <x-primary-button>Подать заявку</x-primary-button>
+                <x-primary-button>Отправить заявку</x-primary-button>
 
             </form>
 

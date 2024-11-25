@@ -6,6 +6,7 @@ use App\Enums\StatusEnum;
 use App\Rules\InnRule;
 use App\Rules\KppRule;
 use App\Rules\PhoneRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
@@ -23,7 +24,7 @@ class StoreCenterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -84,8 +85,8 @@ class StoreCenterRequest extends FormRequest
             ],
             'file' => [
                 'required',
-                'file',
-                'max:' . config('upload.document_max_size'),
+                File::default()->min(config('upload.document_min_size'))
+                    ->max(config('upload.document_max_size'))
             ],
         ];
     }

@@ -6,7 +6,7 @@ use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SpecialistPolicy
+class SpecialistPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.
@@ -37,7 +37,11 @@ class SpecialistPolicy
      */
     public function update(User $user, Specialist $specialist): bool
     {
-        //
+        if ($user->isSpecialist())
+        {
+            return $specialist->id == $user->getSpecialistId();
+        }
+        return False;
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\Specialist;
 use App\Models\User;
 
-class UserPolicy
+class UserPolicy extends Policy
 {
     /**
      * Create a new policy instance.

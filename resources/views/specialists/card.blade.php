@@ -1,4 +1,4 @@
-<div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+<div class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
     <!-- Фото специалиста -->
     <div class="flex justify-center mb-4">
         <img src="{{ optional($specialist->photo)->url ?? 'https://via.placeholder.com/150' }}"

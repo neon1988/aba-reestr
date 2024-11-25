@@ -6,7 +6,7 @@ use App\Models\FileUser;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class FileUserPolicy
+class FileUserPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.
