@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <div class="px-4">
+
     <div class="relative max-w-2xl" x-data="formHandler()">
         <!-- Заглушка -->
         <div x-show="isLoading" x-transition
@@ -9,7 +11,7 @@
             <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-cyan-500"></div>
         </div>
 
-        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+        <div class="p-4 sm:p-8 bg-white shadow rounded-lg">
 
             <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Регистрация АВА-центра</h1>
 
@@ -154,6 +156,7 @@
             </form>
 
         </div>
+    </div>
     </div>
 
     <script>
