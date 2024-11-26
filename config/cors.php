@@ -6,7 +6,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:9001', 'http://localhost:9000', 'https://642a-94-159-97-254.ngrok-free.app'],
+    'allowed_origins' => ['http://localhost', 'http://localhost:9001', 'http://localhost:9000', 'https://642a-94-159-97-254.ngrok-free.app'],
 
     'allowed_origins_patterns' => [],
 
