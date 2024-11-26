@@ -1,15 +1,23 @@
-FROM php:8.3-fpm
+FROM dunglas/frankenphp
 
 # Установка зависимостей
 RUN apt-get update && apt-get install -y \
     git curl zip unzip libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libxml2-dev \
-    libzip-dev libcurl4-openssl-dev pkg-config libssl-dev libmagickwand-dev libpq-dev
+    libzip-dev libcurl4-openssl-dev pkg-config libssl-dev libmagickwand-dev libpq-dev \
+    libmemcached-dev zlib1g-dev
 
 # Установка стандартных расширений PHP
 RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl intl bcmath gd zip
 
 # Установка Imagick через PECL
 RUN pecl install imagick && docker-php-ext-enable imagick
+
+RUN pecl install memcached && docker-php-ext-enable memcached
+
+RUN apt-get update && apt-get install -y \
+    libssl-dev libhiredis-dev \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 # Установка Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -20,16 +28,18 @@ WORKDIR /var/www/html
 # Копирование файлов
 COPY . .
 
-# Установка зависимостей Laravel
-RUN composer install --no-dev --optimize-autoloader
+# Добавление директории в список безопасных для Git
+RUN git config --global --add safe.directory /var/www/html
 
-RUN php artisan octane:install --server=frankenphp
+# Установка зависимостей Laravel
+RUN composer install --no-dev
+
+#RUN php artisan octane:install --server=frankenphp
 
 # Кэширование конфигурации и маршрутов
 RUN php artisan optimize
 
-# Указание порта для Swoole
+# Указание порта для frankenphp
 EXPOSE 8000
 
-# Команда для запуска Octane
-CMD ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=8000"]
+ENTRYPOINT ["php", "artisan", "octane:frankenphp"]

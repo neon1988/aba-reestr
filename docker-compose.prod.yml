@@ -5,13 +5,12 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    entrypoint: ["sh", "-c", "php artisan optimize &&  php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=8000"]
     volumes:
-      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+      - ./public:/var/www/html/public
+      - ./.env:/var/www/html/.env
     ports:
       - "8000:8000" # Проброс порта для Octane
-    environment:
-      WWWUSER: '${WWWUSER}'
     depends_on:
       - pgsql
       - memcached
@@ -30,7 +29,6 @@ services:
       POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
     volumes:
       - 'pgsql:/var/lib/postgresql/data'
-      - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
     restart: unless-stopped
     networks:
       - app-network
@@ -96,4 +94,3 @@ volumes:
     driver: local
   redis-data:
     driver: local
-
