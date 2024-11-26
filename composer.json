@@ -27,11 +27,11 @@
         "litlife/url": "^2.0",
         "meilisearch/meilisearch-php": "^1.11",
         "nelexa/zip": "^4.0",
-        "predis/predis": "^2.0"
+        "predis/predis": "^2.0",
+        "fakerphp/faker": "^1.23"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
-        "fakerphp/faker": "^1.23",
         "laravel/breeze": "^2.2",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
