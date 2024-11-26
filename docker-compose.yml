@@ -59,7 +59,6 @@ services:
             - sail
     meilisearch:
         image: getmeili/meilisearch:v1.11.3
-        container_name: meilisearch
         environment:
             MEILI_NO_ANALYTICS: "true"
         ports:
