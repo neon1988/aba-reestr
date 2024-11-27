@@ -60,16 +60,16 @@ services:
       timeout: 5s
   memcached:
     image: 'memcached:alpine'
-    ports:
-      - '${FORWARD_MEMCACHED_PORT:-11211}:11211'
+    expose:
+      - "11211"
     networks:
       - app-network
   meilisearch:
     image: getmeili/meilisearch:v1.11.3
     environment:
       MEILI_NO_ANALYTICS: "true"
-    ports:
-      - "7700:7700"
+    expose:
+      - "7700"
     volumes:
       - meili_data:/meili_data
     restart: unless-stopped
@@ -77,8 +77,8 @@ services:
       - app-network
   redis:
     image: redis:alpine
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     volumes:
       - redis-data:/data
     networks:
