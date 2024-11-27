@@ -14,6 +14,8 @@ use ImagickPixel;
  */
 class ImageFactory extends Factory
 {
+    use RandomImageGenerator;
+
     /**
      * Define the model's default state.
      *
@@ -39,7 +41,7 @@ class ImageFactory extends Factory
             } else {
                 // Вызываем openImage до того как данные сохранятся в базу
                 // https://i.pravatar.cc/300
-                $image->openImage('https://picsum.photos/800/600?category=nature', 'url');
+                $image->openImage($this->generateRandomImage(640, 480), 'jpeg', true);
             }
         });
     }
