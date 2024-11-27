@@ -1,5 +1,5 @@
 services:
-    laravel.test:
+    app:
         build:
             context: ./vendor/laravel/sail/runtimes/8.3
             dockerfile: Dockerfile
@@ -21,7 +21,7 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
+            - app-network
         depends_on:
             - pgsql
             - memcached
@@ -39,7 +39,7 @@ services:
             - 'sail-pgsql:/var/lib/postgresql/data'
             - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
-            - sail
+            - app-network
         healthcheck:
             test:
                 - CMD
@@ -56,9 +56,9 @@ services:
         ports:
             - '${FORWARD_MEMCACHED_PORT:-11211}:11211'
         networks:
-            - sail
+            - app-network
     meilisearch:
-        image: getmeili/meilisearch:v1.11.3
+        image: 'getmeili/meilisearch:v1.11.3'
         environment:
             MEILI_NO_ANALYTICS: "true"
         ports:
@@ -67,17 +67,17 @@ services:
             - meili_data:/meili_data
         restart: unless-stopped
         networks:
-            - sail
+            - app-network
     redis:
-        image: redis:alpine
+        image: 'redis:alpine'
         ports:
             - "6379:6379"
         volumes:
             - redis-data:/data
         networks:
-            - sail
+            - app-network
 networks:
-    sail:
+    app-network:
         driver: bridge
 volumes:
     sail-pgsql:

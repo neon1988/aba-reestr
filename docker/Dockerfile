@@ -41,5 +41,3 @@ RUN php artisan optimize
 
 # Указание порта для frankenphp
 EXPOSE 8000
-
-ENTRYPOINT ["php", "artisan", "octane:frankenphp"]
