@@ -1,20 +1,25 @@
 <?php
 
+use Litlife\Url\Url;
+
 return [
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'specialists*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'], // Разрешить все HTTP-методы
 
-    'allowed_origins' => ['http://localhost', 'http://localhost:9001', 'http://localhost:9000', 'https://642a-94-159-97-254.ngrok-free.app'],
+    'allowed_origins' => [
+        env('APP_URL', 'http://localhost'),
+        '*.'.Url::fromString(env('APP_URL', 'http://localhost'))->getHost()
+    ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [], // Если нужно использовать шаблоны, оставьте здесь
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['*'], // Разрешить все заголовки
 
     'exposed_headers' => [],
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => false, // Оставьте false, если не используете cookies/sessions
 ];
