@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY ./php.ini /usr/local/lib/php.ini
+COPY ./php.ini /lib/php.ini
 
 # Настройка рабочего каталога
 WORKDIR /var/www/html
