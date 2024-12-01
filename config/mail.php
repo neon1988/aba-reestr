@@ -49,6 +49,17 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
+        'smtpbz' => [
+            'transport' => 'smtp',
+            'host' => env('MAIL_SMTPBZ_HOST', 'connect.smtp.bz'),
+            'port' => env('MAIL_SMTPBZ_PORT', 465),
+            'encryption' => env('MAIL_SMTPBZ_ENCRYPTION', 'ssl'),
+            'username' => env('MAIL_SMTPBZ_USERNAME'),
+            'password' => env('MAIL_SMTPBZ_PASSWORD'),
+            'timeout' => null,
+            'auth_mode' => null,
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],

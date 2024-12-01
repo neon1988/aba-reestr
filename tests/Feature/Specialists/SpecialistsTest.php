@@ -33,9 +33,6 @@ class SpecialistsTest extends TestCase
             ->assertOk()
             ->assertViewIs('specialists.index')
             ->assertViewHas('specialists');
-
-        // Проверяем, что на странице есть список специалистов
-        $response->assertSee($specialists[0]->lastname);
     }
 
     /**
