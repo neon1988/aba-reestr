@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY ./docker/php.ini /etc/php/8.3/cli/conf.d/99-php.ini
+COPY ./docker/php.ini /etc/php/8.4/cli/conf.d/99-php.ini
 
 # Настройка рабочего каталога
 WORKDIR /var/www/html
