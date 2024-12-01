@@ -22,10 +22,10 @@ RUN apt-get update && apt-get install -y \
 # Установка Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY ./php.ini /usr/local/lib/php.ini
-COPY ./php.ini /lib/php.ini
-COPY ./php.ini /usr/local/etc/php/php.ini
-COPY ./php.ini /usr/local/etc/php/conf.d/php.ini
+COPY ./docker/php.ini /usr/local/lib/php.ini
+COPY ./docker/php.ini /lib/php.ini
+COPY ./docker/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php.ini /usr/local/etc/php/conf.d/php.ini
 
 # Настройка рабочего каталога
 WORKDIR /var/www/html
