@@ -8,7 +8,7 @@ services:
     volumes:
       - ./storage:/var/www/html/storage
       - ./public:/var/www/html/public
-      - ./.env:/var/www/html/.env
+    user: "${WWWUSER}:${WWWGROUP}"
     ports:
       - "8000:8000" # Проброс порта для Octane
     depends_on:
@@ -46,14 +46,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test:
-        - CMD
-        - pg_isready
-        - '-q'
-        - '-d'
-        - '${DB_DATABASE}'
-        - '-U'
-        - '${DB_USERNAME}'
+      test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
       retries: 3
       timeout: 5s
   memcached:
