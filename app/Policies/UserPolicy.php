@@ -15,11 +15,22 @@ class UserPolicy extends Policy
         //
     }
 
+    public function viewLogViewer(?User $user): bool
+    {
+        return True;
+        /*
+        return $request->user()
+            && in_array($request->user()->email, [
+                'stepan.entsov@gmail.com',
+            ]);
+        */
+    }
+
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Specialist $specialist): bool
+    public function update(User $authUser, User $user): bool
     {
-        //
+        return $authUser->id == $user->id;
     }
 }

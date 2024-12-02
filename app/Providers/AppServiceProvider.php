@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Policies\UserPolicy;
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,8 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-        $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Debugbar', Debugbar::class);
     }
 
     /**
@@ -30,8 +33,6 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
-        LogViewer::auth(function ($request) {
-            return True;
-        });
+        Gate::define('viewLogViewer', [UserPolicy::class, 'viewLogViewer']);
     }
 }
