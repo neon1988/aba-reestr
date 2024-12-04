@@ -31,7 +31,10 @@
                     </a>
                 </div>
 
-                <div x-data="{ isOpen: false, stopVideo() { this.$refs.video.pause(); } }" class="relative">
+                <div x-data="{ isOpen: false }"
+                     @keyup.escape="isOpen = false;"
+                     x-init="$watch('isOpen', value => { if (!value) { $refs.video.pause(); } else { $refs.video.play(); } })"
+                     class="relative">
                     <!-- Карточка видео -->
                     <div class="bg-white shadow rounded-lg p-6">
                         <h3 class="text-xl font-semibold text-gray-800">Введение в ABA-терапию (Видео)</h3>
@@ -50,9 +53,9 @@
                     <div x-show="isOpen"
                          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
                          style="display: none;"
-                         x-cloak
-                         @click="isOpen = false; stopVideo()">
-                        <div class="bg-white rounded-lg overflow-hidden shadow-lg w-full max-w-4xl">
+                         x-cloak>
+                        <div @click.outside="isOpen = false;"
+                             class="bg-white rounded-lg overflow-hidden shadow-lg w-full max-w-4xl">
                             <div class="relative">
                                 <!-- Видео -->
                                 <video x-ref="video" controls class="w-full" autoplay>
@@ -61,7 +64,7 @@
                                 </video>
 
                                 <!-- Кнопка закрытия -->
-                                <button @click="isOpen = false; stopVideo()"
+                                <button @click="isOpen = false;"
                                         class="absolute top-3 right-3 text-gray-700 hover:text-gray-900">
                                     ✖
                                 </button>
@@ -69,7 +72,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <!-- Другая карточка PDF -->
                 <div class="bg-white shadow rounded-lg p-6">
