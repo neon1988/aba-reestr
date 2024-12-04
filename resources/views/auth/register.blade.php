@@ -62,18 +62,18 @@
                     <div class="mt-4">
                         <label for="accept_private_policy" class="flex items-center">
                             <input id="accept_private_policy" type="checkbox" name="accept_private_policy"
-                                   class="mr-2 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                   class="mr-2 rounded border-gray-300 text-cyan-600 shadow-sm focus:ring-cyan-500"
                                    required>
                             <span class="text-sm text-gray-600">Я соглашаюсь с <a
                                     target="_blank"
                                     href="{{ route('privacy-policy') }}"
-                                    class="text-blue-500 hover:underline">Политикой обработки персональных данных</a></span>
+                                    class="text-cyan-600 hover:underline">Политикой обработки персональных данных</a></span>
                         </label>
                         <x-input-error :messages="$errors->get('accept_private_policy')" class="mt-2"/>
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                            href="{{ route('login') }}">
                             {{ __('Already registered?') }}
                         </a>
