@@ -18,6 +18,14 @@
                         <x-input-error :messages="$errors->get('name')" class="mt-2"/>
                     </div>
 
+                    <!-- Lastname -->
+                    <div class="mt-4">
+                        <x-input-label for="lastname" :value="__('Lastname')"/>
+                        <x-text-input id="lastname" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')"
+                                      required autofocus autocomplete="lastname"/>
+                        <x-input-error :messages="$errors->get('lastname')" class="mt-2"/>
+                    </div>
+
                     <!-- Email Address -->
                     <div class="mt-4">
                         <x-input-label for="email" :value="__('Email')"/>
@@ -48,6 +56,20 @@
                                       name="password_confirmation" required autocomplete="new-password"/>
 
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
+                    </div>
+
+                    <!-- Accept Privacy Policy -->
+                    <div class="mt-4">
+                        <label for="accept_private_policy" class="flex items-center">
+                            <input id="accept_private_policy" type="checkbox" name="accept_private_policy"
+                                   class="mr-2 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                   required>
+                            <span class="text-sm text-gray-600">Я соглашаюсь с <a
+                                    target="_blank"
+                                    href="{{ route('privacy-policy') }}"
+                                    class="text-blue-500 hover:underline">Политикой обработки персональных данных</a></span>
+                        </label>
+                        <x-input-error :messages="$errors->get('accept_private_policy')" class="mt-2"/>
                     </div>
 
                     <div class="flex items-center justify-end mt-4">

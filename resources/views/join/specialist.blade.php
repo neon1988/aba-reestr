@@ -131,11 +131,18 @@
 
                 <!-- Образование -->
                 <div>
-                    <label class="block text-gray-700">Образование *</label>
-                    <input name="education" type="text" x-model="formData.education"
-                           class="w-full border border-gray-300 rounded-md p-2
-                                      @error('education') border-red-500 @enderror"
-                           value="{{ old('education') }}">
+                    <label for="education" class="block text-gray-700">Образование *</label>
+                    <select name="education" id="education" x-model="formData.education"
+                            class="w-full border border-gray-300 rounded-md p-2
+                   @error('education') border-red-500 @enderror">
+                        <option value="" disabled selected>Выберите уровень образования</option>
+                        <option value="Среднее">Среднее</option>
+                        <option value="Среднее специальное">Среднее специальное</option>
+                        <option value="Неполное высшее">Неполное высшее</option>
+                        <option value="Высшее">Высшее</option>
+                        <option value="Магистр">Магистр</option>
+                        <option value="Доктор наук">Доктор наук</option>
+                    </select>
                     <ul class="text-sm text-red-500 mt-1">
                         <template x-for="error in errors.education">
                             <li x-text="error"></li>
@@ -159,7 +166,7 @@
 
                 <!-- Документы об АВА образовании -->
                 <div>
-                    <label class="block text-gray-700">Документы об АВА образовании</label>
+                    <label class="block text-gray-700">Документы об АВА образовании *</label>
                     <input name="file" type="file" x-ref="file"
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('education_document') border-red-500 @enderror">
@@ -168,7 +175,23 @@
                             <li x-text="error"></li>
                         </template>
                     </ul>
+                    Укажите Ваше образование в ABA. Пример: "3 модуля Юлии Эрц, 5 модулей Шаг впереди", магистратура ИПАП и т. д."
 
+                    Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                </div>
+
+                <!-- Дополнительные курсы и тренинги ABA -->
+                <div class="mt-4">
+                    <label class="block text-gray-700">Дополнительные курсы и тренинги ABA</label>
+                    <input name="additional_courses" type="file" x-ref="additional_courses"
+                           class="w-full border border-gray-300 rounded-md p-2
+                                      @error('additional_courses') border-red-500 @enderror">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.additional_courses">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                    Например, курсы повышения квалификации, тренинги, семинары и т.д.
                     Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
                 </div>
 

@@ -31,7 +31,10 @@
                 <a href="{{ route('home') }}" class="h-12 w-12 self-center mx-3 h-full flex items-center justify-center">
                     <img src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5"/>
                 </a>
-
+                <a href="{{ route('home') }}"
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Главная
+                </a>
                 <a href="{{ route('specialists.index') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Специалисты
@@ -39,6 +42,15 @@
                 <a href="{{ route('centers.index') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Центры ABA</a>
+                <a href="{{ route('webinars.index') }}"
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Вебинары</a>
+                <a href="{{ route('worksheets.index') }}"
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Пособия</a>
+                <a href="{{ route('conferences.index') }}"
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Мероприятия</a>
             </div>
 
             <div class="flex bg-cyan-600">
@@ -47,7 +59,7 @@
                     @auth
                         @if (!Auth::user()->hasSpecialistOrCenter())
                             <a href="{{ route('join') }}"
-                               class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
+                               class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
                         @endif
                         <!-- Меню пользователя -->
                         <div class="relative" x-data="{ open: false }">
@@ -90,7 +102,7 @@
                     @else
                         <!-- Для гостей -->
                         <a href="{{ route('register') }}"
-                           class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
+                           class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Регистрация</a>
                         <a href="{{ route('login') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Войти</a>
                     @endauth
@@ -126,6 +138,24 @@
                 <a href="{{ route('centers.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <span class="flex-1 ms-3 whitespace-nowrap">Центры ABA</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('webinars.index') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Вебинары</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('worksheets.index') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Пособия</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('conferences.index') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Мероприятия</span>
                 </a>
             </li>
             <li>

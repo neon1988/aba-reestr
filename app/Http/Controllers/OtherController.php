@@ -6,6 +6,8 @@ use App\Enums\StatusEnum;
 use App\Models\Center;
 use App\Models\Specialist;
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
@@ -49,5 +51,10 @@ class OtherController extends Controller
                 return User::count();
             }),
         ]);
+    }
+
+    public function privacyPolicy(): Factory|\Illuminate\Contracts\View\View|Application
+    {
+        return view('privacy-policy');
     }
 }
