@@ -78,7 +78,7 @@
                     <p class="text-gray-600 mt-4">
                         Практическое руководство по взаимодействию с родителями в процессе ABA-терапии.
                     </p>
-                    <a href="/materials/working-with-parents.pdf"
+                    <a href="#"
                        class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700"
                        target="_blank">
                         Скачать PDF

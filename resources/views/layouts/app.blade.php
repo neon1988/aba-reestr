@@ -29,7 +29,7 @@
                 </button>
 
                 <a href="{{ route('home') }}" class="h-12 w-12 self-center mx-3 h-full flex items-center justify-center">
-                    <img src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5"/>
+                    <img src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5" alt=""/>
                 </a>
                 <a href="{{ route('home') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">

@@ -21,7 +21,7 @@ class OtherController extends Controller
         });
 
         $specialists = Cache::remember('home.specialists', 60, function () {
-            return Specialist::inRandomOrder()->take(3)->get();;
+            return Specialist::inRandomOrder()->take(3)->get();
         });
 
         return view('home', compact('centers', 'specialists'));

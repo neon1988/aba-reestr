@@ -69,8 +69,6 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        dd($request->validated());
-
         $user->fill($request->validated());
         $user->save();
         $user->load('photo');
