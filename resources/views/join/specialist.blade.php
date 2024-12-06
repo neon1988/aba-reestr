@@ -4,7 +4,7 @@
 
     <div class="px-4">
 
-    <div class="relative max-w-2xl" x-data="formHandler()">
+        <div class="relative max-w-2xl" x-data="formHandler()">
         <!-- Заглушка -->
         <div x-show="isLoading" x-transition
              class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center z-10">
@@ -31,8 +31,102 @@
 
                 <div>
                     <label class="block text-gray-700">Фото</label>
-                    <input name="photo" type="file" x-ref="photo"
-                           class="w-full border border-gray-300 rounded-md p-2">
+
+                    <div x-data="fileUploadHandler()"
+                         x-init="$watch('formData.photo', value => photo = value)" x-effect="formData.photo = photo">
+                        <!-- Поле для выбора файла -->
+                        <input
+                            type="file"
+                            @change="handleFile"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
+                        />
+
+                        <!-- Прогресс загрузки -->
+                        <template x-if="loading">
+                            <div class="relative mt-4">
+                                <div class="h-4 bg-gray-300 rounded-lg overflow-hidden">
+                                    <div
+                                        class="h-full bg-cyan-500 transition-all duration-300"
+                                        :style="{ width: progress + '%' }"
+                                    ></div>
+                                </div>
+                                <div class="text-sm text-gray-600 mt-1" x-text="'Загрузка: ' + progress + '%'"></div>
+                            </div>
+                        </template>
+
+                        <!-- Уведомления -->
+                        <template x-if="success">
+                            <div class="mt-4 p-2 bg-green-100 text-green-700 rounded-lg">
+                                Файл успешно загружен!
+                            </div>
+                        </template>
+
+                        <template x-if="error">
+                            <div class="mt-4 p-2 bg-red-100 text-red-700 rounded-lg" x-text="error"></div>
+                        </template>
+
+                        <input type="hidden" x-model="photo" />
+                    </div>
+
+                    <script>
+                        function fileUploadHandler() {
+                            return {
+                                file: null, // Храним выбранный файл
+                                loading: false, // Состояние загрузки
+                                progress: 0, // Прогресс загрузки
+                                success: false, // Успешность операции
+                                error: null, // Сообщение об ошибке
+                                photo: '',
+
+                                // Обработчик выбора файла и автоматическая загрузка
+                                handleFile(event) {
+                                    this.file = event.target.files[0];
+                                    if (this.file) {
+                                        this.uploadFile();
+                                    }
+                                },
+
+                                // Загрузка файла
+                                async uploadFile() {
+                                    if (!this.file) return;
+
+                                    this.loading = true;
+                                    this.progress = 0;
+                                    this.success = false;
+                                    this.error = null;
+
+                                    try {
+                                        // Создаем объект FormData
+                                        const formData = new FormData();
+                                        formData.append('photo', this.file);
+
+                                        // Отправляем файл на сервер
+                                        const response = await axios.post('/images', formData, {
+                                            headers: {
+                                                'Content-Type': 'multipart/form-data',
+                                            },
+                                            onUploadProgress: (event) => {
+                                                this.progress = Math.round((event.loaded / event.total) * 100);
+                                            },
+                                        });
+
+                                        // Обрабатываем успешный ответ
+                                        this.success = true;
+                                        this.photo = response.data.path;
+                                        console.log('Файл успешно загружен:', response.data);
+                                    } catch (err) {
+                                        // Обрабатываем ошибку
+                                        this.error = 'Ошибка при загрузке файла';
+                                        console.error(err);
+                                    } finally {
+                                        this.loading = false;
+                                        this.file = null; // Сбрасываем выбранный файл
+                                    }
+                                },
+                            };
+                        }
+                    </script>
+
                     Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
 
                     <ul class="text-sm text-red-500 mt-1">
@@ -207,7 +301,7 @@
 
             return {
                 formData: {
-                    photo: null,
+                    photo: '',
                     firstname: '',
                     lastname: '',
                     middlename: '',
@@ -216,7 +310,7 @@
                     city: '',
                     education: '',
                     phone: '',
-                    file: null,
+                    file: '',
                 },
                 errors: {},
                 successMessage: '',
@@ -228,7 +322,7 @@
 
                     // Сбор данных формы
                     const form = new FormData();
-                    form.append('photo', this.$refs.photo.files[0]);
+                    form.append('photo', this.formData.photo);
                     form.append('firstname', this.formData.firstname);
                     form.append('lastname', this.formData.lastname);
                     form.append('middlename', this.formData.middlename);
@@ -237,7 +331,9 @@
                     form.append('city', this.formData.city);
                     form.append('education', this.formData.education);
                     form.append('phone', this.formData.phone);
-                    form.append('file', this.$refs.file.files[0]);
+                    form.append('file', this.formData.file);
+
+                    console.log(this.formData);
 
                     const response = await fetch('{{ route('specialists.store') }}', {
                         method: 'POST',
@@ -263,4 +359,5 @@
             };
         }
     </script>
+
 @endsection

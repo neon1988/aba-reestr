@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\PreviewController;
@@ -24,6 +26,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('centers', CenterController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
     Route::resource('specialists', SpecialistController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
+
+    Route::resource('images', ImageController::class)->only(['store']);
+    Route::resource('files', FileController::class)->only(['store']);
 });
 
 Route::resource('centers', CenterController::class)->only(['index', 'show']);

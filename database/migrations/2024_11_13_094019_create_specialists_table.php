@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('firstname');
             $table->string('middlename')->nullable();
-            $table->string('country');
+            $table->string('country')->nullable();
             $table->string('region')->nullable();
-            $table->string('city');
-            $table->string('education');
-            $table->string('phone');
+            $table->string('city')->nullable();
+            $table->string('education')->nullable();
+            $table->string('phone')->nullable();
             $table->unsignedBigInteger('center_id')->nullable();  // Связь с центром (если работает в центре)
             $table->boolean('is_available')->default(true);  // Доступность специалиста
             $table->integer('photo_id')->nullable();
@@ -28,6 +28,11 @@ return new class extends Migration
             $table->smallInteger('status')->nullable();
             $table->dateTime('status_changed_at')->nullable();
             $table->integer('status_changed_user_id')->nullable();
+            $table->string('education')->nullable();
+            $table->string('center_name')->nullable();
+            $table->string('curator')->nullable();
+            $table->string('supervisor')->nullable();
+            $table->string('professional_interests')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

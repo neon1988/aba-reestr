@@ -10,7 +10,8 @@ return [
 
     'allowed_origins' => [
         env('APP_URL', 'http://localhost'),
-        '*.'.Url::fromString(env('APP_URL', 'http://localhost'))->getHost()
+        '*.'.Url::fromString(env('APP_URL', 'http://localhost'))->getHost(),
+        'http://192.168.99.2:*'
     ],
 
     'allowed_origins_patterns' => [], // Если нужно использовать шаблоны, оставьте здесь

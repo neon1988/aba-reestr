@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\StatusEnum;
+use App\Rules\FileExistsOnDiskRule;
 use App\Rules\InnRule;
 use App\Rules\KppRule;
 use App\Rules\PhoneRule;
@@ -30,11 +31,8 @@ class StoreCenterRequest extends FormRequest
     {
         return [
             'photo' => [
-                'required',
-                File::image()
-                    ->types(config('upload.support_images_formats'))
-                    ->min(config('upload.image_min_size'))
-                    ->max(config('upload.image_max_size'))
+                'string',
+                new FileExistsOnDiskRule()
             ],
             'name' => [
                 'required',
@@ -84,9 +82,8 @@ class StoreCenterRequest extends FormRequest
                 new PhoneRule(),
             ],
             'file' => [
-                'required',
-                File::default()->min(config('upload.document_min_size'))
-                    ->max(config('upload.document_max_size'))
+                'string',
+                new FileExistsOnDiskRule()
             ],
         ];
     }

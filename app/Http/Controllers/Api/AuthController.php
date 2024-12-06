@@ -20,7 +20,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $user = User::where('email', $request->email)->firstOrFail();
-        $user->load('photo');
+        $user->load(['photo', 'centers', 'specialists']);
 
         if ($user && Hash::check($request->password, $user->password)) {
             $token = $user->createToken('YourAppName')->plainTextToken;
@@ -40,7 +40,7 @@ class AuthController extends Controller
     public function user(Request $request): UserResource
     {
         $user = Auth::user();
-        $user->load('photo');
+        $user->load(['photo', 'centers.photo', 'specialists.photo']);
         return new UserResource($user);
     }
 

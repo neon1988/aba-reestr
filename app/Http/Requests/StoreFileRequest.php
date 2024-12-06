@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StoreFileRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreFileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,11 @@ class StoreFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'file' => [
+                'required',
+                File::default()->min(config('upload.document_min_size'))
+                    ->max(config('upload.document_max_size'))
+            ],
         ];
     }
 }

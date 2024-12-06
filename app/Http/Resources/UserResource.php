@@ -16,6 +16,8 @@ class UserResource extends JsonResource
     {
         $array = parent::toArray($request);
         $array['photo'] = new ImageResource($this->whenLoaded('photo'));
+        $array['specialists'] = SpecialistResource::collection($this->whenLoaded('specialists'));
+        $array['centers'] = CenterResource::collection($this->whenLoaded('centers'));
         return $array;
     }
 }
