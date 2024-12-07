@@ -20,6 +20,7 @@
             @method('put')
 
             <x-error-messages bag="updatePassword" />
+            <x-success-message />
 
             <div>
                 <x-input-label for="update_password_current_password" :value="__('Current Password')"/>

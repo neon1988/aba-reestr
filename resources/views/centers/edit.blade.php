@@ -6,21 +6,9 @@
         <div class="max-w-xl mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-lg">
             <h3 class="text-lg font-semibold text-gray-800 mb-8">Редактировать профиль центра</h3>
 
-            @if ($errors->any())
-                <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 mb-6 rounded-lg">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <x-error-messages />
 
-            @if (session('success'))
-                <div class="bg-green-50 border-l-4 border-green-400 text-green-700 p-4 mb-6 rounded-lg">
-                    <p>{{ session('success') }}</p>
-                </div>
-            @endif
+            <x-success-message />
 
             <form action="{{ route('centers.update', $center->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf

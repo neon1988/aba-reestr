@@ -15,15 +15,7 @@
 
             <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Регистрация АВА специалиста</h1>
 
-            @if ($errors->any())
-                <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 mb-4">
-                    <ul class="list-inside space-y-2">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <x-error-messages bag="updatePassword" />
 
             <form @submit.prevent="" action="{{ route('specialists.store') }}" method="POST"
                   enctype="multipart/form-data" class="space-y-4">

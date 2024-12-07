@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <div class="min-h-screen flex flex-col md:flex-row ">
+    <div class="flex flex-col md:flex-row ">
         <!-- Левый блок с навигацией -->
         <aside class="w-full md:w-5/12 bg-white rounded-l-lg shadow-lg p-6 mb-6 md:mb-0">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Меню</h2>

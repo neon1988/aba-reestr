@@ -37,7 +37,7 @@ class UpdateSpecialistRequest extends FormRequest
                 'string',
                 'max:50',
             ],
-            'firstname' => [
+            'name' => [
                 'required',
                 'string',
                 'max:50',

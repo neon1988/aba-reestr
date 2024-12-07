@@ -95,8 +95,8 @@ class Specialist extends Model
     /**
      * Полиморфная связь с пользователями.
      */
-    public function user(): morphOne
+    public function users(): morphToMany
     {
-        return $this->morphOne(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
+        return $this->morphToMany(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
     }
 }

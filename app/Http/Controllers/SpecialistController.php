@@ -12,6 +12,7 @@ use App\Models\Country;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -168,13 +169,17 @@ class SpecialistController extends Controller
 
     public function edit(Specialist $specialist)
     {
-        $user = $specialist->users()->first();
         return view('specialists.edit', compact('specialist'));
     }
 
     public function update(UpdateSpecialistRequest $request, Specialist $specialist)
     {
         $specialist->fill($request->validated());
+
+        $user = $specialist->users()->first();
+
+        if ($user instanceof User)
+            $user->fill($request->validated());
 
         // Обработка фото (если новое фото загружено)
         if ($request->hasFile('photo')) {
@@ -188,6 +193,12 @@ class SpecialistController extends Controller
             $photo->save();
 
             $specialist->photo_id = $photo->id;
+
+            if ($user instanceof User)
+            {
+                $user->photo_id = $photo->id;
+                $user->save();
+            }
         }
 
         $specialist->save();
