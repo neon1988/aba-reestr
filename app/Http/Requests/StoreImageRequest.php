@@ -23,7 +23,7 @@ class StoreImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => [
+            'file' => [
                 File::image()
                     ->types(config('upload.support_images_formats'))
                     ->min(config('upload.image_min_size'))

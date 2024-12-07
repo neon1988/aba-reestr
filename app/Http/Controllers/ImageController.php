@@ -30,7 +30,7 @@ class ImageController extends Controller
      */
     public function store(StoreImageRequest $request)
     {
-        $file = $request->file('photo');
+        $file = $request->file('file');
         // Вычисляем хэш файла
         $hash = hash_file('crc32', $file->getRealPath());
         $hashPart = substr($hash, 0, 2); // Первые два символа хэша
@@ -44,8 +44,21 @@ class ImageController extends Controller
         Storage::disk('public')
             ->putFileAs($directory, $file, $filename);
 
+        if (str_starts_with($file->getMimeType(), 'image/')) {
+            $isImage = True;
+        } else {
+            $isImage = False;
+        }
+
         return response()
-            ->json(['path' => $path, 'message' => 'Изображение загружено']);
+            ->json([
+                'path' => $path,
+                'url' => Storage::disk('public')->url($path),
+                'hash' => $hash,
+                'message' => 'Изображение загружено',
+                'isImage' => $isImage,
+                'mimeType' => $file->getMimeType()
+            ]);
     }
 
     /**

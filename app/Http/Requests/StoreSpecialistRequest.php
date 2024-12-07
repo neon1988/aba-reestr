@@ -70,8 +70,12 @@ class StoreSpecialistRequest extends FormRequest
                 'string',
                 new PhoneRule(),
             ],
-            'file' => [
-                'string',
+            'files' => [
+                'required',
+                new FileExistsOnDiskRule()
+            ],
+            'additional_courses' => [
+                'nullable',
                 new FileExistsOnDiskRule()
             ],
         ];

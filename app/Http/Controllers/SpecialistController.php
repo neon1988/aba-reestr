@@ -16,6 +16,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
 class SpecialistController extends Controller
@@ -36,8 +37,7 @@ class SpecialistController extends Controller
 
         $specialists->loadMissing('photo');
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return response()->json([
                 'view' => view('specialists.list', compact('specialists'))->render()
             ]);
@@ -73,11 +73,11 @@ class SpecialistController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->specialists()->first())
+/*        if ($user->specialists()->first())
             abort(403);
 
         if ($user->centers()->first())
-            abort(403);
+            abort(403);*/
 
         $specialist = Specialist::make($request->validated());
         $specialist->creator()->associate(Auth::user());
@@ -86,36 +86,59 @@ class SpecialistController extends Controller
 
         $user->specialists()->attach($specialist);
 
-        if ($request->hasFile('photo'))
-        {
+        foreach ($request->get('photo') as $photo) {
+
+            $disk = Storage::disk('public');
+
+            //dd($disk->getDriver()->readStream($photo));
+
+            $stream = $disk->getDriver()->readStream($photo);
+
             $photo = new Image;
-            $photo->openImage($request->file('photo')->getRealPath());
+            $photo->openImage($stream);
             $photo->storage = config('filesystems.default');
-            $photo->name = $request->file('photo')->getClientOriginalName();
+            $photo->name = Url::fromString($photo)->getBasename();
             $photo->save();
 
             $specialist->photo_id = $photo->id;
             $specialist->save();
         }
 
-        if ($request->hasFile('file'))
-        {
+        foreach ($request->get('files') as $uploadedFile) {
+
+            $disk = Storage::disk('public');
+            $stream = $disk->getDriver()->readStream($uploadedFile);
+
             $file = new File;
-            $file->name = $request->file('file')->getClientOriginalName();
-            $extension = Url::fromString($request->file('file')->getClientOriginalName())->getExtension();
+            $file->name = Url::fromString($uploadedFile)->getBasename();
+            $extension = Url::fromString($uploadedFile)->getExtension();
             $file->extension = $extension;
-            $file->open($request->file('file')->getRealPath());
+            $file->open($stream, $extension);
             $specialist->files()->save($file);
         }
 
-        if ($request->expectsJson())
+        if (is_array($request->get('additional_courses')))
         {
+            foreach ($request->get('additional_courses') as $uploadedFile) {
+
+                $disk = Storage::disk('public');
+                $stream = $disk->getDriver()->readStream($uploadedFile);
+
+                $file = new File;
+                $file->name = Url::fromString($uploadedFile)->getBasename();
+                $extension = Url::fromString($uploadedFile)->getExtension();
+                $file->extension = $extension;
+                $file->open($stream, $extension);
+                $specialist->files()->save($file);
+            }
+        }
+
+        if ($request->expectsJson()) {
             return [
                 'redirect_to' => route('specialists.show', compact('specialist')),
                 'specialist' => new SpecialistResource($specialist)
             ];
-        }
-        else
+        } else
             return redirect()->route('specialists.show', compact('specialist'))
                 ->with('success', 'Специалист успешно добавлен!');
     }
@@ -185,12 +208,9 @@ class SpecialistController extends Controller
         $specialist->refresh();
         $specialist->load(['photo']);
 
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             return new SpecialistResource($specialist);
-        }
-        else
-        {
+        } else {
             return redirect()
                 ->route('specialists.show', $specialist->id)
                 ->with('success', 'Профиль специалиста обновлен.');
@@ -202,12 +222,9 @@ class SpecialistController extends Controller
         $specialist->fill($request->validated());
         $specialist->save();
 
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             return new SpecialistResource($specialist);
-        }
-        else
-        {
+        } else {
             return redirect()
                 ->route('specialists.show', $specialist->id)
                 ->with('success', 'Профиль специалиста обновлен.');

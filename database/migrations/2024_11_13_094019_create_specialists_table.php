@@ -28,7 +28,6 @@ return new class extends Migration
             $table->smallInteger('status')->nullable();
             $table->dateTime('status_changed_at')->nullable();
             $table->integer('status_changed_user_id')->nullable();
-            $table->string('education')->nullable();
             $table->string('center_name')->nullable();
             $table->string('curator')->nullable();
             $table->string('supervisor')->nullable();

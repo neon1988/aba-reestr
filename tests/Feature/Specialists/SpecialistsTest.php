@@ -9,6 +9,8 @@ use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Imagick;
+use ImagickPixel;
 use Tests\TestCase;
 
 class SpecialistsTest extends TestCase
@@ -54,8 +56,29 @@ class SpecialistsTest extends TestCase
         unset($specialistArray['status']);
         unset($specialistArray['create_user_id']);
 
-        $specialistArray['photo'] = UploadedFile::fake()->image('test-image.jpg', 500, 500);
-        $specialistArray['file'] = UploadedFile::fake()->image('test-image2.jpg', 500, 500);
+        Storage::fake('public');
+
+        $filePath = 'fake/file.txt';
+
+        $imagick = new Imagick();
+        $imagick->newImage(500, 500, new ImagickPixel('red')); // 300x300 пикселей, красный фон
+        $imagick->addNoiseImage(Imagick::NOISE_GAUSSIAN);
+        $imagick->setImageFormat('jpeg');
+
+        Storage::disk('public')
+            ->put($filePath, $imagick->getImageBlob());
+
+        $specialistArray['photo'] = [
+            $filePath
+        ];
+
+        $specialistArray['files'] = [
+            $filePath
+        ];
+
+        $specialistArray['additional_courses'] = [
+            $filePath
+        ];
 
         // Отправляем POST-запрос с данными для создания специалиста
         $response = $this->actingAs($user)

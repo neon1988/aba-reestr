@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -29,7 +30,35 @@ class FileController extends Controller
      */
     public function store(StoreFileRequest $request)
     {
-        //
+        $file = $request->file('file');
+        // Вычисляем хэш файла
+        $hash = hash_file('crc32', $file->getRealPath());
+        $hashPart = substr($hash, 0, 2); // Первые два символа хэша
+
+        // Определяем путь для сохранения
+        $directory = "/temp/$hashPart/$hash";
+        $filename = fileNameFormat($file->getClientOriginalName());
+        $path = "$directory/$filename";
+
+        // Сохраняем файл на указанный диск
+        Storage::disk('public')
+            ->putFileAs($directory, $file, $filename);
+
+        if (str_starts_with($file->getMimeType(), 'image/')) {
+            $isImage = True;
+        } else {
+            $isImage = False;
+        }
+
+        return response()
+            ->json([
+                'path' => $path,
+                'url' => Storage::disk('public')->url($path),
+                'hash' => $hash,
+                'message' => 'Файл загружен',
+                'isImage' => $isImage,
+                'mimeType' => $file->getMimeType()
+            ]);
     }
 
     /**
