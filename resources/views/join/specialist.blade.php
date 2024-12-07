@@ -32,39 +32,46 @@
                 <div>
                     <label class="block text-gray-700">Фото</label>
 
-                    <x-upload-file
-                        parent_value_name="formData.photos"
-                        max_files="1"
-                        url="{{ route('images.store') }}">
-                    </x-upload-file>
+                    @if(isset($user->photo))
+                        <img src="{{ $user->photo->url }}" alt="Фото пользователя"
+                             class="w-32 h-32 rounded-full object-cover mb-2">
+                    @else
+                        <x-upload-file
+                            parent_value_name="formData.photos"
+                            max_files="1"
+                            url="{{ route('images.store') }}">
+                        </x-upload-file>
 
-                    Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+                        Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
 
-                    <ul class="text-sm text-red-500 mt-1">
-                        <template x-for="error in errors.photo">
-                            <li x-text="error"></li>
-                        </template>
-                    </ul>
+                        <ul class="text-sm text-red-500 mt-1">
+                            <template x-for="error in errors.photos">
+                                <li x-text="error"></li>
+                            </template>
+                        </ul>
+                    @endif
                 </div>
 
                 <!-- Имя -->
                 <div>
                     <label class="block text-gray-700">Имя *</label>
-                    <input name="firstname" type="text" x-model="formData.firstname"
+                    <input name="name" type="text" x-model="formData.name"
+                           x-init="formData.name = $el.value"
                            class="w-full border border-gray-300 rounded-md p-2
-                                      @error('firstname') border-red-500 @enderror"
-                           value="{{ old('firstname') }}">
+                                      @error('name') border-red-500 @enderror"
+                           value="{{ old('name', $user->name) }}">
 
-                    <p x-show="errors.firstname" x-text="errors.firstname" class="text-sm text-red-500 mt-1"></p>
+                    <p x-show="errors.name" x-text="errors.name" class="text-sm text-red-500 mt-1"></p>
                 </div>
 
                 <!-- Фамилия -->
                 <div>
                     <label class="block text-gray-700">Фамилия *</label>
                     <input name="lastname" type="text" x-model="formData.lastname"
+                           x-init="formData.lastname = $el.value"
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('lastname') border-red-500 @enderror"
-                           value="{{ old('lastname') }}">
+                           value="{{ old('lastname', $user->lastname) }}">
                     <ul class="text-sm text-red-500 mt-1">
                         <template x-for="error in errors.lastname">
                             <li x-text="error"></li>
@@ -76,9 +83,10 @@
                 <div>
                     <label class="block text-gray-700">Отчество</label>
                     <input name="middlename" type="text" x-model="formData.middlename"
+                           x-init="formData.middlename = $el.value"
                            class="w-full border border-gray-300 rounded-md p-2
                                       @error('middlename') border-red-500 @enderror"
-                           value="{{ old('middlename') }}">
+                           value="{{ old('middlename', $user->middlename) }}">
                     <ul class="text-sm text-red-500 mt-1">
                         <template x-for="error in errors.middlename">
                             <li x-text="error"></li>
@@ -141,12 +149,11 @@
                             class="w-full border border-gray-300 rounded-md p-2
                    @error('education') border-red-500 @enderror">
                         <option value="" disabled selected>Выберите уровень образования</option>
-                        <option value="Среднее">Среднее</option>
-                        <option value="Среднее специальное">Среднее специальное</option>
-                        <option value="Неполное высшее">Неполное высшее</option>
-                        <option value="Высшее">Высшее</option>
-                        <option value="Магистр">Магистр</option>
-                        <option value="Доктор наук">Доктор наук</option>
+                        @foreach(App\Enums\EducationEnum::getValues() as $value)
+                            <option value="{{ $value }}">
+                                {{ App\Enums\EducationEnum::getDescription($value) }}
+                            </option>
+                        @endforeach
                     </select>
                     <ul class="text-sm text-red-500 mt-1">
                         <template x-for="error in errors.education">
@@ -216,8 +223,8 @@
 
             return {
                 formData: {
-                    photos: '',
-                    firstname: '',
+                    photos: [],
+                    name: '',
                     lastname: '',
                     middlename: '',
                     country: '',
@@ -225,8 +232,8 @@
                     city: '',
                     education: '',
                     phone: '',
-                    files: '',
-                    additional_courses: ''
+                    files: [],
+                    additional_courses: []
                 },
                 errors: {},
                 successMessage: '',
@@ -245,7 +252,7 @@
                     this.formData.photos.forEach((file, index) => {
                         form.append('photo[]', file.path);
                     });
-                    form.append('firstname', this.formData.firstname);
+                    form.append('name', this.formData.name);
                     form.append('lastname', this.formData.lastname);
                     form.append('middlename', this.formData.middlename);
                     form.append('country', this.formData.country);

@@ -28,8 +28,8 @@
 
                 <!-- Имя специалиста -->
                 <div>
-                    <h2 class="text-2xl font-semibold text-gray-800">{{ $specialist->firstname }} {{ $specialist->lastname }}</h2>
-                    <p class="text-sm text-gray-600">{{ $specialist->middlename }}</p>
+                    <h2 class="text-2xl font-semibold text-gray-800">{{ $specialist->name }} {{ $user->lastname }}</h2>
+                    <p class="text-sm text-gray-600">{{ $user->middlename }}</p>
                 </div>
             </div>
 
@@ -52,12 +52,22 @@
                     </div>
                     <div class="flex flex-col sm:flex-row justify-between">
                         <span class="text-gray-500">Образование:</span>
-                        <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $specialist->education }}</span>
+                        <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">
+                            {{ App\Enums\EducationEnum::getDescription($specialist->education) }}
+                        </span>
                     </div>
+                    @if ($specialist->show_email)
+                        <div class="flex flex-col sm:flex-row justify-between">
+                            <span class="text-gray-500">Электронная почта:</span>
+                            <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $specialist->user->email }}</span>
+                        </div>
+                    @endif
+                    @if ($specialist->show_phone)
                     <div class="flex flex-col sm:flex-row justify-between">
                         <span class="text-gray-500">Телефон:</span>
                         <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $specialist->phone }}</span>
                     </div>
+                        @endif
                 </div>
             </div>
 

@@ -29,11 +29,7 @@ class StoreCenterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'photo' => [
-                'string',
-                new FileExistsOnDiskRule()
-            ],
+        $rules = [
             'name' => [
                 'required',
                 'string',
@@ -81,11 +77,21 @@ class StoreCenterRequest extends FormRequest
                 'string',
                 new PhoneRule(),
             ],
-            'file' => [
-                'string',
+            'files' => [
+                'required',
                 new FileExistsOnDiskRule()
             ],
         ];
+
+        // Условное правило для фото
+        if (!$this->user()->photo) { // Проверяем, есть ли у пользователя фото
+            $rules['photo'] = [
+                'required',
+                new FileExistsOnDiskRule()
+            ];
+        }
+
+        return $rules;
     }
 
     public function attributes(): array

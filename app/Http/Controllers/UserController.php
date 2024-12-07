@@ -71,6 +71,22 @@ class UserController extends Controller
 
         $user->fill($request->validated());
         $user->save();
+
+        if ($request->hasFile('photo'))
+        {
+            if ($user->photo instanceof Image)
+                $user->photo->delete();
+
+            $photo = new Image;
+            $photo->openImage($request->file('photo')->getRealPath());
+            $photo->storage = config('filesystems.default');
+            $photo->name = $request->file('photo')->getClientOriginalName();
+            $photo->save();
+
+            $user->photo_id = $photo->id;
+            $user->save();
+        }
+
         $user->load('photo');
 
         return response()
@@ -109,4 +125,6 @@ class UserController extends Controller
     {
         //
     }
+
+
 }

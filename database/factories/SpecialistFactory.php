@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\EducationEnum;
 use App\Enums\StatusEnum;
 use App\Models\Image;
 use App\Models\User;
@@ -20,17 +21,13 @@ class SpecialistFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
-            'firstname' => $this->faker->firstName,
             'middlename' => $this->faker->firstName,
             'country' => 'United Kingdom',
             'region' => $this->faker->state,
             'city' => $this->faker->city,
-            'education' => $this->faker->randomElement([
-                'Высшее педагогическое образование',
-                'Психологическое образование',
-                'Медицинское образование'
-            ]),
+            'education' => EducationEnum::getRandomValue(),
             'phone' => $this->faker->numerify('+###########'),
             'status' => StatusEnum::Accepted,
             'create_user_id' => User::factory(),

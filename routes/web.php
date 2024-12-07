@@ -9,6 +9,7 @@ use App\Http\Controllers\OtherController;
 use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WorksheetController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);
+
+    Route::get('specialists/{specialist}/location_and_work', [SpecialistController::class, 'showLocationAndWork'])->name('specialists.location_and_work');
+    Route::patch('specialists/{specialist}/location_and_work', [SpecialistController::class, 'updateLocationAndWork'])->name('specialists.location_and_work.update');
+
+    Route::get('/specialists/{specialist}/education-and-documents', [SpecialistController::class, 'educationAndDocuments'])->name('specialists.education_and_documents');
+    Route::get('/specialists/{specialist}/billing-and-payment-documents', [SpecialistController::class, 'billingAndPaymentDocuments'])->name('specialists.billing_and_payment_documents');
+    Route::get('/specialists/{specialist}/delete-profile', [SpecialistController::class, 'deleteProfile'])->name('specialists.delete_profile');
+
+    Route::get('/profile/password_change', [ProfileController::class, 'passwordChange'])->name('profile.password_change');
 });
 
 Route::resource('centers', CenterController::class)->only(['index', 'show']);

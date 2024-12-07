@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
 class CenterController extends Controller
@@ -80,21 +81,36 @@ class CenterController extends Controller
 
         $user->centers()->attach($center, ['roleable_type' => Center::class]);
 
-        $photo = new Image;
-        $photo->openImage($request->file('photo')->getRealPath());
-        $photo->storage = config('filesystems.default');
-        $photo->name = $request->file('photo')->getClientOriginalName();
-        $photo->save();
+        foreach ($request->get('photo') as $photo) {
 
-        $center->photo_id = $photo->id;
-        $center->save();
+            $disk = Storage::disk('public');
 
-        $file = new File;
-        $file->name = $request->file('file')->getClientOriginalName();
-        $extension = Url::fromString($request->file('file')->getClientOriginalName())->getExtension();
-        $file->extension = $extension;
-        $file->open($request->file('file')->getRealPath());
-        $center->files()->save($file);
+            //dd($disk->getDriver()->readStream($photo));
+
+            $stream = $disk->getDriver()->readStream($photo);
+
+            $photo = new Image;
+            $photo->openImage($stream);
+            $photo->storage = config('filesystems.default');
+            $photo->name = Url::fromString($photo)->getBasename();
+            $photo->save();
+
+            $user->photo_id = $photo->id;
+            $user->save();
+        }
+
+        foreach ($request->get('files') as $uploadedFile) {
+
+            $disk = Storage::disk('public');
+            $stream = $disk->getDriver()->readStream($uploadedFile);
+
+            $file = new File;
+            $file->name = Url::fromString($uploadedFile)->getBasename();
+            $extension = Url::fromString($uploadedFile)->getExtension();
+            $file->extension = $extension;
+            $file->open($stream, $extension);
+            $center->files()->save($file);
+        }
 
         if ($request->expectsJson())
         {

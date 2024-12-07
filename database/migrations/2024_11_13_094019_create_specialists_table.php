@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\EducationEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +14,13 @@ return new class extends Migration
     {
         Schema::create('specialists', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('lastname');
-            $table->string('firstname');
             $table->string('middlename')->nullable();
             $table->string('country')->nullable();
             $table->string('region')->nullable();
             $table->string('city')->nullable();
-            $table->string('education')->nullable();
+            $table->enum('education', EducationEnum::getValues());
             $table->string('phone')->nullable();
             $table->unsignedBigInteger('center_id')->nullable();  // Связь с центром (если работает в центре)
             $table->boolean('is_available')->default(true);  // Доступность специалиста
@@ -32,6 +33,8 @@ return new class extends Migration
             $table->string('curator')->nullable();
             $table->string('supervisor')->nullable();
             $table->string('professional_interests')->nullable();
+            $table->boolean('show_email')->default(false);
+            $table->boolean('show_phone')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

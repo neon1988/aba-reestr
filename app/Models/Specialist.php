@@ -6,6 +6,7 @@ use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
@@ -16,14 +17,20 @@ class Specialist extends Model
     use SoftDeletes, HasFactory, UserCreated, CheckedItems, Searchable;
 
     protected $fillable = [
+        'name',
         'lastname',
-        'firstname',
         'middlename',
         'country',
         'region',
         'city',
         'education',
-        'phone'
+        'phone',
+        'center_name',
+        'curator',
+        'supervisor',
+        'professional_interests',
+        'show_email',
+        'show_phone'
     ];
 
     public function toSearchableArray()
@@ -88,8 +95,8 @@ class Specialist extends Model
     /**
      * Полиморфная связь с пользователями.
      */
-    public function users(): MorphToMany
+    public function user(): morphOne
     {
-        return $this->morphToMany(User::class, 'roleable', 'roleables', 'roleable_id', 'user_id');
+        return $this->morphOne(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
     }
 }

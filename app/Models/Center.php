@@ -6,6 +6,7 @@ use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
@@ -86,8 +87,8 @@ class Center extends Model
     /**
      * Полиморфная связь с пользователями.
      */
-    public function users(): MorphToMany
+    public function user(): morphOne
     {
-        return $this->morphToMany(User::class, 'roleable', 'roleables', 'roleable_id', 'user_id');
+        return $this->morphOne(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
     }
 }

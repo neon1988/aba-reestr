@@ -20,10 +20,12 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post('/register', [
             'name' => 'Test User',
+            'lastname' => 'Lastname',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-        ]);
+            'accept_private_policy' => 'true',
+        ])->assertSessionHasNoErrors();
 
         $this->assertAuthenticated();
         $response->assertRedirect(route('join', absolute: false));

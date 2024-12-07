@@ -90,7 +90,7 @@
                                         Перейти в админку</a>
                                 @endif
                                 <a href="{{ route('profile.edit') }}"
-                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки аккаунта</a>
+                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки</a>
                                 <form method="POST" action="{{ route('logout') }}" class="block">
                                     @csrf
                                     <button type="submit"

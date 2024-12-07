@@ -7,6 +7,9 @@ use App\Models\User;
 use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Imagick;
+use ImagickPixel;
 use Tests\TestCase;
 
 class CentersTest extends TestCase
@@ -56,8 +59,25 @@ class CentersTest extends TestCase
         unset($centerArray['status']);
         unset($centerArray['create_user_id']);
 
-        $centerArray['photo'] = UploadedFile::fake()->image('test-image.jpg', 500, 500);
-        $centerArray['file'] = UploadedFile::fake()->image('test-image2.jpg', 500, 500);
+        Storage::fake('public');
+
+        $filePath = 'fake/file.txt';
+
+        $imagick = new Imagick();
+        $imagick->newImage(500, 500, new ImagickPixel('red')); // 300x300 пикселей, красный фон
+        $imagick->addNoiseImage(Imagick::NOISE_GAUSSIAN);
+        $imagick->setImageFormat('jpeg');
+
+        Storage::disk('public')
+            ->put($filePath, $imagick->getImageBlob());
+
+        $centerArray['photo'] = [
+            $filePath
+        ];
+
+        $centerArray['files'] = [
+            $filePath
+        ];
 
         // Отправляем POST-запрос для создания нового центра
         $response = $this->actingAs($user)
@@ -77,7 +97,7 @@ class CentersTest extends TestCase
 
         $this->assertTrue($center->isSentForReview());
 
-        $photo = $center->photo()->first();
+        $photo = $user->photo()->first();
         $this->assertNotNull($photo);
         $this->assertEquals('images', $photo->dirname);
 

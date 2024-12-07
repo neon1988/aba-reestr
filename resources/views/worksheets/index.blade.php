@@ -58,7 +58,7 @@
                              class="bg-white rounded-lg overflow-hidden shadow-lg w-full max-w-4xl">
                             <div class="relative">
                                 <!-- Видео -->
-                                <video x-ref="video" controls class="w-full" autoplay>
+                                <video x-ref="video" controls class="w-full">
                                     <source src="{{ \Illuminate\Support\Facades\Storage::url('IMG_1150.MP4') }}" type="video/mp4">
                                     Ваш браузер не поддерживает тег <code>video</code>.
                                 </video>

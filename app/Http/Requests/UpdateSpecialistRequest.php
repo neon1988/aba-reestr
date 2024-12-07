@@ -32,11 +32,34 @@ class UpdateSpecialistRequest extends FormRequest
                     ->min(config('upload.image_min_size'))
                     ->max(config('upload.image_max_size'))
             ],
+            'lastname' => [
+                'required',
+                'string',
+                'max:50',
+            ],
+            'firstname' => [
+                'required',
+                'string',
+                'max:50',
+            ],
+            'middlename' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
             'phone' => [
                 'required',
                 'string',
                 new PhoneRule(10, 15), // Используем кастомное правило Phone
             ],
+            'show_email' => [
+                'required',
+                'boolean'
+            ],
+            'show_phone' => [
+                'required',
+                'boolean'
+            ]
         ];
 
     }

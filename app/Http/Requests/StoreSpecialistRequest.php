@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\EducationEnum;
 use App\Rules\FileExistsOnDiskRule;
 use App\Rules\PhoneRule;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
 
@@ -24,17 +26,13 @@ class StoreSpecialistRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'photo' => [
-                'required',
-                new FileExistsOnDiskRule()
-            ],
-            'lastname' => [
+        $rules = [
+            'name' => [
                 'required',
                 'string',
                 'max:50',
             ],
-            'firstname' => [
+            'lastname' => [
                 'required',
                 'string',
                 'max:50',
@@ -62,8 +60,7 @@ class StoreSpecialistRequest extends FormRequest
             ],
             'education' => [
                 'required',
-                'string',
-                'max:255',
+                new EnumValue(EducationEnum::class, false)
             ],
             'phone' => [
                 'required',
@@ -80,6 +77,14 @@ class StoreSpecialistRequest extends FormRequest
             ],
         ];
 
+        // Условное правило для фото
+        if (!$this->user()->photo) { // Проверяем, есть ли у пользователя фото
+            $rules['photo'] = [
+                'required',
+                new FileExistsOnDiskRule()
+            ];
+        }
+        return $rules;
     }
 
     public function attributes(): array
@@ -95,9 +100,9 @@ class StoreSpecialistRequest extends FormRequest
             'lastname.string' => 'Фамилия должна быть строкой.',
             'lastname.max' => 'Фамилия не может превышать 50 символов.',
 
-            'firstname.required' => 'Имя является обязательным полем.',
-            'firstname.string' => 'Имя должно быть строкой.',
-            'firstname.max' => 'Имя не может превышать 50 символов.',
+            'name.required' => 'Имя является обязательным полем.',
+            'name.string' => 'Имя должно быть строкой.',
+            'name.max' => 'Имя не может превышать 50 символов.',
 
             'middlename.string' => 'Отчество должно быть строкой.',
             'middlename.max' => 'Отчество не может превышать 50 символов.',

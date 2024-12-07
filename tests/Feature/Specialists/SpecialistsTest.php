@@ -97,6 +97,9 @@ class SpecialistsTest extends TestCase
         // Проверяем, что в сессии есть сообщение об успешном добавлении
         $response->assertSessionHas('success', 'Специалист успешно добавлен!');
 
+        $photo = $user->photo()->first();
+        $this->assertNotNull($photo);
+
         $photo = $specialist->photo()->first();
         $this->assertNotNull($photo);
 

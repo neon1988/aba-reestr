@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\EducationEnum;
 use App\Enums\StatusEnum;
 use App\Models\Center;
 use App\Models\Specialist;
@@ -19,13 +20,10 @@ class SpecialistSeeder extends Seeder
         $user = User::factory()->create();
 
         Specialist::factory()->create([
-            'lastname' => 'Иванов',
-            'firstname' => 'Иван',
-            'middlename' => 'Иванович',
             'country' => 'Россия',
             'region' => 'Московская область',
             'city' => 'Москва',
-            'education' => 'Высшее педагогическое образование',
+            'education' => EducationEnum::getRandomValue(),
             'phone' => '+7 (999) 123-45-67',
             'status' => StatusEnum::Accepted,
             'create_user_id' => $user

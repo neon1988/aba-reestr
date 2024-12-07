@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
 use App\Http\Requests\StoreSpecialistRequest;
+use App\Http\Requests\UpdateSpecialistLocationAndWorkRequest;
 use App\Http\Requests\UpdateSpecialistPhotoRequest;
 use App\Http\Requests\UpdateSpecialistRequest;
 use App\Http\Resources\SpecialistResource;
+use App\Models\Country;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
@@ -73,34 +75,42 @@ class SpecialistController extends Controller
     {
         $user = Auth::user();
 
-/*        if ($user->specialists()->first())
+        if ($user->specialists()->first())
             abort(403);
 
         if ($user->centers()->first())
-            abort(403);*/
+            abort(403);
 
         $specialist = Specialist::make($request->validated());
         $specialist->creator()->associate(Auth::user());
-        $specialist->statusPrivate();
+        $specialist->status = StatusEnum::OnReview;
         $specialist->save();
 
         $user->specialists()->attach($specialist);
 
-        foreach ($request->get('photo') as $photo) {
+        if (count($request->get('photo')) > 0)
+        {
+            foreach ($request->get('photo') as $photo) {
 
-            $disk = Storage::disk('public');
+                $disk = Storage::disk('public');
 
-            //dd($disk->getDriver()->readStream($photo));
+                //dd($disk->getDriver()->readStream($photo));
 
-            $stream = $disk->getDriver()->readStream($photo);
+                $stream = $disk->getDriver()->readStream($photo);
 
-            $photo = new Image;
-            $photo->openImage($stream);
-            $photo->storage = config('filesystems.default');
-            $photo->name = Url::fromString($photo)->getBasename();
-            $photo->save();
+                $photo = new Image;
+                $photo->openImage($stream);
+                $photo->storage = config('filesystems.default');
+                $photo->name = Url::fromString($photo)->getBasename();
+                $photo->save();
 
-            $specialist->photo_id = $photo->id;
+                $specialist->photo_id = $photo->id;
+                $specialist->save();
+                $user->photo_id = $photo->id;
+                $user->save();
+            }
+        } elseif ($user->photo) {
+            $specialist->photo_id = $user->photo->id;
             $specialist->save();
         }
 
@@ -148,7 +158,7 @@ class SpecialistController extends Controller
      */
     public function show(Request $request, Specialist $specialist)
     {
-        $specialist->loadMissing('photo', 'files');
+        $specialist->loadMissing('files');
 
         if ($request->expectsJson())
             return new SpecialistResource($specialist);
@@ -158,6 +168,7 @@ class SpecialistController extends Controller
 
     public function edit(Specialist $specialist)
     {
+        $user = $specialist->users()->first();
         return view('specialists.edit', compact('specialist'));
     }
 
@@ -182,7 +193,7 @@ class SpecialistController extends Controller
         $specialist->save();
 
         return redirect()
-            ->route('specialists.show', $specialist->id)
+            ->route('specialists.edit', $specialist->id)
             ->with('success', 'Профиль специалиста обновлен.');
     }
 
@@ -217,6 +228,13 @@ class SpecialistController extends Controller
         }
     }
 
+    public function showLocationAndWork(Specialist $specialist)
+    {
+        $countries = Country::orderBy('name', 'asc')->get();
+
+        return view('specialists.location_and_work', compact('specialist', 'countries'));
+    }
+
     public function updateLocationAndWork(UpdateSpecialistLocationAndWorkRequest $request, Specialist $specialist)
     {
         $specialist->fill($request->validated());
@@ -226,7 +244,7 @@ class SpecialistController extends Controller
             return new SpecialistResource($specialist);
         } else {
             return redirect()
-                ->route('specialists.show', $specialist->id)
+                ->route('specialists.location_and_work', $specialist->id)
                 ->with('success', 'Профиль специалиста обновлен.');
         }
     }
@@ -279,5 +297,18 @@ class SpecialistController extends Controller
                 'specialist' => new SpecialistResource($specialist),
                 'message' => 'Специалист отклонен'
             ]);
+    }
+
+
+    // Метод для отображения образования и документов
+    public function educationAndDocuments(Specialist $specialist)
+    {
+        return view('specialists.education_and_documents', compact('specialist'));
+    }
+
+    // Метод для отображения счетов и документов оплаты
+    public function billingAndPaymentDocuments(Specialist $specialist)
+    {
+        return view('specialists.billing_and_payment_documents', compact('specialist'));
     }
 }

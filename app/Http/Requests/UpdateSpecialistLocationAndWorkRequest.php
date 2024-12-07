@@ -42,7 +42,22 @@ class UpdateSpecialistLocationAndWorkRequest extends FormRequest
                 'max:100',
             ],
             'center_name' => [
-                'required',
+                'nullable',
+                'string',
+                'max:200',
+            ],
+            'curator' => [
+                'nullable',
+                'string',
+                'max:200',
+            ],
+            'supervisor' => [
+                'nullable',
+                'string',
+                'max:200',
+            ],
+            'professional_interests' => [
+                'nullable',
                 'string',
                 'max:200',
             ],
