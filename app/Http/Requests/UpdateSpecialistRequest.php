@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\PhoneRule;
+use App\Rules\TelegramUsername;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
@@ -62,8 +63,7 @@ class UpdateSpecialistRequest extends FormRequest
             ],
             'telegram_profile' => [
                 'nullable',
-                'string',
-                'max:50',
+                new TelegramUsername()
             ],
         ];
 

@@ -78,19 +78,25 @@
                                  style="display: none">
                                 @if (Auth::user()->isSpecialist())
                                     <a href="{{ route('specialists.show', Auth::user()->getSpecialistId()) }}"
-                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль специалиста</a>
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница специалиста</a>
                                 @endif
                                 @if (Auth::user()->isCenter())
                                     <a href="{{ route('centers.show', Auth::user()->getCenterId()) }}"
-                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Профиль центра</a>
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница центра</a>
                                 @endif
                                 @if (Auth::user()->isStaff())
                                     <a href=""
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
                                         Перейти в админку</a>
                                 @endif
-                                <a href="{{ route('profile.edit') }}"
-                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки</a>
+                                    @if (Auth::user()->isSpecialist())
+                                        <a href="{{ route('specialists.edit', Auth::user()->getSpecialistId()) }}"
+                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки специалиста</a>
+                                    @else
+                                        <a href="{{ route('profile.edit') }}"
+                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки</a>
+                                        @endif
+
                                 <form method="POST" action="{{ route('logout') }}" class="block">
                                     @csrf
                                     <button type="submit"

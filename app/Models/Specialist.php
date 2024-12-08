@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -100,4 +101,13 @@ class Specialist extends Model
     {
         return $this->morphToMany(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
     }
+
+    protected function telegramProfile(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => '@'.trim($value, '@'),
+            set: fn (string $value) => trim($value, '@'),
+        );
+    }
+
 }

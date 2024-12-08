@@ -18,6 +18,7 @@
         </form>
 
         <x-error-messages />
+        <x-success-message />
 
         <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6"
               enctype="multipart/form-data">

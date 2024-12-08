@@ -89,7 +89,7 @@ class SpecialistController extends Controller
 
         $user->specialists()->attach($specialist);
 
-        if (count($request->get('photo')) > 0)
+        if (is_array($request->get('photo')) and count($request->get('photo')) > 0)
         {
             foreach ($request->get('photo') as $photo) {
 
@@ -110,7 +110,7 @@ class SpecialistController extends Controller
                 $user->photo_id = $photo->id;
                 $user->save();
             }
-        } elseif ($user->photo) {
+        } elseif ($user->photo instanceof Image) {
             $specialist->photo_id = $user->photo->id;
             $specialist->save();
         }

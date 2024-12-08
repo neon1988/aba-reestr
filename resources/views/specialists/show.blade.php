@@ -70,7 +70,14 @@
                         </div>
                     @endif
                     @if($specialist->telegram_profile)
-                        <p>Telegram: <a href="https://t.me/{{ $specialist->telegram_profile }}" target="_blank">{{ $specialist->telegram_profile }}</a></p>
+                        <div class="flex flex-col sm:flex-row justify-between">
+                            <span class="text-gray-500">Telegram: </span>
+                            <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">
+                            <a href="https://t.me/{{ $specialist->telegram_profile }}" target="_blank">
+                                {{ $specialist->telegram_profile }}
+                            </a>
+                            </span>
+                        </div>
                     @endif
                 </div>
             </div>

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Specialists;
 
+use App\Models\Image;
 use App\Models\Specialist;
 use App\Models\User;
 use App\Models\Country;
@@ -102,6 +103,80 @@ class SpecialistsTest extends TestCase
 
         $photo = $specialist->photo()->first();
         $this->assertNotNull($photo);
+
+        $file = $specialist->files()->first();
+        $this->assertNotNull($file);
+    }
+
+    /**
+     * Тестирование метода store
+     *
+     * @return void
+     */
+    public function testStoreMethodPhotoFromUser()
+    {
+        $this->seed(WorldSeeder::class);
+        Storage::fake(config('filesystems.default'));
+
+        $photo = Image::factory()->create();
+
+        $user = User::factory()
+            ->create();
+        $user->photo_id = $photo->id;
+        $user->save();
+        $user->refresh();
+
+        $lastname = uniqid();
+
+        $specialist = Specialist::factory()->make(['lastname' => $lastname]);
+        $specialistArray = $specialist->toArray();
+        unset($specialistArray['status']);
+        unset($specialistArray['create_user_id']);
+
+        Storage::fake('public');
+
+        $filePath = 'fake/file.txt';
+
+        $imagick = new Imagick();
+        $imagick->newImage(500, 500, new ImagickPixel('red')); // 300x300 пикселей, красный фон
+        $imagick->addNoiseImage(Imagick::NOISE_GAUSSIAN);
+        $imagick->setImageFormat('jpeg');
+
+        Storage::disk('public')
+            ->put($filePath, $imagick->getImageBlob());
+
+        $specialistArray['files'] = [
+            $filePath
+        ];
+
+        $specialistArray['additional_courses'] = [
+            $filePath
+        ];
+
+        // Отправляем POST-запрос с данными для создания специалиста
+        $response = $this->actingAs($user)
+            ->post(route('specialists.store'), $specialistArray)
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $specialist = $user->specialists()->first();
+
+        $this->assertNotNull($specialist);
+
+        // Проверяем, что после сохранения происходит редирект на страницу специалиста
+        $specialist = Specialist::where('lastname', $lastname)->first();
+        $response->assertRedirect(route('specialists.show', $specialist));
+
+        // Проверяем, что в сессии есть сообщение об успешном добавлении
+        $response->assertSessionHas('success', 'Специалист успешно добавлен!');
+
+        $photo = $user->photo()->first();
+        $this->assertNotNull($photo);
+
+        $photo = $specialist->photo()->first();
+        $this->assertNotNull($photo);
+
+        $this->assertEquals($user->photo()->first()->id, $specialist->photo()->first()->id);
 
         $file = $specialist->files()->first();
         $this->assertNotNull($file);
