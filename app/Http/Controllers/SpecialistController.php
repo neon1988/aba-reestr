@@ -314,7 +314,9 @@ class SpecialistController extends Controller
     // Метод для отображения образования и документов
     public function educationAndDocuments(Specialist $specialist)
     {
-        return view('specialists.education-and-documents', compact('specialist'));
+        $documents = $specialist->files()->get();
+
+        return view('specialists.education-and-documents', compact('specialist', 'documents'));
     }
 
     // Метод для отображения счетов и документов оплаты

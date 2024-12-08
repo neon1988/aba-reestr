@@ -21,7 +21,7 @@
             @foreach($specialist->invoices as $invoice)
                 <tr class="border-t hover:bg-gray-50">
                     <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                        <a href="{{ route('invoices.show', $invoice) }}" class="text-blue-600 hover:text-blue-800">
+                        <a href="{{ route('invoices.show', $invoice) }}" class="text-cyan-600 hover:text-cyan-800">
                             {{ $invoice->invoice_number }}
                         </a>
                     </td>

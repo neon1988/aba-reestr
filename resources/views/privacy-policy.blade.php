@@ -42,7 +42,7 @@
             </p>
 
             <p class="text-sm text-gray-600">
-                Если у вас есть вопросы, свяжитесь с нами по электронной почте: <a href="mailto:support@example.com" class="text-blue-500 hover:underline">support@example.com</a>.
+                Если у вас есть вопросы, свяжитесь с нами по электронной почте: <a href="mailto:support@example.com" class="text-cyan-500 hover:underline">support@example.com</a>.
             </p>
         </div>
     </div>

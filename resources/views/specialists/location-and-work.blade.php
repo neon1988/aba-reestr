@@ -20,8 +20,6 @@
                 <label class="block text-gray-700">Страна *</label>
                 <select name="country"
                         class="w-full border @error('country') border-red-500 @else border-gray-300 @enderror rounded-md p-2">
-                    <option value=""
-                            disabled {{ is_null(old('country', $specialist->country)) ? 'selected' : '' }}></option>
                     @foreach($countries as $country)
                         <option
                             value="{{ $country->name }}" {{ old('country', $specialist->country) == $country->name ? 'selected' : '' }}>
@@ -99,9 +97,7 @@
                 <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
                 @enderror
             </div>
-
         </div>
-
         <x-primary-button>Сохранить изменения</x-primary-button>
     </form>
 

@@ -20,7 +20,7 @@
                 <!-- Элемент списка -->
                 <li class="flex items-center p-4 hover:bg-gray-100">
                     <div class="flex-shrink-0">
-                        <div class="w-10 h-10 bg-blue-500 text-white rounded-full flex justify-center">
+                        <div class="w-10 h-10 bg-cyan-500 text-white rounded-full flex justify-center">
                             <img x-show="file.isImage" :src="file.url || 'https://via.placeholder.com/100'"
                                  alt="file" class="w-10 h-10 object-cover rounded-full">
                         </div>

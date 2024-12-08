@@ -9,23 +9,23 @@
             <ul class="space-y-3">
                 @if (Auth::user()->isSpecialist())
                     <li><a href="{{ route('specialists.edit', Auth::user()->getSpecialistId()) }}"
-                           class="text-blue-600 hover:text-blue-800">Профиль</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Профиль</a></li>
                     <li><a href="{{ route('specialists.location-and-work', Auth::user()->getSpecialistId()) }}"
-                           class="text-blue-600 hover:text-blue-800">Место проживания и работы</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Место проживания и работы</a></li>
                     <li><a href="{{ route('specialists.education-and-documents', Auth::user()->getSpecialistId()) }}"
-                           class="text-blue-600 hover:text-blue-800">Образование и документы</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Образование и документы</a></li>
                     <li><a href="{{ route('specialists.billing-and-payment-documents', Auth::user()->getSpecialistId()) }}"
-                           class="text-blue-600 hover:text-blue-800">Счета и документы оплаты</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Счета и документы оплаты</a></li>
                 @elseif (\Illuminate\Support\Facades\Auth::user()->isCenter())
 
                 @else
                     <li><a href="{{ route('profile.edit') }}"
-                           class="text-blue-600 hover:text-blue-800">Профиль</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Профиль</a></li>
                 @endif
                     <li><a href="{{ route('profile.password_change') }}"
-                           class="text-blue-600 hover:text-blue-800">Пароли и безопасность</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Пароли и безопасность</a></li>
                     <li><a href="{{ route('user.email.update') }}"
-                           class="text-blue-600 hover:text-blue-800">Почтовый ящик</a></li>
+                           class="text-cyan-600 hover:text-cyan-800">Почтовый ящик</a></li>
             </ul>
         </aside>
 

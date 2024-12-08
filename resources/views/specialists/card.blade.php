@@ -9,15 +9,15 @@
     <h3 class="text-2xl font-semibold text-gray-900 mb-2">{{ $specialist->firstname }} {{ $specialist->lastname }}</h3>
 
     <!-- Образование специалиста -->
-    <p class="text-gray-600 mb-4">Образование: {{ $specialist->education ?? 'Не указано' }}</p>
+    <p class="text-gray-600 mb-4">Образование: {{ App\Enums\EducationEnum::getDescription($specialist->education) }}</p>
 
     <!-- Адрес специалиста -->
     <p class="text-gray-600 mb-4">Адрес: г. {{ __($specialist->city) ?? 'Не указан' }},
         {{ $specialist->region ?? '' }}</p>
 
-    @isset($specialist->center)
+    @isset($specialist->center_name)
         <!-- Центр, в котором работает специалист -->
-        <p class="text-gray-600 mb-4">Центр: {{ $specialist->center->name ?? 'Не указано' }}</p>
+        <p class="text-gray-600 mb-4">Центр: {{ $specialist->center_name }}</p>
     @endif
 
     <!-- Наличие мест -->

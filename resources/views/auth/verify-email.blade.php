@@ -32,7 +32,7 @@
 
             <!-- Если почта неверна, добавляем ссылку на смену почты -->
             @if (!Auth::user()->hasVerifiedEmail())
-                <div class="mt-4 text-sm text-blue-600">
+                <div class="mt-4 text-sm text-cyan-600">
                     <a href="{{ route('user.email.change') }}">Изменить почту</a>
                 </div>
             @endif
