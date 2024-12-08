@@ -59,7 +59,12 @@ class UpdateSpecialistRequest extends FormRequest
             'show_phone' => [
                 'required',
                 'boolean'
-            ]
+            ],
+            'telegram_profile' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
         ];
 
     }

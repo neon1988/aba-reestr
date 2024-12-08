@@ -75,6 +75,11 @@ class StoreSpecialistRequest extends FormRequest
                 'nullable',
                 new FileExistsOnDiskRule()
             ],
+            'telegram_profile' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
         ];
 
         // Условное правило для фото

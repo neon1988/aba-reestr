@@ -30,7 +30,8 @@ class Specialist extends Model
         'supervisor',
         'professional_interests',
         'show_email',
-        'show_phone'
+        'show_phone',
+        'telegram_profile'
     ];
 
     public function toSearchableArray()

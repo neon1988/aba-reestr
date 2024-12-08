@@ -100,6 +100,19 @@
                 <span class="text-sm text-gray-600">Показать телефон всем пользователям</span>
             </div>
 
+            <!-- telegram profile -->
+            <div>
+                <label class="block text-gray-700">Профиль телеграмм</label>
+                <input name="telegram_profile" type="text"
+                       class="w-full border border-gray-300 rounded-md p-2
+                  @error('telegram_profile') border-red-500 @enderror"
+                       value="{{ old('telegram_profile', $specialist->telegram_profile ?? '') }}">
+
+                @error('telegram_profile')
+                <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
         </div>
         <x-primary-button>Сохранить изменения</x-primary-button>
     </form>

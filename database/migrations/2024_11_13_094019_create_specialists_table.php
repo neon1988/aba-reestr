@@ -35,6 +35,7 @@ return new class extends Migration
             $table->string('professional_interests')->nullable();
             $table->boolean('show_email')->default(false);
             $table->boolean('show_phone')->default(false);
+            $table->string('telegram_profile')->nullable(); 
             $table->timestamps();
             $table->softDeletes();
 
