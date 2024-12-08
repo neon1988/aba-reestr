@@ -243,7 +243,7 @@ class SpecialistController extends Controller
     {
         $countries = Country::orderBy('name', 'asc')->get();
 
-        return view('specialists.location_and_work', compact('specialist', 'countries'));
+        return view('specialists.location-and-work', compact('specialist', 'countries'));
     }
 
     public function updateLocationAndWork(UpdateSpecialistLocationAndWorkRequest $request, Specialist $specialist)
@@ -255,7 +255,7 @@ class SpecialistController extends Controller
             return new SpecialistResource($specialist);
         } else {
             return redirect()
-                ->route('specialists.location_and_work', $specialist->id)
+                ->route('specialists.location-and-work', $specialist->id)
                 ->with('success', 'Профиль специалиста обновлен.');
         }
     }
@@ -314,12 +314,12 @@ class SpecialistController extends Controller
     // Метод для отображения образования и документов
     public function educationAndDocuments(Specialist $specialist)
     {
-        return view('specialists.education_and_documents', compact('specialist'));
+        return view('specialists.education-and-documents', compact('specialist'));
     }
 
     // Метод для отображения счетов и документов оплаты
     public function billingAndPaymentDocuments(Specialist $specialist)
     {
-        return view('specialists.billing_and_payment_documents', compact('specialist'));
+        return view('specialists.billing-and-payment-documents', compact('specialist'));
     }
 }

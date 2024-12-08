@@ -32,8 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/specialists/{specialist}/reject', [SpecialistController::class, 'reject'])->name('specialists.reject');
 
     Route::post('/specialists/{specialist}/photos', [SpecialistController::class, 'updatePhoto'])->name('specialists.update_photo');
-    Route::patch('/specialists/{specialist}/location_and_work', [SpecialistController::class, 'updateLocationAndWork'])
-        ->name('specialists.location_and_work.update');
+    Route::patch('/specialists/{specialist}/location-and-work', [SpecialistController::class, 'updateLocationAndWork'])
+        ->name('specialists.location-and-work.update');
 
     Route::put('/centers/{center}/approve', [CenterController::class, 'approve'])->name('centers.approve');
     Route::put('/centers/{center}/reject', [CenterController::class, 'reject'])->name('centers.reject');

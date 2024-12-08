@@ -105,8 +105,8 @@ class Specialist extends Model
     protected function telegramProfile(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => '@'.trim($value, '@'),
-            set: fn (string $value) => trim($value, '@'),
+            get: fn (?string $value) => $value ? '@'.trim($value, '@') : null,
+            set: fn (?string $value) => $value ? trim($value, '@') : null,
         );
     }
 

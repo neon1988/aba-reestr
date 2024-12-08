@@ -10,11 +10,11 @@
                 @if (Auth::user()->isSpecialist())
                     <li><a href="{{ route('specialists.edit', Auth::user()->getSpecialistId()) }}"
                            class="text-blue-600 hover:text-blue-800">Профиль</a></li>
-                    <li><a href="{{ route('specialists.location_and_work', Auth::user()->getSpecialistId()) }}"
+                    <li><a href="{{ route('specialists.location-and-work', Auth::user()->getSpecialistId()) }}"
                            class="text-blue-600 hover:text-blue-800">Место проживания и работы</a></li>
-                    <li><a href="{{ route('specialists.education_and_documents', Auth::user()->getSpecialistId()) }}"
+                    <li><a href="{{ route('specialists.education-and-documents', Auth::user()->getSpecialistId()) }}"
                            class="text-blue-600 hover:text-blue-800">Образование и документы</a></li>
-                    <li><a href="{{ route('specialists.billing_and_payment_documents', Auth::user()->getSpecialistId()) }}"
+                    <li><a href="{{ route('specialists.billing-and-payment-documents', Auth::user()->getSpecialistId()) }}"
                            class="text-blue-600 hover:text-blue-800">Счета и документы оплаты</a></li>
                 @elseif (\Illuminate\Support\Facades\Auth::user()->isCenter())
 
@@ -24,6 +24,8 @@
                 @endif
                     <li><a href="{{ route('profile.password_change') }}"
                            class="text-blue-600 hover:text-blue-800">Пароли и безопасность</a></li>
+                    <li><a href="{{ route('user.email.update') }}"
+                           class="text-blue-600 hover:text-blue-800">Почтовый ящик</a></li>
             </ul>
         </aside>
 

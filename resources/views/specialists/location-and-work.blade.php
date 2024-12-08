@@ -8,7 +8,7 @@
 
     <x-success-message />
 
-    <form action="{{ route('specialists.location_and_work.update', $specialist->id) }}" method="POST"
+    <form action="{{ route('specialists.location-and-work.update', $specialist->id) }}" method="POST"
           enctype="multipart/form-data">
         @csrf
         @method('PATCH')

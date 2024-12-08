@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPhotoRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\CenterResource;
 use App\Http\Resources\UserResource;
 use App\Models\Image;
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -126,5 +130,32 @@ class UserController extends Controller
         //
     }
 
+    // Отображение формы для смены почты
+    public function showChangeEmailForm()
+    {
+        return view('users.change-email');
+    }
 
+    // Обработка смены почты
+    public function changeEmail(UpdateUserEmailRequest $request)
+    {
+        // Валидация данных
+        $validated = $request->validated();
+
+        // Проверка текущего пароля пользователя
+        if (!Hash::check($validated['current_password'], Auth::user()->password)) {
+            return back()->withErrors(['current_password' => 'Неверный текущий пароль']);
+        }
+
+        // Обновление почты пользователя
+        $user = Auth::user();
+        $user->email = $validated['email'];
+        $user->email_verified_at = null;
+        $user->save();
+
+        // Отправка уведомления с подтверждением нового email
+        $user->notify(new VerifyEmail());
+
+        return back()->with('success', 'Почта обновлена, проверьте почту для подтверждения.');
+    }
 }
