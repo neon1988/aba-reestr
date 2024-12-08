@@ -47,6 +47,7 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
+            'scheme' => env('MAIL_SCHEME', 'smtp'),
         ],
 
         'smtpbz' => [
@@ -58,6 +59,7 @@ return [
             'password' => env('MAIL_SMTPBZ_PASSWORD'),
             'timeout' => null,
             'auth_mode' => null,
+            'scheme' => env('MAIL_SCHEME', 'smtps'),
         ],
 
         'ses' => [
