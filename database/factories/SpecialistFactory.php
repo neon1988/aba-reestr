@@ -31,7 +31,8 @@ class SpecialistFactory extends Factory
             'phone' => $this->faker->numerify('+###########'),
             'status' => StatusEnum::Accepted,
             'create_user_id' => User::factory(),
-            'photo_id' => Image::factory()
+            'photo_id' => Image::factory(),
+            'center_name' => $this->faker->company
         ];
     }
 }
