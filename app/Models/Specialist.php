@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\EducationEnum;
 use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -38,6 +39,7 @@ class Specialist extends Model
     public function toSearchableArray()
     {
         $array = $this->toArray();
+        $array['education'] = EducationEnum::getDescription($array['education']);
 
         $keysToRemove = ['id', 'is_available', 'photo_id', 'create_user_id',
             'status_changed_at', 'status_changed_user_id', 'created_at', 'updated_at', 'deleted_at'];
