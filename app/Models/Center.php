@@ -26,10 +26,21 @@ class Center extends Model
         'legal_name',
         'inn',
         'kpp',
-        'country',
-        'region',
-        'city',
-        'phone'
+        'ogrn',
+        'legal_address',
+        'actual_address',
+        'profile_address_1',
+        'profile_address_2',
+        'profile_address_3',
+        'account_number',
+        'bik',
+        'director_position',
+        'director_name',
+        'acting_on_basis',
+        'profile_phone',
+        'profile_email',
+        'services',
+        'intensives',
     ];
 
     public function toSearchableArray()

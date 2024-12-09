@@ -43,7 +43,5 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('your_password'),
             ]);
         }
-
-        $this->call(WorldSeeder::class);
     }
 }

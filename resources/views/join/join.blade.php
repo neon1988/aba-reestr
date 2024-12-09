@@ -2,53 +2,77 @@
 
 @section('content')
 
-    <div class="mx-4">
+    <div class="max-w-6xl mx-auto p-6">
+        <header class="text-center mb-4">
+            <h1 class="text-4xl font-bold text-cyan-600">Регистрация и Преимущества</h1>
+            <p class="mt-2 text-lg text-gray-600">Станьте частью сети специалистов в области анализа поведения.</p>
+        </header>
 
-        <h1 class="text-xl sm:text-3xl font-bold text-center text-gray-800 mt-4 mb-8">Выберите тип регистрации</h1>
+        <section class="bg-white p-8 rounded-lg shadow-md mb-4">
+            <h2 class="text-3xl font-semibold text-cyan-600 mb-4">Как стать участником</h2>
+            <p class="text-lg text-gray-700 mb-6">Вы можете присоединиться или продлить свою регистрацию с 1 сентября каждого года. Плата и условия не пропорционируются.</p>
+            <p class="text-lg text-gray-700 mb-6">При регистрации вы становитесь частью сети ученых, преподавателей, практиков и студентов, с которыми можно делиться научными достижениями, образовательными стратегиями и профессиональными возможностями. Используйте ссылки ниже, чтобы узнать больше.</p>
 
-        <div class="max-w-4xl grid gap-4 md:grid-cols-2">
-            <!-- Блок для регистрации специалиста -->
-            <div class="bg-white shadow-md rounded-lg p-4 sm:p-6 hover:shadow-lg transition">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Регистрация как АВА-специалист</h2>
-                <p class="text-gray-600 mb-6">
-                    Зарегистрируйтесь как специалист, чтобы привлечь клиентов, демонстрировать свои навыки и опыт, а
-                    также
-                    предоставлять информацию о доступности для консультаций. Вы сможете добавлять фото, видео и отзывы с
-                    ваших занятий.
-                </p>
-                <ul class="text-gray-600 mb-4 space-y-2">
-                    <li>✓ Создавайте и управляйте своим профилем</li>
-                    <li>✓ Размещайте документы об образовании</li>
-                    <li>✓ Делитесь фото и видео с занятий</li>
-                    <li>✓ Укажите центр, в котором работаете (если применимо)</li>
-                </ul>
-                <a href="{{ route('join.specialist') }}"
-                   class="text-center inline-block bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600 transition">
-                    Зарегистрироваться как специалист
-                </a>
+            <div class="flex space-x-4">
+                <a href="{{ route('register') }}" class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700">Регистрация</a>
+                <a href="{{ route('login') }}" class="bg-gray-600 text-white py-2 px-6 rounded-full hover:bg-gray-700">Войти</a>
             </div>
+        </section>
 
-            <!-- Блок для регистрации центра -->
-            <div class="bg-white shadow-md rounded-lg p-4 sm:p-6 hover:shadow-lg transition">
-                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Регистрация как Центр</h2>
-                <p class="text-gray-600 mb-6">
-                    Зарегистрируйтесь как центр, чтобы управлять услугами, создавать расписание, добавлять интенсивы и
-                    привлекать специалистов для работы в вашей организации. Вы сможете представить преимущества центра и
-                    его
-                    уникальные предложения.
-                </p>
-                <ul class="text-gray-600 mb-4 space-y-2">
-                    <li>✓ Управляйте профилем вашего центра</li>
-                    <li>✓ Добавляйте услуги и интенсивные программы</li>
-                    <li>✓ Настраивайте расписание и окна доступности</li>
-                    <li>✓ Привлекайте АВА-специалистов</li>
-                </ul>
-                <a href="{{ route('join.center') }}"
-                   class="text-center inline-block bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
-                    Зарегистрироваться как центр
-                </a>
+        <section class="bg-white p-8 rounded-lg shadow-md mb-4">
+            <h2 class="text-3xl font-semibold text-cyan-600 mb-4">Сравнение Преимуществ</h2>
+            <table class="min-w-full table-auto text-center">
+                <thead>
+                <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left">Преимущество</th>
+                    <th class="px-4 py-2">Ассоциированный</th>
+                    <th class="px-4 py-2">Студент</th>
+                    <th class="px-4 py-2">Член Общества</th>
+                    <th class="px-4 py-2">Полный</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="px-4 py-2 text-left">Подача материалов на мероприятия</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                </tr>
+                <tr class="bg-gray-50">
+                    <td class="px-4 py-2 text-left">Доступ к каталогу участников</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                </tr>
+                <tr>
+                    <td class="px-4 py-2 text-left">Скидки на участие в мероприятиях</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                </tr>
+                <tr class="bg-gray-50">
+                    <td class="px-4 py-2 text-left">Доступ к видеоматериалам учебного центра</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                    <td class="px-4 py-2">✔</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="bg-white p-8 rounded-lg shadow-md">
+            <h2 class="text-3xl font-semibold text-cyan-600 mb-4">Типы Участников</h2>
+            <p class="text-lg text-gray-700 mb-6">При выборе типа участия обратите внимание, что полное участие и участие в качестве партнера имеют одинаковую стоимость, но предоставляют разные возможности. Полные участники могут выдвигать и голосовать за членов исполнительного совета.</p>
+            <div class="flex space-x-4">
+                <a href="#" class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700">Узнать больше</a>
+                <a href="#" class="bg-gray-600 text-white py-2 px-6 rounded-full hover:bg-gray-700">Посмотреть типы</a>
             </div>
-        </div>
+        </section>
+
     </div>
 
 @endsection

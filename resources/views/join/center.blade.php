@@ -23,13 +23,25 @@
 
                 <div>
                     <label class="block text-gray-700">Фото</label>
-                    <input name="photo" type="file" x-ref="photo" class="w-full border border-gray-300 rounded-md p-2">
-                    Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
-                    <ul class="text-sm text-red-500 mt-1">
-                        <template x-for="error in errors.photo">
-                            <li x-text="error"></li>
-                        </template>
-                    </ul>
+
+                    @if(isset($center->photo))
+                        <img src="{{ $center->photo->url }}" alt="Фото пользователя"
+                             class="w-32 h-32 rounded-full object-cover mb-2">
+                    @else
+                        <x-upload-file
+                            parent_value_name="formData.photos"
+                            max_files="1"
+                            url="{{ route('images.store') }}">
+                        </x-upload-file>
+
+                        Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+
+                        <ul class="text-sm text-red-500 mt-1">
+                            <template x-for="error in errors.photos">
+                                <li x-text="error"></li>
+                            </template>
+                        </ul>
+                    @endif
                 </div>
 
                 <!-- Название фактическое -->
@@ -71,48 +83,118 @@
                     </ul>
                 </div>
 
-                <!-- Страна -->
+                <!-- КПП -->
                 <div>
-                    <label class="block text-gray-700">Страна *</label>
-                    <select name="country" x-model="formData.country"
-                            class="w-full border @error('country') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
-                    >
-                        <option value="" disabled></option>
-                        @foreach($countries as $country)
-                            <option
-                                value="{{ $country->name }}" {{ old('country') == $country->name ? 'selected' : '' }}>
-                                {{ __($country->name) }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label class="block text-gray-700">КПП</label>
+                    <input name="kpp" type="text" x-model="formData.kpp"
+                           class="w-full border @error('kpp') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('kpp') }}">
                     <ul class="text-sm text-red-500 mt-1">
-                        <template x-for="error in errors.country">
+                        <template x-for="error in errors.kpp">
                             <li x-text="error"></li>
                         </template>
                     </ul>
                 </div>
 
-                <!-- Регион -->
+                <!-- ОГРН -->
                 <div>
-                    <label class="block text-gray-700">Регион</label>
-                    <input name="region" type="text" x-model="formData.region"
-                           class="w-full border @error('region') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
-                           value="{{ old('region') }}">
+                    <label class="block text-gray-700">ОГРН *</label>
+                    <input name="ogrn" type="text" x-model="formData.ogrn"
+                           class="w-full border @error('ogrn') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('ogrn') }}">
                     <ul class="text-sm text-red-500 mt-1">
-                        <template x-for="error in errors.region">
+                        <template x-for="error in errors.ogrn">
                             <li x-text="error"></li>
                         </template>
                     </ul>
                 </div>
 
-                <!-- Город -->
+                <!-- Юридический адрес -->
                 <div>
-                    <label class="block text-gray-700">Город *</label>
-                    <input name="city" type="text" x-model="formData.city"
-                           class="w-full border @error('city') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
-                           value="{{ old('city') }}">
+                    <label class="block text-gray-700">Юридический адрес *</label>
+                    <input name="legal_address" type="text" x-model="formData.legal_address"
+                           class="w-full border @error('legal_address') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('legal_address') }}">
                     <ul class="text-sm text-red-500 mt-1">
-                        <template x-for="error in errors.city">
+                        <template x-for="error in errors.legal_address">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- Фактический адрес -->
+                <div>
+                    <label class="block text-gray-700">Фактический адрес 1 *</label>
+                    <input name="actual_address" type="text" x-model="formData.actual_address"
+                           class="w-full border @error('actual_address') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('actual_address') }}">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.actual_address">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- Расчетный счет -->
+                <div>
+                    <label class="block text-gray-700">Расчетный счет *</label>
+                    <input name="account_number" type="text" x-model="formData.account_number"
+                           class="w-full border @error('account_number') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('account_number') }}">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.account_number">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- БИК -->
+                <div>
+                    <label class="block text-gray-700">БИК *</label>
+                    <input name="bik" type="text" x-model="formData.bik"
+                           class="w-full border @error('bik') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('bik') }}">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.bik">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- Должность руководителя -->
+                <div>
+                    <label class="block text-gray-700">Должность руководителя *</label>
+                    <input name="director_position" type="text" x-model="formData.director_position"
+                           class="w-full border @error('director_position') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('director_position') }}">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.director_position">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- ФИО руководителя -->
+                <div>
+                    <label class="block text-gray-700">ФИО руководителя *</label>
+                    <input name="director_name" type="text" x-model="formData.director_name"
+                           class="w-full border @error('director_name') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('director_name') }}">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.director_name">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- Действует на основании -->
+                <div>
+                    <label class="block text-gray-700">Действует на основании *</label>
+                    <input name="acting_on_basis" type="text" x-model="formData.acting_on_basis"
+                           class="w-full border @error('acting_on_basis') border-red-500 @else border-gray-300 @enderror rounded-md p-2"
+                           value="{{ old('acting_on_basis') }}">
+                    <ul class="text-sm text-red-500 mt-1">
+                        <template x-for="error in errors.acting_on_basis">
                             <li x-text="error"></li>
                         </template>
                     </ul>
@@ -131,16 +213,20 @@
                     </ul>
                 </div>
 
-                <!-- Документы о регистрации юр. лица -->
+                <!-- Документы  -->
                 <div>
-                    <label class="block text-gray-700">Документы о регистрации юр. лица</label>
-                    <input name="file" type="file" x-ref="file" class="w-full border border-gray-300 rounded-md p-2">
-                    Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                    <label class="block text-gray-700">Документы *</label>
+                    <x-upload-file
+                        parent_value_name="formData.files"
+                        max_files="5"
+                        url="{{ route('files.store') }}">
+                    </x-upload-file>
                     <ul class="text-sm text-red-500 mt-1">
-                        <template x-for="error in errors.file">
+                        <template x-for="error in errors.files">
                             <li x-text="error"></li>
                         </template>
                     </ul>
+                    Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
                 </div>
 
                 <x-primary-button>Отправить заявку</x-primary-button>
@@ -156,7 +242,7 @@
 
             return {
                 formData: {
-                    photo: null,
+                    photos: [],
                     name: '',
                     legal_name: '',
                     inn: '',
@@ -164,7 +250,7 @@
                     region: '',
                     city: '',
                     phone: '',
-                    file: null,
+                    files: [],
                 },
                 errors: {},
                 successMessage: '',

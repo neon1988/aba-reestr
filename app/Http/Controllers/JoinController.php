@@ -15,17 +15,23 @@ class JoinController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->isSpecialist())
-            return redirect()->route('specialists.show', Auth::user()->getSpecialistId());
+        if (Auth::check())
+        {
+            if ($user->isSpecialist())
+                return redirect()->route('specialists.show', Auth::user()->getSpecialistId());
 
-        if ($user->isCenter())
-            return redirect()->route('centers.show', Auth::user()->getCenterId());
+            if ($user->isCenter())
+                return redirect()->route('centers.show', Auth::user()->getCenterId());
+        }
 
         return view('join.join');
     }
 
     public function specialist(Request $request)
     {
+        if (Auth::user()->isSpecialist())
+            return redirect()->route('specialists.show', Auth::user()->getSpecialistId());
+
         $countries = Country::orderBy('name', 'asc')->get();
         $user = Auth::user();
 
@@ -34,6 +40,8 @@ class JoinController extends Controller
 
     public function center(Request $request): View
     {
+        return redirect()->route('home');
+
         $countries = Country::orderBy('name', 'asc')->get();
         $user = Auth::user();
 

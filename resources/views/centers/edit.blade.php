@@ -19,7 +19,7 @@
                         <h3 class="text-lg font-medium text-gray-700">Фото</h3>
                         <div class="mt-2">
                             @isset($center->photo)
-                                <img src="{{ $center->photo->url }}" alt="Фото специалиста"
+                                <img src="{{ $center->photo->url }}" alt="Фото центра"
                                      class="w-32 h-32 rounded-full object-cover mb-2">
                             @endisset
                             <input type="file" name="photo" accept="image/*" class="mt-2 block w-full text-sm">
@@ -28,10 +28,38 @@
                     </div>
 
                     <div>
-                        <x-input-label for="phone" value="Телефон"/>
-                        <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $center->phone)"
-                                      required autocomplete="phone"/>
-                        <x-input-error class="mt-2" :messages="$errors->get('phone')"/>
+                        <x-input-label for="profile_phone" value="Телефон для отображения в профиле"/>
+                        <x-text-input id="profile_phone" name="profile_phone" type="text" class="mt-1 block w-full" :value="old('profile_phone', $center->profile_phone)"
+                                      required autocomplete="profile_phone"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('profile_phone')"/>
+                    </div>
+
+                    <div>
+                        <x-input-label for="profile_email" value="Электронная почта для профиля"/>
+                        <x-text-input id="profile_email" name="profile_email" type="email" class="mt-1 block w-full" :value="old('profile_email', $center->profile_email)"
+                                      required autocomplete="email"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('profile_email')"/>
+                    </div>
+
+                    <div>
+                        <x-input-label for="actual_address_1" value="Фактический адрес 1"/>
+                        <x-text-input id="actual_address_1" name="actual_address_1" type="text" class="mt-1 block w-full" :value="old('actual_address_1', $center->actual_address_1)"
+                                      required autocomplete="address-line1"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('actual_address_1')"/>
+                    </div>
+
+                    <div>
+                        <x-input-label for="actual_address_2" value="Фактический адрес 2"/>
+                        <x-text-input id="actual_address_2" name="actual_address_2" type="text" class="mt-1 block w-full" :value="old('actual_address_2', $center->actual_address_2)"
+                                      autocomplete="address-line2"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('actual_address_2')"/>
+                    </div>
+
+                    <div>
+                        <x-input-label for="actual_address_3" value="Фактический адрес 3"/>
+                        <x-text-input id="actual_address_3" name="actual_address_3" type="text" class="mt-1 block w-full" :value="old('actual_address_3', $center->actual_address_3)"
+                                      autocomplete="address-line3"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('actual_address_3')"/>
                     </div>
 
                 </div>

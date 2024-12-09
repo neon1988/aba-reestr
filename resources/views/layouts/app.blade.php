@@ -56,11 +56,12 @@
             <div class="flex bg-cyan-600">
 
                 @if (Route::has('login'))
+                    @if (!Auth::check() or !Auth::user()->hasSpecialistOrCenter())
+                        <a href="{{ route('join') }}"
+                           class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
+                    @endif
+
                     @auth
-                        @if (!Auth::user()->hasSpecialistOrCenter())
-                            <a href="{{ route('join') }}"
-                               class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
-                        @endif
                         <!-- Меню пользователя -->
                         <div class="relative" x-data="{ open: false }">
                             <button id="userMenuButton" x-on:click="open = ! open"

@@ -18,10 +18,11 @@ Route::get('/', [OtherController::class, 'home'])->name('home');
 
 //Route::get('/board', [OtherController::class, 'centers'])->name('board.index');
 
+Route::get('/join', [JoinController::class, 'join'])->name('join');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/specialists/on_check', [SpecialistController::class, 'on_check'])->name('specialists.on_check');
 
-    Route::get('/join', [JoinController::class, 'join'])->name('join');
     Route::get('/join/specialist', [JoinController::class, 'specialist'])->name('join.specialist');
     Route::get('/join/center', [JoinController::class, 'center'])->name('join.center');
 
@@ -44,6 +45,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('centers/{center}/details/edit', [CenterController::class, 'editDetails'])->name('centers.details.edit');
+    Route::patch('centers/{center}/details', [CenterController::class, 'updateDetails'])->name('centers.details.update');
 });
 
 Route::middleware('auth')->group(function () {

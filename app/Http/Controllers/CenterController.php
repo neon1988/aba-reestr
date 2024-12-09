@@ -167,6 +167,22 @@ class CenterController extends Controller
             ->with('success', 'Профиль центра обновлен.');
     }
 
+    public function editDetails(Center $center)
+    {
+        return view('centers.edit', compact('center'));
+    }
+
+    public function updateDetails(UpdateCenterRequest $request, Center $center)
+    {
+        $center->fill($request->validated());
+
+        $center->save();
+
+        return redirect()
+            ->route('centers.details.edit', $center->id)
+            ->with('success', 'Профиль центра обновлен.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

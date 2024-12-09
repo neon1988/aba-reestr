@@ -40,6 +40,11 @@ class StoreCenterRequest extends FormRequest
                 'string',
                 'max:255',
             ],
+            'phone' => [
+                'required',
+                'string',
+                new PhoneRule(),
+            ],
             'inn' => [
                 'required',
                 'string',
@@ -56,26 +61,71 @@ class StoreCenterRequest extends FormRequest
                     ->whereNull('deleted_at')
                     ->whereIn('status', [StatusEnum::Accepted, StatusEnum::OnReview])
             ],
-            'country' => [
+            'ogrn' => [
                 'required',
                 'string',
-                'max:100',
-                'exists:App\Models\Country,name',
+                'size:13', // ОГРН состоит из 13 символов
             ],
-            'region' => [
+            'legal_address' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'actual_address' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'profile_address_1' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'profile_address_2' => [
                 'nullable',
                 'string',
-                'max:100',
+                'max:255',
             ],
-            'city' => [
+            'profile_address_3' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'account_number' => [
+                'required',
+                'string',
+                'regex:/^\d{20}$/', // Расчетный счет состоит из 20 цифр
+            ],
+            'bik' => [
+                'required',
+                'string',
+                'regex:/^\d{9}$/', // БИК состоит из 9 цифр
+            ],
+            'director_position' => [
                 'required',
                 'string',
                 'max:100',
             ],
-            'phone' => [
+            'director_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'acting_on_basis' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'profile_phone' => [
                 'required',
                 'string',
                 new PhoneRule(),
+            ],
+            'profile_email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
             ],
             'files' => [
                 'required',
