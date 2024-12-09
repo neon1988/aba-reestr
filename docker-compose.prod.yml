@@ -24,7 +24,7 @@ services:
     stop_signal: SIGTERM # Set this for graceful shutdown if you're using fpm-apache or fpm-nginx
     healthcheck:
       # This is our native healthcheck script for Horizon
-      test: ["CMD", "healthcheck-horizon"]
+      test: ["CMD", "/usr/local/bin/healthcheck-horizon"]
       start_period: 10s
     depends_on:
       - app

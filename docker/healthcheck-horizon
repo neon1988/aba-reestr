@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if php /var/www/html/artisan horizon:status | grep -q "Horizon is running"; then
+  exit 0
+else
+  exit 1
+fi

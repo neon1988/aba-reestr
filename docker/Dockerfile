@@ -27,6 +27,9 @@ COPY ./docker/php.ini /lib/php.ini
 COPY ./docker/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/php.ini /usr/local/etc/php/conf.d/php.ini
 
+COPY ./docker/healthcheck-horizon /usr/local/bin/healthcheck-horizon
+RUN chmod +x /usr/local/bin/healthcheck-horizon
+
 # Настройка рабочего каталога
 WORKDIR /var/www/html
 
