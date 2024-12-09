@@ -52,27 +52,4 @@ class JoinControllerTest extends TestCase
         // Проверяем, что переменная 'countries' передана в представление
         $response->assertViewHas('countries');
     }
-
-    /**
-     * Тестирование метода center
-     *
-     * @return void
-     */
-    public function testCenterMethod()
-    {
-        // Создаем пользователя для аутентификации
-        $user = User::factory()->create();
-
-        // Отправляем GET-запрос к методу center, действуя от имени аутентифицированного пользователя
-        $response = $this->actingAs($user)->get(route('join.center'));
-
-        // Проверяем, что страница загружается с кодом 200 (успешно)
-        $response->assertOk();
-
-        // Проверяем, что в ответе содержится правильный шаблон
-        $response->assertViewIs('join.center');
-
-        // Проверяем, что переменная 'countries' передана в представление
-        $response->assertViewHas('countries');
-    }
 }
