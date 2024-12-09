@@ -50,6 +50,12 @@
                         <span class="text-gray-500">Город:</span>
                         <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ __($specialist->city) }}</span>
                     </div>
+                    @isset($specialist->center_name)
+                        <div class="flex flex-col sm:flex-row justify-between">
+                            <span class="text-gray-500">Центр:</span>
+                            <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ $specialist->center_name }}</span>
+                        </div>
+                    @endif
                     <div class="flex flex-col sm:flex-row justify-between">
                         <span class="text-gray-500">Образование:</span>
                         <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">
