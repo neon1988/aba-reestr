@@ -16,6 +16,7 @@ services:
       - memcached
       - meilisearch
       - redis
+    restart: unless-stopped
     networks:
       - app-network
   horizon:
@@ -28,7 +29,9 @@ services:
       start_period: 10s
     depends_on:
       - app
+      - pgsql
       - redis
+    restart: unless-stopped
     networks:
       - app-network
   pgsql:
@@ -53,6 +56,7 @@ services:
     image: 'memcached:alpine'
     expose:
       - "11211"
+    restart: unless-stopped
     networks:
       - app-network
   meilisearch:
@@ -72,6 +76,7 @@ services:
       - "6379"
     volumes:
       - redis-data:/data
+    restart: unless-stopped
     networks:
       - app-network
 networks:
