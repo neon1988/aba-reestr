@@ -19,7 +19,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Карточка конференции -->
                 <div class="bg-white shadow rounded-lg p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Международная конференция по ABA-терапии</h3>
+                    <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Работа с родителями" class="w-full h-40 object-cover rounded-lg">
+
+                    <h3 class="text-xl font-semibold text-gray-800 mt-4">Международная конференция по ABA-терапии</h3>
                     <p class="text-gray-600 mt-2">Дата: 20 декабря 2024 года</p>
                     <p class="text-gray-600">Время: 10:00 - 18:00 (МСК)</p>
                     <p class="text-gray-600 mt-4">
@@ -31,7 +33,9 @@
                 </div>
                 <!-- Другая карточка конференции -->
                 <div class="bg-white shadow rounded-lg p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Практическая конференция для специалистов</h3>
+                    <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Работа с родителями" class="w-full h-40 object-cover rounded-lg">
+
+                    <h3 class="text-xl font-semibold text-gray-800 mt-4">Практическая конференция для специалистов</h3>
                     <p class="text-gray-600 mt-2">Дата: 25 декабря 2024 года</p>
                     <p class="text-gray-600">Время: 11:00 - 17:00 (МСК)</p>
                     <p class="text-gray-600 mt-4">

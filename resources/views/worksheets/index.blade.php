@@ -19,7 +19,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Карточка PDF -->
                 <div class="bg-white shadow rounded-lg p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">День рождения социальная история (PDF)</h3>
+                    <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Работа с родителями" class="w-full h-40 object-cover rounded-lg">
+
+                    <h3 class="text-xl font-semibold text-gray-800 mt-4">День рождения социальная история (PDF)</h3>
                     <p class="text-gray-600 mt-2">Автор: Иван Иванов</p>
                     <p class="text-gray-600 mt-4">
                         Подробное руководство по основным принципам и техникам ABA-терапии. Подходит для начинающих специалистов.
@@ -40,7 +42,9 @@
                      class="relative">
                     <!-- Карточка видео -->
                     <div class="bg-white shadow rounded-lg p-6">
-                        <h3 class="text-xl font-semibold text-gray-800">Введение в ABA-терапию (Видео)</h3>
+                        <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Работа с родителями" class="w-full h-40 object-cover rounded-lg">
+
+                        <h3 class="text-xl font-semibold text-gray-800 mt-4">Введение в ABA-терапию (Видео)</h3>
                         <p class="text-gray-600 mt-2">Автор: Анастасия Панченко</p>
                         <p class="text-gray-600 mt-2">Длительность: 56 минут</p>
                         <p class="text-gray-600 mt-4">
@@ -81,7 +85,9 @@
 
                 <!-- Другая карточка PDF -->
                 <div class="bg-white shadow rounded-lg p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Работа с родителями (PDF)</h3>
+                    <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Работа с родителями" class="w-full h-40 object-cover rounded-lg">
+
+                    <h3 class="text-xl font-semibold text-gray-800 mt-4">Работа с родителями (PDF)</h3>
                     <p class="text-gray-600 mt-2">Автор: Анна Смирнова</p>
                     <p class="text-gray-600 mt-4">
                         Практическое руководство по взаимодействию с родителями в процессе ABA-терапии.
