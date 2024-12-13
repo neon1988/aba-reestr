@@ -51,6 +51,16 @@ class Specialist extends Model
     }
 
     /**
+     * Псевдоатрибут для получения полного ФИО.
+     */
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => trim($attributes['name'] . ' ' . $attributes['last_name'] . ' ' . $attributes['middle_name']),
+        );
+    }
+
+    /**
      * Связь "один ко многим (обратная)" с моделью Center
      */
     public function center()

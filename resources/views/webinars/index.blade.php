@@ -25,8 +25,8 @@
                     <p class="text-gray-600 mt-4">
                         Узнайте о базовых принципах прикладного анализа поведения и его использовании в повседневной практике.
                     </p>
-                    <a href="#" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
-                        Записаться
+                    <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
+                        Оформить подписку
                     </a>
                 </div>
                 <!-- Другая карточка вебинара -->
@@ -37,8 +37,8 @@
                     <p class="text-gray-600 mt-4">
                         Подробно о том, как включить родителей в процесс терапии и наладить эффективное сотрудничество.
                     </p>
-                    <a href="#" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
-                        Записаться
+                    <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
+                        Оформить подписку
                     </a>
                 </div>
             </div>

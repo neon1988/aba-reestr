@@ -42,12 +42,15 @@
                 <a href="{{ route('centers.index') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Центры ABA</a>
+                <a href="{{ route('bulletins.index') }}"
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                    Доска объявлений</a>
                 <a href="{{ route('webinars.index') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Вебинары</a>
                 <a href="{{ route('worksheets.index') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
-                    Пособия</a>
+                    Библиотека</a>
                 <a href="{{ route('conferences.index') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Мероприятия</a>
@@ -114,8 +117,6 @@
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Войти</a>
                     @endauth
                 @endif
-                <a href="{{ route('contacts') }}"
-                   class="hidden sm:flex text-white font-semibold py-2 px-3 h-full items-center justify-center">Контакты</a>
             </div>
         </div>
     </div>
@@ -148,6 +149,12 @@
                 </a>
             </li>
             <li>
+                <a href=""
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Доска объявлений</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('webinars.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <span class="flex-1 ms-3 whitespace-nowrap">Вебинары</span>
@@ -156,7 +163,7 @@
             <li>
                 <a href="{{ route('worksheets.index') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <span class="flex-1 ms-3 whitespace-nowrap">Пособия</span>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Библиотека</span>
                 </a>
             </li>
             <li>
@@ -185,6 +192,9 @@
 
 <!-- Footer -->
 <footer class="bg-cyan-600 text-white py-6 mt-4">
+    <div class="container mx-auto text-center mb-4">
+        <p><a href="{{ route('contacts') }}">Контакты</a></p>
+    </div>
     <div class="container mx-auto text-center">
         <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
     </div>

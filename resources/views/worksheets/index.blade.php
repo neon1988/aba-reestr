@@ -24,6 +24,9 @@
                     <p class="text-gray-600 mt-4">
                         Подробное руководство по основным принципам и техникам ABA-терапии. Подходит для начинающих специалистов.
                     </p>
+                    <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
+                        Оформить подписку
+                    </a>
                     <a href="{{ \Illuminate\Support\Facades\Storage::url('День_рождения_социальная_история_.pdf') }}"
                        class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700"
                        target="_blank">
@@ -43,6 +46,9 @@
                         <p class="text-gray-600 mt-4">
                             Узнайте о ключевых принципах прикладного анализа поведения в удобном видеоформате.
                         </p>
+                        <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
+                            Оформить подписку
+                        </a>
                         <button @click="isOpen = true"
                                 class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
                             Смотреть видео
@@ -80,6 +86,9 @@
                     <p class="text-gray-600 mt-4">
                         Практическое руководство по взаимодействию с родителями в процессе ABA-терапии.
                     </p>
+                    <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
+                        Оформить подписку
+                    </a>
                     <a href="#"
                        class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700"
                        target="_blank">

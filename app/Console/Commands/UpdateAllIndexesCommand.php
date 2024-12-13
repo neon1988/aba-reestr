@@ -20,6 +20,7 @@ class UpdateAllIndexesCommand extends Command
         $models = [
             'App\Models\Center',
             'App\Models\Specialist',
+            'App\Models\Bulletin',
         ];
 
         foreach ($models as $model)

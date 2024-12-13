@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\FileController;
@@ -48,6 +49,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('centers/{center}/details/edit', [CenterController::class, 'editDetails'])->name('centers.details.edit');
     Route::patch('centers/{center}/details', [CenterController::class, 'updateDetails'])->name('centers.details.update');
+
+    Route::resource('bulletins', BulletinController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -61,6 +64,7 @@ Route::resource('specialists', SpecialistController::class)->only(['index', 'sho
 Route::resource('webinars', WebinarController::class)->only(['index', 'show']);
 Route::resource('worksheets', WorksheetController::class)->only(['index', 'show']);
 Route::resource('conferences', ConferenceController::class)->only(['index', 'show']);
+Route::resource('bulletins', BulletinController::class)->only(['index', 'show']);
 
 Route::get('/notification-preview', [PreviewController::class, 'notification'])->name('notification-preview');
 Route::get('/privacy-policy', [OtherController::class, 'privacyPolicy'])->name('privacy-policy');

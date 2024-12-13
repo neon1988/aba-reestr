@@ -140,6 +140,9 @@ return [
             'centers' => [
                 'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
             ],
+            'bulletins' => [
+                'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
+            ],
         ],
     ],
 

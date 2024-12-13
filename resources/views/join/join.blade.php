@@ -208,17 +208,17 @@
                     <tr>
                         <td class="border border-gray-200 p-4 text-sm"></td>
                         <td class="border border-gray-200 p-4 text-center text-sm">
-                            <a href="#" class="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                            <a href="#" class="px-4 py-2 text-sm text-white bg-cyan-500 rounded hover:bg-cyan-600">
                                 Выбрать
                             </a>
                         </td>
                         <td class="border border-gray-200 p-4 text-center text-sm">
-                            <a href="#" class="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                            <a href="#" class="px-4 py-2 text-sm text-white bg-cyan-500 rounded hover:bg-cyan-600">
                                 Выбрать
                             </a>
                         </td>
                         <td class="border border-gray-200 p-4 text-center text-sm">
-                            <a href="#" class="px-4 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600">
+                            <a href="#" class="px-4 py-2 text-sm text-white bg-cyan-500 rounded hover:bg-cyan-600">
                                 Выбрать
                             </a>
                         </td>
