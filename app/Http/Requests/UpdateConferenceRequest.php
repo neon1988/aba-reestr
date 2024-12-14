@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\FileExistsOnDiskRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateConferenceRequest extends FormRequest
@@ -17,12 +19,31 @@ class UpdateConferenceRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'description' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'start_at' => [
+                'required',
+                'date'
+            ],
+            $rules['cover'] = [
+                'required',
+                new FileExistsOnDiskRule()
+            ]
         ];
+
+        return $rules;
     }
 }

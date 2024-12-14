@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('webinars', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('title'); // Название конференции
+            $table->text('description'); // Описание конференции
+            $table->timestamp('start_at'); // Дата и время начала
+            $table->timestamp('end_at')->nullable(); // Дата и время окончания
+            $table->unsignedInteger('cover_id')->nullable(); // Путь к обложке
+            $table->unsignedBigInteger('create_user_id');
+            $table->timestamps(); // created_at и updated_at
+            $table->softDeletes();
         });
     }
 

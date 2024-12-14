@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Bulletin;
 use Illuminate\Database\Seeder;
 
 class BulletinSeeder extends Seeder
@@ -12,6 +12,6 @@ class BulletinSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Bulletin::factory()->count(20)->create();
     }
 }

@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Enums\StatusEnum;
 use App\Http\Requests\StoreBulletinRequest;
 use App\Http\Requests\UpdateBulletinRequest;
+use App\Http\Resources\BulletinResource;
 use App\Models\Bulletin;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class BulletinController extends Controller
 {
@@ -41,8 +48,10 @@ class BulletinController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
+        $this->authorize('create');
+
         return view('bulletins.create');
     }
 
@@ -51,18 +60,20 @@ class BulletinController extends Controller
      */
     public function store(StoreBulletinRequest $request)
     {
+        $this->authorize('create');
+
         $user = Auth::user();
 
         $bulletin = Bulletin::make($request->validated());
         $bulletin->creator()->associate(Auth::user());
-        $bulletin->status = StatusEnum::Accepted;
+        $bulletin->status = StatusEnum::OnReview;
         $bulletin->save();
 
         if ($request->expectsJson())
         {
             return [
                 'redirect_to' => route('bulletins.show', compact('bulletin')),
-                'center' => new BulletinResource($bulletin)
+                'bulletin' => new BulletinResource($bulletin)
             ];
         }
         else
@@ -83,6 +94,8 @@ class BulletinController extends Controller
      */
     public function edit(Bulletin $bulletin)
     {
+        $this->authorize('update', $bulletin);
+
         return view('bulletins.edit', compact('bulletin'));
     }
 
@@ -91,7 +104,22 @@ class BulletinController extends Controller
      */
     public function update(UpdateBulletinRequest $request, Bulletin $bulletin)
     {
-        //
+        $this->authorize('update', $bulletin);
+
+        $bulletin->fill($request->validated());
+        $bulletin->save();
+
+        if ($request->expectsJson())
+        {
+            return [
+                'redirect_to' => route('bulletins.show', compact('bulletin')),
+                'bulletin' => new BulletinResource($bulletin)
+            ];
+        }
+        else
+            return redirect()
+                ->route('bulletins.index')
+                ->with('success', 'Объявление успешно обновлено');
     }
 
     /**
@@ -99,6 +127,55 @@ class BulletinController extends Controller
      */
     public function destroy(Bulletin $bulletin)
     {
-        //
+        $this->authorize('delete', $bulletin);
+
+        if ($bulletin->trashed())
+            $bulletin->restore();
+        else
+            $bulletin->delete();
+
+        return new BulletinResource($bulletin);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function approve(Bulletin $bulletin): JsonResponse
+    {
+        $this->authorize('approve', $bulletin);
+
+        $bulletin->status = StatusEnum::Accepted;
+        $bulletin->save();
+        $bulletin->loadMissing('creator.photo');
+
+        Cache::forget('stats.bulletinsCount');
+        Cache::forget('stats.bulletinsOnReviewCount');
+
+        return response()
+            ->json([
+                'bulletin' => new BulletinResource($bulletin),
+                'message' => 'Объявление одобрено'
+            ]);
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
+    public function reject(Bulletin $bulletin): JsonResponse
+    {
+        $this->authorize('reject', $bulletin);
+
+        $bulletin->status = StatusEnum::Rejected;
+        $bulletin->save();
+        $bulletin->loadMissing('creator.photo');
+
+        Cache::forget('stats.bulletinsCount');
+        Cache::forget('stats.bulletinsOnReviewCount');
+
+        return response()
+            ->json([
+                'bulletin' => new BulletinResource($bulletin),
+                'message' => 'Объявление отклонено'
+            ]);
     }
 }

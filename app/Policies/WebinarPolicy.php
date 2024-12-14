@@ -13,7 +13,7 @@ class WebinarPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -21,7 +21,7 @@ class WebinarPolicy
      */
     public function view(User $user, Webinar $webinar): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -29,7 +29,7 @@ class WebinarPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -37,7 +37,7 @@ class WebinarPolicy
      */
     public function update(User $user, Webinar $webinar): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -45,7 +45,7 @@ class WebinarPolicy
      */
     public function delete(User $user, Webinar $webinar): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -53,7 +53,7 @@ class WebinarPolicy
      */
     public function restore(User $user, Webinar $webinar): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -61,6 +61,6 @@ class WebinarPolicy
      */
     public function forceDelete(User $user, Webinar $webinar): bool
     {
-        return false;
+        return Response::allow();
     }
 }

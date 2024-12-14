@@ -17,23 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CenterSeeder::class);
         $this->call(SpecialistSeeder::class);
+        $this->call(BulletinSeeder::class);
+        $this->call(WebinarSeeder::class);
+        $this->call(ConferenceSeeder::class);
 
-        Artisan::call('scout:flush', [
-            'model' => "App\Models\Center",
-        ]);
-
-        Artisan::call('scout:import', [
-            'model' => "App\Models\Center",
-        ]);
-
-        Artisan::call('scout:flush', [
-            'model' => "App\Models\Specialist",
-        ]);
-
-        Artisan::call('scout:import', [
-            'model' => "App\Models\Specialist", // Указываем модель, как в консоли
-        ]);
-
+        Artisan::call('scout:update-all-indexes');
 
         if (!User::where('email', 'test@example.com')->exists())
         {

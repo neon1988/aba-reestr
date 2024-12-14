@@ -17,7 +17,4 @@ class Bulletin extends Model
     protected $fillable = [
         'text'
     ];
-
-
-
 }

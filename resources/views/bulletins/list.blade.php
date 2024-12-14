@@ -1,4 +1,3 @@
-<h2 class="text-3xl font-semibold text-gray-900 mb-6">Результаты поиска</h2>
 @if ($items->hasPages())
     <div class="mb-5">
         {{ $items->links() }}

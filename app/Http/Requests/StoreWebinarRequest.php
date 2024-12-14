@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\FileExistsOnDiskRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWebinarRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreWebinarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,27 @@ class StoreWebinarRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'description' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'start_at' => [
+                'required',
+                'date'
+            ],
+            $rules['cover'] = [
+                'required',
+                new FileExistsOnDiskRule()
+            ]
         ];
+
+        return $rules;
     }
 }

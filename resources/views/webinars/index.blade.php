@@ -17,34 +17,30 @@
         <div>
             <h2 class="text-2xl font-semibold text-gray-700 mb-6">Предстоящие вебинары</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Карточка вебинара 1 -->
-                <div class="bg-white shadow rounded-lg p-6">
-                    <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Основы ABA-терапии" class="w-full h-40 object-cover rounded-lg">
-                    <h3 class="text-xl font-semibold text-gray-800 mt-4">Основы ABA-терапии</h3>
-                    <p class="text-gray-600 mt-2">Дата: 10 декабря 2024 года</p>
-                    <p class="text-gray-600">Время: 18:00 (МСК)</p>
-                    <p class="text-gray-600 mt-4">
-                        Узнайте о базовых принципах прикладного анализа поведения и его использовании в повседневной практике.
-                    </p>
-                    <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
-                        Оформить подписку
-                    </a>
-                </div>
-                <!-- Карточка вебинара 2 -->
-                <div class="bg-white shadow rounded-lg p-6">
-                    <img src="https://fastly.picsum.photos/id/251/200/300.jpg?hmac=9xXOWzHXFkhqJDfiXSZARyy0pDmdAyazrrJw6VNgoKc" alt="Работа с родителями" class="w-full h-40 object-cover rounded-lg">
-                    <h3 class="text-xl font-semibold text-gray-800 mt-4">Работа с родителями</h3>
-                    <p class="text-gray-600 mt-2">Дата: 15 декабря 2024 года</p>
-                    <p class="text-gray-600">Время: 17:00 (МСК)</p>
-                    <p class="text-gray-600 mt-4">
-                        Подробно о том, как включить родителей в процесс терапии и наладить эффективное сотрудничество.
-                    </p>
-                    <a href="{{ route('join') }}" class="inline-block mt-4 bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700">
-                        Оформить подписку
-                    </a>
-                </div>
+                @foreach($upcomingWebinars as $item)
+                    @include('webinars.card', compact('item'))
+                @endforeach
             </div>
+        </div>
 
+        <!-- Список вебинаров -->
+        <div class="mt-5">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Вебинары в записи</h2>
+            @if ($endedWebinars->hasPages())
+                <div class="mb-5">
+                    {{ $endedWebinars->links() }}
+                </div>
+            @endif
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($endedWebinars as $item)
+                    @include('webinars.card', compact('item'))
+                @endforeach
+            </div>
+            @if ($endedWebinars->hasPages())
+                <div class="mb-5">
+                    {{ $endedWebinars->links() }}
+                </div>
+            @endif
         </div>
     </div>
 @endsection

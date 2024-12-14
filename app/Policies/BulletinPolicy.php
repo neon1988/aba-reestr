@@ -13,7 +13,7 @@ class BulletinPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -21,7 +21,7 @@ class BulletinPolicy
      */
     public function view(User $user, Bulletin $bulletin): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -29,7 +29,7 @@ class BulletinPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -37,7 +37,7 @@ class BulletinPolicy
      */
     public function update(User $user, Bulletin $bulletin): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -45,7 +45,7 @@ class BulletinPolicy
      */
     public function delete(User $user, Bulletin $bulletin): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -53,7 +53,7 @@ class BulletinPolicy
      */
     public function restore(User $user, Bulletin $bulletin): bool
     {
-        return false;
+        return Response::allow();
     }
 
     /**
@@ -61,6 +61,16 @@ class BulletinPolicy
      */
     public function forceDelete(User $user, Bulletin $bulletin): bool
     {
-        return false;
+        return Response::allow();
+    }
+
+    public function approve(User $user, Bulletin $bulletin): Response
+    {
+        return Response::allow();
+    }
+
+    public function reject(User $user, Bulletin $bulletin): Response
+    {
+        return Response::allow();
     }
 }
