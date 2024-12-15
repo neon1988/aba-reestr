@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call(BulletinSeeder::class);
         $this->call(WebinarSeeder::class);
         $this->call(ConferenceSeeder::class);
+        $this->call(WorksheetSeeder::class);
 
-        Artisan::call('scout:update-all-indexes');
+        Artisan::call('scout:update-all-indexes', ['--flush' => true]);
 
         if (!User::where('email', 'test@example.com')->exists())
         {

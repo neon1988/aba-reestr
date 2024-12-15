@@ -59,4 +59,9 @@ class File extends Model
             throw new Exception('File or resource not found');
         }
     }
+
+    public function isVideo() :bool
+    {
+        return in_array(mb_strtolower($this->extension), ['mp4', 'avi', 'mkv']);
+    }
 }

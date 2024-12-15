@@ -4,48 +4,47 @@
     <div class="flex items-center justify-center">
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
-            @if (!empty($webinar->record_file))
+            @if (!empty($item->record_file))
                 @if (Auth::user()->isSubscriptionActive())
-                    <x-video :url="$webinar->record_file->url" />
+                    <x-video :url="$item->record_file->url" />
                 @endif
             @else
                 <!-- Webinar Image -->
                 <div class="relative">
                     <img
-                        src="{{ $webinar->cover->url }}"
-                        alt="{{ $webinar->title }}"
+                        src="{{ $item->cover->url }}"
+                        alt="{{ $item->title }}"
                         class="w-full h-60 object-cover rounded-lg">
                     <div class="absolute bottom-4 left-4 bg-cyan-600 text-white text-sm px-3 py-1 rounded-lg">
-                        Онлайн вебинар
+                        Конференция
                     </div>
                 </div>
             @endif
 
             <!-- Webinar Info -->
             <div class="mt-6">
-                <h1 class="text-3xl font-bold text-gray-800">{{ $webinar->title }}</h1>
+                <h1 class="text-3xl font-bold text-gray-800">{{ $item->title }}</h1>
 
                 <div class="mt-4 text-gray-600">
                     <p class="text-lg">
                         <span class="font-semibold">Дата:</span>
-                        <x-time :time="$webinar->start_at" />
+                        <x-time :time="$item->start_at" />
                     </p>
                 </div>
             </div>
 
-            <!-- Webinar Description -->
             <div class="mt-6">
-                <p class="text-gray-700 leading-relaxed">{{ $webinar->description }}</p>
+                <p class="text-gray-700 leading-relaxed">{{ $item->description }}</p>
             </div>
 
             <!-- Call to Action -->
             <div class="mt-8">
                 @if (Auth::user()->isSubscriptionActive())
-                    @if (empty($webinar->record_file))
+                    @if (empty($item->record_file))
                         <a
-                            href="{{ $webinar->stream_url }}" target="_blank"
+                            href="{{ $item->stream_url }}" target="_blank"
                             class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition mb-4">
-                            Открыть ссылку на вебинар
+                            Открыть ссылку на конференцию
                         </a>
                     @endif
                 @endif
@@ -57,17 +56,17 @@
                     </a>
                 @endif
 
-                @can ('toggleSubscription', $webinar)
+                @can ('toggleSubscription', $item)
 
                     <div
-                        x-data="webinarSubscription({{ empty($userSubscription) ? 'false' : 'true' }}, '{{ route('webinars.toggle_subscription', ['webinar' => $webinar->id]) }}')">
+                        x-data="webinarSubscription({{ empty($userSubscription) ? 'false' : 'true' }}, '{{ route('webinars.toggle_subscription', ['webinar' => $item->id]) }}')">
                         <!-- Кнопка для подписки -->
                         <button
                             x-cloak
                             x-on:click.prevent="subscribe"
                             class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
-                            <span x-show="!loading && !isSubscribed">Подписаться на вебинар</span>
-                            <span x-show="!loading && isSubscribed">Отписаться от вебинара</span>
+                            <span x-show="!loading && !isSubscribed">Подписаться на конференцию</span>
+                            <span x-show="!loading && isSubscribed">Отписаться от конференции</span>
                             <span x-show="loading">Загрузка...</span>
                         </button>
 
@@ -77,7 +76,6 @@
                     </div>
 
                     <script>
-                        // Логика подписки на вебинар с использованием Alpine.js
                         function webinarSubscription(isSubscribed, url) {
                             return {
                                 // Храним состояние подписки

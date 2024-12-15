@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('worksheets', function (Blueprint $table) {
             $table->id();
+            $table->string('title'); // Название материала
+            $table->text('description'); // Описание материала
+            $table->unsignedBigInteger('create_user_id'); // Автор материала
+            $table->unsignedInteger('cover_id');
+            $table->unsignedInteger('file_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

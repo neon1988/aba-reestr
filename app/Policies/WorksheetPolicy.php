@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Worksheet;
 use Illuminate\Auth\Access\Response;
 
-class WorksheetPolicy
+class WorksheetPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.

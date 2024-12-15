@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Webinar;
 use Illuminate\Auth\Access\Response;
 
-class WebinarPolicy
+class WebinarPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.

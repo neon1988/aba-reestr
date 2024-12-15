@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\File;
+use App\Models\Image;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +20,11 @@ class WorksheetFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->sentence, // Название материала
+            'description' => $this->faker->paragraph, // Описание материала
+            'create_user_id' => User::factory(), // Используем фабрику для создания пользователя
+            'cover_id' => Image::factory(), // Используем фабрику для создания обложки
+            'file_id' => File::factory(), // Используем фабрику для создания файла материала
         ];
     }
 }

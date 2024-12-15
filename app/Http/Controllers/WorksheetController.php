@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreWorksheetRequest;
 use App\Http\Requests\UpdateWorksheetRequest;
+use App\Models\Webinar;
 use App\Models\Worksheet;
 use Illuminate\Contracts\View\View;
 
@@ -14,7 +15,10 @@ class WorksheetController extends Controller
      */
     public function index(): View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
-        return view('worksheets.index');
+        $items = Worksheet::with('cover', 'file', 'creator')
+            ->simplePaginate(10);
+
+        return view('worksheets.index', compact('items'));
     }
 
     /**
@@ -38,7 +42,7 @@ class WorksheetController extends Controller
      */
     public function show(Worksheet $worksheet)
     {
-        //
+        return view('worksheets.show', ['item' => $worksheet]);
     }
 
     /**

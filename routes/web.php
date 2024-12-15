@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
     Route::post('user/email/change', [UserController::class, 'changeEmail'])->name('user.email.update');
 });
 
+Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+
 Route::resource('centers', CenterController::class)->only(['index', 'show']);
 Route::resource('specialists', SpecialistController::class)->only(['index', 'show']);
 Route::resource('webinars', WebinarController::class)->only(['index', 'show']);

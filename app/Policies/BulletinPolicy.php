@@ -6,7 +6,7 @@ use App\Models\Bulletin;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class BulletinPolicy
+class BulletinPolicy extends Policy
 {
     /**
      * Determine whether the user can view any models.

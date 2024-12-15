@@ -7,10 +7,12 @@ use App\Http\Requests\StoreConferenceRequest;
 use App\Http\Requests\UpdateConferenceRequest;
 use App\Http\Resources\ConferenceResource;
 use App\Models\Conference;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
 class ConferenceController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -59,9 +61,9 @@ class ConferenceController extends Controller
      */
     public function show(Conference $conference)
     {
-        $this->authorize('show');
+        $this->authorize('view', $conference);
 
-        return view('conferences.show');
+        return view('conferences.show', ['item' => $conference]);
     }
 
     /**

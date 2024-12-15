@@ -6,11 +6,11 @@
     <div class="mt-2 text-gray-600">
         @isset ($item->start_at)
             <span class="font-medium">Начало:</span>
-            <span>{{ \Carbon\Carbon::parse($item->start_at)->format('d.m.Y H:i') }}</span><br>
+            <x-time :time="$item->start_at" /><br>
         @endisset
         @isset ($item->end_at)
             <span class="font-medium">Конец:</span>
-            <span>{{ \Carbon\Carbon::parse($item->end_at)->format('d.m.Y H:i') }}</span>
+                <x-time :time="$item->end_at" />
         @endisset
         @if ($item->subscribers_count > 0)
             <span class="font-medium">Подписчиков: {{ $item->subscribers_count }}</span>

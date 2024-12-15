@@ -7,8 +7,12 @@
             alt="User avatar">
         @endisset
         <div class="ml-4">
-            <h2 class="text-gray-800 dark:text-white font-semibold">{{ $item->creator->full_name }}</h2>
-            <p class="text-gray-500 dark:text-gray-400 text-sm">{{ $item->created_at }}</p>
+            <a href="{{ route('users.show', ['user' => $item->creator]) }}">
+                <h2 class="text-gray-800 dark:text-white font-semibold">{{ $item->creator->full_name }}</h2>
+            </a>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+                <x-time :time="$item->created_at"/>
+            </p>
         </div>
     </div>
     <div class="px-4 pt-2 pb-6">

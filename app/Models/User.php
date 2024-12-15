@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionLevelEnum;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -50,6 +51,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'subscription_ends_at' => 'datetime',
+            'deleted_at' => 'datetime',
         ];
     }
 
@@ -153,5 +156,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->webinars_count = $this->webinarSubscriptions()->count();
         $this->save();
+    }
+
+    public function isSubscriptionActive() : bool
+    {
+        if ($this->subscription_level == SubscriptionLevelEnum::Free)
+            return False;
+
+        return $this->subscription_ends_at && $this->subscription_ends_at->isFuture();
     }
 }

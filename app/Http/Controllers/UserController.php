@@ -11,6 +11,9 @@ use App\Models\Image;
 use App\Models\User;
 use App\Models\Webinar;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -53,10 +56,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user): UserResource
+    public function show(Request $request, User $user): Factory|View|Application|UserResource
     {
         $user->load('photo');
-        return new UserResource($user);
+
+        if ($request->expectsJson())
+            return new UserResource($user);
+        else
+            return view('users.show', compact('user'));
     }
 
     /**
