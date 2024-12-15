@@ -6,6 +6,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -134,5 +136,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isStaff(): bool
     {
         return $this->roles->whereIn('roleable_type', Staff::class)->count() > 0;
+    }
+
+    public function webinarSubscriptions() :HasMany
+    {
+        return $this->hasMany(WebinarSubscription::class);
+    }
+
+    public function subscribers(): BelongsToMany
+    {
+        return $this->belongsToMany(Webinar::class, 'webinar_subscriptions')
+            ->withTimestamps();
+    }
+
+    public function updateWebinarsCount()
+    {
+        $this->webinars_count = $this->webinarSubscriptions()->count();
+        $this->save();
     }
 }

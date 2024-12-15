@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Webinar extends Model
 {
@@ -64,5 +66,26 @@ class Webinar extends Model
     public function cover(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
         return $this->hasOne(Image::class, 'id', 'cover_id');
+    }
+
+    public function record_file(): \Illuminate\Database\Eloquent\Relations\hasOne
+    {
+        return $this->hasOne(File::class, 'id', 'record_file_id');
+    }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(WebinarSubscription::class);
+    }
+
+    public function subscribers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'webinar_subscriptions')->withTimestamps();
+    }
+
+    public function updateSubscribersCount()
+    {
+        $this->subscribers_count = $this->subscribers()->count(); // Получаем количество пользователей, подписанных на этот вебинар
+        $this->save(); // Сохраняем обновленное значение в базе
     }
 }

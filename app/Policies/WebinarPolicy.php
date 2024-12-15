@@ -63,4 +63,28 @@ class WebinarPolicy
     {
         return Response::allow();
     }
+
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function subscribe(User $user, Webinar $webinar): Response
+    {
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function unsubscribe(User $user, Webinar $webinar): Response
+    {
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function toggleSubscription(User $user, Webinar $webinar): Response
+    {
+        return Response::allow();
+    }
 }

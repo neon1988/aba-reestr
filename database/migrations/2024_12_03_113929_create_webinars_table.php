@@ -17,7 +17,10 @@ return new class extends Migration
             $table->text('description'); // Описание конференции
             $table->timestamp('start_at'); // Дата и время начала
             $table->timestamp('end_at')->nullable(); // Дата и время окончания
+            $table->text('stream_url'); // Ссылка на вебинар
+            $table->unsignedInteger('record_file_id')->nullable(); // Ссылка на вебинар
             $table->unsignedInteger('cover_id')->nullable(); // Путь к обложке
+            $table->unsignedInteger('subscribers_count')->default(0);
             $table->unsignedBigInteger('create_user_id');
             $table->timestamps(); // created_at и updated_at
             $table->softDeletes();

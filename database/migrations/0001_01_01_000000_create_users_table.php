@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('photo_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('password');
+            $table->unsignedInteger('webinars_count')->default(0);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

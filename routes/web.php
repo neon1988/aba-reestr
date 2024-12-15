@@ -51,10 +51,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('centers/{center}/details', [CenterController::class, 'updateDetails'])->name('centers.details.update');
 
     Route::resource('bulletins', BulletinController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
+
+    Route::post('webinars/{webinar}/toggle_subscription', [WebinarController::class, 'toggleSubscription'])->name('webinars.toggle_subscription');
 });
 
 Route::middleware('auth')->group(function () {
-
     Route::get('user/email/change', [UserController::class, 'showChangeEmailForm'])->name('user.email.change');
     Route::post('user/email/change', [UserController::class, 'changeEmail'])->name('user.email.update');
 });

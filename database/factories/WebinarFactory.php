@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\StatusEnum;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,6 +26,8 @@ class WebinarFactory extends Factory
             'start_at' => $this->faker->dateTimeBetween('now', '+1 year'),
             'end_at' => null,
             'cover_id' => Image::factory(),
+            'stream_url' => $this->faker->url(),
+            'record_file_id' => null,
             'created_at' => now(),
             'updated_at' => now(),
             'create_user_id' => User::factory(),
@@ -45,6 +48,7 @@ class WebinarFactory extends Factory
             return [
                 'start_at' => $startAt,
                 'end_at' => $endAt,
+                'record_file_id' => File::factory()
             ];
         });
     }

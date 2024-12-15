@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\File;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,15 @@ class FileFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'create_user_id' => User::factory()
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function (File $file) {
+            $file->open((string)realpath(__DIR__).'/files/sample.mp4');
+            $file->name = 'sample.mp4';
+        });
     }
 }

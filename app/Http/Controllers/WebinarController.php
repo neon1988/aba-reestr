@@ -7,10 +7,16 @@ use App\Http\Requests\StoreWebinarRequest;
 use App\Http\Requests\UpdateWebinarRequest;
 use App\Http\Resources\WebinarResource;
 use App\Models\Webinar;
+use App\Models\WebinarSubscription;
+use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WebinarController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -59,9 +65,16 @@ class WebinarController extends Controller
      */
     public function show(Webinar $webinar)
     {
-        $this->authorize('show');
+        $userSubscription = null;
 
-        return view('webinars.show');
+        if (Auth::check())
+        {
+            $userSubscription = $webinar->subscriptions()
+                ->where('user_id', Auth::id())
+                ->first();
+        }
+
+        return view('webinars.show', compact('webinar', 'userSubscription'));
     }
 
     /**
@@ -107,4 +120,49 @@ class WebinarController extends Controller
 
         return new WebinarResource($webinar);
     }
+
+    public function toggleSubscription(Request $request, Webinar $webinar)
+    {
+        $this->authorize('toggleSubscription', $webinar);
+
+        // Получаем текущего пользователя
+        $user = Auth::user();
+
+        // Проверяем, подписан ли уже пользователь на этот вебинар
+        $subscription = $user->webinarSubscriptions()
+            ->where('webinar_id', $webinar->id)
+            ->first();
+
+        if ($subscription) {
+            $this->authorize('unsubscribe', $webinar);
+            // Если подписка есть, отменяем подписку
+            $subscription->delete();
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Вы успешно отписались от вебинара'
+                ]);
+            } else {
+                return redirect()->route('webinars.show', compact('webinar'));
+            }
+        } else {
+            $this->authorize('subscribe', $webinar);
+            // Если подписки нет, создаем новую подписку
+            $newSubscription = WebinarSubscription::create([
+                'user_id' => $user->id,
+                'webinar_id' => $webinar->id,
+                'subscribed_at' => Carbon::now(),
+            ]);
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Вы успешно подписались на вебинар',
+                    'subscription' => new WebinarResource($newSubscription)
+                ], 201);
+            } else {
+                return redirect()->route('webinars.show', compact('webinar'));
+            }
+        }
+    }
+
 }
