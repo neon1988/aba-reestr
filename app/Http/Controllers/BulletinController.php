@@ -11,6 +11,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Cache;
 
 class BulletinController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -50,7 +53,7 @@ class BulletinController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        $this->authorize('create');
+        $this->authorize('create', Bulletin::class);
 
         return view('bulletins.create');
     }
@@ -60,7 +63,7 @@ class BulletinController extends Controller
      */
     public function store(StoreBulletinRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Bulletin::class);
 
         $user = Auth::user();
 
@@ -84,9 +87,13 @@ class BulletinController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bulletin $bulletin)
+    public function show(Request $request, Bulletin $bulletin)
     {
-        //
+        $bulletin->loadMissing('creator.photo');
+        if ($request->expectsJson())
+            return new BulletinResource($bulletin);
+        else
+            return redirect()->route('bulletins.show', compact('bulletin'));
     }
 
     /**

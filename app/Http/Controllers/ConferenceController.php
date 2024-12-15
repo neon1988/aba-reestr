@@ -37,7 +37,7 @@ class ConferenceController extends Controller
      */
     public function store(StoreConferenceRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Conference::class);
 
         $user = Auth::user();
 

@@ -41,7 +41,7 @@ class WebinarController extends Controller
      */
     public function store(StoreWebinarRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Webinar::class);
 
         $user = Auth::user();
 

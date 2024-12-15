@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Enums\EducationEnum;
+use App\Observers\SpecialistObserver;
 use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laravel\Scout\Searchable;
 
+#[ObservedBy([SpecialistObserver::class])]
 class Specialist extends Model
 {
     use SoftDeletes, HasFactory, UserCreated, CheckedItems, Searchable;

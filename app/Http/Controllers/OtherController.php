@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\StatusEnum;
+use App\Models\Bulletin;
 use App\Models\Center;
 use App\Models\Specialist;
 use App\Models\User;
@@ -49,6 +50,12 @@ class OtherController extends Controller
             }),
             'usersCount' => Cache::rememberForever('stats.usersCount', function () {
                 return User::count();
+            }),
+            'bulletinsCount' => Cache::rememberForever('stats.bulletinsCount', function () {
+                return Bulletin::where('status', StatusEnum::Accepted)->count();
+            }),
+            'bulletinsOnReviewCount' => Cache::rememberForever('stats.bulletinsOnReviewCount', function () {
+                return Bulletin::where('status', StatusEnum::OnReview)->count();
             }),
         ]);
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\SpecialistController;
@@ -24,9 +25,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('centers', CenterController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
     Route::resource('specialists', SpecialistController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
+    Route::resource('bulletins', BulletinController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
 
     Route::resource('centers', CenterController::class)->only(['index', 'show']);
     Route::resource('specialists', SpecialistController::class)->only(['index', 'show']);
+    Route::resource('bulletins', BulletinController::class)->only(['index', 'show']);
 
     Route::put('/specialists/{specialist}/approve', [SpecialistController::class, 'approve'])->name('specialists.approve');
     Route::put('/specialists/{specialist}/reject', [SpecialistController::class, 'reject'])->name('specialists.reject');
@@ -37,4 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/centers/{center}/approve', [CenterController::class, 'approve'])->name('centers.approve');
     Route::put('/centers/{center}/reject', [CenterController::class, 'reject'])->name('centers.reject');
+
+    Route::put('/bulletins/{bulletin}/approve', [BulletinController::class, 'approve'])->name('bulletins.approve');
+    Route::put('/bulletins/{bulletin}/reject', [BulletinController::class, 'reject'])->name('bulletins.reject');
 });

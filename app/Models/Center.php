@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Observers\CenterObserver;
 use App\Traits\CheckedItems;
 use App\Traits\UserCreated;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -12,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laravel\Scout\Searchable;
 
+#[ObservedBy([CenterObserver::class])]
 class Center extends Model
 {
     use SoftDeletes, HasFactory, UserCreated, CheckedItems, Searchable;
