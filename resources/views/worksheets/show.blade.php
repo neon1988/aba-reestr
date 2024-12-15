@@ -5,7 +5,7 @@
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
             @if (Auth::user()->isSubscriptionActive() and $item->file->isVideo())
-                <x-video :url="$item->file->url" />
+                <x-video :url="$item->file->url"/>
             @else
                 <!-- Webinar Image -->
                 <div class="relative">
@@ -39,11 +39,25 @@
                 @endif
 
                 @if (!Auth::user()->isSubscriptionActive())
-                    <a href="{{ route('join') }}"
-                       class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
-                        Оформить подписку для получения доступа
-                    </a>
+                    <div class="mb-6">
+                        <a href="{{ route('join') }}"
+                           class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
+                            Оформить подписку для получения доступа
+                        </a>
+                    </div>
                 @endif
+
+                <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
+                    <p class="text-gray-700 text-lg mb-4">
+                        Или можете приобрести данный материал отдельно за <span class="font-semibold text-gray-800">{{ $item->price }} р.</span>
+                    </p>
+                    <p class="text-gray-600">
+                        Для оформления покупки напишите на почту
+                        <a href="mailto:{{ config('mail.from.address') }}" class="text-cyan-600 hover:text-cyan-800">
+                            {{ config('mail.from.address') }}
+                        </a>
+                    </p>
+                </div>
 
             </div>
         </div>

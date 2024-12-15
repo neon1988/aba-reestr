@@ -25,6 +25,7 @@ class WorksheetFactory extends Factory
             'create_user_id' => User::factory(), // Используем фабрику для создания пользователя
             'cover_id' => Image::factory(), // Используем фабрику для создания обложки
             'file_id' => File::factory(), // Используем фабрику для создания файла материала
+            'price' => $this->faker->randomNumber(1) * 200,
         ];
     }
 }

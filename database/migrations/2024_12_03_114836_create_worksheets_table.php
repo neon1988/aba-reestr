@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('create_user_id'); // Автор материала
             $table->unsignedInteger('cover_id');
             $table->unsignedInteger('file_id');
+            $table->float('price', 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

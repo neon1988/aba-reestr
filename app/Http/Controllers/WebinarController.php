@@ -74,7 +74,7 @@ class WebinarController extends Controller
                 ->first();
         }
 
-        return view('webinars.show', compact('webinar', 'userSubscription'));
+        return view('webinars.show', ['item' => $webinar, 'userSubscription' => $userSubscription]);
     }
 
     /**

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title'); // Название конференции
             $table->text('description'); // Описание конференции
+            $table->float('price', 2)->nullable();
             $table->timestamp('start_at'); // Дата и время начала
             $table->timestamp('end_at')->nullable(); // Дата и время окончания
             $table->unsignedInteger('cover_id')->nullable(); // Путь к обложке

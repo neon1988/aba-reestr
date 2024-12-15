@@ -28,6 +28,7 @@ class ConferenceFactory extends Factory
             'created_at' => now(),
             'updated_at' => now(),
             'create_user_id' => User::factory(),
+            'price' => $this->faker->randomNumber(1) * 200,
         ];
     }
 

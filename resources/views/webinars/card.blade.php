@@ -16,6 +16,7 @@
             <span class="font-medium">Подписчиков: {{ $item->subscribers_count }}</span>
         @endif
     </div>
+    <p class="text-gray-600 mt-2">Цена: {{ $item->price }} р.</p>
     <p class="text-gray-600 mt-4">
         {{ $item->description }}
     </p>
