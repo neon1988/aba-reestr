@@ -101,6 +101,12 @@
                                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки</a>
                                         @endif
 
+                                    @if (Auth::user()->webinars_count > 0)
+                                        <a href="{{ route('users.webinars.index', ['user' => Auth::user()]) }}"
+                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                            Вебинары</a>
+                                    @endif
+
                                 <form method="POST" action="{{ route('logout') }}" class="block">
                                     @csrf
                                     <button type="submit"

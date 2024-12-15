@@ -53,6 +53,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('bulletins', BulletinController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
 
     Route::post('webinars/{webinar}/toggle_subscription', [WebinarController::class, 'toggleSubscription'])->name('webinars.toggle_subscription');
+
+    Route::get('users/{user}/webinars', [UserController::class, 'webinars'])->name('users.webinars.index');
 });
 
 Route::middleware('auth')->group(function () {

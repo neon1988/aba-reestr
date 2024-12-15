@@ -143,7 +143,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(WebinarSubscription::class);
     }
 
-    public function subscribers(): BelongsToMany
+    public function webinars(): BelongsToMany
     {
         return $this->belongsToMany(Webinar::class, 'webinar_subscriptions')
             ->withTimestamps();

@@ -9,6 +9,7 @@ use App\Http\Resources\CenterResource;
 use App\Http\Resources\UserResource;
 use App\Models\Image;
 use App\Models\User;
+use App\Models\Webinar;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -157,5 +158,18 @@ class UserController extends Controller
         $user->notify(new VerifyEmail());
 
         return back()->with('success', 'Почта обновлена, проверьте почту для подтверждения.');
+    }
+
+    public function webinars(User $user)
+    {
+        $upcomingWebinars = $user->webinars()
+            ->upcoming()->with('cover')
+            ->get();
+
+        $endedWebinars = $user->webinars()
+            ->ended()->with('cover')
+            ->simplePaginate(10);
+
+        return view('users.webinars', compact('upcomingWebinars', 'endedWebinars'));
     }
 }
