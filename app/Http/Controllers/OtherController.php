@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Enums\StatusEnum;
 use App\Models\Bulletin;
 use App\Models\Center;
+use App\Models\Conference;
 use App\Models\Specialist;
 use App\Models\User;
+use App\Models\Webinar;
+use App\Models\Worksheet;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -56,6 +59,15 @@ class OtherController extends Controller
             }),
             'bulletinsOnReviewCount' => Cache::rememberForever('stats.bulletinsOnReviewCount', function () {
                 return Bulletin::where('status', StatusEnum::OnReview)->count();
+            }),
+            'webinarsCount' => Cache::rememberForever('stats.webinarsCount', function () {
+                return Webinar::count();
+            }),
+            'worksheetsCount' => Cache::rememberForever('stats.worksheetsCount', function () {
+                return Worksheet::count();
+            }),
+            'conferencesCount' => Cache::rememberForever('stats.conferencesCount', function () {
+                return Conference::count();
             }),
         ]);
     }

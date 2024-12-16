@@ -25,4 +25,9 @@ class StoreWorksheetRequest extends FormRequest
             //
         ];
     }
+
+    public function attributes(): array
+    {
+        return __('worksheet.attributes');
+    }
 }

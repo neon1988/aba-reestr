@@ -46,4 +46,9 @@ class UpdateConferenceRequest extends FormRequest
 
         return $rules;
     }
+
+    public function attributes(): array
+    {
+        return __('conference.attributes');
+    }
 }

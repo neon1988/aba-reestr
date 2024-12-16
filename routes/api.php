@@ -3,9 +3,13 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\CenterController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WebinarController;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -43,4 +47,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/bulletins/{bulletin}/approve', [BulletinController::class, 'approve'])->name('bulletins.approve');
     Route::put('/bulletins/{bulletin}/reject', [BulletinController::class, 'reject'])->name('bulletins.reject');
+
+    Route::get('webinars/upcoming', [WebinarController::class, 'upcoming'])->name('webinars.upcoming');
+    Route::get('webinars/ended', [WebinarController::class, 'ended'])->name('webinars.ended');
+    Route::post('webinars', [WebinarController::class, 'store'])->name('webinars.store')
+        ->middleware([HandlePrecognitiveRequests::class]);
+
+    Route::resource('images', ImageController::class)->only(['store']);
+    Route::resource('files', FileController::class)->only(['store']);
 });

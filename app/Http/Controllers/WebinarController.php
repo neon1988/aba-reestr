@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusEnum;
 use App\Http\Requests\StoreWebinarRequest;
 use App\Http\Requests\UpdateWebinarRequest;
 use App\Http\Resources\WebinarResource;
+use App\Models\Image;
 use App\Models\Webinar;
 use App\Models\WebinarSubscription;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Litlife\Url\Url;
 
 class WebinarController extends Controller
 {
@@ -26,6 +28,18 @@ class WebinarController extends Controller
         $endedWebinars = Webinar::ended()->with('cover')->simplePaginate(10);
 
         return view('webinars.index', compact('upcomingWebinars', 'endedWebinars'));
+    }
+
+    public function upcoming()
+    {
+        $webinars = Webinar::upcoming()->with('cover')->simplePaginate(10);
+        return WebinarResource::collection($webinars);
+    }
+
+    public function ended()
+    {
+        $webinars = Webinar::ended()->with('cover')->simplePaginate(10);
+        return WebinarResource::collection($webinars);
     }
 
     /**
@@ -46,8 +60,20 @@ class WebinarController extends Controller
         $user = Auth::user();
 
         $webinar = Webinar::make($request->validated());
-        $webinar->creator()->associate(Auth::user());
-        $webinar->status = StatusEnum::OnReview;
+        $webinar->creator()->associate($user);
+        $webinar->save();
+
+        $disk = Storage::disk('public');
+        $cover = $request->get('cover');
+        $stream = $disk->getDriver()->readStream($cover);
+
+        $cover = new Image;
+        $cover->openImage($stream);
+        $cover->storage = config('filesystems.default');
+        $cover->name = Url::fromString($cover)->getBasename();
+        $cover->save();
+
+        $webinar->cover_id = $cover->id;
         $webinar->save();
 
         if ($request->expectsJson()) {
@@ -67,8 +93,7 @@ class WebinarController extends Controller
     {
         $userSubscription = null;
 
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $userSubscription = $webinar->subscriptions()
                 ->where('user_id', Auth::id())
                 ->first();

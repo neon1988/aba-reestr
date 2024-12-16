@@ -25,4 +25,9 @@ class StoreBulletinRequest extends FormRequest
             'text' => ['required', 'string']
         ];
     }
+
+    public function attributes(): array
+    {
+        return __('bulletin.attributes');
+    }
 }

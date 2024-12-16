@@ -24,6 +24,7 @@ class StoreImageRequest extends FormRequest
     {
         return [
             'file' => [
+                'required',
                 File::image()
                     ->types(config('upload.support_images_formats'))
                     ->min(config('upload.image_min_size'))

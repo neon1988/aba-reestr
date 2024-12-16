@@ -2,23 +2,26 @@
 
 namespace App\Models;
 
+use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Webinar extends Model
 {
     /** @use HasFactory<\Database\Factories\WebinarFactory> */
-    use HasFactory;
+    use HasFactory, UserCreated, SoftDeletes;
 
     protected $fillable = [
         'title',
         'description',
         'start_at',
         'end_at',
-        'cover'
+        'stream_url',
+        'price'
     ];
 
     protected function casts(): array

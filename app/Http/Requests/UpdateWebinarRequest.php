@@ -45,4 +45,9 @@ class UpdateWebinarRequest extends FormRequest
 
         return $rules;
     }
+
+    public function attributes(): array
+    {
+        return __('webinar.attributes');
+    }
 }

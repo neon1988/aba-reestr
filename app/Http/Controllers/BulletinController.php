@@ -118,6 +118,7 @@ class BulletinController extends Controller
 
         if ($request->expectsJson())
         {
+            $bulletin->loadMissing('creator.photo');
             return [
                 'redirect_to' => route('bulletins.show', compact('bulletin')),
                 'bulletin' => new BulletinResource($bulletin)

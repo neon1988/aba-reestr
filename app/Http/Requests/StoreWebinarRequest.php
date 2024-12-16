@@ -37,12 +37,25 @@ class StoreWebinarRequest extends FormRequest
                 'required',
                 'date'
             ],
-            $rules['cover'] = [
+            'stream_url' => [
+                'required',
+                'url'
+            ],
+            'price' => [
+                'required',
+                'numeric'
+            ],
+            'cover' => [
                 'required',
                 new FileExistsOnDiskRule()
             ]
         ];
 
         return $rules;
+    }
+
+    public function attributes(): array
+    {
+        return __('webinar.attributes');
     }
 }
