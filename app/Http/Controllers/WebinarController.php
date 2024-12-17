@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWebinarRequest;
 use App\Http\Requests\UpdateWebinarRequest;
 use App\Http\Resources\WebinarResource;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\Webinar;
 use App\Models\WebinarSubscription;
@@ -63,18 +64,20 @@ class WebinarController extends Controller
         $webinar->creator()->associate($user);
         $webinar->save();
 
-        $disk = Storage::disk('public');
-        $cover = $request->get('cover');
-        $stream = $disk->getDriver()->readStream($cover);
+        if ($request->has('cover')) {
+            $disk = Storage::disk('public');
+            $cover = $request->get('cover');
+            $stream = $disk->getDriver()->readStream($cover);
 
-        $cover = new Image;
-        $cover->openImage($stream);
-        $cover->storage = config('filesystems.default');
-        $cover->name = Url::fromString($cover)->getBasename();
-        $cover->save();
+            $cover = new Image;
+            $cover->openImage($stream);
+            $cover->storage = config('filesystems.default');
+            $cover->name = Url::fromString($cover)->getBasename();
+            $cover->save();
 
-        $webinar->cover_id = $cover->id;
-        $webinar->save();
+            $webinar->cover_id = $cover->id;
+            $webinar->save();
+        }
 
         if ($request->expectsJson()) {
             return [
@@ -83,13 +86,13 @@ class WebinarController extends Controller
             ];
         } else
             return redirect()->route('webinars.index')
-                ->with('success', 'Объявление успешно добавлено');
+                ->with('success', 'Вебинар успешно добавлен');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Webinar $webinar)
+    public function show(Request $request, Webinar $webinar)
     {
         $userSubscription = null;
 
@@ -97,6 +100,13 @@ class WebinarController extends Controller
             $userSubscription = $webinar->subscriptions()
                 ->where('user_id', Auth::id())
                 ->first();
+        }
+
+        $webinar->load('cover', 'record_file');
+
+        if ($request->expectsJson())
+        {
+            return new WebinarResource($webinar);
         }
 
         return view('webinars.show', ['item' => $webinar, 'userSubscription' => $userSubscription]);
@@ -119,6 +129,40 @@ class WebinarController extends Controller
 
         $webinar->fill($request->validated());
         $webinar->save();
+
+        if (trim($request->get('cover')) != '') {
+            $webinar->cover()->delete();
+
+            $disk = Storage::disk('public');
+            $coverFile = $request->get('cover');
+            $stream = $disk->getDriver()->readStream($coverFile);
+
+            $cover = new Image;
+            $cover->openImage($stream);
+            $cover->storage = config('filesystems.default');
+            $cover->name = Url::fromString($coverFile)->getBasename();
+            $cover->save();
+
+            $webinar->cover_id = $cover->id;
+            $webinar->save();
+        }
+
+        if (trim($request->get('record_file')) != '') {
+            $webinar->record_file()->delete();
+
+            $disk = Storage::disk('public');
+            $recordFile = $request->get('record_file');
+            $stream = $disk->getDriver()->readStream($recordFile);
+
+            $file = new File();
+            $file->open($stream, Url::fromString($recordFile)->getExtension());
+            $file->storage = config('filesystems.default');
+            $file->name = Url::fromString($recordFile)->getBasename();
+            $file->save();
+
+            $webinar->record_file_id = $file->id;
+            $webinar->save();
+        }
 
         if ($request->expectsJson()) {
             return [

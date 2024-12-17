@@ -9,14 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreConferenceRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array|string>
@@ -24,6 +16,10 @@ class StoreConferenceRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
+            'cover' => [
+                'required',
+                new FileExistsOnDiskRule()
+            ],
             'title' => [
                 'required',
                 'string',
@@ -32,7 +28,10 @@ class StoreConferenceRequest extends FormRequest
             'description' => [
                 'required',
                 'string',
-                'max:255',
+            ],
+            'stream_url' => [
+                'nullable',
+                'url'
             ],
             'start_at' => [
                 'required',
@@ -40,10 +39,11 @@ class StoreConferenceRequest extends FormRequest
             ],
             'end_at' => [
                 'required',
-                'date'
+                'date',
+                'after:start_at',
             ],
-            $rules['cover'] = [
-                'required',
+            'file' => [
+                'nullable',
                 new FileExistsOnDiskRule()
             ]
         ];

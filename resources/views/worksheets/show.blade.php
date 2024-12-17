@@ -4,7 +4,7 @@
     <div class="flex items-center justify-center">
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
-            @if (Auth::user()->isSubscriptionActive() and $item->file->isVideo())
+            @if (Auth::check() and Auth::user()->isSubscriptionActive() and $item->file->isVideo())
                 <x-video :url="$item->file->url"/>
             @else
                 <!-- Webinar Image -->
@@ -30,7 +30,7 @@
             </div>
 
             <div class="mt-8">
-                @if (Auth::user()->isSubscriptionActive() and !$item->file->isVideo())
+                @if (Auth::check() and Auth::user()->isSubscriptionActive() and !$item->file->isVideo())
                     <a
                         href="{{ $item->file->url }}" target="_blank"
                         class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition mb-4">
@@ -38,7 +38,7 @@
                     </a>
                 @endif
 
-                @if (!Auth::user()->isSubscriptionActive())
+                @if (optional(!Auth::user())->isSubscriptionActive())
                     <div class="mb-6">
                         <a href="{{ route('join') }}"
                            class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">

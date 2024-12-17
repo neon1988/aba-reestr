@@ -2,18 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\FileExistsOnDiskRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWorksheetRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,7 +15,27 @@ class StoreWorksheetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'description' => [
+                'required',
+                'string',
+            ],
+            'price' => [
+                'required',
+                'numeric'
+            ],
+            'cover' => [
+                'required',
+                new FileExistsOnDiskRule()
+            ],
+            'file' => [
+                'required',
+                new FileExistsOnDiskRule()
+            ]
         ];
     }
 

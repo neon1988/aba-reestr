@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\WebinarObserver;
 use App\Traits\UserCreated;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ObservedBy([WebinarObserver::class])]
 class Webinar extends Model
 {
     /** @use HasFactory<\Database\Factories\WebinarFactory> */
@@ -27,8 +30,9 @@ class Webinar extends Model
     protected function casts(): array
     {
         return [
-            'start_at' => 'date',
-            'end_at' => 'date',
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+            'deleted_at' => 'datetime',
         ];
     }
 

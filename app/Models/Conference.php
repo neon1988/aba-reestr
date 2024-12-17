@@ -2,32 +2,38 @@
 
 namespace App\Models;
 
+use App\Observers\ConferenceObserver;
+use App\Traits\UserCreated;
 use Database\Factories\ConferenceFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\hasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ObservedBy([ConferenceObserver::class])]
 class Conference extends Model
 {
     /** @use HasFactory<ConferenceFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes, UserCreated;
 
     protected $fillable = [
         'title',
         'description',
         'start_at',
         'end_at',
-        'cover'
+        'stream_url'
     ];
 
     protected function casts(): array
     {
         return [
-            'start_at' => 'date',
-            'end_at' => 'date',
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+            'deleted_at' => 'datetime',
         ];
     }
-
 
     /**
      * Скоуп для предстоящих мероприятий.
@@ -63,8 +69,13 @@ class Conference extends Model
             ->where('end_at', '>=', now());
     }
 
-    public function cover(): \Illuminate\Database\Eloquent\Relations\hasOne
+    public function cover(): hasOne
     {
         return $this->hasOne(Image::class, 'id', 'cover_id');
+    }
+
+    public function file(): hasOne
+    {
+        return $this->hasOne(File::class, 'id', 'file_id');
     }
 }

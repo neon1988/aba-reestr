@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\WorksheetObserver;
 use App\Traits\UserCreated;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ObservedBy([WorksheetObserver::class])]
 class Worksheet extends Model
 {
     use HasFactory, SoftDeletes, UserCreated;
@@ -15,10 +18,7 @@ class Worksheet extends Model
     protected $fillable = [
         'title',
         'description',
-        'create_user_id',
-        'type',
-        'cover_id',
-        'file_id'
+        'price',
     ];
 
     // Указываем поля для работы с датами

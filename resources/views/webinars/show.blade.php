@@ -5,7 +5,7 @@
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
             @if (!empty($item->record_file))
-                @if (Auth::user()->isSubscriptionActive())
+                @if (Auth::check() and Auth::user()->isSubscriptionActive())
                     <x-video :url="$item->record_file->url"/>
                 @endif
             @else
@@ -40,7 +40,7 @@
 
             <!-- Call to Action -->
             <div class="mt-8">
-                @if (Auth::user()->isSubscriptionActive())
+                @if (Auth::check() and Auth::user()->isSubscriptionActive())
                     @if (empty($item->record_file))
                         <a
                             href="{{ $item->stream_url }}" target="_blank"
@@ -50,7 +50,7 @@
                     @endif
                 @endif
 
-                @if (!Auth::user()->isSubscriptionActive())
+                @if (!optional(Auth::user())->isSubscriptionActive())
                     <a href="{{ route('join') }}"
                        class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
                         Оформить подписку для получения доступа

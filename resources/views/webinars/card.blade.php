@@ -1,5 +1,7 @@
 <div class="bg-white shadow rounded-lg p-6">
-    <img src="{{ $item->cover->url }}" alt="Основы ABA-терапии" class="w-full h-40 object-cover rounded-lg">
+    @if ($item->cover)
+        <img src="{{ $item->cover->url }}" alt="Основы ABA-терапии" class="w-full h-40 object-cover rounded-lg">
+    @endif
     <a href="{{ route('webinars.show', ['webinar' => $item]) }}">
         <h3 class="text-xl font-semibold text-gray-800 mt-4">{{ $item->title }}</h3>
     </a>
