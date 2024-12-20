@@ -45,20 +45,20 @@
                             Оформить подписку для получения доступа
                         </a>
                     </div>
+
+                    <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
+                        <p class="text-gray-700 text-lg mb-4">
+                            Или можете приобрести данный материал отдельно за <span class="font-semibold text-gray-800">{{ $item->price }} р.</span>
+                        </p>
+                        <p class="text-gray-600">
+                            Для оформления покупки напишите на почту
+                            <a href="mailto:{{ config('mail.from.address') }}"
+                               class="text-cyan-600 hover:text-cyan-800">
+                                {{ config('mail.from.address') }}
+                            </a>
+                        </p>
+                    </div>
                 @endif
-
-                <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
-                    <p class="text-gray-700 text-lg mb-4">
-                        Или можете приобрести данный материал отдельно за <span class="font-semibold text-gray-800">{{ $item->price }} р.</span>
-                    </p>
-                    <p class="text-gray-600">
-                        Для оформления покупки напишите на почту
-                        <a href="mailto:{{ config('mail.from.address') }}" class="text-cyan-600 hover:text-cyan-800">
-                            {{ config('mail.from.address') }}
-                        </a>
-                    </p>
-                </div>
-
             </div>
         </div>
     </div>
