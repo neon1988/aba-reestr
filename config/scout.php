@@ -143,6 +143,9 @@ return [
             'bulletins' => [
                 'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
             ],
+            'users' => [
+                'filterableAttributes'=> ['__soft_deleted'],
+            ],
         ],
     ],
 

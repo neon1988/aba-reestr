@@ -21,6 +21,7 @@ class UpdateAllIndexesCommand extends Command
             'App\Models\Center',
             'App\Models\Specialist',
             'App\Models\Bulletin',
+            'App\Models\User',
         ];
 
         foreach ($models as $model)

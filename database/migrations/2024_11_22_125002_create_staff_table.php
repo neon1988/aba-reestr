@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('role'); // Роль пользователя, например 'admin', 'moderator', 'manager'
             $table->text('settings_access')->nullable(); // Дополнительные привилегии или настройки для роли
+            $table->softDeletes();
             $table->timestamps(); // Время создания и обновления записи
         });
     }

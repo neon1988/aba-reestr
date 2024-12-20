@@ -13,6 +13,7 @@ use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WorksheetController;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [OtherController::class, 'home'])->name('home');
@@ -55,6 +56,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('webinars/{webinar}/toggle_subscription', [WebinarController::class, 'toggleSubscription'])->name('webinars.toggle_subscription');
 
     Route::get('users/{user}/webinars', [UserController::class, 'webinars'])->name('users.webinars.index');
+    Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update')
+        ->middleware([HandlePrecognitiveRequests::class]);
 });
 
 Route::middleware('auth')->group(function () {

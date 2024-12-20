@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Models\Image;
+use App\Models\Staff;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -34,6 +36,8 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'photo_id' => null,
+            'subscription_level' => SubscriptionLevelEnum::getRandomValue(),
+            'subscription_ends_at' => $this->faker->dateTimeBetween('now', '+12 month'),
         ];
     }
 
@@ -45,6 +49,18 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     */
+    public function staff(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [];
+        })->afterCreating(function (User $user) {
+            $user->staffs()->createMany(Staff::factory(1)->admin()->make()->toArray());
+        });
     }
 
     /**

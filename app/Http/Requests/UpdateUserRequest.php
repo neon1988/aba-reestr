@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 
 class UpdateUserRequest extends FormRequest
@@ -17,7 +18,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $array = [
             'photo' => [
                 'nullable',
                 File::image()
@@ -33,6 +34,22 @@ class UpdateUserRequest extends FormRequest
                 'max:255',
             ]
         ];
+
+        if ($this->user()->can('updateSubscription', User::class))
+        {
+            $array = array_merge($array, [
+                'subscription_level' => [
+                    'required',
+                    new EnumValue(SubscriptionLevelEnum::class)
+                ],
+                'subscription_ends_at' => [
+                    'nullable',
+                    'date'
+                ],
+            ]);
+        }
+
+        return $array;
     }
 
     public function attributes(): array

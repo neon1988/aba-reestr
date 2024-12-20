@@ -13,11 +13,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
+    use HasFactory, Notifiable, SoftDeletes, HasApiTokens, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +30,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'lastname',
         'email',
         'password',
+        'middlename',
+        'subscription_level',
+        'subscription_ends_at',
     ];
 
     /**
@@ -54,6 +58,20 @@ class User extends Authenticatable implements MustVerifyEmail
             'subscription_ends_at' => 'datetime',
             'deleted_at' => 'datetime',
         ];
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $array['subscription_level'] = SubscriptionLevelEnum::getDescription($array['subscription_level']);
+
+        $keysToRemove = ['password', 'subscription_ends_at', 'email_verified_at'];
+
+        foreach ($keysToRemove as $key)
+            unset($array[$key]);
+
+        return $array;
     }
 
     /**

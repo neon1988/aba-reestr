@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Specialist;
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class UserPolicy extends Policy
 {
@@ -29,8 +30,13 @@ class UserPolicy extends Policy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $authUser, User $user): bool
+    public function update(User $authUser, User $user): Response
     {
-        return $authUser->id == $user->id;
+        return Response::allow();
+    }
+
+    public function updateSubscription(User $authUser): Response
+    {
+        return Response::deny();
     }
 }

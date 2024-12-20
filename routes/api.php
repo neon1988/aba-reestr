@@ -24,7 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('users.update')
+        ->middleware([HandlePrecognitiveRequests::class]);
     Route::post('/users/{user}/photos', [UserController::class, 'updatePhoto'])->name('users.photos.update');
 
     Route::get('/specialists/on_check', [SpecialistController::class, 'on_check'])->name('specialists.on_check');
@@ -71,7 +72,6 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware([HandlePrecognitiveRequests::class]);
     Route::patch('conferences/{conference}', [ConferenceController::class, 'update'])->name('conferences.update')
         ->middleware([HandlePrecognitiveRequests::class]);
-
 
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);

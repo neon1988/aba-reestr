@@ -29,7 +29,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::orderBy('name', 'asc')->paginate(9)
+        $users = User::search($request->input('search'))
+            ->paginate(9)
             ->withQueryString();
 
         $users->load('photo');
@@ -110,6 +111,8 @@ class UserController extends Controller
 
     public function updatePhoto(UpdateUserPhotoRequest $request, User $user): JsonResponse
     {
+        $this->authorize('update', $user);
+
         if ($user->photo instanceof Image)
             $user->photo->delete();
 
@@ -178,5 +181,13 @@ class UserController extends Controller
             ->simplePaginate(10);
 
         return view('users.webinars', compact('upcomingWebinars', 'endedWebinars'));
+    }
+
+    public function updateSubscription(Request $request, User $user)
+    {
+        $this->authorize('updateSubscription', $user);
+
+        $user->fill($request->validated());
+        $user->save();
     }
 }
