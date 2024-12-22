@@ -29,11 +29,11 @@ class UpdateWorksheetRequest extends FormRequest
                 'numeric'
             ],
             'cover' => [
-                'nullable',
+                'required',
                 new FileExistsOnDiskRule()
             ],
             'file' => [
-                'nullable',
+                'required',
                 new FileExistsOnDiskRule()
             ]
         ];

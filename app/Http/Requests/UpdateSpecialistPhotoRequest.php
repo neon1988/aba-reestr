@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\PhoneRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;

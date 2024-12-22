@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\StatusEnum;
 use App\Http\Requests\StoreConferenceRequest;
 use App\Http\Requests\UpdateConferenceRequest;
 use App\Http\Resources\ConferenceResource;
 use App\Models\Conference;
 use App\Models\File;
-use App\Models\Image;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Litlife\Url\Url;
 
 class ConferenceController extends Controller
 {

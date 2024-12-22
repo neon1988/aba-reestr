@@ -6,7 +6,6 @@ use App\Http\Requests\StoreWorksheetRequest;
 use App\Http\Requests\UpdateWorksheetRequest;
 use App\Http\Resources\WorksheetResource;
 use App\Models\File;
-use App\Models\Image;
 use App\Models\Worksheet;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,9 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Litlife\Url\Url;
 
 class WorksheetController extends Controller
 {

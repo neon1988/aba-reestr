@@ -7,8 +7,6 @@ use App\Http\Requests\UpdateFileRequest;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
 class FileController extends Controller

@@ -15,6 +15,10 @@ class UpdateWebinarRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
+            'cover' => [
+                'required',
+                new FileExistsOnDiskRule()
+            ],
             'title' => [
                 'required',
                 'string',
@@ -40,10 +44,6 @@ class UpdateWebinarRequest extends FormRequest
             'price' => [
                 'required',
                 'numeric'
-            ],
-            'cover' => [
-                'nullable',
-                new FileExistsOnDiskRule()
             ],
             'record_file' => [
                 'nullable',

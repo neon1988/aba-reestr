@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
-use App\Http\Resources\FileResource;
 use App\Http\Resources\ImageResource;
-use App\Models\File;
 use App\Models\Image;
-use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
