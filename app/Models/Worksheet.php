@@ -27,7 +27,7 @@ class Worksheet extends Model
     // Отношение к файлу обложки (например, для изображения)
     public function cover()
     {
-        return $this->belongsTo(Image::class, 'cover_id');
+        return $this->belongsTo(File::class, 'cover_id');
     }
 
     // Отношение к файлу материала

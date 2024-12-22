@@ -24,8 +24,11 @@ class FileObserver
         if (!$file->creator instanceof User)
             $file->creator()->associate(Auth::user());
 
-        $file->dirname = '';
-        $file->size = 0;
+        if (empty($file->dirname))
+            $file->dirname = '';
+
+        if (empty($file->size))
+            $file->size = 0;
     }
 
     public function created(File $file): void
@@ -33,10 +36,16 @@ class FileObserver
         if (empty($file->dirname))
             $file->dirname = $file->getDirname();
 
+        // Счетчик для чисел, добавляемых к имени файла
+        $counter = 1;
+
+        // Получаем базовое имя файла
+        $name = Url::fromString($file->name);
+        $baseName = mb_substr($name->getFilename(), 0, 180);
+
         while ($file->isFileExists()) {
-            $name = Url::fromString($file->name);
-            $file->name = $name->withFilename(mb_substr($name->getFilename(), 0, 180))
-                ->appendToFilename('_' . uniqid());
+            $file->name = $name->withFilename($baseName . '_' . $counter);
+            $counter++;
         }
 
         if ($file->isFileExists())

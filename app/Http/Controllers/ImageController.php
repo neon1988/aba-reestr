@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
+use App\Http\Resources\FileResource;
+use App\Http\Resources\ImageResource;
+use App\Models\File;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,35 +33,15 @@ class ImageController extends Controller
      */
     public function store(StoreImageRequest $request)
     {
-        $file = $request->file('file');
-        // Вычисляем хэш файла
-        $hash = hash_file('crc32', $file->getRealPath());
-        $hashPart = substr($hash, 0, 2); // Первые два символа хэша
+        $upload = $request->file('file');
 
-        // Определяем путь для сохранения
-        $directory = "/temp/$hashPart/$hash";
-        $filename = fileNameFormat($file->getClientOriginalName());
-        $path = "$directory/$filename";
+        $file = new Image();
+        $file->open($upload);
+        $file->storage = 'temp';
+        $file->name = $upload->getClientOriginalName();
+        $file->save();
 
-        // Сохраняем файл на указанный диск
-        Storage::disk('public')
-            ->putFileAs($directory, $file, $filename);
-
-        if (str_starts_with($file->getMimeType(), 'image/')) {
-            $isImage = True;
-        } else {
-            $isImage = False;
-        }
-
-        return response()
-            ->json([
-                'path' => $path,
-                'url' => Storage::disk('public')->url($path),
-                'hash' => $hash,
-                'message' => 'Изображение загружено',
-                'isImage' => $isImage,
-                'mimeType' => $file->getMimeType()
-            ]);
+        return new ImageResource($file);
     }
 
     /**

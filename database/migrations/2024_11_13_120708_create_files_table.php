@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('storage');
+            $table->string('storage', 10);
             $table->string('dirname');  // Путь к файлу
             $table->string('name')->nullable();  // Оригинальное имя файла
             $table->string('extension', 10);  // Оригинальное имя файла

@@ -28,8 +28,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/join/specialist', [JoinController::class, 'specialist'])->name('join.specialist');
     Route::get('/join/center', [JoinController::class, 'center'])->name('join.center');
 
-    Route::resource('centers', CenterController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
-    Route::resource('specialists', SpecialistController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
+    Route::resource('centers', CenterController::class)->only(['create', 'update', 'edit', 'destroy']);
+    Route::resource('specialists', SpecialistController::class)->only(['create', 'update', 'edit', 'destroy']);
+
+    Route::post('centers', [CenterController::class, 'store'])->name('centers.store')
+        ->middleware([HandlePrecognitiveRequests::class]);
+
+    Route::post('specialists', [SpecialistController::class, 'store'])->name('specialists.store')
+        ->middleware([HandlePrecognitiveRequests::class]);
 
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);

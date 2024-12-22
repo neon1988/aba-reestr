@@ -19,6 +19,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
@@ -77,72 +78,83 @@ class SpecialistController extends Controller
         $user = Auth::user();
 
         if ($user->specialists()->first())
-            abort(403);
+            abort(403, 'Специалист уже привязан');
 
         if ($user->centers()->first())
-            abort(403);
+            abort(403, 'Центр уже привязан');
 
-        $specialist = Specialist::make($request->validated());
-        $specialist->creator()->associate(Auth::user());
-        $specialist->status = StatusEnum::OnReview;
-        $specialist->save();
+        $specialist = DB::transaction(function () use ($user, $request) {
 
-        $user->specialists()->attach($specialist);
-
-        if (is_array($request->get('photo')) and count($request->get('photo')) > 0)
-        {
-            foreach ($request->get('photo') as $photo) {
-
-                $disk = Storage::disk('public');
-
-                //dd($disk->getDriver()->readStream($photo));
-
-                $stream = $disk->getDriver()->readStream($photo);
-
-                $photo = new Image;
-                $photo->openImage($stream);
-                $photo->storage = config('filesystems.default');
-                $photo->name = Url::fromString($photo)->getBasename();
-                $photo->save();
-
-                $specialist->photo_id = $photo->id;
-                $specialist->save();
-                $user->photo_id = $photo->id;
-                $user->save();
-            }
-        } elseif ($user->photo instanceof Image) {
-            $specialist->photo_id = $user->photo->id;
+            $specialist = Specialist::make($request->validated());
+            $specialist->creator()->associate(Auth::user());
+            $specialist->status = StatusEnum::OnReview;
             $specialist->save();
-        }
 
-        foreach ($request->get('files') as $uploadedFile) {
+            $user->specialists()->attach($specialist);
 
-            $disk = Storage::disk('public');
-            $stream = $disk->getDriver()->readStream($uploadedFile);
+            if (is_array($request->get('photo')) and count($request->get('photo')) > 0)
+            {
+                foreach ($request->get('photo') as $uploadedFile) {
 
-            $file = new File;
-            $file->name = Url::fromString($uploadedFile)->getBasename();
-            $extension = Url::fromString($uploadedFile)->getExtension();
-            $file->extension = $extension;
-            $file->open($stream, $extension);
-            $specialist->files()->save($file);
-        }
+                    $disk = Storage::disk('public');
 
-        if (is_array($request->get('additional_courses')))
-        {
-            foreach ($request->get('additional_courses') as $uploadedFile) {
+                    //dd($disk->getDriver()->readStream($photo));
+
+                    $path = $uploadedFile['path'];
+
+                    $stream = $disk->getDriver()->readStream($path);
+
+                    $photo = new Image;
+                    $photo->openImage($stream);
+                    $photo->storage = config('filesystems.default');
+                    $photo->name = Url::fromString($photo)->getBasename();
+                    $photo->save();
+
+                    $specialist->photo_id = $photo->id;
+                    $specialist->save();
+                    $user->photo_id = $photo->id;
+                    $user->save();
+                }
+            } elseif ($user->photo instanceof Image) {
+                $specialist->photo_id = $user->photo->id;
+                $specialist->save();
+            }
+
+            foreach ($request->get('files') as $uploadedFile) {
+
+                $path = $uploadedFile['path'];
 
                 $disk = Storage::disk('public');
-                $stream = $disk->getDriver()->readStream($uploadedFile);
+                $stream = $disk->getDriver()->readStream($path);
 
                 $file = new File;
-                $file->name = Url::fromString($uploadedFile)->getBasename();
-                $extension = Url::fromString($uploadedFile)->getExtension();
+                $file->name = Url::fromString($path)->getBasename();
+                $extension = Url::fromString($path)->getExtension();
                 $file->extension = $extension;
                 $file->open($stream, $extension);
                 $specialist->files()->save($file);
             }
-        }
+
+            if (is_array($request->get('additional_courses')))
+            {
+                foreach ($request->get('additional_courses') as $uploadedFile) {
+
+                    $path = $uploadedFile['path'];
+
+                    $disk = Storage::disk('public');
+                    $stream = $disk->getDriver()->readStream($path);
+
+                    $file = new File;
+                    $file->name = Url::fromString($path)->getBasename();
+                    $extension = Url::fromString($path)->getExtension();
+                    $file->extension = $extension;
+                    $file->open($stream, $extension);
+                    $specialist->files()->save($file);
+                }
+            }
+
+            return $specialist;
+        });
 
         if ($request->expectsJson()) {
             return [

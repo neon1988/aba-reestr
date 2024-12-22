@@ -72,7 +72,7 @@ class Webinar extends Model
 
     public function cover(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
-        return $this->hasOne(Image::class, 'id', 'cover_id');
+        return $this->hasOne(File::class, 'id', 'cover_id');
     }
 
     public function record_file(): \Illuminate\Database\Eloquent\Relations\hasOne

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\StatusEnum;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,7 +25,7 @@ class ConferenceFactory extends Factory
             'description' => $this->faker->paragraph(3),
             'start_at' => $this->faker->dateTimeBetween('now', '+1 year'),
             'end_at' => $this->faker->dateTimeBetween('+1 year', '+2 years'),
-            'cover_id' => Image::factory(),
+            'cover_id' => File::factory()->image(),
             'created_at' => now(),
             'updated_at' => now(),
             'create_user_id' => User::factory(),
@@ -46,6 +47,7 @@ class ConferenceFactory extends Factory
             return [
                 'start_at' => $startAt,
                 'end_at' => $endAt,
+                'file_id' => File::factory()->randomType(['video'])
             ];
         });
     }

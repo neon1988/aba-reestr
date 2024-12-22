@@ -19,6 +19,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@colinaut/alpinejs-plugin-simple-validate": "^1.8.2"
+        "@colinaut/alpinejs-plugin-simple-validate": "^1.8.2",
+        "laravel-precognition-alpine": "^0.5.14"
     }
 }

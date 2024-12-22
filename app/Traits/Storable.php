@@ -215,26 +215,29 @@ trait Storable
     /**
      * @throws Exception
      */
-    public function moveToStorage($storage)
+    public function moveToStorage($storage, $dirname = null)
     {
         if (!$this->exists())
             throw new FileNotFoundException();
 
+        $resource = $this->getStream();
         $size = $this->getSize();
         $old_storage = $this->storage;
+        $old_dirname = $this->dirname;
 
-        if (Storage::disk($storage)->exists($this->dirname . '/' . $this->name))
-            throw new Exception('File already exists in storage ' . $storage);
+        if ($dirname === null)
+            $dirname = $this->dirname;
 
-        $resource = $this->getStream();
+        if (Storage::disk($storage)->exists($dirname . '/' . $this->name))
+            throw new Exception('File '.$dirname . '/' . $this->name.' already exists in storage ' . $storage);
 
         Storage::disk($storage)
-            ->put($this->dirname . '/' . $this->name, $resource);
+            ->put($dirname . '/' . $this->name, $resource);
 
-        if (!Storage::disk($storage)->exists($this->dirname . '/' . $this->name))
+        if (!Storage::disk($storage)->exists($dirname . '/' . $this->name))
             throw new Exception('Error file copy to ' . $storage);
 
-        if ($size != Storage::disk($storage)->size($this->dirname . '/' . $this->name))
+        if ($size != Storage::disk($storage)->size($dirname . '/' . $this->name))
             throw new Exception('File size does not match');
 
         $this->storage = $storage;
@@ -243,7 +246,7 @@ trait Storable
         fclose($resource);
 
         if (!Storage::disk($old_storage)
-            ->delete($this->dirname . '/' . $this->name))
+            ->delete($old_dirname . '/' . $this->name))
             throw new Exception('The file is not deleted');
     }
 

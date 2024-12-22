@@ -9,16 +9,18 @@
                 <!-- Session Status -->
                 <x-auth-session-status class="mb-4" :status="session('status')"/>
 
-                <form method="POST" action="{{ route('login') }}">
+                <form x-data="formHandler()" method="POST" action="{{ route('login') }}">
                     @csrf
 
                     <!-- Email Address -->
                     <div>
                         <x-input-label for="email" :value="__('Email')"/>
                         <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                      :value="old('email')"
-                                      required autofocus autocomplete="username"/>
-                        <x-input-error :messages="$errors->get('email')" class="mt-2"/>
+                                      :value="old('email')" x-model="form.email" @change="form.validate('email')"
+                                      autofocus autocomplete="username"/>
+                        <template x-if="form.invalid('email')">
+                            <div x-text="form.errors.email" class="text-sm text-red-600 space-y-1"></div>
+                        </template>
                     </div>
 
                     <!-- Password -->
@@ -28,9 +30,12 @@
                         <x-text-input id="password" class="block mt-1 w-full"
                                       type="password"
                                       name="password"
-                                      required autocomplete="current-password"/>
-
-                        <x-input-error :messages="$errors->get('password')" class="mt-2"/>
+                                      x-model="form.password"
+                                      @change="form.validate('password')"
+                                      autocomplete="current-password"/>
+                        <template x-if="form.invalid('password')">
+                            <div x-text="form.errors.password" class="text-sm text-red-600 space-y-1"></div>
+                        </template>
                     </div>
 
                     <!-- Remember Me -->
@@ -38,9 +43,14 @@
                         <label for="remember_me" class="inline-flex items-center">
                             <input id="remember_me" type="checkbox"
                                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
-                                   name="remember">
+                                   name="remember"
+                                   x-model="form.remember_me"
+                                   @change="form.validate('remember_me')">
                             <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                         </label>
+                        <template x-if="form.invalid('remember_me')">
+                            <div x-text="form.errors.remember_me" class="text-sm text-red-600 space-y-1"></div>
+                        </template>
                     </div>
 
                     <div class="flex items-center justify-end mt-4">
@@ -51,11 +61,26 @@
                             </a>
                         @endif
 
-                        <x-primary-button class="ms-3">
+                        <x-primary-button class="ms-3" ::disabled="form.processing">
                             {{ __('Log in') }}
                         </x-primary-button>
                     </div>
                 </form>
+
+                <script>
+                    function formHandler() {
+                        return {
+                            form: null,
+                            init: function () {
+                                this.form = this.$form('post', this.$el.action, {
+                                    email: '{{ old('email') }}',
+                                    password: '{{ old('password') }}',
+                                    remember_me: '{{ old('remember_me') }}',
+                                }).setErrors({{ Js::from($errors->messages()) }})
+                            }
+                        }
+                    }
+                </script>
             </div>
         </div>
     </div>

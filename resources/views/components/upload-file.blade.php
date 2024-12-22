@@ -59,7 +59,6 @@
             files: [], // Массив для хранения файлов
             maxFiles: maxFiles, // Максимальное количество файлов
             url: url,
-
             // Обработчик выбора файлов
             handleFiles(event) {
                 const selectedFiles = Array.from(event.target.files);
@@ -81,7 +80,6 @@
                     this.uploadFile(file);
                 });
             },
-
             // Загрузка каждого файла
             async uploadFile(file) {
                 const index = this.files.findIndex(f => f.file === file);

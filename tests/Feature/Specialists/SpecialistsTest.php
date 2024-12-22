@@ -70,15 +70,15 @@ class SpecialistsTest extends TestCase
             ->put($filePath, $imagick->getImageBlob());
 
         $specialistArray['photo'] = [
-            $filePath
+            ['path' => $filePath]
         ];
 
         $specialistArray['files'] = [
-            $filePath
+            ['path' => $filePath]
         ];
 
         $specialistArray['additional_courses'] = [
-            $filePath
+            ['path' => $filePath]
         ];
 
         // Отправляем POST-запрос с данными для создания специалиста
@@ -146,11 +146,11 @@ class SpecialistsTest extends TestCase
             ->put($filePath, $imagick->getImageBlob());
 
         $specialistArray['files'] = [
-            $filePath
+            ['path' => $filePath]
         ];
 
         $specialistArray['additional_courses'] = [
-            $filePath
+            ['path' => $filePath]
         ];
 
         // Отправляем POST-запрос с данными для создания специалиста

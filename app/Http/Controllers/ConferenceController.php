@@ -12,6 +12,7 @@ use App\Models\Image;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
@@ -56,44 +57,38 @@ class ConferenceController extends Controller
     {
         $this->authorize('create', Conference::class);
 
-        $user = Auth::user();
+        $conference = DB::transaction(function () use ($request) {
+            $user = Auth::user();
+            $conference = Conference::make($request->validated());
+            $conference->creator()->associate($user);
 
-        $conference = Conference::make($request->validated());
+            if ($upload = $request->get('cover'))
+            {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $conference->cover_id = $file->id;
+                    }
+                }
+            }
 
-        if (trim($request->get('cover')) != '') {
-            $conference->cover()->delete();
+            if ($upload = $request->get('file'))
+            {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $conference->file_id = $file->id;
+                    }
+                }
+            }
 
-            $disk = Storage::disk('public');
-            $coverFile = $request->get('cover');
-            $stream = $disk->getDriver()->readStream($coverFile);
+            $conference->creator()->associate($user);
+            $conference->save();
 
-            $cover = new Image();
-            $cover->openImage($stream);
-            $cover->storage = config('filesystems.default');
-            $cover->name = Url::fromString($coverFile)->getBasename();
-            $cover->save();
-
-            $conference->cover_id = $cover->id;
-        }
-
-        if (trim($request->get('file')) != '') {
-            $conference->file()->delete();
-
-            $disk = Storage::disk('public');
-            $recordFile = $request->get('file');
-            $stream = $disk->getDriver()->readStream($recordFile);
-
-            $file = new File();
-            $file->open($stream, Url::fromString($recordFile)->getExtension());
-            $file->storage = config('filesystems.default');
-            $file->name = Url::fromString($recordFile)->getBasename();
-            $file->save();
-
-            $conference->file_id = $file->id;
-        }
-
-        $conference->creator()->associate($user);
-        $conference->save();
+            return $conference;
+        });
 
         if ($request->expectsJson()) {
             return [
@@ -136,42 +131,35 @@ class ConferenceController extends Controller
     {
         $this->authorize('update', $conference);
 
-        $conference->fill($request->validated());
-        $conference->save();
+        $conference = DB::transaction(function () use ($request, $conference) {
+            $conference->fill($request->validated());
+            $conference->save();
 
-        if (trim($request->get('cover')) != '') {
-            $conference->cover()->delete();
+            if ($upload = $request->get('cover')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $conference->cover()->delete();
+                        $file->storage = 'public';
+                        $file->save();
+                        $conference->cover_id = $file->id;
+                        $conference->save();
+                    }
+                }
+            }
 
-            $disk = Storage::disk('public');
-            $coverFile = $request->get('cover');
-            $stream = $disk->getDriver()->readStream($coverFile);
-
-            $cover = new Image();
-            $cover->openImage($stream);
-            $cover->storage = config('filesystems.default');
-            $cover->name = Url::fromString($coverFile)->getBasename();
-            $cover->save();
-
-            $conference->cover_id = $cover->id;
-        }
-
-        if (trim($request->get('file')) != '') {
-            $conference->file()->delete();
-
-            $disk = Storage::disk('public');
-            $recordFile = $request->get('file');
-            $stream = $disk->getDriver()->readStream($recordFile);
-
-            $file = new File();
-            $file->open($stream, Url::fromString($recordFile)->getExtension());
-            $file->storage = config('filesystems.default');
-            $file->name = Url::fromString($recordFile)->getBasename();
-            $file->save();
-
-            $conference->file_id = $file->id;
-        }
-
-        $conference->save();
+            if ($upload = $request->get('file')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $conference->file()->delete();
+                        $file->storage = 'public';
+                        $file->save();
+                        $conference->file_id = $file->id;
+                        $conference->save();
+                    }
+                }
+            }
+            return $conference;
+        });
 
         if ($request->expectsJson()) {
             return [

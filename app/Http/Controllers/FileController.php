@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
+use App\Http\Resources\FileResource;
 use App\Models\File;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Litlife\Url\Url;
 
 class FileController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -28,37 +33,27 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFileRequest $request)
+    public function store(StoreFileRequest $request): FileResource
     {
-        $file = $request->file('file');
-        // Вычисляем хэш файла
-        $hash = hash_file('crc32', $file->getRealPath());
-        $hashPart = substr($hash, 0, 2); // Первые два символа хэша
+        $this->authorize('create', File::class);
 
-        // Определяем путь для сохранения
-        $directory = "/temp/$hashPart/$hash";
-        $filename = fileNameFormat($file->getClientOriginalName());
-        $path = "$directory/$filename";
+        $upload = $request->file('file');
+        $stream = fopen($upload, 'r');
 
-        // Сохраняем файл на указанный диск
-        Storage::disk('public')
-            ->putFileAs($directory, $file, $filename);
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+        $dirname = [];
 
-        if (str_starts_with($file->getMimeType(), 'image/')) {
-            $isImage = True;
-        } else {
-            $isImage = False;
-        }
+        for ($i = 0; $i < 2; $i++)
+            $dirname[] = $characters[rand(0, strlen($characters) - 1)];
 
-        return response()
-            ->json([
-                'path' => $path,
-                'url' => Storage::disk('public')->url($path),
-                'hash' => $hash,
-                'message' => 'Файл загружен',
-                'isImage' => $isImage,
-                'mimeType' => $file->getMimeType()
-            ]);
+        $file = new File();
+        $file->open($stream, Url::fromString($upload->getClientOriginalName())->getExtension());
+        $file->storage = 'temp';
+        $file->dirname = 'files/'.implode('/', $dirname);
+        $file->name = $upload->getClientOriginalName();
+        $file->save();
+
+        return new FileResource($file);
     }
 
     /**

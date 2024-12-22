@@ -71,7 +71,7 @@ class Conference extends Model
 
     public function cover(): hasOne
     {
-        return $this->hasOne(Image::class, 'id', 'cover_id');
+        return $this->hasOne(File::class, 'id', 'cover_id');
     }
 
     public function file(): hasOne

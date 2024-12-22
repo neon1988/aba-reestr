@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WebinarSeeder::class);
         $this->call(ConferenceSeeder::class);
         $this->call(WorksheetSeeder::class);
+        $this->call(WorldSeeder::class);
 
         Artisan::call('scout:update-all-indexes', ['--flush' => true]);
 

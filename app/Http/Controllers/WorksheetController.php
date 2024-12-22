@@ -15,6 +15,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
@@ -53,38 +55,33 @@ class WorksheetController extends Controller
 
         $user = Auth::user();
 
-        $worksheet = Worksheet::make($request->validated());
+        $worksheet = DB::transaction(function () use ($request, $user) {
+            $worksheet = Worksheet::make($request->validated());
 
-        if (trim($request->get('cover')) != '') {
-            $disk = Storage::disk('public');
-            $cover = $request->get('cover');
-            $stream = $disk->getDriver()->readStream($cover);
+            if ($upload = $request->get('cover')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $worksheet->cover_id = $file->id;
+                    }
+                }
+            }
 
-            $cover = new Image;
-            $cover->openImage($stream);
-            $cover->storage = config('filesystems.default');
-            $cover->name = Url::fromString($cover)->getBasename();
-            $cover->save();
+            if ($upload = $request->get('file')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $worksheet->file_id = $file->id;
+                    }
+                }
+            }
 
-            $worksheet->cover_id = $cover->id;
-        }
-
-        if (trim($request->get('file')) != '') {
-            $disk = Storage::disk('public');
-            $path = $request->get('file');
-
-            $stream = $disk->getDriver()->readStream($path);
-
-            $file = new File();
-            $file->open($stream, Url::fromString($path)->getExtension());
-            $file->storage = config('filesystems.default');
-            $file->name = Url::fromString($path)->getBasename();
-            $file->save();
-
-            $worksheet->file_id = $file->id;
-        }
-        $worksheet->creator()->associate($user);
-        $worksheet->save();
+            $worksheet->creator()->associate($user);
+            $worksheet->save();
+            return $worksheet;
+        });
 
         if ($request->expectsJson()) {
             return [
@@ -126,42 +123,37 @@ class WorksheetController extends Controller
 
         $this->authorize('update', $worksheet);
 
-        $worksheet->fill($request->validated());
-        $worksheet->save();
+        $worksheet = DB::transaction(function () use ($request, $worksheet) {
 
-        if (trim($request->get('cover')) != '') {
-            $worksheet->cover()->delete();
-
-            $disk = Storage::disk('public');
-            $coverFile = $request->get('cover');
-            $stream = $disk->getDriver()->readStream($coverFile);
-
-            $cover = new Image;
-            $cover->openImage($stream);
-            $cover->storage = config('filesystems.default');
-            $cover->name = Url::fromString($coverFile)->getBasename();
-            $cover->save();
-
-            $worksheet->cover_id = $cover->id;
+            $worksheet->fill($request->validated());
             $worksheet->save();
-        }
 
-        if (trim($request->get('file')) != '') {
-            $worksheet->file()->delete();
+            if ($upload = $request->get('cover')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $worksheet->cover()->delete();
+                        $file->storage = 'public';
+                        $file->save();
+                        $worksheet->cover_id = $file->id;
+                        $worksheet->save();
+                    }
+                }
+            }
 
-            $disk = Storage::disk('public');
-            $path = $request->get('file');
-            $stream = $disk->getDriver()->readStream($path);
+            if ($upload = $request->get('file')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $worksheet->file()->delete();
+                        $file->storage = 'public';
+                        $file->save();
+                        $worksheet->file_id = $file->id;
+                        $worksheet->save();
+                    }
+                }
+            }
 
-            $file = new File();
-            $file->open($stream, Url::fromString($path)->getExtension());
-            $file->storage = config('filesystems.default');
-            $file->name = Url::fromString($path)->getBasename();
-            $file->save();
-
-            $worksheet->file_id = $file->id;
-            $worksheet->save();
-        }
+            return $worksheet;
+        });
 
         if ($request->expectsJson()) {
             return [
