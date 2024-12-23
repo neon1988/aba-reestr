@@ -20,21 +20,21 @@ class ConferenceController extends Controller
      */
     public function index()
     {
-        $upcoming = Conference::upcoming()->with('cover')->get();
-        $ended = Conference::ended()->with('cover')->simplePaginate(10);
+        $upcoming = Conference::upcoming()->with('cover')->orderBy('created_at', 'desc')->get();
+        $ended = Conference::ended()->with('cover')->orderBy('created_at', 'desc')->simplePaginate(10);
 
         return view('conferences.index', compact('upcoming', 'ended'));
     }
 
     public function upcoming()
     {
-        $conferences = Conference::upcoming()->with('cover')->simplePaginate(10);
+        $conferences = Conference::upcoming()->with('cover')->orderBy('created_at', 'desc')->simplePaginate(10);
         return ConferenceResource::collection($conferences);
     }
 
     public function ended()
     {
-        $conferences = Conference::ended()->with('cover')->simplePaginate(10);
+        $conferences = Conference::ended()->with('cover')->orderBy('created_at', 'desc')->simplePaginate(10);
         return ConferenceResource::collection($conferences);
     }
 

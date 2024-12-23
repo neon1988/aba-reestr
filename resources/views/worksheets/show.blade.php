@@ -38,7 +38,7 @@
                     </a>
                 @endif
 
-                @if (optional(!Auth::user())->isSubscriptionActive())
+                @if (!empty($item->price) and optional(!Auth::user())->isSubscriptionActive())
                     <div class="mb-6">
                         <a href="{{ route('join') }}"
                            class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">

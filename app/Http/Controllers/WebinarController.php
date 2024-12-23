@@ -23,21 +23,21 @@ class WebinarController extends Controller
      */
     public function index()
     {
-        $upcomingWebinars = Webinar::upcoming()->with('cover')->get();
-        $endedWebinars = Webinar::ended()->with('cover')->simplePaginate(10);
+        $upcomingWebinars = Webinar::upcoming()->with('cover')->orderBy('created_at', 'desc')->get();
+        $endedWebinars = Webinar::ended()->with('cover')->orderBy('created_at', 'desc')->simplePaginate(10);
 
         return view('webinars.index', compact('upcomingWebinars', 'endedWebinars'));
     }
 
     public function upcoming()
     {
-        $webinars = Webinar::upcoming()->with('cover')->simplePaginate(10);
+        $webinars = Webinar::upcoming()->with('cover')->orderBy('created_at', 'desc')->simplePaginate(10);
         return WebinarResource::collection($webinars);
     }
 
     public function ended()
     {
-        $webinars = Webinar::ended()->with('cover')->simplePaginate(10);
+        $webinars = Webinar::ended()->with('cover')->orderBy('created_at', 'desc')->simplePaginate(10);
         return WebinarResource::collection($webinars);
     }
 
@@ -199,7 +199,7 @@ class WebinarController extends Controller
 
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => 'Вы успешно отписались от вебинара'
+                    'message' => 'Вы успешно отменили регистрацию на вебинар'
                 ]);
             } else {
                 return redirect()->route('webinars.show', compact('webinar'));
@@ -215,7 +215,7 @@ class WebinarController extends Controller
 
             if ($request->expectsJson()) {
                 return response()->json([
-                    'message' => 'Вы успешно подписались на вебинар',
+                    'message' => 'Вы успешно зарегистрировались на вебинар',
                     'subscription' => new WebinarResource($newSubscription)
                 ], 201);
             } else {

@@ -11,7 +11,13 @@
             <span class="font-medium">Конец:</span> <x-time :time="$item->end_at" />
         @endisset
     </div>
-    <p class="text-gray-600 mt-2">Цена: {{ $item->price }} р.</p>
+    <p class="text-gray-600 mt-2">
+        @empty($item->price)
+            Бесплатно
+        @else
+            Цена: {{ $item->price }} р.
+        @endif
+    </p>
     <p class="text-gray-600 mt-4">
         {{ $item->description }}
     </p>

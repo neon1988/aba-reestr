@@ -38,7 +38,7 @@ class StoreWebinarRequest extends FormRequest
                 'url'
             ],
             'price' => [
-                'required',
+                'nullable',
                 'numeric'
             ],
             'cover' => [

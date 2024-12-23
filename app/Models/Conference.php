@@ -23,7 +23,8 @@ class Conference extends Model
         'description',
         'start_at',
         'end_at',
-        'stream_url'
+        'stream_url',
+        'price',
     ];
 
     protected function casts(): array

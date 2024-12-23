@@ -33,6 +33,7 @@ class CenterController extends Controller
 
         $centers = Center::search($request->input('search'))
             ->where('status', $status)
+            ->orderBy('created_at', 'desc')
             ->paginate(9)
             ->withQueryString();
 
@@ -55,6 +56,7 @@ class CenterController extends Controller
     {
         $centers = Center::search($request->input('search'))
             ->where('status', StatusEnum::OnReview)
+            ->orderBy('created_at', 'desc')
             ->paginate(9)
             ->withQueryString();
 

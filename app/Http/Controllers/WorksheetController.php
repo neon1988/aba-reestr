@@ -25,6 +25,7 @@ class WorksheetController extends Controller
     public function index(Request $request): AnonymousResourceCollection|Factory|View|Application
     {
         $items = Worksheet::with('cover', 'file', 'creator')
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         if ($request->expectsJson()) {

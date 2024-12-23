@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Bulletin;
+use App\Models\Center;
+use App\Models\Specialist;
+
 return [
 
     /*
@@ -134,17 +138,21 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
-            'specialists' => [
+            Specialist::class => [
                  'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
+                'sortableAttributes' => ['created_at'],
             ],
-            'centers' => [
+            Center::class => [
                 'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
+                'sortableAttributes' => ['created_at'],
             ],
-            'bulletins' => [
+            Bulletin::class => [
                 'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
+                'sortableAttributes' => ['created_at'],
             ],
-            'users' => [
+            User::class => [
                 'filterableAttributes'=> ['__soft_deleted'],
+                'sortableAttributes' => ['created_at'],
             ],
         ],
     ],

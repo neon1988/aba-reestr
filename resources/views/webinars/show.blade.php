@@ -66,8 +66,8 @@
                             x-cloak
                             x-on:click.prevent="subscribe"
                             class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
-                            <span x-show="!loading && !isSubscribed">Подписаться на вебинар</span>
-                            <span x-show="!loading && isSubscribed">Отписаться от вебинара</span>
+                            <span x-show="!loading && !isSubscribed">Зарегистрироваться на вебинар</span>
+                            <span x-show="!loading && isSubscribed">Отменить регистрацию на вебинар</span>
                             <span x-show="loading">Загрузка...</span>
                         </button>
 
@@ -114,7 +114,6 @@
                                         }
                                         this.loading = false;
                                     } catch (error) {
-                                        console.error('Ошибка при подписке:', error);
                                         this.loading = false;
                                         this.messageType = 'error';
                                         this.message = error.message;
@@ -126,7 +125,7 @@
 
                 @endcan
 
-                @if (!optional(Auth::user())->isSubscriptionActive())
+                @if (!empty($item->price) and !optional(Auth::user())->isSubscriptionActive())
                     <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
                         <p class="text-gray-700 text-lg mb-4">
                             Или можете приобрести данный материал отдельно за <span class="font-semibold text-gray-800">{{ $item->price }} р.</span>

@@ -89,7 +89,7 @@
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница центра</a>
                                 @endif
                                 @if (Auth::user()->isStaff())
-                                    <a href=""
+                                    <a href="{{ config('app.manage_url') }}"
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
                                         Перейти в админку</a>
                                 @endif

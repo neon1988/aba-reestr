@@ -42,7 +42,7 @@ class UpdateWebinarRequest extends FormRequest
                 'url'
             ],
             'price' => [
-                'required',
+                'nullable',
                 'numeric'
             ],
             'record_file' => [

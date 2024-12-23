@@ -30,6 +30,7 @@ class BulletinController extends Controller
 
         $items = Bulletin::search($request->input('search'))
             ->where('status', $status)
+            ->orderBy('created_at', 'desc')
             ->paginate(9)
             ->withQueryString();
 

@@ -29,6 +29,10 @@ class StoreConferenceRequest extends FormRequest
                 'required',
                 'string',
             ],
+            'price' => [
+                'nullable',
+                'numeric'
+            ],
             'stream_url' => [
                 'nullable',
                 'url'

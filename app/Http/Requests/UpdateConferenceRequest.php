@@ -29,6 +29,10 @@ class UpdateConferenceRequest extends FormRequest
                 'required',
                 'string'
             ],
+            'price' => [
+                'nullable',
+                'numeric'
+            ],
             'stream_url' => [
                 'nullable',
                 'url'
