@@ -49,9 +49,9 @@ class WorksheetController extends Controller
     {
         $this->authorize('create', Worksheet::class);
 
-        $user = Auth::user();
+        $worksheet = DB::transaction(function () use ($request) {
+            $user = Auth::user();
 
-        $worksheet = DB::transaction(function () use ($request, $user) {
             $worksheet = Worksheet::make($request->validated());
 
             if ($upload = $request->get('cover')) {

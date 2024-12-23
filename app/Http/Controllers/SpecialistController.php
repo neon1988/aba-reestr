@@ -92,64 +92,36 @@ class SpecialistController extends Controller
 
             $user->specialists()->attach($specialist);
 
-            if (is_array($request->get('photo')) and count($request->get('photo')) > 0)
-            {
-                foreach ($request->get('photo') as $uploadedFile) {
-
-                    $disk = Storage::disk('public');
-
-                    //dd($disk->getDriver()->readStream($photo));
-
-                    $path = $uploadedFile['path'];
-
-                    $stream = $disk->getDriver()->readStream($path);
-
-                    $photo = new Image;
-                    $photo->openImage($stream);
-                    $photo->storage = config('filesystems.default');
-                    $photo->name = Url::fromString($photo)->getBasename();
-                    $photo->save();
-
-                    $specialist->photo_id = $photo->id;
-                    $specialist->save();
-                    $user->photo_id = $photo->id;
-                    $user->save();
+            if ($upload = $request->get('photo')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $user->photo_id = $file->id;
+                        $user->save();
+                        $specialist->photo_id = $file->id;
+                        $specialist->save();
+                    }
                 }
-            } elseif ($user->photo instanceof Image) {
-                $specialist->photo_id = $user->photo->id;
-                $specialist->save();
             }
 
-            foreach ($request->get('files') as $uploadedFile) {
-
-                $path = $uploadedFile['path'];
-
-                $disk = Storage::disk('public');
-                $stream = $disk->getDriver()->readStream($path);
-
-                $file = new File;
-                $file->name = Url::fromString($path)->getBasename();
-                $extension = Url::fromString($path)->getExtension();
-                $file->extension = $extension;
-                $file->open($stream, $extension);
-                $specialist->files()->save($file);
+            foreach ($request->get('files', []) as $upload) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $specialist->files()->attach($file);
+                    }
+                }
             }
 
-            if (is_array($request->get('additional_courses')))
-            {
-                foreach ($request->get('additional_courses') as $uploadedFile) {
-
-                    $path = $uploadedFile['path'];
-
-                    $disk = Storage::disk('public');
-                    $stream = $disk->getDriver()->readStream($path);
-
-                    $file = new File;
-                    $file->name = Url::fromString($path)->getBasename();
-                    $extension = Url::fromString($path)->getExtension();
-                    $file->extension = $extension;
-                    $file->open($stream, $extension);
-                    $specialist->files()->save($file);
+            foreach ($request->get('additional_courses', []) as $upload) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $specialist->files()->attach($file);
+                    }
                 }
             }
 
@@ -171,7 +143,7 @@ class SpecialistController extends Controller
      */
     public function show(Request $request, Specialist $specialist)
     {
-        $specialist->loadMissing('files');
+        $specialist->loadMissing('photo', 'files');
 
         if ($request->expectsJson())
             return new SpecialistResource($specialist);
@@ -184,40 +156,103 @@ class SpecialistController extends Controller
         return view('specialists.edit', compact('specialist'));
     }
 
-    public function update(UpdateSpecialistRequest $request, Specialist $specialist)
+    public function update2(UpdateSpecialistRequest $request, Specialist $specialist)
     {
-        $specialist->fill($request->validated());
+        $specialist = DB::transaction(function () use ($specialist, $request) {
 
-        $user = $specialist->users()->first();
+            $specialist->fill($request->validated());
 
-        if ($user instanceof User)
-            $user->fill($request->validated());
-
-        // Обработка фото (если новое фото загружено)
-        if ($request->hasFile('photo')) {
-            if ($specialist->photo instanceof Image)
-                $specialist->photo->delete();
-
-            $photo = new Image;
-            $photo->openImage($request->file('photo')->getRealPath());
-            $photo->storage = config('filesystems.default');
-            $photo->name = $request->file('photo')->getClientOriginalName();
-            $photo->save();
-
-            $specialist->photo_id = $photo->id;
+            $user = $specialist->users()->first();
 
             if ($user instanceof User)
-            {
-                $user->photo_id = $photo->id;
-                $user->save();
-            }
-        }
+                $user->fill($request->validated());
 
-        $specialist->save();
+            if ($upload = $request->get('photo')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+
+                        if ($specialist->photo instanceof Image)
+                            $specialist->photo->delete();
+
+                        if ($user instanceof User)
+                        {
+                            $user->photo_id = $file->id;
+                            $user->save();
+                        }
+                        $specialist->photo_id = $file->id;
+                        $specialist->save();
+                    }
+                }
+            }
+
+            $specialist->save();
+
+            return $specialist;
+        });
 
         return redirect()
             ->route('specialists.edit', $specialist->id)
             ->with('success', 'Профиль специалиста обновлен.');
+    }
+
+    public function update(UpdateSpecialistRequest $request, Specialist $specialist)
+    {
+        $specialist = DB::transaction(function () use ($specialist, $request) {
+
+            $specialist->fill($request->validated());
+
+            $user = $specialist->users()->first();
+
+            if ($user instanceof User)
+                $user->fill($request->validated());
+
+            if ($upload = $request->get('photo')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $user->photo_id = $file->id;
+                        $specialist->photo_id = $file->id;
+                    }
+                }
+            }
+
+            foreach ($request->get('files', []) as $upload) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $specialist->files()->attach($file);
+                    }
+                }
+            }
+
+            foreach ($request->get('additional_courses', []) as $upload) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $specialist->files()->attach($file);
+                    }
+                }
+            }
+
+            $specialist->save();
+
+            if ($user instanceof User)
+                $user->save();
+
+            return $specialist;
+        });
+
+        if ($request->expectsJson())
+            return new SpecialistResource($specialist);
+        else
+            return redirect()
+                ->route('specialists.edit', $specialist->id)
+                ->with('success', 'Профиль специалиста обновлен.');
     }
 
     public function updatePhoto(UpdateSpecialistPhotoRequest $request, Specialist $specialist)

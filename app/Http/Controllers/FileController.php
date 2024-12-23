@@ -38,16 +38,9 @@ class FileController extends Controller
         $upload = $request->file('file');
         $stream = fopen($upload, 'r');
 
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $dirname = [];
-
-        for ($i = 0; $i < 2; $i++)
-            $dirname[] = $characters[rand(0, strlen($characters) - 1)];
-
         $file = new File();
         $file->open($stream, Url::fromString($upload->getClientOriginalName())->getExtension());
         $file->storage = 'temp';
-        $file->dirname = 'files/'.implode('/', $dirname);
         $file->name = $upload->getClientOriginalName();
         $file->save();
 

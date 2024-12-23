@@ -25,7 +25,15 @@ class FileObserver
             $file->creator()->associate(Auth::user());
 
         if (empty($file->dirname))
-            $file->dirname = '';
+        {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
+            $dirname = [];
+
+            for ($i = 0; $i < 2; $i++)
+                $dirname[] = $characters[rand(0, strlen($characters) - 1)];
+
+            $file->dirname = 'files/'.implode('/', $dirname);
+        }
 
         if (empty($file->size))
             $file->size = 0;

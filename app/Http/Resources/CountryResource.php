@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class CountryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,10 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
-        $array['photo'] = new FileResource($this->whenLoaded('photo'));
-        $array['specialists'] = SpecialistResource::collection($this->whenLoaded('specialists'));
-        $array['centers'] = CenterResource::collection($this->whenLoaded('centers'));
-        return $array;
+        return [
+            'id' => $array['id'],
+            'name' => $array['name'],
+            'localized_name' => __($array['name'])
+        ];
     }
 }

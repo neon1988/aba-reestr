@@ -15,8 +15,10 @@ class SpecialistResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
-        $array['photo'] = new ImageResource($this->whenLoaded('photo'));
+        $array['education'] = (int)$array['education'];
+        $array['photo'] = new FileResource($this->whenLoaded('photo'));
         $array['files'] = FileResource::collection($this->whenLoaded('files'));
+        $array['additional_courses'] = FileResource::collection($this->whenLoaded('additional_courses'));
         return $array;
     }
 }

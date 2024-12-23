@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\EducationEnum;
+use App\Rules\FileExistsOnDiskRule;
 use App\Rules\PhoneRule;
 use App\Rules\TelegramUsername;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\File;
@@ -20,17 +23,14 @@ class UpdateSpecialistRequest extends FormRequest
         return [
             'photo' => [
                 'nullable',
-                File::image()
-                    ->types(config('upload.support_images_formats'))
-                    ->min(config('upload.image_min_size'))
-                    ->max(config('upload.image_max_size'))
+                new FileExistsOnDiskRule()
             ],
-            'lastname' => [
+            'name' => [
                 'required',
                 'string',
                 'max:50',
             ],
-            'name' => [
+            'lastname' => [
                 'required',
                 'string',
                 'max:50',
@@ -40,10 +40,50 @@ class UpdateSpecialistRequest extends FormRequest
                 'string',
                 'max:50',
             ],
+            'country' => [
+                'required',
+                'string',
+                'max:100',
+                'exists:App\Models\Country,name',
+            ],
+            'region' => [
+                'nullable',
+                'string',
+                'max:100',
+            ],
+            'city' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+            'education' => [
+                'required',
+                new EnumValue(EducationEnum::class, false)
+            ],
             'phone' => [
                 'required',
                 'string',
                 new PhoneRule(10, 15), // Используем кастомное правило Phone
+            ],
+            'center_name' => [
+                'nullable',
+                'string',
+                'max:200',
+            ],
+            'curator' => [
+                'nullable',
+                'string',
+                'max:200',
+            ],
+            'supervisor' => [
+                'nullable',
+                'string',
+                'max:200',
+            ],
+            'professional_interests' => [
+                'nullable',
+                'string',
+                'max:200',
             ],
             'show_email' => [
                 'required',
@@ -56,6 +96,15 @@ class UpdateSpecialistRequest extends FormRequest
             'telegram_profile' => [
                 'nullable',
                 new TelegramUsername()
+            ],
+            'files' => [
+                'required',
+                'array',
+                new FileExistsOnDiskRule()
+            ],
+            'additional_courses' => [
+                'nullable',
+                new FileExistsOnDiskRule()
             ],
         ];
 

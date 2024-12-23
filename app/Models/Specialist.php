@@ -76,7 +76,7 @@ class Specialist extends Model
      */
     public function photo(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
-        return $this->hasOne(Image::class, 'id', 'photo_id');
+        return $this->hasOne(File::class, 'id', 'photo_id');
     }
 
     public function scopeActive($query)

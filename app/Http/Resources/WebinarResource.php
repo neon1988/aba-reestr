@@ -16,7 +16,7 @@ class WebinarResource extends JsonResource
     {
         $array = parent::toArray($request);
         $array['creator'] = new UserResource($this->whenLoaded('creator'));
-        $array['cover'] = new ImageResource($this->whenLoaded('cover'));
+        $array['cover'] = new FileResource($this->whenLoaded('cover'));
         $array['record_file'] = new FileResource($this->whenLoaded('record_file'));
         return $array;
     }

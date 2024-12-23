@@ -40,12 +40,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);
 
-    Route::get('specialists/{specialist}/location-and-work', [SpecialistController::class, 'showLocationAndWork'])->name('specialists.location-and-work');
-    Route::patch('specialists/{specialist}/location-and-work', [SpecialistController::class, 'updateLocationAndWork'])->name('specialists.location-and-work.update');
+    Route::get('specialists/{specialist}/location-and-work', [SpecialistController::class, 'showLocationAndWork'])
+        ->name('specialists.location-and-work');
+    Route::patch('specialists/{specialist}/location-and-work', [SpecialistController::class, 'updateLocationAndWork'])
+        ->name('specialists.location-and-work.update');
 
-    Route::get('/specialists/{specialist}/education-and-documents', [SpecialistController::class, 'educationAndDocuments'])->name('specialists.education-and-documents');
-    Route::get('/specialists/{specialist}/billing-and-payment-documents', [SpecialistController::class, 'billingAndPaymentDocuments'])->name('specialists.billing-and-payment-documents');
-    Route::get('/specialists/{specialist}/delete-profile', [SpecialistController::class, 'deleteProfile'])->name('specialists.delete_profile');
+    Route::get('/specialists/{specialist}/education-and-documents', [SpecialistController::class, 'educationAndDocuments'])
+        ->name('specialists.education-and-documents');
+    Route::get('/specialists/{specialist}/billing-and-payment-documents', [SpecialistController::class, 'billingAndPaymentDocuments'])
+        ->name('specialists.billing-and-payment-documents');
+    Route::get('/specialists/{specialist}/delete-profile', [SpecialistController::class, 'deleteProfile'])
+        ->name('specialists.delete_profile');
 
     Route::get('/profile/password_change', [ProfileController::class, 'passwordChange'])->name('profile.password_change');
 

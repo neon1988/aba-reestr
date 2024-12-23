@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateUserEmailRequest;
 use App\Http\Requests\UpdateUserPhotoRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -16,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -80,23 +82,22 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        $user->fill($request->validated());
-        $user->save();
+        $user = DB::transaction(function () use ($request, $user) {
+            $user->fill($request->validated());
 
-        if ($request->hasFile('photo'))
-        {
-            if ($user->photo instanceof Image)
-                $user->photo->delete();
-
-            $photo = new Image;
-            $photo->openImage($request->file('photo')->getRealPath());
-            $photo->storage = config('filesystems.default');
-            $photo->name = $request->file('photo')->getClientOriginalName();
-            $photo->save();
-
-            $user->photo_id = $photo->id;
+            if ($upload = $request->get('photo')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $user->photo_id = $file->id;
+                    }
+                }
+            }
             $user->save();
-        }
+
+            return $user;
+        });
 
         $user->load('photo');
 

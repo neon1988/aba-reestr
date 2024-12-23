@@ -9,12 +9,14 @@ use App\Http\Resources\CenterResource;
 use App\Models\Center;
 use App\Models\File;
 use App\Models\Image;
+use App\Models\Worksheet;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
@@ -72,45 +74,39 @@ class CenterController extends Controller
      */
     public function store(StoreCenterRequest $request)
     {
-        $user = Auth::user();
+        $center = DB::transaction(function () use ($request) {
+            $user = Auth::user();
 
-        $center = Center::make($request->validated());
-        $center->creator()->associate(Auth::user());
-        $center->statusSentForReview();
-        $center->save();
+            $center = Center::make($request->validated());
+            $center->creator()->associate($user);
+            $center->statusSentForReview();
+            $center->save();
 
-        $user->centers()->attach($center, ['roleable_type' => Center::class]);
+            $user->centers()->attach($center, ['roleable_type' => Center::class]);
 
-        foreach ($request->get('photo') as $photo) {
+            if ($upload = $request->get('photo')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $center->photo_id = $file->id;
+                    }
+                }
+            }
 
-            $disk = Storage::disk('public');
+            foreach ($request->get('files') as $upload) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
 
-            //dd($disk->getDriver()->readStream($photo));
-
-            $stream = $disk->getDriver()->readStream($photo);
-
-            $photo = new Image;
-            $photo->openImage($stream);
-            $photo->storage = config('filesystems.default');
-            $photo->name = Url::fromString($photo)->getBasename();
-            $photo->save();
-
-            $user->photo_id = $photo->id;
-            $user->save();
-        }
-
-        foreach ($request->get('files') as $uploadedFile) {
-
-            $disk = Storage::disk('public');
-            $stream = $disk->getDriver()->readStream($uploadedFile);
-
-            $file = new File;
-            $file->name = Url::fromString($uploadedFile)->getBasename();
-            $extension = Url::fromString($uploadedFile)->getExtension();
-            $file->extension = $extension;
-            $file->open($stream, $extension);
-            $center->files()->save($file);
-        }
+                        $center->files()->syncWithoutDetaching([$file->id]);
+                    }
+                }
+            }
+            $center->save();
+            return $center;
+        });
 
         if ($request->expectsJson())
         {

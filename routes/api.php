@@ -11,6 +11,7 @@ use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WorksheetController;
+use App\Http\Controllers\WorldController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/specialists/on_check', [SpecialistController::class, 'on_check'])->name('specialists.on_check');
 
     Route::resource('centers', CenterController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
-    Route::resource('specialists', SpecialistController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
+    Route::resource('specialists', SpecialistController::class)->only(['create', 'store', 'edit', 'destroy']);
     Route::resource('bulletins', BulletinController::class)->only(['create', 'store', 'update', 'edit', 'destroy']);
 
     Route::resource('centers', CenterController::class)->only(['index', 'show']);
@@ -44,6 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/specialists/{specialist}/photos', [SpecialistController::class, 'updatePhoto'])->name('specialists.update_photo');
     Route::patch('/specialists/{specialist}/location-and-work', [SpecialistController::class, 'updateLocationAndWork'])
         ->name('specialists.location-and-work.update');
+
+    Route::patch('/specialists/{specialist}', [SpecialistController::class, 'update'])
+        ->name('specialists.update')
+        ->middleware([HandlePrecognitiveRequests::class]);
 
     Route::put('/centers/{center}/approve', [CenterController::class, 'approve'])->name('centers.approve');
     Route::put('/centers/{center}/reject', [CenterController::class, 'reject'])->name('centers.reject');
@@ -76,3 +81,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);
 });
+
+Route::get('countries', [WorldController::class, 'countries'])->name('countries.index');

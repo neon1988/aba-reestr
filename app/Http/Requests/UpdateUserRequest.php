@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
+use App\Rules\FileExistsOnDiskRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -21,13 +22,18 @@ class UpdateUserRequest extends FormRequest
         $array = [
             'photo' => [
                 'nullable',
-                File::image()
-                    ->types(config('upload.support_images_formats'))
-                    ->min(config('upload.image_min_size'))
-                    ->max(config('upload.image_max_size'))
+                new FileExistsOnDiskRule()
             ],
-            'name' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
+            'lastname' => [
+                'required',
+                'string',
+                'max:255'
+            ],
             'middlename' => [
                 'nullable',
                 'string',

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\SubscriptionLevelEnum;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\Staff;
 use App\Models\User;
@@ -69,7 +70,8 @@ class UserFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (User $user) {
-            $image = Image::factory()
+            $image = File::factory()
+                ->randomType(['image'])
                 ->create(['create_user_id' => $user->id]);
 
             $user->photo_id = $image->id;
