@@ -98,6 +98,16 @@ class FileFactory extends Factory
         return $this->{$state}(); // Вызов соответствующего состояния
     }
 
+    /**
+     * Indicate that the model's email address should be unverified.
+     */
+    public function temp(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'storage' => 'temp'
+        ]);
+    }
+
     public function configure()
     {
         $states = ['video', 'pdf', 'image'];

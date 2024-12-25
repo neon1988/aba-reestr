@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Specialists;
 
+use App\Http\Resources\FileResource;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
 use App\Models\User;
@@ -57,29 +59,28 @@ class SpecialistsTest extends TestCase
         unset($specialistArray['status']);
         unset($specialistArray['create_user_id']);
 
-        Storage::fake('public');
+        $photo = File::factory()
+            ->temp()->image()
+            ->for($user, 'creator')
+            ->create();
 
-        $filePath = 'fake/file.txt';
+        $file = File::factory()
+            ->temp()->pdf()
+            ->for($user, 'creator')
+            ->create();
 
-        $imagick = new Imagick();
-        $imagick->newImage(500, 500, new ImagickPixel('red')); // 300x300 пикселей, красный фон
-        $imagick->addNoiseImage(Imagick::NOISE_GAUSSIAN);
-        $imagick->setImageFormat('jpeg');
-
-        Storage::disk('public')
-            ->put($filePath, $imagick->getImageBlob());
-
-        $specialistArray['photo'] = [
-            ['path' => $filePath]
-        ];
+        $specialistArray['photo'] =
+            (new FileResource($photo))->toArray(request());
 
         $specialistArray['files'] = [
-            ['path' => $filePath]
+            (new FileResource($file))->toArray(request())
         ];
 
         $specialistArray['additional_courses'] = [
-            ['path' => $filePath]
+            (new FileResource($photo))->toArray(request())
         ];
+
+        $specialistArray['confirm_document_authenticity'] = true;
 
         // Отправляем POST-запрос с данными для создания специалиста
         $response = $this->actingAs($user)
@@ -118,7 +119,9 @@ class SpecialistsTest extends TestCase
         $this->seed(WorldSeeder::class);
         Storage::fake(config('filesystems.default'));
 
-        $photo = Image::factory()->create();
+        $photo = File::factory()
+            ->temp()->image()
+            ->create();
 
         $user = User::factory()
             ->create();
@@ -135,23 +138,20 @@ class SpecialistsTest extends TestCase
 
         Storage::fake('public');
 
-        $filePath = 'fake/file.txt';
-
-        $imagick = new Imagick();
-        $imagick->newImage(500, 500, new ImagickPixel('red')); // 300x300 пикселей, красный фон
-        $imagick->addNoiseImage(Imagick::NOISE_GAUSSIAN);
-        $imagick->setImageFormat('jpeg');
-
-        Storage::disk('public')
-            ->put($filePath, $imagick->getImageBlob());
+        $file = File::factory()
+            ->temp()->pdf()
+            ->for($user, 'creator')
+            ->create();
 
         $specialistArray['files'] = [
-            ['path' => $filePath]
+            (new FileResource($file))->toArray(request())
         ];
 
         $specialistArray['additional_courses'] = [
-            ['path' => $filePath]
+            (new FileResource($photo))->toArray(request())
         ];
+
+        $specialistArray['confirm_document_authenticity'] = true;
 
         // Отправляем POST-запрос с данными для создания специалиста
         $response = $this->actingAs($user)

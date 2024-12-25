@@ -33,8 +33,9 @@ class JoinController extends Controller
 
         $countries = Country::orderBy('name', 'asc')->get();
         $user = Auth::user();
+        $photo = $user->photo;
 
-        return view('join.specialist', compact('countries', 'user'));
+        return view('join.specialist', compact('countries', 'user', 'photo'));
     }
 
     public function center(Request $request): View

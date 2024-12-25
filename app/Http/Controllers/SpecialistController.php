@@ -94,15 +94,21 @@ class SpecialistController extends Controller
 
             $user->specialists()->attach($specialist);
 
-            if ($upload = $request->get('photo')) {
-                if ($file = File::find($upload['id'])) {
-                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->storage = 'public';
-                        $file->save();
-                        $user->photo_id = $file->id;
-                        $user->save();
-                        $specialist->photo_id = $file->id;
-                        $specialist->save();
+            if ($user->photo instanceof File)
+            {
+                $specialist->photo_id = $user->photo->id;
+            }
+            else
+            {
+                if ($upload = $request->get('photo')) {
+                    if ($file = File::find($upload['id'])) {
+                        if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                            $file->storage = 'public';
+                            $file->save();
+                            $user->photo_id = $file->id;
+                            $user->save();
+                            $specialist->photo_id = $file->id;
+                        }
                     }
                 }
             }
@@ -126,6 +132,8 @@ class SpecialistController extends Controller
                     }
                 }
             }
+
+            $specialist->save();
 
             return $specialist;
         });

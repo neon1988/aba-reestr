@@ -10,7 +10,12 @@
 
                 <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Регистрация АВА специалиста</h1>
 
-                <x-error-messages />
+                <p class="text-md mb-4">
+                    Для того, чтобы оформить подписку, укажите сведения о вашем основном образовании,
+                    а также о вашем образовании в области прикладного анализа поведения.
+                </p>
+
+                <x-error-messages/>
 
                 <form x-data="formHandler()"
                       @submit.prevent="submit"
@@ -18,7 +23,8 @@
                       enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
-                    <div x-show="Object.keys(errors).length > 0" x-cloak class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 mb-6 rounded-lg">
+                    <div x-show="Object.keys(errors).length > 0" x-cloak
+                         class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 mb-6 rounded-lg">
                         <ul>
                             <template x-for="error in errors">
                                 <li x-text="error"></li>
@@ -34,17 +40,15 @@
                                  class="w-32 h-32 rounded-full object-cover mb-2">
                         @else
                             <x-upload-file
-                                parent_value_name="form.photos"
+                                parent_value_name="form.photo"
                                 max_files="1"
-                                url="{{ route('images.store') }}"
-                                @change="form.validate('photos')"
+                                url="{{ route('files.store') }}"
+                                @change="form.validate('photo')"
                             />
-
-                            Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
-
-                            <template x-if="form.invalid('photos')">
-                                <div x-text="form.errors.photos" class="text-sm text-red-600 space-y-1"></div>
+                            <template x-if="form.invalid('photo')">
+                                <div x-text="form.errors.photo" class="text-sm text-red-600 space-y-1"></div>
                             </template>
+                            Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
                         @endif
                     </div>
 
@@ -171,13 +175,16 @@
                             parent_value_name="form.files"
                             max_files="5"
                             @change="form.validate('files')"
-                            url="{{ route('files.store') }}" />
+                            url="{{ route('files.store') }}"/>
                         <template x-if="form.invalid('files')">
                             <div x-text="form.errors.files" class="text-sm text-red-600 space-y-1"></div>
                         </template>
-                        Укажите Ваше образование в ABA. Пример: "3 модуля Юлии Эрц, 5 модулей Шаг впереди", магистратура
-                        ИПАП и т. д."
-                        Максимальный размер {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                        <div class="text-gray-600">
+                            Укажите Ваше образование в ABA. Пример: "3 модуля Юлии Эрц, 5 модулей Шаг впереди",
+                            магистратура
+                            ИПАП и т. д."
+                            Максимальный размер {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                        </div>
                     </div>
 
                     <!-- Дополнительные курсы и тренинги ABA -->
@@ -187,12 +194,50 @@
                             parent_value_name="form.additional_courses"
                             max_files="5"
                             @change="form.validate('additional_courses')"
-                            url="{{ route('files.store') }}" />
+                            url="{{ route('files.store') }}"/>
                         <template x-if="form.invalid('additional_courses')">
                             <div x-text="form.errors.additional_courses" class="text-sm text-red-600 space-y-1"></div>
                         </template>
-                        Например, курсы повышения квалификации, тренинги, семинары и т.д.
-                        Максимальный размер {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                        <div class="text-gray-600">
+                            Например, курсы повышения квалификации, тренинги, семинары и т.д.
+                            Максимальный размер {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="flex space-x-2">
+                            <input
+                                id="confirm_document_authenticity"
+                                name="confirm_document_authenticity"
+                                x-model="form.confirm_document_authenticity"
+                                @change="form.validate('confirm_document_authenticity')"
+                                type="checkbox" class="text-cyan-600 mt-1 mr-2"/>
+                            <label for="document-confirmation" class="text-gray-600">
+                                Я, <span x-text="form.name" class="font-semibold"></span>
+                                <span x-text="form.lastname" class="font-semibold"></span>
+                                <span x-text="form.middlename" class="font-semibold"></span>,
+                                подлинность приложенных документов подтверждаю.
+                            </label>
+                        </div>
+                        <template x-if="form.invalid('confirm_document_authenticity')">
+                            <div x-text="form.errors.confirm_document_authenticity"
+                                 class="text-sm text-red-600 space-y-1"></div>
+                        </template>
+                    </div>
+
+                    <div class="text-gray-600">
+                        <p class="mt-4">
+                            После проверки документов вам на почту (в личный кабинет) поступит ссылка на оплату
+                            подписки. В течение 3-х рабочих дней после получения оплаты вам будет открыт доступ по
+                            подписке.
+                        </p>
+
+                        <p class="mt-2">
+                            В случае возникновения проблем
+                            <a href="{{ route('contacts') }}"
+                               target="_blank"
+                               class="text-cyan-600 hover:underline">свяжитесь с нами</a>.
+                        </p>
                     </div>
 
                     <x-primary-button ::disabled="form.processing">
@@ -211,7 +256,7 @@
                 errors: [],
                 init: function () {
                     this.form = this.$form('post', this.$el.action, {
-                        photos: [],
+                        photo: '{{ old('photo') }}',
                         name: '{{ old('name', $user->name) }}',
                         lastname: '{{ old('lastname', $user->lastname) }}',
                         middlename: '{{ old('middlename', $user->middlename) }}',
@@ -220,8 +265,9 @@
                         city: '{{ old('city') }}',
                         education: '{{ old('education') }}',
                         phone: '{{ old('phone') }}',
-                        files: [],
-                        additional_courses: []
+                        files: '{{ old('files') }}',
+                        additional_courses: '{{ old('additional_courses') }}',
+                        confirm_document_authenticity: '{{ old('confirm_document_authenticity') }}'
                     }).setErrors({{ Js::from($errors->messages()) }})
                 },
                 submit() {

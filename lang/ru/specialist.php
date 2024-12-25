@@ -11,5 +11,6 @@ return [
     'education' => 'Образование',
     'phone' => 'Телефон',
     'files' => 'Документы',
-    'center_name' => 'Название центра'
+    'center_name' => 'Название центра',
+    'confirm_document_authenticity' => 'Подлинность приложенных документов'
 ];

@@ -21,7 +21,7 @@ class UpdateUserRequest extends FormRequest
     {
         $array = [
             'photo' => [
-                'nullable',
+                'required',
                 new FileExistsOnDiskRule()
             ],
             'name' => [
@@ -41,6 +41,7 @@ class UpdateUserRequest extends FormRequest
             ]
         ];
 
+        /*
         if ($this->user()->can('updateSubscription', User::class))
         {
             $array = array_merge($array, [
@@ -54,12 +55,13 @@ class UpdateUserRequest extends FormRequest
                 ],
             ]);
         }
+        */
 
         return $array;
     }
 
     public function attributes(): array
     {
-        return __('user');
+        return __('user.attributes');
     }
 }

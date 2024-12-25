@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Image;
+use App\Http\Resources\UserResource;
+use App\Models\File;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -18,41 +21,47 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => Auth::user()
         ]);
     }
 
     /**
      * Update the user's profile information.
      */
-    public function update(UpdateUserRequest $request): RedirectResponse
+    public function update(UpdateUserRequest $request): \Illuminate\Http\JsonResponse
     {
-        $user = $request->user();
+        $user = Auth::user();
 
-        $user->fill($request->validated());
+        $user = DB::transaction(function () use ($user, $request) {
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
-
-        if ($request->hasFile('photo'))
-        {
-            if ($user->photo instanceof Image)
-                $user->photo->delete();
-
-            $photo = new Image;
-            $photo->openImage($request->file('photo')->getRealPath());
-            $photo->storage = config('filesystems.default');
-            $photo->name = $request->file('photo')->getClientOriginalName();
-            $photo->save();
-
-            $user->photo_id = $photo->id;
+            $user->fill($request->validated());
             $user->save();
+
+            if ($upload = $request->get('photo')) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $user->photo_id = $file->id;
+                    }
+                }
+            }
+
+            $user->save();
+
+            return $user;
+        });
+
+        if ($request->expectsJson())
+        {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Профиль успешно обновлен.',
+                'data' => new UserResource($user), // Использование Resource для упорядоченного ответа
+            ]);
         }
-
-        $user->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        else
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

@@ -71,6 +71,13 @@ class StoreSpecialistRequest extends FormRequest
                 'string',
                 'max:50',
             ],
+            'confirm_document_authenticity' => [
+                'accepted'
+            ],
+            'photo' => [
+                'required',
+                new FileExistsOnDiskRule()
+            ]
         ];
 
         // Условное правило для фото

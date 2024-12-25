@@ -1,3 +1,4 @@
+@php use App\Http\Resources\FileResource; @endphp
 @extends('layouts.settings')
 
 @section('settings-content')
@@ -7,67 +8,104 @@
             <h2 class="text-lg font-medium text-gray-900 ">
                 {{ __('Profile Information') }}
             </h2>
-
-            <p class="mt-1 text-sm text-gray-600 ">
-                {{ __("Update your account's profile information and email address.") }}
-            </p>
         </header>
 
         <form id="send-verification" method="post" action="{{ route('verification.send') }}">
             @csrf
         </form>
 
-        <x-error-messages />
-        <x-success-message />
+        <x-error-messages/>
+        <x-success-message/>
 
-        <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6"
-              enctype="multipart/form-data">
+        <form x-data="formHandler()"
+              @submit.prevent="submit"
+              action="{{ route('profile.update') }}" method="POST"
+              enctype="multipart/form-data" class="space-y-4">
             @csrf
-            @method('patch')
 
-            <!-- Фото -->
+            <template x-if="response && response.data.status == 'success'">
+                <div class="p-4 mb-4 bg-green-50 border-l-4 border-green-400 text-green-800 rounded">
+                    <div class="flex items-center">
+                        <span x-text="response.data.message"></span>
+                    </div>
+                </div>
+            </template>
+
             <div>
-                <label class="block text-gray-700">Фото *</label>
-                @isset($user->photo)
-                    <img src="{{ $user->photo->url }}" alt="Фото пользователя"
-                         class="w-32 h-32 rounded-full object-cover mb-2">
-                @endisset
-                <input type="file" name="photo" accept="image/*" class="mt-2 block w-full text-sm">
+                <label class="block text-gray-700">Фото</label>
+
+                <div >
+                    <x-upload-file
+                        parent_value_name="form.photo"
+                        max_files="1"
+                        url="{{ route('files.store') }}"
+                    />
+                </div>
+                <template x-if="form.invalid('photo')">
+                    <div x-text="form.errors.photo" class="text-sm text-red-600 space-y-1"></div>
+                </template>
                 Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
-
-                <x-input-error class="mt-2" :messages="$errors->get('photo')"/>
             </div>
 
+            <!-- Имя -->
             <div>
-                <x-input-label for="name" :value="__('Name')"/>
-                <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)"
-                              required autofocus autocomplete="name"/>
-                <x-input-error class="mt-2" :messages="$errors->get('name')"/>
+                <label class="block text-gray-700">Имя *</label>
+                <input name="name" type="text" x-model="form.name"
+                       @change="form.validate('name')"
+                       class="w-full border border-gray-300 rounded-md p-2
+                                      @error('name') border-red-500 @enderror"
+                       value="{{ old('name', $user->name) }}">
+
+                <template x-if="form.invalid('name')">
+                    <div x-text="form.errors.name" class="text-sm text-red-600 space-y-1"></div>
+                </template>
             </div>
 
+            <!-- Фамилия -->
             <div>
-                <x-input-label for="lastname" :value="__('Lastname')"/>
-                <x-text-input id="lastname" name="lastname" type="text" class="mt-1 block w-full" :value="old('lastname', $user->lastname)"
-                              required autofocus autocomplete="lastname"/>
-                <x-input-error class="mt-2" :messages="$errors->get('lastname')"/>
+                <label class="block text-gray-700">Фамилия *</label>
+                <input name="lastname" type="text" x-model="form.lastname"
+                       @change="form.validate('lastname')"
+                       class="w-full border border-gray-300 rounded-md p-2
+                                      @error('lastname') border-red-500 @enderror"
+                       value="{{ old('lastname', $user->lastname) }}">
+                <template x-if="form.invalid('lastname')">
+                    <div x-text="form.errors.lastname" class="text-sm text-red-600 space-y-1"></div>
+                </template>
             </div>
 
-            <div class="flex items-center gap-4">
-                <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-                @if (session('status') === 'profile-updated')
-                    <p
-                        x-data="{ show: true }"
-                        x-show="show"
-                        x-transition
-                        x-init="setTimeout(() => show = false, 2000)"
-                        class="text-sm text-gray-600"
-                    >{{ __('Saved.') }}</p>
-                @endif
-            </div>
+            <x-primary-button ::disabled="form.processing">
+                Сохранить
+            </x-primary-button>
         </form>
+
+        <script>
+            function formHandler() {
+                return {
+                    form: null,
+                    errors: [],
+                    response: null,
+                    init: function () {
+                        const photo = {{ Js::from((new FileResource($user->photo))->toArray(request())) }};
+                        this.form = this.$form('patch', this.$el.action, {
+                            photo: photo,
+                            name: '{{ old('name', $user->name) }}',
+                            lastname: '{{ old('lastname', $user->lastname) }}'
+                        }).setErrors({{ Js::from($errors->messages()) }})
+                    },
+                    submit() {
+                        this.response = null;
+                        this.form.submit()
+                            .then(async response => {
+                                this.response = response;
+                            })
+                            .catch(error => {
+                                this.errors = error.response.data.errors
+                            });
+                    }
+                }
+            }
+        </script>
     </section>
-
-
 
 @endsection

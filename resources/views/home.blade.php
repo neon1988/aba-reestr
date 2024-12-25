@@ -4,10 +4,16 @@
 
     <!-- Hero Section -->
     <section class="bg-cyan-100 text-center py-16 sm:rounded-t">
-        <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Добро пожаловать в реестр ABA специалистов и центров</h1>
-            <p class="text-lg text-gray-700 mb-6">Здесь вы можете найти квалифицированных специалистов и центры,
-                работающие в области ABA-терапии.</p>
+        <div class="container mx-auto px-4 lg:px-10">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Добро пожаловать на страницу проекта ABA Expert!</h1>
+            <p class="text-lg text-gray-700 mb-6 ">
+                Aba Expert – это проект для поведенческих аналитиков, родителей детей с аутизмом,
+                а также всех профессионалов, работающих в сфере аутизма и других нарушений развития.
+            </p>
+            <p class="text-lg text-gray-700 mb-6">
+                Здесь вы можете найти контакты квалифицированных специалистов и центров,
+                работающих в области ABA-терапии, а также полезные видео-лекции,
+                пособия для работы и поддерживающее сообщество.</p>
             <a href="{{ route('centers.index') }}"
                class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700 transition duration-300">Найти
                 центр</a>
