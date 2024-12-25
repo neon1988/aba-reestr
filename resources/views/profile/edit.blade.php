@@ -86,7 +86,7 @@
                     errors: [],
                     response: null,
                     init: function () {
-                        const photo = {{ Js::from((new FileResource($user->photo))->toArray(request())) }};
+                        const photo = {{ Js::from($user->photo ? (new FileResource($user->photo))->toArray(request()) : null) }};
                         this.form = this.$form('patch', this.$el.action, {
                             photo: photo,
                             name: '{{ old('name', $user->name) }}',

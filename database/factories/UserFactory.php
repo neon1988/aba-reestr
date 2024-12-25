@@ -70,12 +70,15 @@ class UserFactory extends Factory
     public function configure(): static
     {
         return $this->afterCreating(function (User $user) {
-            $image = File::factory()
-                ->randomType(['image'])
-                ->create(['create_user_id' => $user->id]);
+            if (rand(0, 1))
+            {
+                $image = File::factory()
+                    ->randomType(['image'])
+                    ->create(['create_user_id' => $user->id]);
 
-            $user->photo_id = $image->id;
-            $user->save();
+                $user->photo_id = $image->id;
+                $user->save();
+            }
         });
     }
 }

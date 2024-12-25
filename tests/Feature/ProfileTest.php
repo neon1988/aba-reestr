@@ -93,4 +93,18 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function testProfileEditWithoutPhoto(): void
+    {
+        $user = User::factory()->create();
+
+        $user->photo()->delete();
+
+        $this->assertNull($user->photo);
+
+        $response = $this
+            ->actingAs($user)
+            ->get(route('profile.edit'))
+            ->assertOk();
+    }
 }
