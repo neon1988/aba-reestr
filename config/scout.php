@@ -3,6 +3,7 @@
 use App\Models\Bulletin;
 use App\Models\Center;
 use App\Models\Specialist;
+use App\Models\Worksheet;
 
 return [
 
@@ -152,6 +153,10 @@ return [
             ],
             User::class => [
                 'filterableAttributes'=> ['__soft_deleted'],
+                'sortableAttributes' => ['created_at'],
+            ],
+            Worksheet::class => [
+                'filterableAttributes'=> ['__soft_deleted', 'extension'],
                 'sortableAttributes' => ['created_at'],
             ],
         ],

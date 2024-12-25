@@ -24,15 +24,23 @@ class WorksheetController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection|Factory|View|Application
     {
-        $items = Worksheet::with('cover', 'file', 'creator')
+        $extension = $request->get('extension');
+
+        $items = Worksheet::search($request->input('search'))
+            ->when($extension, function ($query, $extension) {
+                return $query->where('extension', $extension);
+            })
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(9)
+            ->withQueryString();
+
+        $items->load('cover', 'file', 'creator');
 
         if ($request->expectsJson()) {
             return WorksheetResource::collection($items);
         }
 
-        return view('worksheets.index', compact('items'));
+        return view('worksheets.index', compact('items', 'extension'));
     }
 
     /**

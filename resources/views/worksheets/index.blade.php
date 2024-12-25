@@ -15,29 +15,50 @@
             </p>
         </div>
 
-        <!-- Список материалов -->
-        <div>
-            @if ($items->count() > 0)
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Доступные материалы</h2>
-
-            @if ($items->hasPages())
-                <div class="mb-5">
-                    {{ $items->links() }}
-                </div>
-            @endif
-            <div class="mb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($items as $item)
-                    @include('worksheets.card', compact('item'))
-                @endforeach
+        <!-- Переключение разделов -->
+        <div x-data="{ activeTab: '{{ $extension }}' }" class="mb-8">
+            <div class="flex space-x-4 border-b border-gray-200">
+                <a href="{{ route('worksheets.index') }}"
+                   class="px-4 py-2 text-gray-700 font-semibold hover:text-cyan-600"
+                   :class="{ 'border-b-2 border-cyan-600 text-cyan-600': activeTab === '' }">
+                    Все
+                </a>
+                <a href="{{ route('worksheets.index', ['extension' => 'pdf']) }}"
+                    class="px-4 py-2 text-gray-700 font-semibold hover:text-cyan-600"
+                    :class="{ 'border-b-2 border-cyan-600 text-cyan-600': activeTab === 'pdf' }">
+                    PDF материалы
+                </a>
+                <a href="{{ route('worksheets.index', ['extension' => 'mp4']) }}"
+                    class="px-4 py-2 text-gray-700 font-semibold hover:text-cyan-600"
+                    :class="{ 'border-b-2 border-cyan-600 text-cyan-600': activeTab === 'mp4' }">
+                    Видео материалы
+                </a>
             </div>
-            @if ($items->hasPages())
-                <div class="mb-5">
-                    {{ $items->links() }}
-                </div>
-            @endif
-            @else
-                Ни одного материала не найдено
-            @endif
+
+            <div class="pt-6">
+                @if ($items->count() > 0)
+
+                    @if ($items->hasPages())
+                        <div class="mb-5">
+                            {{ $items->links() }}
+                        </div>
+                    @endif
+
+                    <div class="mb-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($items as $item)
+                            @include('worksheets.card', compact('item'))
+                        @endforeach
+                    </div>
+
+                    @if ($items->hasPages())
+                        <div class="mb-5">
+                            {{ $items->links() }}
+                        </div>
+                    @endif
+                @else
+                    <p>Ни одного материала не найдено</p>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

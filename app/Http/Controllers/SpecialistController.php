@@ -6,6 +6,7 @@ use App\Enums\StatusEnum;
 use App\Http\Requests\StoreSpecialistRequest;
 use App\Http\Requests\UpdateSpecialistLocationAndWorkRequest;
 use App\Http\Requests\UpdateSpecialistPhotoRequest;
+use App\Http\Requests\UpdateSpecialistProfileRequest;
 use App\Http\Requests\UpdateSpecialistRequest;
 use App\Http\Resources\SpecialistResource;
 use App\Models\Country;
@@ -16,12 +17,11 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Litlife\Url\Url;
 
 class SpecialistController extends Controller
 {
@@ -166,7 +166,7 @@ class SpecialistController extends Controller
         return view('specialists.edit', compact('specialist'));
     }
 
-    public function update2(UpdateSpecialistRequest $request, Specialist $specialist)
+    public function updateProfile(UpdateSpecialistProfileRequest $request, Specialist $specialist): RedirectResponse|JsonResponse
     {
         $specialist = DB::transaction(function () use ($specialist, $request) {
 
@@ -188,6 +188,7 @@ class SpecialistController extends Controller
 
                         if ($user instanceof User)
                         {
+                            $user->photo->delete();
                             $user->photo_id = $file->id;
                             $user->save();
                         }
@@ -202,9 +203,17 @@ class SpecialistController extends Controller
             return $specialist;
         });
 
-        return redirect()
-            ->route('specialists.edit', $specialist->id)
-            ->with('success', 'Профиль специалиста обновлен.');
+        if ($request->expectsJson())
+            return response()
+                ->json([
+                    'user' => new SpecialistResource($specialist),
+                    'status' => 'success',
+                    'message' => 'Профиль успешно обновлен.',
+                ]);
+        else
+            return redirect()
+                ->route('specialists.edit', $specialist->id)
+                ->with('success', 'Профиль специалиста обновлен.');
     }
 
     public function update(UpdateSpecialistRequest $request, Specialist $specialist)

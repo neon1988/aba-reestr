@@ -3,10 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Enums\EducationEnum;
+use App\Models\File;
 use App\Rules\FileExistsOnDiskRule;
 use App\Rules\PhoneRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class StoreSpecialistRequest extends FormRequest
 {
@@ -73,15 +75,11 @@ class StoreSpecialistRequest extends FormRequest
             ],
             'confirm_document_authenticity' => [
                 'accepted'
-            ],
-            'photo' => [
-                'required',
-                new FileExistsOnDiskRule()
             ]
         ];
 
         // Условное правило для фото
-        if (!$this->user()->photo) { // Проверяем, есть ли у пользователя фото
+        if (!$this->user()->photo instanceof File) { // Проверяем, есть ли у пользователя фото
             $rules['photo'] = [
                 'required',
                 new FileExistsOnDiskRule()

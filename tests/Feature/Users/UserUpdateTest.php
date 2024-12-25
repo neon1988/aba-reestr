@@ -3,6 +3,8 @@
 namespace Tests\Feature\Users;
 
 use App\Enums\SubscriptionLevelEnum;
+use App\Http\Resources\FileResource;
+use App\Models\File;
 use App\Models\User;
 use App\Models\Image;
 use App\Http\Requests\UpdateUserRequest;
@@ -27,6 +29,14 @@ class UserUpdateTest extends TestCase
             'subscription_level' => SubscriptionLevelEnum::getRandomValue(),
             'subscription_ends_at' => Carbon::createFromTime(1, 1, 1),
         ];
+
+        $photo = File::factory()
+            ->temp()->image()
+            ->for($user, 'creator')
+            ->create();
+
+        $data['photo'] =
+            (new FileResource($photo))->toArray(request());
 
         $this->actingAs($user)
             ->patchJson(route('users.update', $user), $data)

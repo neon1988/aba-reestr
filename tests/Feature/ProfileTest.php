@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,12 +27,20 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $photo = File::factory()
+            ->temp()->image()
+            ->for($user, 'creator')
+            ->create();
+
+        $data = [
+            'name' => 'Test User',
+            'lastname' => 'Test User',
+            'photo' => (new FileResource($photo))->toArray(request())
+        ];
+
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'lastname' => 'Test User'
-            ])
+            ->patch('/profile', $data)
             ->assertSessionHasNoErrors()
             ->assertRedirect('/profile');
 
@@ -44,13 +53,21 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
+        $photo = File::factory()
+            ->temp()->image()
+            ->for($user, 'creator')
+            ->create();
+
+        $data = [
+            'name' => 'Test User',
+            'lastname' => 'Test User',
+            'email' => $user->email,
+            'photo' => (new FileResource($photo))->toArray(request())
+        ];
+
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'lastname' => 'Test User',
-                'email' => $user->email,
-            ]);
+            ->patch('/profile', $data);
 
         $response
             ->assertSessionHasNoErrors()

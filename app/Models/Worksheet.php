@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use App\Enums\EducationEnum;
 use App\Observers\WorksheetObserver;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 #[ObservedBy([WorksheetObserver::class])]
 class Worksheet extends Model
 {
-    use HasFactory, SoftDeletes, UserCreated;
+    use HasFactory, SoftDeletes, UserCreated, Searchable;
 
     // Поля, которые могут быть массово назначены
     protected $fillable = [
@@ -23,6 +25,13 @@ class Worksheet extends Model
 
     // Указываем поля для работы с датами
     protected $dates = ['deleted_at'];
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+        $array['extension'] = $this->file ? $this->file->extension : null;
+        return $array;
+    }
 
     // Отношение к файлу обложки (например, для изображения)
     public function cover()

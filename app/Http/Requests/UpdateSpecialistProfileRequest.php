@@ -2,15 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\SubscriptionLevelEnum;
-use App\Models\User;
+use App\Enums\EducationEnum;
 use App\Rules\FileExistsOnDiskRule;
+use App\Rules\PhoneRule;
+use App\Rules\TelegramUsername;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 
-class UpdateUserRequest extends FormRequest
+class UpdateSpecialistProfileRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -19,7 +19,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $array = [
+        return [
             'photo' => [
                 'required',
                 new FileExistsOnDiskRule()
@@ -27,39 +27,41 @@ class UpdateUserRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:50',
             ],
             'lastname' => [
                 'required',
                 'string',
-                'max:255'
+                'max:50',
             ],
             'middlename' => [
                 'nullable',
                 'string',
-                'max:255',
+                'max:50',
+            ],
+            'phone' => [
+                'required',
+                'string',
+                new PhoneRule(10, 15), // Используем кастомное правило Phone
+            ],
+            'show_email' => [
+                'required',
+                'boolean'
+            ],
+            'show_phone' => [
+                'required',
+                'boolean'
+            ],
+            'telegram_profile' => [
+                'nullable',
+                new TelegramUsername()
             ]
         ];
 
-        if ($this->user()->can('updateSubscription', User::class))
-        {
-            $array = array_merge($array, [
-                'subscription_level' => [
-                    'required',
-                    new EnumValue(SubscriptionLevelEnum::class)
-                ],
-                'subscription_ends_at' => [
-                    'nullable',
-                    'date'
-                ],
-            ]);
-        }
-
-        return $array;
     }
 
     public function attributes(): array
     {
-        return __('user.attributes');
+        return __('specialist');
     }
 }

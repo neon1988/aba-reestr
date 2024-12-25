@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\File;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +29,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(UpdateUserRequest $request): \Illuminate\Http\JsonResponse
+    public function update(UpdateUserRequest $request): RedirectResponse|JsonResponse
     {
         $user = Auth::user();
 

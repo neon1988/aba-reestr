@@ -40,6 +40,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);
 
+    Route::patch('specialists/{specialist}/profile', [SpecialistController::class, 'updateProfile'])
+        ->name('specialists.profile.update')
+        ->middleware([HandlePrecognitiveRequests::class]);;
+
     Route::get('specialists/{specialist}/location-and-work', [SpecialistController::class, 'showLocationAndWork'])
         ->name('specialists.location-and-work');
     Route::patch('specialists/{specialist}/location-and-work', [SpecialistController::class, 'updateLocationAndWork'])

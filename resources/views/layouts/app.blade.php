@@ -22,14 +22,18 @@
             <div class="flex">
                 <!-- Sidebar Toggle Button -->
                 <button x-on:click="drawer_open = ! drawer_open" class="sm:hidden block px-3">
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
 
-                <a href="{{ route('home') }}" class="h-12 w-12 self-center mx-3 h-full flex items-center justify-center">
-                    <img src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5" alt=""/>
+                <a href="{{ route('home') }}"
+                   class="h-12 w-12 self-center mx-3 h-full flex items-center justify-center">
+                    <img
+                        src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5"
+                        alt=""/>
                 </a>
                 <a href="{{ route('home') }}"
                    class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
@@ -69,6 +73,14 @@
                         <div class="relative" x-data="{ open: false }">
                             <button id="userMenuButton" x-on:click="open = ! open"
                                     class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">
+
+                                @isset(Auth::user()->photo)
+                                    <div class="w-10 h-10 rounded-full bg-gray-300 overflow-hidden mr-2">
+                                        <img src="{{ Auth::user()->photo->url }}" alt="{{ Auth::user()->name }}"
+                                             class="w-full h-full object-cover">
+                                    </div>
+                                @endisset
+
                                 {{ Auth::user()->name }}
                                 <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24"
@@ -88,24 +100,26 @@
                                     <a href="{{ route('centers.show', Auth::user()->getCenterId()) }}"
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница центра</a>
                                 @endif
+
+                                @if (Auth::user()->isSpecialist())
+                                    <a href="{{ route('specialists.edit', Auth::user()->getSpecialistId()) }}"
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки специалиста</a>
+                                @else
+                                    <a href="{{ route('profile.edit') }}"
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки</a>
+                                @endif
+
+                                @if (Auth::user()->webinars_count > 0)
+                                    <a href="{{ route('users.webinars.index', ['user' => Auth::user()]) }}"
+                                       class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                        Вебинары</a>
+                                @endif
+
                                 @if (Auth::user()->isStaff())
                                     <a href="{{ config('app.manage_url') }}"
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
                                         Перейти в админку</a>
                                 @endif
-                                    @if (Auth::user()->isSpecialist())
-                                        <a href="{{ route('specialists.edit', Auth::user()->getSpecialistId()) }}"
-                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки специалиста</a>
-                                    @else
-                                        <a href="{{ route('profile.edit') }}"
-                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Настройки</a>
-                                        @endif
-
-                                    @if (Auth::user()->webinars_count > 0)
-                                        <a href="{{ route('users.webinars.index', ['user' => Auth::user()]) }}"
-                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                                            Вебинары</a>
-                                    @endif
 
                                 <form method="POST" action="{{ route('logout') }}" class="block">
                                     @csrf

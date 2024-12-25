@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Worksheet;
 use Illuminate\Console\Command;
 
 class UpdateAllIndexesCommand extends Command
@@ -22,6 +23,7 @@ class UpdateAllIndexesCommand extends Command
             'App\Models\Specialist',
             'App\Models\Bulletin',
             'App\Models\User',
+            'App\Models\Worksheet',
         ];
 
         foreach ($models as $model)
