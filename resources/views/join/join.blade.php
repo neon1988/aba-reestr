@@ -2,13 +2,13 @@
 
 @section('content')
 
-    <div class="max-w-6xl mx-auto p-6">
+    <div class="max-w-6xl mx-auto p-3">
         <header class="text-center mb-4">
             <h1 class="text-4xl font-bold text-cyan-600">Регистрация и Преимущества</h1>
             <p class="mt-2 text-lg text-gray-600">Станьте частью сети специалистов в области анализа поведения.</p>
         </header>
 
-        <section class="bg-white p-8 rounded-lg shadow-md mb-4">
+        <section class="bg-white p-3 lg:p-8 rounded-lg shadow-md mb-4">
             <h4 class="text-xl font-semibold text-cyan-600 mb-4">
                 Подписка подойдет вам, если вы являетесь:
             </h4>
@@ -33,7 +33,7 @@
             <p class="mt-6 text-md font-semibold mb-6">Присоединиться к подписке можно по одному из трех тарифов
                 ниже:</p>
 
-            <div  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 cursor-pointer">
+            <div  class="grid grid-cols-1 lg:grid-cols-3 gap-3 cursor-pointer">
                 <!-- Card 1: Родители или смежники -->
                 <a href="#" class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300">
                     <h3 class="text-xl font-semibold mb-4">Родители или смежники</h3>
@@ -200,12 +200,12 @@
         </section>
 
         <div x-data="{ open: false }" class="bg-gray-100 py-12 rounded-lg shadow-md mb-4">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-semibold text-center text-gray-900 mb-8">Часто задаваемые вопросы по подписке
                     ABA Expert</h2>
                 <p class="text-center text-lg text-gray-600 mb-12">Узнайте больше о нашей подписке ниже.</p>
 
-                <div class="space-y-6">
+                <div class="space-y-3 sm:space-y-6">
                     <!-- Question 1 -->
                     <div x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
