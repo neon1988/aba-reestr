@@ -20,9 +20,11 @@
 
             <div class="flex items-center space-x-4">
                 <!-- Фото специалиста (если есть) -->
-                <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden">
-                    <img src="{{ $center->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
-                         class="w-full h-full object-cover">
+                <div class="w-20 h-20 rounded-full bg-gray-300 overflow-hidden shrink-0">
+                    <x-image :url="optional($center->photo)->url"
+                             :alt="$center->name"
+                             width="100" height="100" quality="90"
+                             class="w-full h-full object-cover" />
                 </div>
 
                 <!-- Имя специалиста -->

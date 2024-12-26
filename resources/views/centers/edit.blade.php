@@ -19,8 +19,10 @@
                         <h3 class="text-lg font-medium text-gray-700">Фото</h3>
                         <div class="mt-2">
                             @isset($center->photo)
-                                <img src="{{ $center->photo->url }}" alt="Фото центра"
-                                     class="w-32 h-32 rounded-full object-cover mb-2">
+                                <x-image :url="$center->photo->url"
+                                         :alt="$center->name"
+                                         width="300" height="300" quality="90"
+                                         class="w-32 h-32 rounded-full object-cover mb-2" />
                             @endisset
                             <input type="file" name="photo" accept="image/*" class="mt-2 block w-full text-sm">
                             Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}

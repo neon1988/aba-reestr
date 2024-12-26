@@ -80,7 +80,14 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => trim($attributes['name'] . ' ' . $attributes['lastname'] . ' ' . $attributes['middlename']),
+            get: fn (mixed $value, array $attributes) => trim(($attributes['name'] ?? '') . ' ' . ($attributes['lastname'] ?? '') . ' ' . ($attributes['middlename'] ?? '')),
+        );
+    }
+
+    protected function nameInitials(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => trim(mb_substr($attributes['name'], 0, 1) . mb_substr($attributes['lastname'], 0, 1)),
         );
     }
 

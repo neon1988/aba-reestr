@@ -4,8 +4,12 @@
 
     <div class="max-w-6xl mx-auto p-3">
         <header class="text-center mb-4">
-            <h1 class="text-4xl font-bold text-cyan-600">Регистрация и Преимущества</h1>
-            <p class="mt-2 text-lg text-gray-600">Станьте частью сети специалистов в области анализа поведения.</p>
+            <h1 class="text-4xl font-bold text-cyan-600">
+                Регистрация и Преимущества
+            </h1>
+            <p class="mt-2 text-lg text-gray-600">
+                Станьте частью сообщества специалистов в области анализа поведения.
+            </p>
         </header>
 
         <section class="bg-white p-3 lg:p-8 rounded-lg shadow-md mb-4">

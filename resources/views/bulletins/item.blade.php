@@ -1,10 +1,10 @@
 <div class="w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden mb-4  hover:shadow-xl transition duration-300">
     <div class="p-4 flex items-center">
         @isset ($item->creator->photo)
-        <img
-            class="h-12 w-12 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
-            src="{{ $item->creator->photo->url }}"
-            alt="User avatar">
+            <x-image :url="optional($item->creator->photo)->url"
+                     :alt="$item->creator->fullName"
+                     width="50" height="50" quality="90"
+                     class="h-12 w-12 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700" />
         @endisset
         <div class="ml-4">
             <a href="{{ route('users.show', ['user' => $item->creator]) }}">

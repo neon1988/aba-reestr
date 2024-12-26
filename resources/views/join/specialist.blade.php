@@ -36,8 +36,10 @@
                         <label class="block text-gray-700">Фото</label>
 
                         @if(isset($user->photo))
-                            <img src="{{ $user->photo->url }}" alt="Фото пользователя"
-                                 class="w-32 h-32 rounded-full object-cover mb-2">
+                            <x-image :url="$user->photo->url"
+                                     :alt="$user->fullName"
+                                     width="200" height="200" quality="90"
+                                     class="w-32 h-32 rounded-full object-cover mb-2" />
                         @else
                             <x-upload-file
                                 parent_value_name="form.photo"

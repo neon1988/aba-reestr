@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container mx-auto px-4">
     <div class="flex items-center justify-center">
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
@@ -9,10 +10,10 @@
             @else
                 <!-- Webinar Image -->
                 <div class="relative">
-                    <img
-                        src="{{ $item->cover->url }}"
-                        alt="{{ $item->title }}"
-                        class="w-full h-60 object-cover rounded-lg">
+                    <x-image :url="optional($item->cover)->url"
+                             :alt="$item->title"
+                             width="900" height="900" quality="90"
+                             class="w-full h-60 object-cover rounded-lg" />
                     <div class="absolute bottom-4 left-4 bg-cyan-600 text-white text-sm px-3 py-1 rounded-lg">
                         {{ mb_strtoupper($item->file->extension) }}
                     </div>
@@ -61,5 +62,6 @@
                 @endif
             </div>
         </div>
+    </div>
     </div>
 @endsection

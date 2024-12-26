@@ -21,9 +21,11 @@
 
             <div class="flex items-center space-x-4">
                 <!-- Фото специалиста (если есть) -->
-                <div class="w-32 h-32 rounded-full bg-gray-300 overflow-hidden">
-                    <img src="{{ $specialist->photo->url ?? asset('default-avatar.png') }}" alt="Profile Photo"
-                         class="w-full h-full object-cover">
+                <div class="w-16 h-16 sm:w-32 sm:h-32 rounded-full bg-gray-300 overflow-hidden shrink-0">
+                    <x-image :url="optional($specialist->photo)->url"
+                             :alt="$specialist->name"
+                             width="150" height="150" quality="90"
+                             class="w-full h-full object-cover" />
                 </div>
 
                 <!-- Имя специалиста -->

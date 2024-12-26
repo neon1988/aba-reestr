@@ -42,7 +42,7 @@
                     <div class="block mt-4">
                         <label for="remember_me" class="inline-flex items-center">
                             <input id="remember_me" type="checkbox"
-                                   class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                   class="rounded border-gray-300 text-cyan-600 shadow-sm focus:ring-cyan-500"
                                    name="remember"
                                    x-model="form.remember_me"
                                    @change="form.validate('remember_me')">
@@ -55,7 +55,7 @@
 
                     <div class="flex items-center justify-end mt-4">
                         @if (Route::has('password.request'))
-                            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                                href="{{ route('password.request') }}">
                                 {{ __('Forgot your password?') }}
                             </a>
@@ -66,6 +66,13 @@
                         </x-primary-button>
                     </div>
                 </form>
+
+                <div class="mt-4 text-center">
+                    <span class="text-gray-600 text-sm">{{ __('Don\'t have an account?') }}</span>
+                    <a href="{{ route('register') }}" class="text-cyan-600 hover:text-cyan-900 font-semibold">
+                        {{ __('Register') }}
+                    </a>
+                </div>
 
                 <script>
                     function formHandler() {

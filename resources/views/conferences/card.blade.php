@@ -1,6 +1,9 @@
 <a href="{{ route('conferences.show', ['conference' => $item]) }}"
    class="bg-white shadow rounded-lg p-6 hover:shadow-xl transition duration-300">
-    <img src="{{ $item->cover->url }}" alt="Основы ABA-терапии" class="w-full h-40 object-cover rounded-lg">
+    <x-image :url="optional($item->cover)->url"
+             :alt="$item->title"
+             width="600" height="600" quality="90"
+             class="w-full h-40 object-cover rounded-lg" />
 
         <h3 class="text-xl font-semibold text-gray-800 mt-4">{{ $item->title }}</h3>
 

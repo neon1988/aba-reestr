@@ -3,8 +3,10 @@
    class="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
     <!-- Фото специалиста -->
     <div class="flex justify-center mb-4">
-        <img src="{{ optional($specialist->photo)->url ?? 'https://via.placeholder.com/150' }}"
-             alt="Фото специалиста" class="w-24 h-24 rounded-full object-cover">
+        <x-image :url="optional($specialist->photo)->url"
+                 :alt="$specialist->name"
+                 width="100" height="100" quality="90"
+                 class="w-24 h-24 rounded-full object-cover" />
     </div>
 
     <!-- Имя специалиста -->

@@ -21,7 +21,7 @@
             <!-- Левая часть навигации -->
             <div class="flex">
                 <!-- Sidebar Toggle Button -->
-                <button x-on:click="drawer_open = ! drawer_open" class="sm:hidden block px-3">
+                <button x-on:click="drawer_open = ! drawer_open" class="lg:hidden block px-3">
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -36,7 +36,7 @@
                         alt=""/>
                 </a>
                 <a href="{{ route('home') }}"
-                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="xl:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Главная
                 </a>
                 <a href="{{ route('specialists.index') }}"
@@ -44,19 +44,19 @@
                     Специалисты
                 </a>
                 <a href="{{ route('centers.index') }}"
-                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="lg:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center text-center">
                     Центры ABA</a>
                 <a href="{{ route('bulletins.index') }}"
-                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center text-center">
                     Доска объявлений</a>
                 <a href="{{ route('webinars.index') }}"
-                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="md:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Вебинары</a>
                 <a href="{{ route('worksheets.index') }}"
-                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="md:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Библиотека</a>
                 <a href="{{ route('conferences.index') }}"
-                   class="sm:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                   class="lg:flex hidden text-cyan-600 hover:text-cyan-800 font-semibold py-2 px-3 h-full flex items-center justify-center">
                     Мероприятия</a>
             </div>
 
@@ -73,15 +73,21 @@
                         <div class="relative" x-data="{ open: false }">
                             <button id="userMenuButton" x-on:click="open = ! open"
                                     class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-gray-300 overflow-hidden flex items-center justify-center shrink-0 text-white font-bold">
+                                    @if(isset(Auth::user()->photo))
+                                        <x-image :url="Auth::user()->photo->url"
+                                                 :alt="Auth::user()->fullName"
+                                                 width="100" height="100" quality="90"
+                                                 class="w-full h-full object-cover" />
+                                    @else
+                                        <span>{{ Auth::user()->nameInitials }}</span>
+                                    @endif
+                                </div>
 
-                                @isset(Auth::user()->photo)
-                                    <div class="w-10 h-10 rounded-full bg-gray-300 overflow-hidden mr-2">
-                                        <img src="{{ Auth::user()->photo->url }}" alt="{{ Auth::user()->name }}"
-                                             class="w-full h-full object-cover">
-                                    </div>
-                                @endisset
-
-                                {{ Auth::user()->name }}
+                                <div class="ml-2 hidden lg:block">
+                                    {{ Auth::user()->name }}
+                                </div>
                                 <svg class="ml-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor">
@@ -132,7 +138,7 @@
                     @else
                         <!-- Для гостей -->
                         <a href="{{ route('register') }}"
-                           class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Регистрация</a>
+                           class="hidden lg:flex text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Регистрация</a>
                         <a href="{{ route('login') }}"
                            class="text-white font-semibold py-2 px-3 h-full flex items-center justify-center">Войти</a>
                     @endauth
@@ -145,7 +151,7 @@
 
 <!-- drawer component -->
 <div id="drawer-navigation"
-     class="sm:hidden block fixed top-16 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800"
+     class="lg:hidden block fixed top-16 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800"
      :class="drawer_open && 'transform-none'"
      tabindex="-1" aria-labelledby="drawer-navigation-label">
     <div class="overflow-y-auto">
@@ -196,6 +202,12 @@
                 <a href="{{ route('contacts') }}"
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <span class="flex-1 ms-3 whitespace-nowrap">Контакты</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('register') }}"
+                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <span class="flex-1 ms-3 whitespace-nowrap">Регистрация</span>
                 </a>
             </li>
         </ul>
