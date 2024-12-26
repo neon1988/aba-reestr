@@ -4,6 +4,7 @@ use App\Models\Bulletin;
 use App\Models\Center;
 use App\Models\Specialist;
 use App\Models\Worksheet;
+use App\Models\User;
 
 return [
 
