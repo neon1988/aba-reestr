@@ -38,7 +38,7 @@
                     </a>
                 @endif
 
-                @if (!empty($item->price) and optional(!Auth::user())->isSubscriptionActive())
+                @if (!empty($item->price) and !optional(Auth::user())->isSubscriptionActive())
                     <div class="mb-6">
                         <a href="{{ route('join') }}"
                            class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
@@ -51,10 +51,10 @@
                             Или можете приобрести данный материал отдельно за <span class="font-semibold text-gray-800">{{ $item->price }} р.</span>
                         </p>
                         <p class="text-gray-600">
-                            Для оформления покупки напишите на почту
-                            <a href="mailto:{{ config('mail.from.address') }}"
+                            Для оформления покупки
+                            <a href="{{ route('contacts') }}"
                                class="text-cyan-600 hover:text-cyan-800">
-                                {{ config('mail.from.address') }}
+                                свяжитесь с нами
                             </a>
                         </p>
                     </div>
