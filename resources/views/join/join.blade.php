@@ -16,9 +16,13 @@
                 <li class="text-md">специалистом по прикладному анализу поведения</li>
                 <li class="text-md">родителем, сиблингом или другим человеком, который вовлечен
                     в жизнь и помощь ребенка, подростка или молодого взрослого с аутизмом или другими
-                    нарушениями развития</li>
-                <li class="text-md">если вы являетесь специалистом в области специальной педагогики, психологии и всегда ищете эффективные пути помощи вашим подопечным</li>
-                <li class="text-md">а также, если вы являетесь руководителем центра, в котором реализуется ABA-терапия</li>
+                    нарушениями развития
+                </li>
+                <li class="text-md">если вы являетесь специалистом в области специальной педагогики, психологии и всегда
+                    ищете эффективные пути помощи вашим подопечным
+                </li>
+                <li class="text-md">а также, если вы являетесь руководителем центра, в котором реализуется ABA-терапия
+                </li>
             </ul>
 
             <p class="mt-6 text-md">
@@ -26,239 +30,324 @@
                 статей, электронных пособий в электронном формате, а также возможность разместить информацию
                 о себе, своих услугах, делиться информацией о своих мероприятиях и событиях.
             </p>
+            <p class="mt-6 text-md font-semibold mb-6">Присоединиться к подписке можно по одному из трех тарифов
+                ниже:</p>
 
-            <p class="mt-6 text-md font-semibold mb-6">Присоединиться к подписке можно по одному из трех тарифов ниже:</p>
+            <div  class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 cursor-pointer">
+                <!-- Card 1: Родители или смежники -->
+                <a href="#" class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <h3 class="text-xl font-semibold mb-4">Родители или смежники</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Доступ к видео лекциям
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Доступ к материалам (библиотека материалов)
+                        </li>
+                    </ul>
+                    <p class="text-center mt-4 font-semibold">100 ₽/мес</p>
+                    <div class="text-center mt-4">
+                        <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                    </div>
+                </a>
 
-            <div class="overflow-x-auto shadow-md rounded-lg">
-                <table class="min-w-full border-collapse border border-gray-200">
-                    <thead class="bg-gray-100">
-                    <tr>
-                        <th class="border border-gray-200 p-4 text-left  font-semibold">Что включено</th>
-                        <th class="border border-gray-200 p-4 text-center  font-semibold">
-                            Родители или смежники
-                        </th>
-                        <th class="border border-gray-200 p-4 text-center  font-semibold">ABA специалисты</th>
-                        <th class="border border-gray-200 p-4 text-center  font-semibold">
-                            Aba центры и руководители центров
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody class="bg-white">
-                    <!-- Row 1 -->
-                    <tr>
-                        <td class="border border-gray-200 p-4 ">Своя карточка в реестре специалистов</td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <!-- Card 2: ABA специалисты -->
+                <a href="{{ route('join.specialist') }}"
+                   class="bg-white p-6 border border-gray-200 rounded-lg shadow-md  hover:shadow-xl transition duration-300 cursor-pointer">
+                    <h3 class="text-xl font-semibold mb-4">ABA специалисты</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Своя карточка в реестре специалистов
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 2 -->
-                    <tr class="bg-gray-50">
-                        <td class="border border-gray-200 p-4 ">Доступ к видео лекциям</td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Доступ к видео лекциям
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Доступ к материалам (библиотека материалов)
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Возможность публиковать объявления о свободных часах на доске объявлений
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 3 -->
-                    <tr>
-                        <td class="border border-gray-200 p-4 ">Доступ к материалам (библиотека материалов)</td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Возможность публиковать объявления о своих очных и онлайн мероприятиях
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            СЕУ?
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 4 -->
-                    <tr class="bg-gray-50">
-                        <td class="border border-gray-200 p-4 ">Возможность публиковать объявления о свободных
-                            часах на доске объявлений
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 5 -->
-                    <tr>
-                        <td class="border border-gray-200 p-4 ">Возможность публиковать объявления о своих очных
-                            и онлайн мероприятиях
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 7 -->
-                    <tr>
-                        <td class="border border-gray-200 p-4 ">Возможность добавить свой центр в список
-                            центров
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 8 -->
-                    <tr class="bg-gray-50">
-                        <td class="border border-gray-200 p-4 ">Интервизии для специалистов</td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
+                            1 групповая супервизия в месяц по определенной теме
+                        </li>
+                    </ul>
+                    <p class="text-center mt-4 font-semibold">200 ₽/мес</p>
+                    <div class="text-center mt-4">
+                        <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                    </div>
+                </a>
 
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <!-- Card 3: Aba центры и руководители центров -->
+                <a href="#"
+                    class="bg-white p-6 border border-gray-200 rounded-lg shadow-md  hover:shadow-xl transition duration-300 cursor-pointer">
+                    <h3 class="text-xl font-semibold mb-4">Aba центры и руководители центров</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 9 -->
-                    <tr>
-                        <td class="border border-gray-200 p-4 ">СЕУ?</td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Своя карточка в реестре специалистов
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Доступ к видео лекциям
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                    </tr>
-                    <!-- Row 10 -->
-                    <tr class="bg-gray-50">
-                        <td class="border border-gray-200 p-4 ">1 групповая супервизия в месяц по определенной
-                            теме
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 inline-block"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            Доступ к материалам (библиотека материалов)
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                             </svg>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center "></td>
-                    </tr>
-                    <!-- Row 10 -->
-                    <tr class="bg-gray-50">
-                        <td class="border border-gray-200 p-4 "></td>
-                        <td class="border border-gray-200 p-4 text-center ">100 ₽/мес</td>
-                        <td class="border border-gray-200 p-4 text-center ">200 ₽/мес</td>
-                        <td class="border border-gray-200 p-4 text-center ">300 ₽/мес</td>
-                    </tr>
-                    <tr>
-                        <td class="border border-gray-200 p-4 "></td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <a href="#" class="px-4 py-2  text-white bg-cyan-500 rounded hover:bg-cyan-600">
-                                Выбрать
-                            </a>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <a href="{{ route('join.specialist') }}" class="px-4 py-2  text-white bg-cyan-500 rounded hover:bg-cyan-600">
-                                Выбрать
-                            </a>
-                        </td>
-                        <td class="border border-gray-200 p-4 text-center ">
-                            <a href="#" class="px-4 py-2  text-white bg-cyan-500 rounded hover:bg-cyan-600">
-                                Выбрать
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            Возможность публиковать объявления о свободных часах на доске объявлений
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Возможность публиковать объявления о своих очных и онлайн мероприятиях
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Возможность добавить свой центр в список центров
+                        </li>
+                        <li class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            СЕУ?
+                        </li>
+                    </ul>
+                    <p class="text-center mt-4 font-semibold">300 ₽/мес</p>
+                    <div class="text-center mt-4">
+                        <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                    </div>
+                </a>
             </div>
-
-            <div class="mx-auto py-8 text-gray-700">
-                <p class="text-2xl font-semibold mb-6">FAQ</p>
-
-                <ul class="space-y-4">
-                    <li class="text-lg">
-                        <span class="font-semibold">Когда мне откроется доступ по подписке?</span>
-                        <p class="mt-2 text-gray-600">Ответ на этот вопрос...</p>
-                    </li>
-                    <li class="text-lg">
-                        <span class="font-semibold">Что делать, если возникла техническая ошибка?</span>
-                        <p class="mt-2 text-gray-600">Ответ на этот вопрос...</p>
-                    </li>
-                    <li class="text-lg">
-                        <span class="font-semibold">Как приостановить или отменить подписку?</span>
-                        <p class="mt-2 text-gray-600">Ответ на этот вопрос...</p>
-                    </li>
-                    <li class="text-lg">
-                        <span class="font-semibold">Как я получу квитанцию?</span>
-                        <p class="mt-2 text-gray-600">Ответ на этот вопрос...</p>
-                    </li>
-                    <li class="text-lg">
-                        <span class="font-semibold">Я хочу оплатить от юридического лица, что мне сделать?</span>
-                        <p class="mt-2 text-gray-600">Ответ на этот вопрос...</p>
-                    </li>
-                </ul>
-            </div>
-
         </section>
+
+        <div x-data="{ open: false }" class="bg-gray-100 py-12 rounded-lg shadow-md mb-4">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <h2 class="text-3xl font-semibold text-center text-gray-900 mb-8">Часто задаваемые вопросы по подписке
+                    ABA Expert</h2>
+                <p class="text-center text-lg text-gray-600 mb-12">Узнайте больше о нашей подписке ниже.</p>
+
+                <div class="space-y-6">
+                    <!-- Question 1 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Для кого предназначена подписка?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">
+                                Подписка ABA Expert предназначена для педагогов, родителей детей с особыми
+                                потребностями, семей, которые занимаются домашним обучением, клиницистов, специалистов и
+                                администраторов. Эта подписка предоставляет доступ к обучающим видео и ресурсам, а также
+                                к эксклюзивному онлайн-сообществу.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Какие цели обучения и повестка дня
+                                подписки?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p><a href="/aba-expert-subscription-year-1/" class="text-blue-500">Цели и повестка дня года
+                                    1</a></p>
+                            <p><a href="/aba-expert-subscription-year-2/" class="text-blue-500">Цели и повестка дня года
+                                    2+</a></p>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Когда я получу доступ к ресурсам?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">
+                                Вы получите приглашение присоединиться к сети ABA Expert в течение 15 минут после
+                                регистрации. После настройки учетной записи вы получите доступ к материалам подписки.
+                                Каждый месяц ресурсы будут обновляться, но вы сохраните доступ к предыдущим материалам.
+                                Видео можно будет просматривать неограниченное количество раз.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Могу ли я получить кредиты для продолжения
+                                образования, участвуя в подписке?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">
+                                Участники первого года могут получить 9.5 кредитов для продолжения образования в
+                                дополнение к кредитам за курсы. Участники второго года — 12.0 кредитов. Для участников,
+                                которые являются подписчиками более 2 лет, кредиты можно получить за весь новый контент.
+                                Пожалуйста, ознакомьтесь с подробностями на сайте.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 5 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Как получить помощь в случае технических
+                                проблем?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">Если у вас возникли технические проблемы, пожалуйста, свяжитесь с
+                                нами по электронной почте <a href="mailto:customerservice@abaexpert.com"
+                                                             class="text-blue-500">customerservice@abaexpert.com</a>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 6 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Как я могу запросить помощь для людей с
+                                особыми потребностями?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">
+                                ABA Expert, Inc. стремится обеспечить равные возможности для всех. Если вам нужна
+                                помощь, связанная с инвалидностью, пожалуйста, свяжитесь с нами по адресу <a
+                                    href="mailto:customerservice@abaexpert.com" class="text-blue-500">customerservice@abaexpert.com</a>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 7 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Как я могу отменить свою подписку?
+                                Предоставляете ли вы возврат средств?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">
+                                В случае, если вы не удовлетворены подпиской, вы можете запросить полный возврат
+                                средств, написав на <a href="mailto:customerservice@abaexpert.com"
+                                                       class="text-blue-500">customerservice@abaexpert.com</a>.
+                                Подписку можно отменить в любое время. Возврат средств будет произведен в зависимости от
+                                вашего плана подписки.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 8 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Как оставить отзыв или задать вопросы?</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">
+                                Мы будем рады услышать ваши отзывы и ответить на ваши вопросы! Напишите нам на <a
+                                    href="mailto:customerservice@abaexpert.com" class="text-blue-500">customerservice@abaexpert.com</a>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Question 9 -->
+                    <div x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen"
+                                class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
+                            <h5 class="text-xl font-semibold text-gray-900">Раскрытие информации</h5>
+                        </button>
+                        <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
+                            <p class="text-gray-700">Саша Лонг является основателем и владельцем ABA Expert, Inc. Она
+                                получает оплату с продаж всех продуктов, подписок и курсов на этом сайте.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 

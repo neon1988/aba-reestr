@@ -1,4 +1,4 @@
-<div class="w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden mb-4">
+<div class="w-full mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden mb-4  hover:shadow-xl transition duration-300">
     <div class="p-4 flex items-center">
         @isset ($item->creator->photo)
         <img

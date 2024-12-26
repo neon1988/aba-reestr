@@ -4,9 +4,9 @@
 
     <div x-data="searchResults()" x-init="container = $refs.contentElement.innerHTML">
         <!-- Search Section -->
-        <section class="pt-12 pb-12 bg-white rounded-t">
+        <section class="pt-6 pb-6 bg-white rounded-t">
             <div class="container mx-auto text-center">
-                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск центров ABA</h2>
+                <h2 class="text-2xl font-semibold text-gray-900 mb-4">Поиск центров ABA</h2>
                 <form @submit.prevent="submitForm" x-ref="form" action="{{ route('centers.index') }}" method="get"
                       enctype="multipart/form-data" class="space-y-6">
                     <!-- Простое поле поиска -->
@@ -24,7 +24,7 @@
         </section>
 
         <!-- Centers List Section -->
-        <section id="centers" class="pb-4 lg:pb-16 px-4 lg:px-8 bg-gray-50 sm:rounded-b">
+        <section id="centers" class="py-4 lg:pb-16 px-4 lg:px-8 bg-gray-50 sm:rounded-b">
             <div x-html="container" x-ref="contentElement" class="container mx-auto text-center">
                 @include('centers.list')
             </div>

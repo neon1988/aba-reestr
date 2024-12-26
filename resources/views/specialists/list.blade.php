@@ -1,4 +1,4 @@
-<h2 class="text-3xl font-semibold text-gray-900 mb-6">Список специалистов ABA</h2>
+<h2 class="text-2xl font-semibold text-gray-900 mb-6">Список специалистов ABA</h2>
 
 @if ($specialists->hasPages())
     <div class="mb-5">
@@ -6,7 +6,7 @@
     </div>
 @endif
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     @if ($specialists->count() > 0)
         @foreach($specialists->items() as $specialist)
             @include('specialists.card')
