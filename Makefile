@@ -16,20 +16,20 @@ endif
 
 # Команды
 up:
-	docker-compose -f $(COMPOSE_FILE) up -d
+	docker compose -f $(COMPOSE_FILE) up -d
 
 down:
-	docker-compose -f $(COMPOSE_FILE) down
+	docker compose -f $(COMPOSE_FILE) down
 
 logs:
-	docker-compose -f $(COMPOSE_FILE) logs -f
+	docker compose -f $(COMPOSE_FILE) logs -f
 
 build:
-	docker-compose -f $(COMPOSE_FILE) build
+	docker compose -f $(COMPOSE_FILE) build
 
 update-app:
 	docker compose -f $(COMPOSE_FILE) up --no-deps -d $(APP_CONTAINER_NAME) $(HORIZON_CONTAINER_NAME)
 
 # Команда для входа в консоль контейнера app
 enter:
-	docker-compose -f $(COMPOSE_FILE) exec $(APP_CONTAINER_NAME) /bin/bash
+	docker compose -f $(COMPOSE_FILE) exec $(APP_CONTAINER_NAME) /bin/bash
