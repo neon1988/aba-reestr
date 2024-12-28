@@ -12,7 +12,7 @@
                     <!-- Простое поле поиска -->
                     <div class="flex justify-center space-x-4 flex-wrap">
                         <input name="search" x-model.debounce.500ms="formData.search" value="{{ Request::input('search') }}" type="text"
-                               placeholder="Поиск по названию или городу или ИНН"
+                               placeholder="Поиск по названию или городу"
                                class="sm:w-1/3 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
                         <button type="submit"
                                 class="bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">

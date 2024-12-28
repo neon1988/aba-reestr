@@ -27,6 +27,6 @@ class StoreUserRequest extends FormRequest
 
     public function attributes(): array
     {
-        return __('user');
+        return __('user.attributes');
     }
 }

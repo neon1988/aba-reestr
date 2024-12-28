@@ -11,9 +11,14 @@
                 а также всех профессионалов, работающих в сфере аутизма и других нарушений развития.
             </p>
             <p class="text-lg text-gray-700 mb-6">
-                Здесь вы можете найти контакты квалифицированных специалистов и центров,
-                работающих в области ABA-терапии, а также полезные видео-лекции,
-                пособия для работы и поддерживающее сообщество.</p>
+                Здесь вы можете найти контакты квалифицированных
+                <a href="{{ route('specialists.index') }}">специалистов</a>
+                и <a href="{{ route('centers.index') }}">центров</a>,
+                работающих в области ABA-терапии,
+                <a href="{{ route('bulletins.index') }}">разместить объявление</a>,
+                а также получить доступ к
+                <a href="{{ route('worksheets.index') }}">полезным видео-лекциям,
+                    пособиям для работы</a>.</p>
             <a href="{{ route('centers.index') }}"
                class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700 transition duration-300">Найти
                 центр</a>
@@ -23,7 +28,7 @@
     <!-- Search Section -->
     <section class="py-12 bg-white">
         <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск специалистов и центров</h2>
+            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск специалистов</h2>
             <form action="{{ route('specialists.index') }}" method="get" enctype="multipart/form-data"
                   class="flex justify-center space-x-4 flex-wrap">
                 <input name="search" type="text" placeholder="Поиск по имени или городу"
@@ -39,7 +44,9 @@
     <!-- Centers Section -->
     <section id="centers" class="p-4 lg:p-8 bg-gray-50">
         <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Центры ABA</h2>
+            <a href="{{ route('centers.index') }}">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Центры ABA</h2>
+            </a>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
                 @foreach ($centers as $center)
                     @include('centers.card')
@@ -51,7 +58,9 @@
     <!-- Specialists Section -->
     <section id="specialists" class="p-4 lg:p-8 bg-gray-50">
         <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-semibold text-gray-900 mb-6">Специалисты ABA</h2>
+            <a href="{{ route('specialists.index') }}">
+                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Специалисты ABA</h2>
+            </a>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
                 @foreach ($specialists as $specialist)
                     @include('specialists.card')
