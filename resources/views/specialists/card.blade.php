@@ -16,7 +16,7 @@
     <p class="text-gray-600 mb-2">Образование: {{ App\Enums\EducationEnum::getDescription($specialist->education) }}</p>
 
     <!-- Адрес специалиста -->
-    <p class="text-gray-600 mb-2">Адрес: г. {{ __($specialist->city) ?? 'Не указан' }},
+    <p class="text-gray-600 mb-2">г. {{ __($specialist->city) ?? 'Не указан' }},
         {{ $specialist->region ?? '' }}</p>
 
     @isset($specialist->center_name)
@@ -25,6 +25,6 @@
     @endif
 
     <!-- Наличие мест -->
-    <p class="text-gray-600">Есть места: {{ $specialist->available_spots ? 'Да' : 'Нет' }}</p>
+    <p class="text-gray-600">Есть свободные часы: {{ $specialist->has_available_hours ? 'Да' : 'Нет' }}</p>
 
 </a>

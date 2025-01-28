@@ -43,7 +43,6 @@ class Specialist extends Model
         'professional_specialization',
         'additional_info',
         'has_available_hours',
-
     ];
 
     public function toSearchableArray()
