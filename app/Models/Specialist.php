@@ -36,7 +36,14 @@ class Specialist extends Model
         'professional_interests',
         'show_email',
         'show_phone',
-        'telegram_profile'
+        'telegram_profile',
+        'vk_profile',
+        'aba_education',
+        'aba_trainings',
+        'professional_specialization',
+        'additional_info',
+        'has_available_hours',
+
     ];
 
     public function toSearchableArray()
@@ -125,4 +132,11 @@ class Specialist extends Model
         );
     }
 
+    protected function vkProfile(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value ? $value : null,
+            set: fn (?string $value) => $value ? trim($value, '@') : null,
+        );
+    }
 }

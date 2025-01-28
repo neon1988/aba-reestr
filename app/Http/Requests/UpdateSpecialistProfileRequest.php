@@ -6,6 +6,7 @@ use App\Enums\EducationEnum;
 use App\Rules\FileExistsOnDiskRule;
 use App\Rules\PhoneRule;
 use App\Rules\TelegramUsername;
+use App\Rules\VkUsername;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -55,7 +56,35 @@ class UpdateSpecialistProfileRequest extends FormRequest
             'telegram_profile' => [
                 'nullable',
                 new TelegramUsername()
-            ]
+            ],
+            'vk_profile' => [
+                'nullable',
+                new VkUsername()
+            ],
+            'aba_education' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+            'aba_trainings' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+            'professional_specialization' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+            'additional_info' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+            'has_available_hours' => [
+                'required',
+                'boolean'
+            ],
         ];
 
     }

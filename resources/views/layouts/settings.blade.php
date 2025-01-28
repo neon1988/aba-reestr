@@ -4,8 +4,8 @@
 
     <div class="flex flex-col md:flex-row ">
         <!-- Левый блок с навигацией -->
-        <aside class="w-full md:w-5/12 bg-white rounded-l-lg shadow-lg p-6 mb-6 md:mb-0">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Меню</h2>
+        <aside class="w-full md:w-4/12 lg:w-3/12 bg-white sm:rounded-none sm:rounded-l-lg rounded-lg shadow-lg p-6 mb-3 md:mb-0">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 min-w-96">Меню</h2>
             <ul class="space-y-3">
                 @if (Auth::user()->isSpecialist())
                     <li><a href="{{ route('specialists.edit', Auth::user()->getSpecialistId()) }}"
@@ -30,7 +30,7 @@
         </aside>
 
         <!-- Правый блок с формой -->
-        <main class="w-full md:w-7/12 bg-white rounded-r-lg shadow-lg p-6">
+        <main class="w-full md:w-8/12 lg:w-9/12 bg-white sm:rounded-none sm:rounded-r-lg rounded-lg shadow-lg p-6">
             @yield('settings-content')
         </main>
     </div>

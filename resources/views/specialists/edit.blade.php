@@ -85,6 +85,22 @@
                 </template>
             </div>
 
+            <!-- Есть свободные часы -->
+            <div>
+                <input name="has_available_hours" type="checkbox" x-model="form.has_available_hours"
+                       class="mr-2 leading-tight" value="1"
+                    {{ old('has_available_hours', $specialist->has_available_hours ?? false) ? 'checked' : '' }}>
+                <span class="text-sm text-gray-600">Есть свободные часы</span>
+            </div>
+
+            <!-- Почта видна всем -->
+            <div>
+                <input name="show_email" type="checkbox" x-model="form.show_email"
+                       class="mr-2 leading-tight" value="1"
+                    {{ old('show_email', $specialist->show_email ?? false) ? 'checked' : '' }}>
+                <span class="text-sm text-gray-600">Показать электронную почту всем пользователям</span>
+            </div>
+
             <!-- Телефон -->
             <div>
                 <label class="block text-gray-700">Телефон</label>
@@ -99,18 +115,8 @@
                 </template>
             </div>
 
-            <!-- Почта видна всем -->
-            <div class="mb-4">
-                <label class="block text-gray-700">Почта видна всем пользователям</label>
-                <input name="show_email" type="checkbox" x-model="form.show_email"
-                       class="mr-2 leading-tight" value="1"
-                    {{ old('show_email', $specialist->show_email ?? false) ? 'checked' : '' }}>
-                <span class="text-sm text-gray-600">Показать почту всем пользователям</span>
-            </div>
-
             <!-- Телефон виден всем -->
-            <div class="mb-4">
-                <label class="block text-gray-700">Телефон виден всем пользователям</label>
+            <div>
                 <input name="show_phone" type="checkbox" x-model="form.show_phone"
                        class="mr-2 leading-tight" value="1"
                     {{ old('show_phone', $specialist->show_phone ?? false) ? 'checked' : '' }}>
@@ -128,6 +134,80 @@
 
                 <template x-if="form.invalid('telegram_profile')">
                     <div x-text="form.errors.telegram_profile" class="text-sm text-red-600 space-y-1"></div>
+                </template>
+            </div>
+
+            <!-- Профиль VK -->
+            <div>
+                <label class="block text-gray-700">Профиль VK</label>
+                <input name="vk_profile" type="text" x-model="form.vk_profile"
+                       @change="form.validate('vk_profile')"
+                       class="w-full border border-gray-300 rounded-md p-2
+                  @error('vk_profile') border-red-500 @enderror"
+                       value="{{ old('vk_profile', $specialist->vk_profile ?? '') }}">
+
+                <template x-if="form.invalid('vk_profile')">
+                    <div x-text="form.errors.vk_profile" class="text-sm text-red-600 space-y-1"></div>
+                </template>
+            </div>
+
+            <!-- Образование в области ABA -->
+            <div>
+                <label class="block text-gray-700">Образование в области ABA</label>
+                <textarea name="aba_education" type="text" x-model="form.aba_education"
+                          @change="form.validate('aba_education')"
+                          class="w-full field-sizing-content border border-gray-300 rounded-md p-2
+                  @error('aba_education') border-red-500 @enderror">
+                    {{ old('aba_education', $specialist->aba_education ?? '') }}
+                </textarea>
+
+                <template x-if="form.invalid('aba_education')">
+                    <div x-text="form.errors.aba_education" class="text-sm text-red-600 space-y-1"></div>
+                </template>
+            </div>
+
+            <!-- Тренинги в области ABA -->
+            <div>
+                <label class="block text-gray-700">Тренинги в области ABA</label>
+                <textarea name="aba_trainings" type="text" x-model="form.aba_trainings"
+                          @change="form.validate('aba_trainings')"
+                          class="w-full field-sizing-content border border-gray-300 rounded-md p-2
+                  @error('aba_trainings') border-red-500 @enderror">
+                    {{ old('aba_trainings', $specialist->aba_trainings ?? '') }}
+                </textarea>
+
+                <template x-if="form.invalid('aba_trainings')">
+                    <div x-text="form.errors.aba_trainings" class="text-sm text-red-600 space-y-1"></div>
+                </template>
+            </div>
+
+            <!-- Специализация в сфере профессиональных интересов -->
+            <div>
+                <label class="block text-gray-700">Специализация в сфере профессиональных интересов</label>
+                <textarea name="professional_specialization" type="text" x-model="form.professional_specialization"
+                          @change="form.validate('professional_specialization')"
+                          class="w-full field-sizing-content border border-gray-300 rounded-md p-2
+                  @error('professional_specialization') border-red-500 @enderror">
+                    {{ old('professional_specialization', $specialist->professional_specialization ?? '') }}
+                </textarea>
+
+                <template x-if="form.invalid('professional_specialization')">
+                    <div x-text="form.errors.professional_specialization" class="text-sm text-red-600 space-y-1"></div>
+                </template>
+            </div>
+
+            <!-- Дополнительная информация -->
+            <div>
+                <label class="block text-gray-700">Дополнительная информация</label>
+                <textarea name="additional_info" type="text" x-model="form.additional_info"
+                          @change="form.validate('additional_info')"
+                          class="w-full field-sizing-content border border-gray-300 rounded-md p-2
+                  @error('additional_info') border-red-500 @enderror">
+                    {{ old('additional_info', $specialist->additional_info ?? '') }}
+                </textarea>
+
+                <template x-if="form.invalid('additional_info')">
+                    <div x-text="form.errors.additional_info" class="text-sm text-red-600 space-y-1"></div>
                 </template>
             </div>
         </div>
@@ -149,10 +229,16 @@
                         name: '{{ old('name', $specialist->name) }}',
                         lastname: '{{ old('lastname', $specialist->lastname) }}',
                         middlename: '{{ old('middlename', $specialist->middlename) }}',
+                        has_available_hours: '{{ old('has_available_hours', $specialist->has_available_hours ? 1 : 0) }}',
                         phone: '{{ old('phone', $specialist->phone) }}',
                         show_email: '{{ old('show_email', $specialist->show_email ? 1 : 0) }}',
                         show_phone: '{{ old('show_phone', $specialist->show_phone ? 1 : 0) }}',
                         telegram_profile: '{{ old('telegram_profile', $specialist->telegram_profile) }}',
+                        vk_profile: '{{ old('vk_profile', $specialist->vk_profile) }}',
+                        aba_education: `{{ old('aba_education', $specialist->aba_education) }}`,
+                        aba_trainings: `{{ old('aba_trainings', $specialist->aba_trainings) }}`,
+                        professional_specialization: `{{ old('professional_specialization', $specialist->professional_specialization) }}`,
+                        additional_info: `{{ old('additional_info', $specialist->additional_info) }}`,
                     }).setErrors({{ Js::from($errors->messages()) }})
                 },
                 submit() {

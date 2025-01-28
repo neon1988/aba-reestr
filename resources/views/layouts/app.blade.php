@@ -65,7 +65,7 @@
                 @if (Route::has('login'))
                     @if (!Auth::check() or !Auth::user()->hasSpecialistOrCenter())
                         <a href="{{ route('join') }}"
-                           class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">Присоединиться</a>
+                           class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">Подписка</a>
                     @endif
 
                     @auth
@@ -227,8 +227,11 @@
     <div class="container mx-auto text-center mb-4">
         <p><a href="{{ route('contacts') }}">Контакты</a></p>
     </div>
-    <div class="container mx-auto text-center">
+    <div class="container mx-auto text-center mb-4">
         <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
+    </div>
+    <div class="container mx-auto text-center text-sm">
+        Информация, размещенная на сайте служит информационным целям, администрация сайта не несет ответственность за достоверность данных, предоставленных специалистами и центрами.
     </div>
 </footer>
 

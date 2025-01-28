@@ -29,6 +29,8 @@ class CenterController extends Controller
      */
     public function index(Request $request)
     {
+        return view('centers.index_in_dev');
+
         $status = $request->input('status', StatusEnum::Accepted);
 
         $centers = Center::search($request->input('search'))

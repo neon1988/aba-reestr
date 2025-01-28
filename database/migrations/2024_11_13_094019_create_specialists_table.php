@@ -35,7 +35,13 @@ return new class extends Migration
             $table->string('professional_interests')->nullable();
             $table->boolean('show_email')->default(false);
             $table->boolean('show_phone')->default(false);
-            $table->string('telegram_profile')->nullable(); 
+            $table->string('telegram_profile', 50)->nullable();
+            $table->string('vk_profile', 50)->nullable();
+            $table->text('aba_education')->nullable();
+            $table->text('aba_trainings')->nullable();
+            $table->text('professional_specialization')->nullable();
+            $table->text('additional_info')->nullable();
+            $table->boolean('has_available_hours')->default(true);
             $table->timestamps();
             $table->softDeletes();
 

@@ -37,106 +37,116 @@
             <p class="mt-6 text-md font-semibold mb-6">Присоединиться к подписке можно по одному из трех тарифов
                 ниже:</p>
 
-            <div  class="grid grid-cols-1 lg:grid-cols-3 gap-3 cursor-pointer">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 cursor-pointer">
                 <!-- Card 1: Родители или смежники -->
-                <a href="#" class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                    <h3 class="text-xl font-semibold mb-4">Родители или смежники</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Доступ к видео лекциям
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Доступ к материалам (библиотека материалов)
-                        </li>
-                    </ul>
-                    <p class="text-center mt-4 font-semibold">100 ₽/мес</p>
-                    <div class="text-center mt-4">
-                        <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                <a href="#"
+                   class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Подписка A</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Доступ к видео лекциям
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Доступ к материалам (библиотека материалов)
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-center mt-4 font-semibold">1900 ₽/год</p>
+                        <div class="text-center mt-4">
+                            <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                        </div>
                     </div>
                 </a>
 
                 <!-- Card 2: ABA специалисты -->
                 <a href="{{ route('join.specialist') }}"
-                   class="bg-white p-6 border border-gray-200 rounded-lg shadow-md  hover:shadow-xl transition duration-300 cursor-pointer">
-                    <h3 class="text-xl font-semibold mb-4">ABA специалисты</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Своя карточка в реестре специалистов
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Доступ к видео лекциям
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Доступ к материалам (библиотека материалов)
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Возможность публиковать объявления о свободных часах на доске объявлений
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            Возможность публиковать объявления о своих очных и онлайн мероприятиях
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            СЕУ?
-                        </li>
-                        <li class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-                            </svg>
-                            1 групповая супервизия в месяц по определенной теме
-                        </li>
-                    </ul>
-                    <p class="text-center mt-4 font-semibold">200 ₽/мес</p>
-                    <div class="text-center mt-4">
-                        <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                   class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer  flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-4">Подписка B</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Своя карточка в реестре специалистов
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Доступ к видео лекциям
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Доступ к материалам (библиотека материалов)
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Возможность публиковать объявления о свободных часах на доске объявлений
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Возможность публиковать объявления о своих очных и онлайн мероприятиях
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                СЕУ?
+                            </li>
+                            <li class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-green-500 inline-block mr-2 flex-shrink-0" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                1 групповая супервизия в месяц по определенной теме
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-center mt-4 font-semibold">3500 ₽/год</p>
+                        <div class="text-center mt-4">
+                            <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                        </div>
                     </div>
                 </a>
 
                 <!-- Card 3: Aba центры и руководители центров -->
-                <a href="#"
-                    class="bg-white p-6 border border-gray-200 rounded-lg shadow-md  hover:shadow-xl transition duration-300 cursor-pointer">
-                    <h3 class="text-xl font-semibold mb-4">Aba центры и руководители центров</h3>
+                <a href="{{ route('centers.index') }}"
+                   class="opacity-60 bg-white p-6 border border-gray-200 rounded-lg shadow-md  hover:shadow-xl transition duration-300 cursor-pointer  flex flex-col justify-between">
+                    <div>
+                    <h3 class="text-xl font-semibold mb-4">Подписка C (скоро появится)</h3>
                     <ul class="space-y-3">
                         <li class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -195,9 +205,12 @@
                             СЕУ?
                         </li>
                     </ul>
-                    <p class="text-center mt-4 font-semibold">300 ₽/мес</p>
-                    <div class="text-center mt-4">
-                        <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                    </div>
+                    <div>
+                        <p class="text-center mt-4 font-semibold">4800 ₽/год</p>
+                        <div class="text-center mt-4">
+                            <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
+                        </div>
                     </div>
                 </a>
             </div>

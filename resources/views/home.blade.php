@@ -42,6 +42,7 @@
     </section>
 
     <!-- Centers Section -->
+    {{--
     <section id="centers" class="p-4 lg:p-8 bg-gray-50">
         <div class="container mx-auto text-center">
             <a href="{{ route('centers.index') }}">
@@ -54,7 +55,7 @@
             </div>
         </div>
     </section>
-
+--}}
     <!-- Specialists Section -->
     <section id="specialists" class="p-4 lg:p-8 bg-gray-50">
         <div class="container mx-auto text-center">
