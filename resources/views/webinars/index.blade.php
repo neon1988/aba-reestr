@@ -2,8 +2,6 @@
 
 @section('content')
     <div class="container mx-auto px-4 py-2">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Вебинары</h1>
-
         <!-- Описание вебинаров -->
         <div class="bg-white shadow rounded-lg p-6 mb-8">
             <h2 class="text-2xl font-semibold text-gray-700 mb-4">Добро пожаловать на наши вебинары!</h2>
