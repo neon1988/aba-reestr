@@ -12,7 +12,7 @@
         class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
     />
 
-    <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
+    <div class="max-w-md bg-white rounded-lg overflow-hidden">
         <ul>
             <!-- Карточки файлов -->
             <template x-for="(file, index) in files" :key="index">
@@ -87,14 +87,16 @@
                 }
 
                 selectedFiles.forEach(file => {
-                    this.uploadProgress.push({
+                    const index = this.files.length;
+
+                    this.uploadProgress[index] = {
                         file: file,
                         loading: false,
                         progress: 0,
                         success: false,
                         error: null
-                    });
-                    const index = this.uploadProgress.length - 1;
+                    }
+
                     this.uploadFile(index);
                 });
             },

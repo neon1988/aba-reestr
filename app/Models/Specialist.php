@@ -115,6 +115,11 @@ class Specialist extends Model
         return $this->belongsToMany(File::class, 'specialist_file');
     }
 
+    public function certificates()
+    {
+        return $this->belongsToMany(File::class, 'specialist_certificates');
+    }
+
     /**
      * Полиморфная связь с пользователями.
      */

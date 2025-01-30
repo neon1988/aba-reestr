@@ -136,10 +136,23 @@
                         </div>
                     @endisset
                 </div>
+
+                <div class="mt-8">
+                    <div class=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        @foreach($specialist->certificates as $certificate)
+                            <a href="{{ optional($certificate)->url }}" target="_blank"
+                               class="relative group flex items-center justify-center bg-gray-100 rounded-lg p-2">
+                                <x-image :url="optional($certificate)->url"
+                                         width="500" height="500" quality="90"
+                                         class="rounded-lg shadow-lg" />
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
             @can('update', $specialist)
-                <div class="mt-4">
+                <div class="mt-8">
                     <x-primary-link-button href="{{ route('specialists.edit', $specialist->id) }}">
                         Редактировать профиль
                     </x-primary-link-button>

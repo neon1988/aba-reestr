@@ -19,9 +19,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SpecialistController extends Controller
 {
@@ -153,7 +155,7 @@ class SpecialistController extends Controller
      */
     public function show(Request $request, Specialist $specialist)
     {
-        $specialist->loadMissing('photo', 'files');
+        $specialist->loadMissing('photo', 'files', 'certificates');
 
         if ($request->expectsJson())
             return new SpecialistResource($specialist);
@@ -196,6 +198,28 @@ class SpecialistController extends Controller
                         $specialist->save();
                     }
                 }
+            }
+
+            foreach ($request->get('certificates', []) as $upload) {
+                if ($file = File::find($upload['id'])) {
+                    if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
+                        $file->storage = 'public';
+                        $file->save();
+                        $specialist->certificates()->attach($file);
+                    }
+                }
+            }
+
+            $certificates = $specialist->certificates()
+                ->whereNotIn(
+                    'files.id',
+                    collect($request->get('certificates', []))->pluck('id')->toArray()
+                )
+                ->get();
+
+            foreach ($certificates as $certificate) {
+                $specialist->certificates()->detach($certificate);
+                $certificate->delete();
             }
 
             $specialist->save();

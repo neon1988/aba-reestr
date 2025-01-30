@@ -210,10 +210,33 @@
                     <div x-text="form.errors.additional_info" class="text-sm text-red-600 space-y-1"></div>
                 </template>
             </div>
+
+            <!-- Сертификаты -->
+            <div>
+                <label class="block text-gray-700">Сертификаты</label>
+
+                <div >
+                    <x-upload-file
+                        parent_value_name="form.certificates"
+                        max_files="9"
+                        url="{{ route('files.store') }}"
+                    />
+                </div>
+                <template x-if="form.invalid('certificates')">
+                    <div x-text="form.errors.certificates" class="text-sm text-red-600 space-y-1"></div>
+                </template>
+                Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+            </div>
         </div>
-        <x-primary-button ::disabled="form.processing">
-            Сохранить
-        </x-primary-button>
+        <div>
+            <x-primary-button ::disabled="form.processing">
+                Сохранить
+            </x-primary-button>
+
+            <template x-if="response && response.data.status == 'success'">
+                <span x-text="response.data.message" class="text-sm text-green-600 ml-3"></span>
+            </template>
+        </div>
     </form>
 
     <script>
@@ -224,6 +247,7 @@
                 response: null,
                 init: function () {
                     const photo = {{ Js::from((new FileResource($specialist->photo))->toArray(request())) }};
+                    const certificates = {{ Js::from(FileResource::collection($specialist->certificates)->toArray(request())) }};
                     this.form = this.$form('patch', this.$el.action, {
                         photo: photo,
                         name: '{{ old('name', $specialist->name) }}',
@@ -239,6 +263,7 @@
                         aba_trainings: `{{ old('aba_trainings', $specialist->aba_trainings) }}`,
                         professional_specialization: `{{ old('professional_specialization', $specialist->professional_specialization) }}`,
                         additional_info: `{{ old('additional_info', $specialist->additional_info) }}`,
+                        certificates: certificates,
                     }).setErrors({{ Js::from($errors->messages()) }})
                 },
                 submit() {
