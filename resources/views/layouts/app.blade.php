@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Реестр ABA специалистов и центров</title>
+    <title>ABA Expert - реестр специалистов и центров</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -228,7 +228,7 @@
         <p><a href="{{ route('contacts') }}">Контакты</a></p>
     </div>
     <div class="container mx-auto text-center mb-4">
-        <p>&copy; 2024 Реестр ABA специалистов и центров. Все права защищены.</p>
+        <p>&copy; 2024 ABA Expert - реестр специалистов и центров. Все права защищены.</p>
     </div>
     <div class="container mx-auto text-center text-sm">
         Информация, размещенная на сайте служит информационным целям, администрация сайта не несет ответственность за достоверность данных, предоставленных специалистами и центрами.

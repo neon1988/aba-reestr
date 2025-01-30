@@ -21,12 +21,15 @@ class OtherController extends Controller
     public function home(Request $request): View
     {
         $centers = Cache::remember('home.centers', 60, function () {
-            return Center::inRandomOrder()->take(3)->get();
+            return Center::inRandomOrder()->take(3)->accepted()->get();
         });
 
         $specialists = Cache::remember('home.specialists', 60, function () {
-            return Specialist::inRandomOrder()->take(3)->get();
+            return Specialist::inRandomOrder()->take(3)->accepted()->get();
         });
+
+        $centers->load('photo');
+        $specialists->load('photo');
 
         return view('home', compact('centers', 'specialists'));
     }

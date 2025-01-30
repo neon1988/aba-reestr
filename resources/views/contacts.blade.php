@@ -8,7 +8,9 @@
             <!-- Контактная информация -->
             <div>
                 <h2 class="text-2xl font-semibold mb-4">Контактная информация</h2>
-                <p class="mb-2"><strong>Email:</strong> example@example.com</p>
+                <p class="mb-2"><strong>Email:</strong>
+                    <a href="mailto:abaexpert@yandex.ru">abaexpert@yandex.ru</a>
+                </p>
                 <p class="mb-2"><strong>Время работы:</strong> Пн-Пт, 9:00 - 18:00</p>
             </div>
         </div>
