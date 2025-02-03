@@ -4,14 +4,6 @@
      x-init="files = normalizeFiles({{ $parent_value_name }})"
      x-effect="{{ $parent_value_name }} = denormalizeFiles(files)">
 
-    <input
-        type="file"
-        multiple
-        @change="handleFiles"
-        x-show="files.length < maxFiles"
-        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
-    />
-
     <div class="max-w-md bg-white rounded-lg overflow-hidden">
         <ul>
             <!-- Карточки файлов -->
@@ -58,7 +50,7 @@
                     </div>
 
                     <div @click="removeFile(index)"
-                            class="cursor-pointer text-ellipsis overflow-hidden ml-auto bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                         class="cursor-pointer text-ellipsis overflow-hidden ml-auto bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                         Удалить
                     </div>
 
@@ -66,6 +58,14 @@
             </template>
         </ul>
     </div>
+
+    <input
+        type="file"
+        multiple
+        @change="handleFiles"
+        x-show="files.length < maxFiles"
+        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
+    />
 
     <input type="hidden" x-model="files"/>
 </div>

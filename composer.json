@@ -30,7 +30,8 @@
         "meilisearch/meilisearch-php": "^1.11",
         "nelexa/zip": "^4.0",
         "opcodesio/log-viewer": "^3.12",
-        "predis/predis": "^2.0"
+        "predis/predis": "^2.0",
+        "yoomoney/yookassa-sdk-php": "^3.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
