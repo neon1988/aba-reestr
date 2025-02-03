@@ -92,6 +92,8 @@ Route::resource('bulletins', BulletinController::class)->only(['index', 'show'])
 
 Route::get('/notification-preview', [PreviewController::class, 'notification'])->name('notification-preview');
 Route::get('/privacy-policy', [OtherController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('/offer', [OtherController::class, 'offer'])->name('offer.show');
+
 
 Route::get('/contacts', [OtherController::class, 'contacts'])->name('contacts');
 

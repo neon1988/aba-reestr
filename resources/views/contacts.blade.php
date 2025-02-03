@@ -9,9 +9,11 @@
             <div>
                 <h2 class="text-2xl font-semibold mb-4">Контактная информация</h2>
                 <p class="mb-2"><strong>Email:</strong>
-                    <a class="font-bold text-cyan-600 hover:underline" href="mailto:abaexpert@yandex.ru">abaexpert@yandex.ru</a>
+                    <a class="font-bold text-cyan-600 hover:underline" href="mailto:abaexpert@yandex.ru">abaexpert@yandex.ru</a> или
+                    <a class="font-bold text-cyan-600 hover:underline" href="mailto:info@abaexpert.ru">info@abaexpert.ru</a>
                 </p>
                 <p class="mb-2"><strong>Время работы:</strong> Пн-Пт, 9:00 - 18:00</p>
+                <p>ИП Волкова Анна Владимировна, ИНН 210400982057,  ОГРНИП 325210000004209</p>
             </div>
         </div>
     </div>

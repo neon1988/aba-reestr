@@ -79,4 +79,9 @@ class OtherController extends Controller
     {
         return view('privacy-policy');
     }
+
+    public function offer(): Factory|\Illuminate\Contracts\View\View|Application
+    {
+        return view('offer');
+    }
 }

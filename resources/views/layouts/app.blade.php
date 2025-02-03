@@ -224,8 +224,10 @@
 
 <!-- Footer -->
 <footer class="bg-cyan-600 text-white py-6 mt-4">
-    <div class="container mx-auto text-center mb-4">
-        <p><a href="{{ route('contacts') }}">Контакты</a></p>
+    <div class="container mx-auto text-center mb-4 space-x-6">
+        <a href="{{ route('contacts') }}">Контакты</a>
+        <a href="{{ route('privacy-policy') }}">Политика обработки персональных данных</a>
+        <a href="{{ route('offer.show') }}">Публичная оферта</a>
     </div>
     <div class="container mx-auto text-center mb-4">
         <p>&copy; 2024 ABA Expert - реестр специалистов и центров. Все права защищены.</p>
