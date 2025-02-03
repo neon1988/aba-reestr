@@ -227,34 +227,27 @@
         <div x-data="{ open: false }" class="bg-gray-100 py-12 rounded-lg shadow-md mb-4">
             <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-semibold text-center text-gray-900 mb-8">
-                    Часто задаваемые вопросы по подписке ABA Expert</h2>
+                    Часто задаваемые вопросы по подписке ABA Expert
+                </h2>
                 <div class="space-y-3 sm:space-y-6">
-                    <!-- Question 1 -->
+                    <!-- Вопрос 1 -->
                     <div x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
                                 class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
-                            <h5 class="text-xl font-semibold text-gray-900">Для кого предназначена подписка?</h5>
+                            <h5 class="text-xl font-semibold text-gray-900">Кому подходит подписка?</h5>
                         </button>
                         <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
-                            <p class="font-semibold mb-4">
-                                Подписка подойдет вам, если вы являетесь:
-                            </p>
+                            <p class="font-semibold mb-4">Подписка будет полезна, если вы:</p>
                             <ul class="list-disc pl-6 space-y-2">
-                                <li class="text-md">специалистом по прикладному анализу поведения</li>
-                                <li class="text-md">родителем, сиблингом или другим человеком, который вовлечен
-                                    в жизнь и помощь ребенка, подростка или молодого взрослого с аутизмом или другими
-                                    нарушениями развития
-                                </li>
-                                <li class="text-md">если вы являетесь специалистом в области специальной педагогики, психологии и всегда
-                                    ищете эффективные пути помощи вашим подопечным
-                                </li>
-                                <li class="text-md">а также, если вы являетесь руководителем центра, в котором реализуется ABA-терапия
-                                </li>
+                                <li class="text-md">Специалист по прикладному анализу поведения</li>
+                                <li class="text-md">Родитель, родственник или опекун ребенка, подростка или молодого взрослого с аутизмом или другими нарушениями развития</li>
+                                <li class="text-md">Специалист в области специальной педагогики или психологии, который стремится к эффективным методам помощи своим подопечным</li>
+                                <li class="text-md">Руководитель центра, где применяется ABA-терапия</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Question 2 -->
+                    <!-- Вопрос 2 -->
                     <div x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
                                 class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
@@ -263,32 +256,31 @@
                             </h5>
                         </button>
                         <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
-                            <p class="text-md">
-                            Чтобы оформить подписку, выберете подходящий тариф.
-                            При оплате тарифа А вам сразу откроется доступ к контенту сайта.
-                            При оплате тарифа В и С, после завершения оплаты вам понадобится отправить
-                            ваши документы об образовании администрации сайта.
-                            После проверки документов у вас откроется доступ к контенту
-                            сайта и личному кабинету специалиста/центра.
-                            </p>
+                            <p class="text-md font-semibold mb-2">Оформление подписки — это просто:</p>
+                            <ul class="list-disc pl-6 space-y-2 text-md">
+                                <li>Выберите подходящий тариф.</li>
+                                <li>Оплатите подписку удобным способом.</li>
+                                <li>После оплаты сразу получите доступ к контенту сайта.</li>
+                                <li>Для тарифов «B» и «C» потребуется отправить документы об образовании на проверку.</li>
+                            </ul>
                         </div>
                     </div>
 
-
+                    <!-- Вопрос 3 -->
                     <div x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
                                 class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
-                            <h5 class="text-xl font-semibold text-gray-900">Как получить помощь в случае технических
-                                проблем?</h5>
+                            <h5 class="text-xl font-semibold text-gray-900">Что делать в случае технических проблем?</h5>
                         </button>
                         <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
                             <p class="text-md">
-                            В случае возникновения любых вопросов и технических неполадок
-                            <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">сообщите нам</a>
+                                Если у вас возникли вопросы или технические неполадки,
+                                <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">напишите нам</a>, мы поможем!
                             </p>
                         </div>
                     </div>
 
+                    <!-- Вопрос 4 -->
                     <div x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
                                 class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
@@ -296,41 +288,44 @@
                                 Как я могу получить возврат средств?</h5>
                         </button>
                         <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
-                            <p class="text-md">
-                                В случае, если вы не удовлетворены подпиской, вы можете запросить возврат средств,
-                                <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">написав нам</a>.
-                            </p>
-                            <p class="text-md">
-                                Подписку можно отменить в любое время.
-                                Возврат средств будет произведен за неиспользованные дни подписки.
-                                Обратите внимание, что при приобретении годового плана вы оплачиваете
-                                1 календарный месяц подписки и получаете 11 месяцев доступа к сайту в подарок,
-                                что указано в договоре оферты, размещенном на сайте.
-                            </p>
-                            <p class="text-md">
+                            <ul class="list-disc pl-6 space-y-2">
+                            <li class="text-md">
+                                Если подписка вас не устроила, вы можете запросить возврат,
+                                <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">связавшись с нами</a>.
+                            </li>
+                            <li class="text-md">
+                                Отменить подписку можно в любое время. Возврат осуществляется за неиспользованные дни.
+                            </li>
+                            <li class="text-md">
+                                Обратите внимание, что при годовой подписке вы оплачиваете 1 календарный месяц и получаете 11 месяцев доступа к сайту в подарок.
+                                Это условие прописано в <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">договоре оферты</a>.
+                            </li>
+                            <li class="text-md">
                                 Если вы не согласны с политикой возврата,
                                 <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">свяжитесь с нами</a>
-                            </p>
+                            </li>
+                            </ul>
                         </div>
                     </div>
 
+                    <!-- Вопрос 5 -->
                     <div x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
                                 class="w-full text-left bg-white p-4 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none">
-                            <h5 class="text-xl font-semibold text-gray-900">
-                                Как написать отзыв, задать вопрос или сообщить о предложении по улучшению работы сайта?
-                            </h5>
+                            <h5 class="text-xl font-semibold text-gray-900">Как оставить отзыв, задать вопрос или предложить улучшение?</h5>
                         </button>
                         <div x-show="isOpen" class="p-4 bg-gray-50 rounded-lg mt-2">
                             <p class="text-md">
-                                Мы будем рады услышать ваши отзывы, вопросы и предложения!
-                                <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">Свяжитесь с нами</a>
+                                Мы ценим ваше мнение!
+                                <a class="text-cyan-600 hover:underline" href="{{ route('contacts') }}">Поделитесь отзывами, предложениями или вопросами</a>.
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
 
     </div>

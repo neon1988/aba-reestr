@@ -15,7 +15,7 @@
 
         <!-- Список конференций -->
         <div>
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Предстоящие конференции</h2>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Предстоящие мероприятия</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($upcoming as $item)
                     @include('conferences.card', compact('item'))
@@ -24,7 +24,7 @@
         </div>
 
         <div class="mt-5">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Прошлые конференции</h2>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Прошлые мероприятия</h2>
             @if ($ended->hasPages())
                 <div class="mb-5">
                     {{ $ended->links() }}
