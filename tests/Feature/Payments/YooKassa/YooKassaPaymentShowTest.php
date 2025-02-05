@@ -1,0 +1,129 @@
+<?php
+
+namespace Tests\Feature\Payments\YooKassa;
+
+use App\Enums\PaymentProvider;
+use App\Enums\PaymentStatusEnum;
+use App\Enums\SubscriptionLevelEnum;
+use App\Models\Payment;
+use App\Models\User;
+use App\Services\YooKassaService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Session;
+use Mockery;
+use Tests\TestCase;
+
+class YooKassaPaymentShowTest extends TestCase
+{
+    use RefreshDatabase;
+
+    protected YooKassaService $yooKassaMock;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->yooKassaMock = Mockery::mock(YooKassaService::class);
+        $this->app->instance(YooKassaService::class, $this->yooKassaMock);
+    }
+
+    public function test_payment_show_displays_success_when_payment_succeeded()
+    {
+        $yookassaId = uniqid();
+
+        $subscription = SubscriptionLevelEnum::Specialists;
+
+        $mockResponse = Mockery::mock();
+        $mockResponse->shouldReceive('getId')->andReturn($yookassaId);
+        $mockResponse->shouldReceive('getStatus')->andReturn('succeeded');
+
+        $mockPaymentMethod = Mockery::mock();
+        $mockPaymentMethod->shouldReceive('getType')->andReturn('bank_card');
+
+        $mockResponse->shouldReceive('getPaymentMethod')->andReturn($mockPaymentMethod);
+        $mockResponse->shouldReceive('toArray')
+            ->andReturn([
+                'status' => 'succeeded',
+                'metadata' => [
+                    'order_id' => 'ORDER_123',
+                    'subscription_type' => SubscriptionLevelEnum::fromValue($subscription)->key
+                ],
+            ]);
+
+        $this->yooKassaMock->shouldReceive('getPaymentInfo')
+            ->with(Mockery::on(fn($id) => (string) $id === $yookassaId))
+            ->andReturn($mockResponse);
+
+        $payment = Payment::factory()
+            ->create([
+                'payment_provider' => PaymentProvider::YooKassa,
+                'payment_id' => $yookassaId
+            ]);
+
+        $user = $payment->user;
+
+        $this->assertNull($user->purchasedSubscriptions()->first());
+
+        // Выполняем запрос
+        $response = $this->actingAs($user)
+            ->get(route('yookassa.payment.show', ['yookassa_id' => $yookassaId]))
+            ->assertOk()
+            ->assertViewIs('payments.success');
+
+        $purchasedSubscription = $user->purchasedSubscriptions()->first();
+        $payment = $user->payments()->first();
+
+        $this->assertNotNull($payment);
+        $this->assertNotNull($purchasedSubscription);
+        $this->assertTrue($purchasedSubscription->isActivated());
+        $this->assertEquals($purchasedSubscription->payment, $payment);
+    }
+
+    public function test_payment_show_displays_not_completed_when_payment_not_succeeded()
+    {
+        $yookassaId = uniqid();
+        $paymentUrl = 'https://www.example.com/confirmation_url';
+
+        $mockResponse = Mockery::mock();
+        $mockResponse->shouldReceive('getId')->andReturn($yookassaId);
+        $mockResponse->shouldReceive('getStatus')->andReturn('pending');
+
+        $mockPaymentMethod = Mockery::mock();
+        $mockPaymentMethod->shouldReceive('getType')->andReturn('bank_card');
+
+        $mockResponse->shouldReceive('getPaymentMethod')->andReturn($mockPaymentMethod);
+        $mockResponse->shouldReceive('toArray')->andReturn(['status' => 'pending']);
+
+        $mockGetConfirmation = Mockery::mock();
+        $mockGetConfirmation->shouldReceive('getConfirmationUrl')
+            ->andReturn($paymentUrl);
+
+        $mockResponse->shouldReceive('getConfirmation')->andReturn($mockGetConfirmation);
+
+        $this->yooKassaMock->shouldReceive('getPaymentInfo')
+            ->with(Mockery::on(fn($id) => (string) $id === $yookassaId))
+            ->andReturn($mockResponse);
+
+        $payment = Payment::factory()
+            ->create([
+                'payment_provider' => PaymentProvider::YooKassa,
+                'payment_id' => $yookassaId
+            ]);
+
+        $user = $payment->user;
+
+        // Выполняем запрос
+        $response = $this->actingAs($user)
+            ->get(route('yookassa.payment.show', ['yookassa_id' => $yookassaId]))
+            ->assertOk()
+            ->assertViewIs('payments.not_completed')
+            ->assertViewHas(['paymentUrl' => $paymentUrl])
+            ->assertSee($paymentUrl);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+}

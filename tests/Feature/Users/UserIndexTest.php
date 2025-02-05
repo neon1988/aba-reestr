@@ -13,7 +13,6 @@ use Tests\TestCase;
 class UserIndexTest extends TestCase
 {
     use RefreshDatabase;
-
     /** @test */
     public function testIndex()
     {

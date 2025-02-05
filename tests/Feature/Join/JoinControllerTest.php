@@ -2,14 +2,15 @@
 
 namespace Tests\Feature\Join;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class JoinControllerTest extends TestCase
 {
     use RefreshDatabase;
-
     /**
      * Тестирование метода join
      *
@@ -17,17 +18,12 @@ class JoinControllerTest extends TestCase
      */
     public function testJoinMethod()
     {
-        // Создаем пользователя для аутентификации
         $user = User::factory()->create();
 
-        // Отправляем GET-запрос к методу join, действуя от имени аутентифицированного пользователя
-        $response = $this->actingAs($user)->get(route('join'));
-
-        // Проверяем, что страница загружается с кодом 200 (успешно)
-        $response->assertOk();
-
-        // Проверяем, что в ответе содержится правильный шаблон
-        $response->assertViewIs('join.join');
+        $response = $this
+            ->get(route('join'))
+            ->assertOk()
+            ->assertViewIs('join.join');
     }
 
     /**
@@ -37,19 +33,16 @@ class JoinControllerTest extends TestCase
      */
     public function testSpecialistMethod()
     {
-        // Создаем пользователя для аутентификации
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->create([
+                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_ends_at' => Carbon::now()->addYear()
+            ]);
 
-        // Отправляем GET-запрос к методу specialist, действуя от имени аутентифицированного пользователя
-        $response = $this->actingAs($user)->get(route('join.specialist'));
-
-        // Проверяем, что страница загружается с кодом 200 (успешно)
-        $response->assertOk();
-
-        // Проверяем, что в ответе содержится правильный шаблон
-        $response->assertViewIs('join.specialist');
-
-        // Проверяем, что переменная 'countries' передана в представление
-        $response->assertViewHas('countries');
+        $response = $this->actingAs($user)
+            ->get(route('join.specialist'))
+            ->assertOk()
+            ->assertViewIs('join.specialist')
+            ->assertViewHas('countries');
     }
 }

@@ -10,6 +10,8 @@ use Tests\TestCase;
 
 class BulletinUpdateTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function authorized_user_can_create_bulletin()
     {

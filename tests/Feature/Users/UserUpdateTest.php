@@ -16,7 +16,6 @@ use Tests\TestCase;
 class UserUpdateTest extends TestCase
 {
     use RefreshDatabase;
-
     /** @test */
     public function testUpdateUser()
     {

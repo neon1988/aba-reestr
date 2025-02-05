@@ -25,6 +25,7 @@ class RegistrationTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password',
             'accept_private_policy' => 'true',
+            'accept_offer' => 'true',
         ])->assertSessionHasNoErrors();
 
         $this->assertAuthenticated();

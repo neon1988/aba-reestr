@@ -64,6 +64,22 @@
                         </label>
                         <x-input-error :messages="$errors->get('accept_private_policy')" class="mt-2"/>
                     </div>
+                    <div class="mt-4">
+                        <label for="accept_offer" class="flex items-center">
+                            <input name="accept_offer" type="hidden" value="0">
+                            <input id="accept_offer" type="checkbox" name="accept_offer"
+                                   class="mr-2 rounded border-gray-300 text-cyan-600 shadow-sm focus:ring-cyan-500"
+                                   value="1" @if (old('accept_offer')) checked @endif
+                                   required>
+                            <span class="text-sm text-gray-600">
+                                Я принимаю условия
+                                <a target="_blank" href="{{ route('offer.show') }}"
+                                   class="text-cyan-600 hover:underline">Публичной оферты
+                                </a>
+                            </span>
+                        </label>
+                        <x-input-error :messages="$errors->get('accept_offer')" class="mt-2"/>
+                    </div>
                     <div class="flex items-center justify-end mt-4">
                         <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                            href="{{ route('login') }}">

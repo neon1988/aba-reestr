@@ -412,6 +412,9 @@ class SpecialistController extends Controller
     // Метод для отображения счетов и документов оплаты
     public function billingAndPaymentDocuments(Specialist $specialist)
     {
-        return view('specialists.billing-and-payment-documents', compact('specialist'));
+        $payments = Auth::user()->payments()->simplePaginate();
+
+        return view('specialists.billing-and-payment-documents',
+            compact('specialist', 'payments'));
     }
 }

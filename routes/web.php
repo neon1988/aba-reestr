@@ -13,8 +13,10 @@ use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WorksheetController;
+use App\Http\Controllers\YooKassaController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', [OtherController::class, 'home'])->name('home');
 
@@ -74,7 +76,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('users/{user}/webinars', [UserController::class, 'webinars'])->name('users.webinars.index');
     Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update')
         ->middleware([HandlePrecognitiveRequests::class]);
+
+    Route::get('/yookassa/buy-subscription/{type}', [YooKassaController::class, 'buySubscription'])->name('yookassa.buy-subscription');
+    Route::get('/yookassa/payment-return/{uuid}', [YooKassaController::class, 'paymentReturn'])->name('yookassa.payment.return');
+    Route::get('/yookassa/payment/{yookassa_id}', [YooKassaController::class, 'paymentShow'])->name('yookassa.payment.show');
 });
+
+Route::post('/yookassa/webhook', [YooKassaController::class, 'handleWebhook'])->name('yookassa.webhook');
 
 Route::middleware('auth')->group(function () {
     Route::get('user/email/change', [UserController::class, 'showChangeEmailForm'])->name('user.email.change');
@@ -93,8 +101,9 @@ Route::resource('bulletins', BulletinController::class)->only(['index', 'show'])
 Route::get('/notification-preview', [PreviewController::class, 'notification'])->name('notification-preview');
 Route::get('/privacy-policy', [OtherController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/offer', [OtherController::class, 'offer'])->name('offer.show');
-
-
 Route::get('/contacts', [OtherController::class, 'contacts'])->name('contacts');
+
+
+
 
 require __DIR__.'/auth.php';

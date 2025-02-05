@@ -15,7 +15,6 @@ use Tests\TestCase;
 class CentersTest extends TestCase
 {
     use RefreshDatabase;
-
     /**
      * Тестирование метода index
      *

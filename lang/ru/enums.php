@@ -1,6 +1,10 @@
 <?php declare(strict_types=1);
 
+use App\Enums\CurrencyEnum;
 use App\Enums\EducationEnum;
+use App\Enums\PaymentProvider;
+use App\Enums\PaymentStatusEnum;
+use App\Enums\StatusEnum;
 use App\Enums\SubscriptionLevelEnum;
 
 return [
@@ -17,5 +21,26 @@ return [
         SubscriptionLevelEnum::ParentsAndRelated => 'Родители и смежники',
         SubscriptionLevelEnum::Specialists => 'Специалисты',
         SubscriptionLevelEnum::Centers => 'Центры',
+    ],
+    CurrencyEnum::class => [
+        CurrencyEnum::RUB => 'руб.'
+    ],
+    PaymentProvider::class => [
+        PaymentProvider::YooKassa => 'Ю.Касса'
+    ],
+    PaymentStatusEnum::class => [
+        PaymentStatusEnum::PENDING => 'Ожидает обработки', // Платеж в процессе обработки
+        PaymentStatusEnum::SUCCEEDED => 'Успешно завершён', // Платеж был успешно завершён
+        PaymentStatusEnum::CANCELED => 'Отменён', // Платеж был отменён
+        PaymentStatusEnum::WAITING_FOR_CAPTURE => 'Ожидает подтверждения', // Платеж ожидает подтверждения
+        PaymentStatusEnum::DECLINED => 'Отклонён', // Платеж был отклонён
+        PaymentStatusEnum::WAITING_FOR_PAYMENT => 'Ожидает оплаты', // Платеж ещё не был произведён
+    ],
+    StatusEnum::class => [
+        StatusEnum::Accepted => 'Принято', // Статус принятия
+        StatusEnum::OnReview => 'На проверке', // Статус проверки
+        StatusEnum::Rejected => 'Отклонено', // Статус отклонения
+        StatusEnum::Private => 'Личное', // Статус, когда запись является личной
+        StatusEnum::ReviewStarts => 'Начало проверки', // Статус, когда началась проверка
     ],
 ];
