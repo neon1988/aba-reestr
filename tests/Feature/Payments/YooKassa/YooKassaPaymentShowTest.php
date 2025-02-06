@@ -54,13 +54,18 @@ class YooKassaPaymentShowTest extends TestCase
             ->with(Mockery::on(fn($id) => (string) $id === $yookassaId))
             ->andReturn($mockResponse);
 
+        $user = User::factory()
+            ->create([
+                'subscription_level' => SubscriptionLevelEnum::getRandomValue(),
+                'subscription_ends_at' => null
+            ]);
+
         $payment = Payment::factory()
+            ->for($user)
             ->create([
                 'payment_provider' => PaymentProvider::YooKassa,
                 'payment_id' => $yookassaId
             ]);
-
-        $user = $payment->user;
 
         $this->assertNull($user->purchasedSubscriptions()->first());
 

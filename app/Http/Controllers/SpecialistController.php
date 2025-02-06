@@ -14,6 +14,8 @@ use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
 use App\Models\User;
+use App\Notifications\SpecialistApprovedNotification;
+use App\Notifications\SpecialistRejectedNotification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -374,6 +376,9 @@ class SpecialistController extends Controller
         Cache::forget('stats.specialistsCount');
         Cache::forget('stats.specialistsOnReviewCount');
 
+        foreach ($specialist->users as $user)
+            $user->notify(new SpecialistApprovedNotification($specialist));
+
         return response()
             ->json([
                 'specialist' => new SpecialistResource($specialist),
@@ -394,6 +399,9 @@ class SpecialistController extends Controller
 
         Cache::forget('stats.specialistsCount');
         Cache::forget('stats.specialistsOnReviewCount');
+
+        foreach ($specialist->users as $user)
+            $user->notify(new SpecialistRejectedNotification($specialist));
 
         return response()
             ->json([

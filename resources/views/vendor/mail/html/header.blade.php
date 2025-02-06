@@ -2,10 +2,8 @@
 <tr>
     <td class="header">
         <a href="{{ $url }}" style="display: inline-block;">
-            <img
-                src="https://fs-thb03.getcourse.ru/fileservice/file/thumbnail/h/13466f741221f7be4c6975413c43c18f.png/s/f1200x/a/755389/sc/5"
-                class="logo"
-                alt="{{ __(config('app.name')) }} Logo">
+            <img src="{{ Vite::asset('resources/images/logo_118.png') }}"
+                 alt="{{ config('app.name') }}" style="width:50px; height: 50px; margin-bottom: 10px"/>
             <div>
             {{ $slot }}
             </div>

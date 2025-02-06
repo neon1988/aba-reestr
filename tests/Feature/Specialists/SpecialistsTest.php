@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\Specialists;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
 use App\Models\User;
 use App\Models\Country;
+use Carbon\Carbon;
 use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -50,7 +52,10 @@ class SpecialistsTest extends TestCase
         $this->seed(WorldSeeder::class);
         Storage::fake(config('filesystems.default'));
 
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'subscription_level' => SubscriptionLevelEnum::Specialists,
+            'subscription_ends_at' => Carbon::now()->addYear()
+        ]);
 
         $lastname = uniqid();
 
@@ -124,7 +129,10 @@ class SpecialistsTest extends TestCase
             ->create();
 
         $user = User::factory()
-            ->create();
+            ->create([
+                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_ends_at' => Carbon::now()->addYear()
+            ]);
         $user->photo_id = $photo->id;
         $user->save();
         $user->refresh();

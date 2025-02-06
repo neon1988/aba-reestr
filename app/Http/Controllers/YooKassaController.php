@@ -6,6 +6,7 @@ use App\Enums\CurrencyEnum;
 use App\Enums\PaymentProvider;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\SubscriptionLevelEnum;
+use App\Jobs\ActivateSubscription;
 use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
@@ -189,8 +190,9 @@ class YooKassaController extends Controller
                 ]
             );
 
-            if (!$subscription->isActivated())
-                $subscription->activate();
+            dispatch_sync(new ActivateSubscription($subscription));
+
+            $subscription->refresh();
 
             if (Auth::check())
                 if (Auth::user()->is($subscription->user) or Auth::user()->is($payment->user))

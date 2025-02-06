@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\SubscriptionLevelEnum;
+use App\Enums\PaymentStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class PurchasedSubscription extends Model
 {
@@ -43,13 +44,32 @@ class PurchasedSubscription extends Model
         if ($this->isActivated())
             throw new \LogicException('Already activated');
 
-        $now = Carbon::now();
+        if ($this->payment->status != PaymentStatusEnum::SUCCEEDED)
+            throw new \LogicException(
+                'Payment is ' . PaymentStatusEnum::getDescription($this->payment->status));
 
-        $this->activated_at = $now;
-        $this->save();
+        DB::transaction(function () {
+            $now = Carbon::now();
 
-        $this->user->subscription_level = $this->subscription_level;
-        $this->user->subscription_ends_at = $now->addDays($this->days);
-        $this->user->save();
+            if ($this->user->isSubscriptionActive()) {
+                if ($this->user->subscription_level != $this->subscription_level) {
+                    throw new \LogicException(
+                        'Активна подписка ' . PaymentStatusEnum::getDescription($this->user->subscription_level) .
+                        ' до ' . $this->user->subscription_ends_at
+                    );
+                } else {
+                    $subscription_ends_at = $this->user->subscription_ends_at->addDays($this->days);
+                }
+            } else {
+                $subscription_ends_at = $now->addDays($this->days);
+            }
+
+            $this->activated_at = $now;
+            $this->save();
+
+            $this->user->subscription_level = $this->subscription_level;
+            $this->user->subscription_ends_at = $subscription_ends_at;
+            $this->user->save();
+        });
     }
 }
