@@ -5,10 +5,11 @@ namespace App\Notifications;
 use App\Enums\SubscriptionLevelEnum;
 use App\Models\PurchasedSubscription;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SubscriptionActivatedNotification extends Notification
+class SubscriptionActivatedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
