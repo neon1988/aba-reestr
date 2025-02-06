@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Services\YooKassaService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use YooKassa\Model\Notification\NotificationFactory;
 use Illuminate\Support\Facades\Log;
 use YooKassa\Model\Notification\NotificationEventType;
@@ -37,11 +36,20 @@ class YooKassaController extends Controller
         if ($subscription->getPrice() == 0)
             abort(403, 'Подписка должна быть платной');
 
-        $idempotenceKey = $this->yooKassaService->getNewIdempotenceKey();
+        $payment = Payment::create(
+            [
+                'payment_provider' => PaymentProvider::YooKassa,
+                'user_id' => Auth::id(),
+                'amount' => $subscription->getPrice(),
+                'currency' => CurrencyEnum::RUB,
+                'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::CANCELED)->key,
+                'meta' => []
+            ]
+        );
 
         $response = $this->yooKassaService->createPayment(
             $subscription->getPrice(),
-            route('yookassa.payment.return', ['uuid' => $idempotenceKey]),
+            route('payments.show', ['payment' => $payment->id]),
             'Оплата подписки "'.$subscription->description.'"',
             [
                 'user_id' => Auth::id(),
@@ -52,25 +60,15 @@ class YooKassaController extends Controller
         if (empty($response))
             throw new \Exception('Ошибка создания платежа');
 
-        $payment = DB::transaction(function () use ($response, $subscription) {
-            return Payment::updateOrCreate(
-                [
-                    'payment_id' => $response->getId(),
-                    'payment_provider' => PaymentProvider::YooKassa,
-                ],
-                [
-                    'user_id' => Auth::id(),
-                    'amount' => $subscription->getPrice(),
-                    'currency' => CurrencyEnum::RUB,
-                    'status' => $response->getStatus(),
-                    'payment_method' => $response->getPaymentMethod(),
-                    'meta' => $response->toArray()
-                ]
-            );
-        });
-
-        $request->session()->put('payments.'.$idempotenceKey.'.yookassa_id', $response->getId());
-        $request->session()->put('payments.'.$idempotenceKey.'.id', $payment->id);
+        $payment->update([
+            'payment_id' => $response->getId(),
+            'payment_provider' => PaymentProvider::YooKassa,
+            'amount' => $subscription->getPrice(),
+            'currency' => CurrencyEnum::RUB,
+            'status' => $response->getStatus(),
+            'payment_method' => $response->getPaymentMethod(),
+            'meta' => $response->toArray()
+        ]);
 
         if ($response->getConfirmation()->getConfirmationUrl()) {
             return redirect($response->getConfirmation()->getConfirmationUrl());
@@ -79,46 +77,29 @@ class YooKassaController extends Controller
         return back()->with('error', 'Ошибка при создании платежа');
     }
 
-    public function paymentReturn(Request $request, string $idempotenceKey)
+    public function paymentShow(Payment $payment)
     {
-        $yookassa_id = $request->session()->get('payments.'.$idempotenceKey.'.yookassa_id');
-
-        if (empty($yookassa_id))
-            return redirect()->route('join');
-
-        return redirect()->route('yookassa.payment.show', ['yookassa_id' => $yookassa_id]);
-    }
-
-    public function paymentShow(string $yookassa_id)
-    {
-        $response = $this->yooKassaService->getPaymentInfo(str($yookassa_id));
+        $response = $this->yooKassaService->getPaymentInfo($payment->payment_id);
 
         if (!$response)
             abort(404);
 
-        $payment = DB::transaction(function () use ($response) {
-            return Payment::updateOrCreate(
-                [
-                    'payment_id' => $response->getId(),
-                    'payment_provider' => PaymentProvider::YooKassa,
-                ],
-                [
-                    'status' => $response->getStatus(),
-                    'payment_method' => optional($response->getPaymentMethod())->getType(),
-                    'meta' => $response->toArray()
-                ]
-            );
-        });
+        $payment->update([
+            'status' => $response->getStatus(),
+            'payment_method' => optional($response->getPaymentMethod())->getType(),
+            'meta' => $response->toArray()
+        ]);
 
         if ($payment->status->is(PaymentStatusEnum::SUCCEEDED))
         {
             $this->createActivateSubscription($payment);
             $payment->refresh();
-            return view('payments.success');
+            return view('payments.success', compact('payment'));
         }
 
         return view('payments.not_completed', [
-            'paymentUrl' => $response->getConfirmation()->getConfirmationUrl()
+            'paymentUrl' => $response->getConfirmation()->getConfirmationUrl(),
+            'payment' => $payment
         ]);
     }
 
@@ -217,5 +198,14 @@ class YooKassaController extends Controller
 
             return $subscription;
         });
+    }
+
+    public function paymentCancel(Payment $payment)
+    {
+        $payment->update([
+            'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::CANCELED)->key
+        ]);
+
+        return back();
     }
 }

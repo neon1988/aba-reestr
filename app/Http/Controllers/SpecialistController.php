@@ -81,6 +81,8 @@ class SpecialistController extends Controller
     {
         $user = Auth::user();
 
+        $this->authorize('createSpecialist', $user);
+
         if ($user->specialists()->first())
             abort(403, 'Специалист уже привязан');
 
@@ -407,14 +409,5 @@ class SpecialistController extends Controller
         $documents = $specialist->files()->get();
 
         return view('specialists.education-and-documents', compact('specialist', 'documents'));
-    }
-
-    // Метод для отображения счетов и документов оплаты
-    public function billingAndPaymentDocuments(Specialist $specialist)
-    {
-        $payments = Auth::user()->payments()->simplePaginate();
-
-        return view('specialists.billing-and-payment-documents',
-            compact('specialist', 'payments'));
     }
 }

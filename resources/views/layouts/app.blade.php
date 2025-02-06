@@ -66,6 +66,13 @@
                     @if (!Auth::check() or !Auth::user()->isSubscriptionActive())
                         <a href="{{ route('join') }}"
                            class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">Подписка</a>
+                    @else
+                        @can('createSpecialist', Auth::user())
+                            <a href="{{ route('join.specialist') }}"
+                               class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">
+                                Регистрация
+                            </a>
+                        @endcan
                     @endif
 
                     @auth
@@ -79,7 +86,7 @@
                                         <x-image :url="Auth::user()->photo->url"
                                                  :alt="Auth::user()->fullName"
                                                  width="100" height="100" quality="90"
-                                                 class="w-full h-full object-cover" />
+                                                 class="w-full h-full object-cover"/>
                                     @else
                                         <span>{{ Auth::user()->nameInitials }}</span>
                                     @endif
@@ -233,7 +240,8 @@
         <p>&copy; 2024 ABA Expert - реестр специалистов и центров. Все права защищены.</p>
     </div>
     <div class="container mx-auto text-center text-sm">
-        Информация, размещенная на сайте служит информационным целям, администрация сайта не несет ответственность за достоверность данных, предоставленных специалистами и центрами.
+        Информация, размещенная на сайте служит информационным целям, администрация сайта не несет ответственность за
+        достоверность данных, предоставленных специалистами и центрами.
     </div>
 </footer>
 

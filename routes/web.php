@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WorksheetController;
 use App\Http\Controllers\YooKassaController;
+use App\Http\Middleware\DBTransactionMiddleware;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
@@ -34,10 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('specialists', SpecialistController::class)->only(['create', 'update', 'edit', 'destroy']);
 
     Route::post('centers', [CenterController::class, 'store'])->name('centers.store')
-        ->middleware([HandlePrecognitiveRequests::class]);
+        ->middleware([HandlePrecognitiveRequests::class, DBTransactionMiddleware::class]);
 
     Route::post('specialists', [SpecialistController::class, 'store'])->name('specialists.store')
-        ->middleware([HandlePrecognitiveRequests::class]);
+        ->middleware([HandlePrecognitiveRequests::class, DBTransactionMiddleware::class]);
 
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);
@@ -53,8 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/specialists/{specialist}/education-and-documents', [SpecialistController::class, 'educationAndDocuments'])
         ->name('specialists.education-and-documents');
-    Route::get('/specialists/{specialist}/billing-and-payment-documents', [SpecialistController::class, 'billingAndPaymentDocuments'])
-        ->name('specialists.billing-and-payment-documents');
+    Route::get('/users/{user}/billing-and-payment-documents', [UserController::class, 'billingAndPaymentDocuments'])
+        ->name('users.billing-and-payment-documents');
     Route::get('/specialists/{specialist}/delete-profile', [SpecialistController::class, 'deleteProfile'])
         ->name('specialists.delete_profile');
 
@@ -77,12 +78,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update')
         ->middleware([HandlePrecognitiveRequests::class]);
 
-    Route::get('/yookassa/buy-subscription/{type}', [YooKassaController::class, 'buySubscription'])->name('yookassa.buy-subscription');
-    Route::get('/yookassa/payment-return/{uuid}', [YooKassaController::class, 'paymentReturn'])->name('yookassa.payment.return');
-    Route::get('/yookassa/payment/{yookassa_id}', [YooKassaController::class, 'paymentShow'])->name('yookassa.payment.show');
+    Route::get('/yookassa/buy-subscription/{type}', [YooKassaController::class, 'buySubscription'])
+        ->name('yookassa.buy-subscription')
+        ->middleware(DBTransactionMiddleware::class);
+
+    Route::get('/payments/{payment}', [YooKassaController::class, 'paymentShow'])
+        ->name('payments.show')
+        ->middleware(DBTransactionMiddleware::class);
+
+    Route::get('/payments/{payment}/cancel', [YooKassaController::class, 'paymentCancel'])
+        ->name('payments.cancel')
+        ->middleware(DBTransactionMiddleware::class);
 });
 
-Route::post('/yookassa/webhook', [YooKassaController::class, 'handleWebhook'])->name('yookassa.webhook');
+Route::post('/yookassa/webhook', [YooKassaController::class, 'handleWebhook'])
+    ->name('yookassa.webhook')
+    ->middleware(DBTransactionMiddleware::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('user/email/change', [UserController::class, 'showChangeEmailForm'])->name('user.email.change');

@@ -14,9 +14,7 @@
                            class="text-cyan-600 hover:text-cyan-800">Место проживания и работы</a></li>
                     <li><a href="{{ route('specialists.education-and-documents', Auth::user()->getSpecialistId()) }}"
                            class="text-cyan-600 hover:text-cyan-800">Образование и документы</a></li>
-                    <li><a href="{{ route('specialists.billing-and-payment-documents', Auth::user()->getSpecialistId()) }}"
-                           class="text-cyan-600 hover:text-cyan-800">Счета и документы оплаты</a></li>
-                @elseif (\Illuminate\Support\Facades\Auth::user()->isCenter())
+                @elseif (Auth::user()->isCenter())
 
                 @else
                     <li><a href="{{ route('profile.edit') }}"
@@ -26,6 +24,8 @@
                            class="text-cyan-600 hover:text-cyan-800">Пароли и безопасность</a></li>
                     <li><a href="{{ route('user.email.update') }}"
                            class="text-cyan-600 hover:text-cyan-800">Почтовый ящик</a></li>
+                    <li><a href="{{ route('users.billing-and-payment-documents', Auth::user()) }}"
+                           class="text-cyan-600 hover:text-cyan-800">Счета и документы оплаты</a></li>
             </ul>
         </aside>
 

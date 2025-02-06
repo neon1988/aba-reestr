@@ -190,4 +190,15 @@ class UserController extends Controller
         $user->fill($request->validated());
         $user->save();
     }
+
+    // Метод для отображения счетов и документов оплаты
+    public function billingAndPaymentDocuments(User $user)
+    {
+        $payments = $user->payments()
+            ->orderBy('created_at', 'desc')
+            ->simplePaginate();
+
+        return view('users.billing-and-payment-documents',
+            compact('payments'));
+    }
 }

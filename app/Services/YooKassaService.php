@@ -60,6 +60,11 @@ class YooKassaService
         return $response;
     }
 
+    public function cancelPayment(string $paymentId, $idempotenceKey = null)
+    {
+        return $this->client->cancelPayment($paymentId, $idempotenceKey);
+    }
+
     public function parseWebhook(Request $request)
     {
         $source = $request->getContent();

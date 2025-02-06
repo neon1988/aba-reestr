@@ -66,7 +66,7 @@ class YooKassaPaymentShowTest extends TestCase
 
         // Выполняем запрос
         $response = $this->actingAs($user)
-            ->get(route('yookassa.payment.show', ['yookassa_id' => $yookassaId]))
+            ->get(route('payments.show', ['payment' => $payment->id]))
             ->assertOk()
             ->assertViewIs('payments.success');
 
@@ -114,7 +114,7 @@ class YooKassaPaymentShowTest extends TestCase
 
         // Выполняем запрос
         $response = $this->actingAs($user)
-            ->get(route('yookassa.payment.show', ['yookassa_id' => $yookassaId]))
+            ->get(route('payments.show', ['payment' => $payment->id]))
             ->assertOk()
             ->assertViewIs('payments.not_completed')
             ->assertViewHas(['paymentUrl' => $paymentUrl])

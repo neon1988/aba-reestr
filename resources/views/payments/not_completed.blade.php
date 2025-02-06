@@ -14,7 +14,8 @@
                 <a href="{{ $paymentUrl }}" class="block text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
                     Вернуться к платежу
                 </a>
-                <a href="{{ route('join') }}" class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+                <a href="{{ route('payments.cancel', compact('payment')) }}"
+                   class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
                     Отказаться от оплаты
                 </a>
             </div>
