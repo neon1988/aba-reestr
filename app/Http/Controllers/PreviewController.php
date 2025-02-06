@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PurchasedSubscription;
-use App\Notifications\SubscriptionActivatedNotification;
-use App\Notifications\WelcomeNotification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,9 +17,7 @@ class PreviewController extends Controller
             //dd(Auth::user()->getKey());
             $user = Auth::user();
 
-            $subscription = PurchasedSubscription::findOrFail(1);
-
-            $message = (new SubscriptionActivatedNotification($subscription))->toMail($user);
+            $message = (new VerifyEmail())->toMail($user);
 
             $markdown = new Markdown(view(), config('mail.markdown'));
 

@@ -4,6 +4,14 @@
     "src": "resources/css/app.css",
     "isEntry": true
   },
+  "resources/images/logo_118.png": {
+    "file": "assets/logo_118-zx8K4A0z.png",
+    "src": "resources/images/logo_118.png"
+  },
+  "resources/images/logo_236.png": {
+    "file": "assets/logo_236-BcdKgMzw.png",
+    "src": "resources/images/logo_236.png"
+  },
   "resources/js/app.js": {
     "file": "assets/app-CbwmUb1p.js",
     "name": "app",
