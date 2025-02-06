@@ -377,7 +377,9 @@ class SpecialistController extends Controller
         Cache::forget('stats.specialistsOnReviewCount');
 
         foreach ($specialist->users as $user)
+        {
             $user->notify(new SpecialistApprovedNotification($specialist));
+        }
 
         return response()
             ->json([
@@ -409,7 +411,6 @@ class SpecialistController extends Controller
                 'message' => 'Специалист отклонен'
             ]);
     }
-
 
     // Метод для отображения образования и документов
     public function educationAndDocuments(Specialist $specialist)

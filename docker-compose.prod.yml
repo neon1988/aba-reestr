@@ -9,6 +9,8 @@ services:
       - ./storage:/var/www/html/storage
       - ./public:/var/www/html/public
     user: "${WWWUSER}:${WWWGROUP}"
+    environment:
+      - XDG_CONFIG_HOME=/tmp
     ports:
       - "8000:8000" # Проброс порта для Octane
     depends_on:
@@ -22,6 +24,9 @@ services:
   horizon:
     image: aba-reestr-image
     command: ["php", "/var/www/html/artisan", "horizon"]
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./public:/var/www/html/public
     stop_signal: SIGTERM # Set this for graceful shutdown if you're using fpm-apache or fpm-nginx
     healthcheck:
       # This is our native healthcheck script for Horizon

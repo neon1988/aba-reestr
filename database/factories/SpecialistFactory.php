@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\EducationEnum;
 use App\Enums\StatusEnum;
 use App\Models\Image;
+use App\Models\Specialist;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -34,5 +35,12 @@ class SpecialistFactory extends Factory
             'photo_id' => Image::factory(),
             'center_name' => $this->faker->company
         ];
+    }
+
+    public function withUser(User $user = null)
+    {
+        return $this->afterCreating(function (Specialist $specialist) use ($user) {
+            $specialist->users()->attach($user ?? User::factory()->create());
+        });
     }
 }

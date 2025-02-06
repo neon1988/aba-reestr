@@ -41,6 +41,6 @@ class SpecialistRejectedNotification extends Notification implements ShouldQueue
             ->line('К сожалению, ваш профиль специалиста был отклонен.')
             ->line('Причиной может быть некорректное заполнение информации или несоответствие требованиям платформы.')
             ->line('Если у вас есть вопросы или вы хотите внести изменения в профиль, свяжитесь с нами.')
-            ->action('Связаться с поддержкой', route('support.contact'));
+            ->action('Связаться с поддержкой', route('contacts'));
     }
 }

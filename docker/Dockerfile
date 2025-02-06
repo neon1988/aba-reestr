@@ -30,6 +30,12 @@ COPY ./docker/php.ini /usr/local/etc/php/conf.d/php.ini
 COPY ./docker/healthcheck-horizon /usr/local/bin/healthcheck-horizon
 RUN chmod +x /usr/local/bin/healthcheck-horizon
 
+# Добавление пользователя с UID 1000 и GID 1000
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -g ${GID} appgroup && \
+    useradd -u ${UID} -g ${GID} -ms /bin/bash user
+
 # Настройка рабочего каталога
 WORKDIR /var/www/html
 
@@ -49,3 +55,6 @@ RUN php artisan optimize
 
 # Указание порта для frankenphp
 EXPOSE 8000
+
+# Переход на пользователя user с UID 1000
+USER user

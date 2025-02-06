@@ -39,7 +39,7 @@ class SpecialistApprovedNotification extends Notification implements ShouldQueue
             ->subject('Ваш профиль специалиста одобрен!')
             ->greeting('Здравствуйте, '.$notifiable->fullName.'!')
             ->line('Мы рады сообщить, что ваш профиль специалиста был успешно одобрен.')
-            ->action('Перейти на страницу', route('specialist.show', ['specialist' => $this->specialist]))
+            ->action('Перейти на страницу', route('specialists.show', ['specialist' => $this->specialist]))
             ->line('Теперь ваш профиль доступен пользователям, и отображается в списке специалистов.');
     }
 }
