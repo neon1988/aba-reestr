@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWebinarRequest;
 use App\Http\Requests\UpdateWebinarRequest;
 use App\Http\Resources\WebinarResource;
+use App\Models\Conference;
 use App\Models\File;
 use App\Models\Webinar;
 use App\Models\WebinarSubscription;
@@ -207,12 +208,22 @@ class WebinarController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function download(Webinar $webinar)
     {
-        //
-    }
+        $this->authorize('download', $webinar);
 
+        $file = $webinar->record_file;
+
+        if (!$file instanceof File or $file->trashed() or !$file->exists())
+            return response('File not found.', 404);
+
+        if ($file->storage == 'private') {
+            return response('')
+                ->header('X-Accel-Redirect', $file->url)
+                ->header('Content-Disposition', 'attachment; filename="' . $file->name . '"')
+                ->header('Content-Type', 'application/x-force-download');
+        } else {
+            return redirect()->to($file->url);
+        }
+    }
 }

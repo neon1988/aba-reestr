@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Conference;
 use App\Models\User;
+use App\Models\Webinar;
 use Illuminate\Auth\Access\Response;
 
 class ConferencePolicy extends Policy
@@ -47,6 +48,17 @@ class ConferencePolicy extends Policy
      * Determine whether the user can toggle subscription.
      */
     public function toggleSubscription(User $user, Conference $conference): Response
+    {
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can download the conference.
+     */
+    public function download(User $user, Conference $conference): Response
     {
         if (!$user->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));

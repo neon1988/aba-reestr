@@ -47,7 +47,9 @@ class ConferenceFactory extends Factory
             return [
                 'start_at' => $startAt,
                 'end_at' => $endAt,
-                'file_id' => File::factory()->randomType(['video'])
+                'file_id' => File::factory()->state([
+                    'storage' => 'private',
+                ])->randomType(['video'])
             ];
         });
     }

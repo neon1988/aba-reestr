@@ -5,9 +5,9 @@
     <div class="flex items-center justify-center">
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
-            @if (!empty($item->record_file))
+            @if (!empty($item->file))
                 @if (Auth::check() and Auth::user()->isSubscriptionActive())
-                    <x-video :url="$item->record_file->url"/>
+                    <x-video :url="route('conferences.download', ['conference' => $item])"/>
                 @endif
             @else
                 <!-- Webinar Image -->
@@ -43,7 +43,7 @@
             <!-- Call to Action -->
             <div class="mt-8">
                 @if (Auth::check() and Auth::user()->isSubscriptionActive())
-                    @if (empty($item->record_file))
+                    @if (empty($item->file))
                         <a
                             href="{{ $item->stream_url }}" target="_blank"
                             class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition mb-4">

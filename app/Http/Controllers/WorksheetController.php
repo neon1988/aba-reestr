@@ -178,4 +178,23 @@ class WorksheetController extends Controller
 
         return new WorksheetResource($worksheet);
     }
+
+    public function download(Worksheet $worksheet)
+    {
+        $this->authorize('download', $worksheet);
+
+        $file = $worksheet->file;
+
+        if (!$file instanceof File or $file->trashed() or !$file->exists())
+            return response('File not found.', 404);
+
+        if ($file->storage == 'private') {
+            return response('')
+                ->header('X-Accel-Redirect', $file->url)
+                ->header('Content-Disposition', 'attachment; filename="' . $file->name . '"')
+                ->header('Content-Type', 'application/x-force-download');
+        } else {
+            return redirect()->to($file->url);
+        }
+    }
 }

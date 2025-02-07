@@ -24,7 +24,9 @@ class WorksheetFactory extends Factory
             'description' => $this->faker->paragraph, // Описание материала
             'create_user_id' => User::factory(), // Используем фабрику для создания пользователя
             'cover_id' => File::factory()->image(), // Используем фабрику для создания обложки
-            'file_id' => File::factory()->randomType(['pdf', 'video']), // Используем фабрику для создания файла материала
+            'file_id' => File::factory()->state([
+                'storage' => 'private',
+            ])->randomType(['pdf', 'video']), // Используем фабрику для создания файла материала
             'price' => $this->faker->randomNumber(1) * 200,
         ];
     }

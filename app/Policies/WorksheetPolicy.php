@@ -31,4 +31,15 @@ class WorksheetPolicy extends Policy
     {
         return Response::deny(__('You do not have permission to delete this worksheet.'));
     }
+
+    /**
+     * Determine whether the user can download the worksheet.
+     */
+    public function download(User $user, Worksheet $worksheet): Response
+    {
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
 }

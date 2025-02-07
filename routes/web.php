@@ -89,7 +89,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/payments/{payment}/cancel', [YooKassaController::class, 'paymentCancel'])
         ->name('payments.cancel')
         ->middleware(DBTransactionMiddleware::class);
+
+    Route::get('/webinars/{webinar}/download', [WebinarController::class, 'download'])->name('webinars.download');
+    Route::get('/worksheets/{worksheet}/download', [WorksheetController::class, 'download'])->name('worksheets.download');
+    Route::get('/conferences/{conference}/download', [ConferenceController::class, 'download'])->name('conferences.download');
 });
+
+Route::get('/files/{file}', [FileController::class, 'download'])->name('files.download');
 
 Route::post('/yookassa/webhook', [YooKassaController::class, 'handleWebhook'])
     ->name('yookassa.webhook')

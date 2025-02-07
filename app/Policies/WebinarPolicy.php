@@ -75,4 +75,15 @@ class WebinarPolicy extends Policy
 
         return Response::allow();
     }
+
+    /**
+     * Determine whether the user can download the webinar.
+     */
+    public function download(User $user, Webinar $webinar): Response
+    {
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
 }

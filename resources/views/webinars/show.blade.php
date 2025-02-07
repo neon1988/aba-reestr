@@ -7,7 +7,7 @@
 
             @if (!empty($item->record_file))
                 @if (Auth::check() and Auth::user()->isSubscriptionActive())
-                    <x-video :url="$item->record_file->url"/>
+                    <x-video :url="route('webinars.download', ['webinar' => $item])"/>
                 @endif
             @else
                 <!-- Webinar Image -->

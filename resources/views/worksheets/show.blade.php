@@ -6,7 +6,7 @@
         <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
 
             @if (Auth::check() and Auth::user()->isSubscriptionActive() and $item->file->isVideo())
-                <x-video :url="$item->file->url"/>
+                <x-video :url="route('worksheets.download', ['worksheet' => $item])"/>
             @else
                 <!-- Webinar Image -->
                 <div class="relative">
@@ -33,7 +33,7 @@
             <div class="mt-8">
                 @if (Auth::check() and Auth::user()->isSubscriptionActive() and !$item->file->isVideo())
                     <a
-                        href="{{ $item->file->url }}" target="_blank"
+                        href="{{ route('worksheets.download', ['worksheet' => $item]) }}" target="_blank"
                         class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition mb-4">
                         Скачать {{ mb_strtoupper($item->file->extension) }}
                     </a>

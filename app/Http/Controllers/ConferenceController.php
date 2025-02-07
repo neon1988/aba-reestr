@@ -173,4 +173,26 @@ class ConferenceController extends Controller
 
         return new ConferenceResource($conference);
     }
+
+    /**
+     * Download conference
+     */
+    public function download(Conference $conference)
+    {
+        $this->authorize('download', $conference);
+
+        $file = $conference->file;
+
+        if (!$file instanceof File or $file->trashed() or !$file->exists())
+            return response('File not found.', 404);
+
+        if ($file->storage == 'private') {
+            return response('')
+                ->header('X-Accel-Redirect', $file->url)
+                ->header('Content-Disposition', 'attachment; filename="' . $file->name . '"')
+                ->header('Content-Type', 'application/x-force-download');
+        } else {
+            return redirect()->to($file->url);
+        }
+    }
 }
