@@ -45,6 +45,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
     public function toSearchableArray()
     {
         $array = $this->toArray();

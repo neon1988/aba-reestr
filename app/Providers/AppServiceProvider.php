@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('viewLogViewer', [UserPolicy::class, 'viewLogViewer']);
+
+        Route::pattern('user', '[0-9]+');
+        Route::pattern('webinar', '[0-9]+');
+        Route::pattern('worksheet', '[0-9]+');
+        Route::pattern('specialist', '[0-9]+');
+        Route::pattern('center', '[0-9]+');
+        Route::pattern('payment', '[0-9]+');
+        Route::pattern('conference', '[0-9]+');
+        Route::pattern('bulletin', '[0-9]+');
     }
 }

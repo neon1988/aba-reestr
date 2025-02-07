@@ -114,7 +114,4 @@ Route::get('/privacy-policy', [OtherController::class, 'privacyPolicy'])->name('
 Route::get('/offer', [OtherController::class, 'offer'])->name('offer.show');
 Route::get('/contacts', [OtherController::class, 'contacts'])->name('contacts');
 
-
-
-
 require __DIR__.'/auth.php';

@@ -40,7 +40,7 @@ class UserPolicy extends Policy
     public function createSpecialist(User $authUser): Response
     {
         if (!$authUser->isSubscriptionActive())
-            return Response::deny(__('Your subscription is not active.'));
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         if ($authUser->subscription_level != SubscriptionLevelEnum::Specialists)
             return Response::deny(__('You do not have the required subscription level.'));

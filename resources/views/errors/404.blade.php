@@ -12,6 +12,11 @@
            class="inline-block px-6 py-3 mt-4 text-white bg-cyan-500 hover:bg-cyan-600 rounded-md text-lg font-medium transition duration-150 ease-in-out">
             Вернуться на главную
         </a>
+        <p class="mt-4 text-sm text-gray-500">
+            Если вы считаете, что это ошибка,
+            <a class="font-bold text-cyan-600 hover:underline"
+               href="{{ route('contacts') }}">свяжитесь с нами</a>.
+        </p>
     </div>
 
 @endsection

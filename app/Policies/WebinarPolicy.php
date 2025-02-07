@@ -13,10 +13,10 @@ class WebinarPolicy extends Policy
      */
     public function view(User $user, Webinar $webinar): Response
     {
-        if ($user->isSubscriptionActive())
-            return Response::allow(__('You are allowed to view this webinar.'));
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        return Response::deny(__('You need an active subscription to view this webinar.'));
+        return Response::allow();
     }
 
     /**
@@ -48,10 +48,10 @@ class WebinarPolicy extends Policy
      */
     public function subscribe(User $user, Webinar $webinar): Response
     {
-        if ($user->isSubscriptionActive())
-            return Response::allow(__('You are allowed to subscribe to this webinar.'));
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        return Response::deny(__('You need an active subscription to subscribe to this webinar.'));
+        return Response::allow();
     }
 
     /**
@@ -59,10 +59,10 @@ class WebinarPolicy extends Policy
      */
     public function unsubscribe(User $user, Webinar $webinar): Response
     {
-        if ($user->isSubscriptionActive())
-            return Response::allow(__('You are allowed to unsubscribe from this webinar.'));
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        return Response::deny(__('You need an active subscription to unsubscribe from this webinar.'));
+        return Response::allow();
     }
 
     /**
@@ -70,9 +70,9 @@ class WebinarPolicy extends Policy
      */
     public function toggleSubscription(User $user, Webinar $webinar): Response
     {
-        if ($user->isSubscriptionActive())
-            return Response::allow(__('You are allowed to toggle subscription for this webinar.'));
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        return Response::deny(__('You need an active subscription to toggle your subscription.'));
+        return Response::allow();
     }
 }

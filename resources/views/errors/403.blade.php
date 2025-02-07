@@ -6,10 +6,10 @@
 
     <div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
         <h1 class="text-6xl font-extrabold text-cyan-500 pb-5">403</h1>
-        <h2 class="text-3xl font-semibold text-gray-800 pb-5">Доступ запрещен</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 pb-5">Доступ запрещен</h2>
         <p class="text-gray-600">
             @if (isset($exception))
-                {!! $exception->getMessage() !!}
+                {{ __($exception->getMessage()) }}
             @else
                 Извините, у вас нет прав для доступа к этой странице.
             @endif
@@ -19,7 +19,9 @@
             Вернуться на главную
         </a>
         <p class="mt-4 text-sm text-gray-500">
-            Если вы считаете, что это ошибка, свяжитесь с администратором.
+            Если вы считаете, что это ошибка,
+            <a class="font-bold text-cyan-600 hover:underline"
+               href="{{ route('contacts') }}">свяжитесь с нами</a>.
         </p>
     </div>
 

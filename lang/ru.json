@@ -494,5 +494,6 @@
     "Privacy Policy": "Политика обработки персональных данных",
     "Lastname": "Фамилия",
     "Middlename": "Отчество",
-    "Don't have an account?": "Вы еще не зарегистрированы?"
+    "Don't have an account?": "Вы еще не зарегистрированы?",
+    "You don't have a subscription or your subscription is inactive.": "У вас нет подписки или ваша подписка неактивна"
 }

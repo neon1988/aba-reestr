@@ -13,10 +13,10 @@ class ConferencePolicy extends Policy
      */
     public function view(User $user, Conference $conference): Response
     {
-        if ($user->isSubscriptionActive())
-            return Response::allow(__('You are allowed to view this conference.'));
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        return Response::deny(__('You are not allowed to view this conference.'));
+        return Response::allow();
     }
 
     /**
@@ -48,9 +48,9 @@ class ConferencePolicy extends Policy
      */
     public function toggleSubscription(User $user, Conference $conference): Response
     {
-        if ($user->isSubscriptionActive())
-            return Response::allow(__('You can toggle subscription.'));
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        return Response::deny(__('You are not allowed to toggle subscription.'));
+        return Response::allow();
     }
 }
