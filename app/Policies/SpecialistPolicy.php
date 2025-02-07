@@ -14,7 +14,9 @@ class SpecialistPolicy extends Policy
     public function update(User $user, Specialist $specialist): Response
     {
         if ($user->isSpecialist()) {
-            return $specialist->id == $user->getSpecialistId();
+            return $specialist->id == $user->getSpecialistId()
+                ? Response::allow()
+                : Response::deny(__('You do not have permission to update this specialist.'));
         }
         return Response::deny(__('You do not have permission to update this specialist.'));
     }

@@ -42,6 +42,19 @@ class SpecialistsTest extends TestCase
             ->assertViewHas('specialists');
     }
 
+    public function testShowMethod()
+    {
+        $user = User::factory()->create();
+
+        $specialist = Specialist::factory()
+            ->withUser($user)
+            ->create();
+
+        $response = $this->actingAs($user)
+            ->get(route('specialists.show', compact('specialist')))
+            ->assertOk();
+    }
+
     /**
      * Тестирование метода store
      *
