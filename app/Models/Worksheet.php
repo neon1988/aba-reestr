@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\EducationEnum;
 use App\Observers\WorksheetObserver;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;

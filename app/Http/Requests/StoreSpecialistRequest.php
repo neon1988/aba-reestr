@@ -8,7 +8,6 @@ use App\Rules\FileExistsOnDiskRule;
 use App\Rules\PhoneRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class StoreSpecialistRequest extends FormRequest
 {

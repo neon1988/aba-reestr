@@ -6,61 +6,16 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PaymentPolicy
+class PaymentPolicy extends Policy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
-    }
-
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Payment $payment): bool
+    public function view(User $user, Payment $payment): Response
     {
-        return false;
-    }
+        if ($user->is($payment->user))
+            return Response::allow(__('You are allowed to view this payment.'));
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Payment $payment): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Payment $payment): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Payment $payment): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Payment $payment): bool
-    {
-        return false;
+        return Response::deny(__('You are not authorized to view this payment.'));
     }
 }

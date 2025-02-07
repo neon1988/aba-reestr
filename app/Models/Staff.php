@@ -11,12 +11,11 @@ class Staff extends Model
 {
     use SoftDeletes, HasFactory;
 
+    public $timestamps = true;
     protected $fillable = [
         'role',
         'settings_access',
     ];
-
-    public $timestamps = true;
 
     /**
      * Полиморфная связь с пользователями.

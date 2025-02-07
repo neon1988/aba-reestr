@@ -229,7 +229,7 @@ trait Storable
             $dirname = $this->dirname;
 
         if (Storage::disk($storage)->exists($dirname . '/' . $this->name))
-            throw new Exception('File '.$dirname . '/' . $this->name.' already exists in storage ' . $storage);
+            throw new Exception('File ' . $dirname . '/' . $this->name . ' already exists in storage ' . $storage);
 
         Storage::disk($storage)
             ->put($dirname . '/' . $this->name, $resource);

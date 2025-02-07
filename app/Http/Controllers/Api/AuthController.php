@@ -37,18 +37,18 @@ class AuthController extends Controller
         }
     }
 
-    public function user(Request $request): UserResource
-    {
-        $user = Auth::user();
-        $user->load(['photo', 'centers.photo', 'specialists.photo']);
-        return new UserResource($user);
-    }
-
     public function logout(Request $request): JsonResponse
     {
         // Отзыв токена при выходе
         Auth::user()->tokens()->delete();
 
         return response()->json(['message' => 'Logged out successfully']);
+    }
+
+    public function user(Request $request): UserResource
+    {
+        $user = Auth::user();
+        $user->load(['photo', 'centers.photo', 'specialists.photo']);
+        return new UserResource($user);
     }
 }

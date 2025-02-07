@@ -27,19 +27,10 @@ class Conference extends Model
         'price',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'start_at' => 'datetime',
-            'end_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ];
-    }
-
     /**
      * Скоуп для предстоящих мероприятий.
      *
-     * @param  Builder  $query
+     * @param Builder $query
      * @return Builder
      */
     public function scopeUpcoming(Builder $query): Builder
@@ -50,7 +41,7 @@ class Conference extends Model
     /**
      * Скоуп для завершённых мероприятий.
      *
-     * @param  Builder  $query
+     * @param Builder $query
      * @return Builder
      */
     public function scopeEnded(Builder $query): Builder
@@ -61,7 +52,7 @@ class Conference extends Model
     /**
      * Скоуп для текущих мероприятий.
      *
-     * @param  Builder  $query
+     * @param Builder $query
      * @return Builder
      */
     public function scopeOngoing(Builder $query): Builder
@@ -78,5 +69,14 @@ class Conference extends Model
     public function file(): hasOne
     {
         return $this->hasOne(File::class, 'id', 'file_id');
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
     }
 }

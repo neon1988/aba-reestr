@@ -4,7 +4,6 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Litlife\Url\Url;
 
@@ -34,8 +33,7 @@ class FileExistsOnDiskRule implements ValidationRule
     // Метод для проверки существования файла на диске
     protected function checkFileExistence(mixed $file, Closure $fail): void
     {
-        if (is_array($file))
-        {
+        if (is_array($file)) {
             if (!array_key_exists('path', $file) or !array_key_exists('storage', $file)) {
                 $fail('Файл не найден');
                 return;

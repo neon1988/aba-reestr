@@ -2,17 +2,17 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class BankAccountRule implements ValidationRule
 {
     /**
      * Run the validation rule.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param string $attribute
+     * @param mixed $value
+     * @param \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString $fail
      * @return void
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
@@ -32,7 +32,7 @@ class BankAccountRule implements ValidationRule
     /**
      * Validate checksum for the bank account number.
      *
-     * @param  string  $accountNumber
+     * @param string $accountNumber
      * @return bool
      */
     private function validateChecksum(string $accountNumber): bool

@@ -42,14 +42,6 @@ class WebinarController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreWebinarRequest $request)
@@ -62,8 +54,7 @@ class WebinarController extends Controller
             $webinar = Webinar::make($request->validated());
             $webinar->creator()->associate($user);
 
-            if ($upload = $request->get('cover'))
-            {
+            if ($upload = $request->get('cover')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $file->storage = 'public';
@@ -107,14 +98,6 @@ class WebinarController extends Controller
         }
 
         return view('webinars.show', ['item' => $webinar, 'userSubscription' => $userSubscription]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Webinar $webinar)
-    {
-        //
     }
 
     /**
@@ -222,6 +205,14 @@ class WebinarController extends Controller
                 return redirect()->route('webinars.show', compact('webinar'));
             }
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
 }

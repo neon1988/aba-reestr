@@ -24,11 +24,6 @@ class PurchasedSubscription extends Model
         'currency',
     ];
 
-    public function isActivated(): bool
-    {
-        return !empty($this->activated_at);
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -71,5 +66,10 @@ class PurchasedSubscription extends Model
             $this->user->subscription_ends_at = $subscription_ends_at;
             $this->user->save();
         });
+    }
+
+    public function isActivated(): bool
+    {
+        return !empty($this->activated_at);
     }
 }

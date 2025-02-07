@@ -27,19 +27,10 @@ class Webinar extends Model
         'price'
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'start_at' => 'datetime',
-            'end_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ];
-    }
-
     /**
      * Скоуп для предстоящих мероприятий.
      *
-     * @param  Builder  $query
+     * @param Builder $query
      * @return Builder
      */
     public function scopeUpcoming(Builder $query): Builder
@@ -50,7 +41,7 @@ class Webinar extends Model
     /**
      * Скоуп для завершённых мероприятий.
      *
-     * @param  Builder  $query
+     * @param Builder $query
      * @return Builder
      */
     public function scopeEnded(Builder $query): Builder
@@ -61,7 +52,7 @@ class Webinar extends Model
     /**
      * Скоуп для текущих мероприятий.
      *
-     * @param  Builder  $query
+     * @param Builder $query
      * @return Builder
      */
     public function scopeOngoing(Builder $query): Builder
@@ -85,14 +76,23 @@ class Webinar extends Model
         return $this->hasMany(WebinarSubscription::class);
     }
 
+    public function updateSubscribersCount()
+    {
+        $this->subscribers_count = $this->subscribers()->count(); // Получаем количество пользователей, подписанных на этот вебинар
+        $this->save(); // Сохраняем обновленное значение в базе
+    }
+
     public function subscribers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'webinar_subscriptions')->withTimestamps();
     }
 
-    public function updateSubscribersCount()
+    protected function casts(): array
     {
-        $this->subscribers_count = $this->subscribers()->count(); // Получаем количество пользователей, подписанных на этот вебинар
-        $this->save(); // Сохраняем обновленное значение в базе
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
     }
 }

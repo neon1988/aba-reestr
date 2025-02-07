@@ -9,19 +9,14 @@ use Illuminate\Auth\Access\Response;
 class WebinarPolicy extends Policy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): Response
-    {
-        return Response::allow();
-    }
-
-    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Webinar $webinar): Response
     {
-        return Response::allow();
+        if ($user->isSubscriptionActive())
+            return Response::allow(__('You are allowed to view this webinar.'));
+
+        return Response::deny(__('You need an active subscription to view this webinar.'));
     }
 
     /**
@@ -29,7 +24,7 @@ class WebinarPolicy extends Policy
      */
     public function create(User $user): Response
     {
-        return Response::allow();
+        return Response::deny(__('You are not allowed to create a webinar.'));
     }
 
     /**
@@ -37,7 +32,7 @@ class WebinarPolicy extends Policy
      */
     public function update(User $user, Webinar $webinar): Response
     {
-        return Response::allow();
+        return Response::deny(__('You are not allowed to update this webinar.'));
     }
 
     /**
@@ -45,23 +40,7 @@ class WebinarPolicy extends Policy
      */
     public function delete(User $user, Webinar $webinar): Response
     {
-        return Response::allow();
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Webinar $webinar): Response
-    {
-        return Response::allow();
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Webinar $webinar): Response
-    {
-        return Response::allow();
+        return Response::deny(__('You are not allowed to delete this webinar.'));
     }
 
     /**
@@ -69,7 +48,10 @@ class WebinarPolicy extends Policy
      */
     public function subscribe(User $user, Webinar $webinar): Response
     {
-        return Response::allow();
+        if ($user->isSubscriptionActive())
+            return Response::allow(__('You are allowed to subscribe to this webinar.'));
+
+        return Response::deny(__('You need an active subscription to subscribe to this webinar.'));
     }
 
     /**
@@ -77,7 +59,10 @@ class WebinarPolicy extends Policy
      */
     public function unsubscribe(User $user, Webinar $webinar): Response
     {
-        return Response::allow();
+        if ($user->isSubscriptionActive())
+            return Response::allow(__('You are allowed to unsubscribe from this webinar.'));
+
+        return Response::deny(__('You need an active subscription to unsubscribe from this webinar.'));
     }
 
     /**
@@ -85,6 +70,9 @@ class WebinarPolicy extends Policy
      */
     public function toggleSubscription(User $user, Webinar $webinar): Response
     {
-        return Response::allow();
+        if ($user->isSubscriptionActive())
+            return Response::allow(__('You are allowed to toggle subscription for this webinar.'));
+
+        return Response::deny(__('You need an active subscription to toggle your subscription.'));
     }
 }

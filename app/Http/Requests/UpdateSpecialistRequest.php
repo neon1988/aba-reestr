@@ -9,7 +9,6 @@ use App\Rules\TelegramUsername;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 
 class UpdateSpecialistRequest extends FormRequest
 {

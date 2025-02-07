@@ -2,11 +2,11 @@
 
 namespace App\Notifications;
 
+use App\Models\Specialist;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Specialist;
+use Illuminate\Notifications\Notification;
 
 class SpecialistApprovedNotification extends Notification implements ShouldQueue
 {
@@ -37,7 +37,7 @@ class SpecialistApprovedNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Ваш профиль специалиста одобрен!')
-            ->greeting('Здравствуйте, '.$notifiable->fullName.'!')
+            ->greeting('Здравствуйте, ' . $notifiable->fullName . '!')
             ->line('Мы рады сообщить, что ваш профиль специалиста был успешно одобрен.')
             ->action('Перейти на страницу', route('specialists.show', ['specialist' => $this->specialist]))
             ->line('Теперь ваш профиль доступен пользователям, и отображается в списке специалистов.');

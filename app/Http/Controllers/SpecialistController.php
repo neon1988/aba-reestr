@@ -21,11 +21,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SpecialistController extends Controller
 {
@@ -100,12 +98,9 @@ class SpecialistController extends Controller
 
             $user->specialists()->attach($specialist);
 
-            if ($user->photo instanceof File)
-            {
+            if ($user->photo instanceof File) {
                 $specialist->photo_id = $user->photo->id;
-            }
-            else
-            {
+            } else {
                 if ($upload = $request->get('photo')) {
                     if ($file = File::find($upload['id'])) {
                         if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
@@ -169,11 +164,15 @@ class SpecialistController extends Controller
 
     public function edit(Specialist $specialist)
     {
+        $this->authorize('update', $specialist);
+
         return view('specialists.edit', compact('specialist'));
     }
 
     public function updateProfile(UpdateSpecialistProfileRequest $request, Specialist $specialist): RedirectResponse|JsonResponse
     {
+        $this->authorize('update', $specialist);
+
         $specialist = DB::transaction(function () use ($specialist, $request) {
 
             $specialist->fill($request->validated());
@@ -192,8 +191,7 @@ class SpecialistController extends Controller
                         if ($specialist->photo instanceof Image)
                             $specialist->photo->delete();
 
-                        if ($user instanceof User)
-                        {
+                        if ($user instanceof User) {
                             $user->photo->delete();
                             $user->photo_id = $file->id;
                             $user->save();
@@ -246,6 +244,8 @@ class SpecialistController extends Controller
 
     public function update(UpdateSpecialistRequest $request, Specialist $specialist)
     {
+        $this->authorize('update', $specialist);
+
         $specialist = DB::transaction(function () use ($specialist, $request) {
 
             $specialist->fill($request->validated());
@@ -304,6 +304,8 @@ class SpecialistController extends Controller
 
     public function updatePhoto(UpdateSpecialistPhotoRequest $request, Specialist $specialist)
     {
+        $this->authorize('update', $specialist);
+
         $specialist->fill($request->validated());
 
         // Обработка фото (если новое фото загружено)
@@ -335,6 +337,8 @@ class SpecialistController extends Controller
 
     public function showLocationAndWork(Specialist $specialist)
     {
+        $this->authorize('update', $specialist);
+
         $countries = Country::orderBy('name', 'asc')->get();
 
         return view('specialists.location-and-work', compact('specialist', 'countries'));
@@ -342,6 +346,8 @@ class SpecialistController extends Controller
 
     public function updateLocationAndWork(UpdateSpecialistLocationAndWorkRequest $request, Specialist $specialist)
     {
+        $this->authorize('update', $specialist);
+
         $specialist->fill($request->validated());
         $specialist->save();
 
@@ -376,8 +382,7 @@ class SpecialistController extends Controller
         Cache::forget('stats.specialistsCount');
         Cache::forget('stats.specialistsOnReviewCount');
 
-        foreach ($specialist->users as $user)
-        {
+        foreach ($specialist->users as $user) {
             $user->notify(new SpecialistApprovedNotification($specialist));
         }
 
@@ -415,6 +420,8 @@ class SpecialistController extends Controller
     // Метод для отображения образования и документов
     public function educationAndDocuments(Specialist $specialist)
     {
+        $this->authorize('update', $specialist);
+
         $documents = $specialist->files()->get();
 
         return view('specialists.education-and-documents', compact('specialist', 'documents'));

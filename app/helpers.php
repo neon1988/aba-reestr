@@ -4,8 +4,8 @@ if (!function_exists('formatFileSize')) {
     /**
      * Преобразует размер файла в человекочитаемый формат
      *
-     * @param  int  $bytes
-     * @param  int  $precision
+     * @param int $bytes
+     * @param int $precision
      * @return string
      */
     function formatFileSize($bytes, $precision = 2)
@@ -20,19 +20,20 @@ if (!function_exists('formatFileSize')) {
     }
 }
 
-function convertToBytes($size) {
+function convertToBytes($size)
+{
     // Список поддерживаемых единиц с их кратностью
     $units = [
-        'B'  => 1,
-        'K'  => 1024,
+        'B' => 1,
+        'K' => 1024,
         'KB' => 1024,
-        'M'  => 1024 ** 2,
+        'M' => 1024 ** 2,
         'MB' => 1024 ** 2,
-        'G'  => 1024 ** 3,
+        'G' => 1024 ** 3,
         'GB' => 1024 ** 3,
-        'T'  => 1024 ** 4,
+        'T' => 1024 ** 4,
         'TB' => 1024 ** 4,
-        'P'  => 1024 ** 5,
+        'P' => 1024 ** 5,
         'PB' => 1024 ** 5,
     ];
 

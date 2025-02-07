@@ -28,7 +28,7 @@ class CleanupTempFiles extends Command
      */
     public function handle()
     {
-        $days = (int) $this->option('days');
+        $days = (int)$this->option('days');
         $threshold = now()->subDays($days)->getTimestamp();
 
         $disk = Storage::disk('public'); // Или другой диск

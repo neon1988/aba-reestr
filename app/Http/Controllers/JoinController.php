@@ -15,12 +15,10 @@ class JoinController extends Controller
 
     public function join(Request $request): RedirectResponse|View
     {
-        if (Auth::check())
-        {
+        if (Auth::check()) {
             $user = Auth::user();
 
-            if ($user->isSubscriptionActive())
-            {
+            if ($user->isSubscriptionActive()) {
                 if ($user->isSpecialist())
                     return redirect()->route('specialists.show', Auth::user()->getSpecialistId());
 

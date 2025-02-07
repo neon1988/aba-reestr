@@ -21,16 +21,6 @@ trait ImageResizable
 
     protected mixed $sourceStream = null;
 
-    public function setSourceStream(&$sourceStream): void
-    {
-        $this->sourceStream = &$sourceStream;
-    }
-
-    public function getSourceStream()
-    {
-        return $this->sourceStream;
-    }
-
     public function setMaxWidthAttribute($width)
     {
         $this->maxWidth = intval($width);
@@ -131,6 +121,16 @@ trait ImageResizable
         }
 
         return $this->imagick;
+    }
+
+    public function getSourceStream()
+    {
+        return $this->sourceStream;
+    }
+
+    public function setSourceStream(&$sourceStream): void
+    {
+        $this->sourceStream = &$sourceStream;
     }
 
     public function getRealHeight(): ?int

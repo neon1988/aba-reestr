@@ -23,8 +23,8 @@ class PhoneRule implements Rule
     /**
      * Создает новый экземпляр правила валидации телефона.
      *
-     * @param  int  $minLength
-     * @param  int  $maxLength
+     * @param int $minLength
+     * @param int $maxLength
      */
     public function __construct($minLength = 10, $maxLength = 15)
     {
@@ -35,8 +35,8 @@ class PhoneRule implements Rule
     /**
      * Определяет, проходит ли значение валидацию.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)

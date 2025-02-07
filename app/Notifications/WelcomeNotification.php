@@ -51,7 +51,7 @@ class WelcomeNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Добро пожаловать!')
-            ->greeting('Здравствуйте, '.$notifiable->fullName.'!')
+            ->greeting('Здравствуйте, ' . $notifiable->fullName . '!')
             ->line('Ваш личный кабинет на портале ABA-Expert успешно создан!')
             ->action('Перейти в аккаунт', $this->accountLink) // Кнопка для перехода в кабинет
             ->salutation('С уважением, команда ABA-Expert');

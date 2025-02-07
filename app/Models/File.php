@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Observers\FileObserver;
 use App\Traits\ImageResizable;
-use App\Traits\Storable;
 use App\Traits\UserCreated;
 use Exception;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -21,6 +20,8 @@ class File extends Model
 {
     use SoftDeletes, HasFactory, UserCreated, ImageResizable;
 
+    protected mixed $sourceStream = null;
+
     public function getDirname(): string
     {
         $idDirname = new IdDirname($this->id);
@@ -29,16 +30,14 @@ class File extends Model
         return $url->getPath();
     }
 
-    protected mixed $sourceStream = null;
+    public function getSourceStream()
+    {
+        return $this->sourceStream;
+    }
 
     public function setSourceStream(&$sourceStream): void
     {
         $this->sourceStream = &$sourceStream;
-    }
-
-    public function getSourceStream()
-    {
-        return $this->sourceStream;
     }
 
     /**
@@ -118,7 +117,7 @@ class File extends Model
         }
     }
 
-    public function isVideo() :bool
+    public function isVideo(): bool
     {
         return in_array(mb_strtolower($this->extension), ['mp4', 'avi', 'mkv']);
     }

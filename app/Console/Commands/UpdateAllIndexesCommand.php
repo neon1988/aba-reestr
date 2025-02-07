@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Worksheet;
 use Illuminate\Console\Command;
 
 class UpdateAllIndexesCommand extends Command
@@ -26,8 +25,7 @@ class UpdateAllIndexesCommand extends Command
             'App\Models\Worksheet',
         ];
 
-        foreach ($models as $model)
-        {
+        foreach ($models as $model) {
             if ($this->option('flush'))
                 $this->call('scout:flush', ['model' => $model]);
             $this->call('scout:import', ['model' => $model]);

@@ -9,7 +9,6 @@ use App\Http\Resources\CenterResource;
 use App\Models\Center;
 use App\Models\File;
 use App\Models\Image;
-use App\Models\Worksheet;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -17,8 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Litlife\Url\Url;
 
 class CenterController extends Controller
 {
@@ -41,8 +38,7 @@ class CenterController extends Controller
 
         $centers->loadMissing('photo');
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return response()->json([
                 'view' => view('centers.list', compact('centers'))->render()
             ]);
@@ -78,6 +74,8 @@ class CenterController extends Controller
      */
     public function store(StoreCenterRequest $request)
     {
+        $this->authorize('create', Center::class);
+
         $center = DB::transaction(function () use ($request) {
             $user = Auth::user();
 
@@ -112,14 +110,12 @@ class CenterController extends Controller
             return $center;
         });
 
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             return [
                 'redirect_to' => route('centers.show', compact('center')),
                 'center' => new CenterResource($center)
             ];
-        }
-        else
+        } else
             return redirect()->route('centers.show', compact('center'))
                 ->with('success', 'Центр успешно добавлен!');
     }
@@ -139,11 +135,15 @@ class CenterController extends Controller
 
     public function edit(Center $center)
     {
+        $this->authorize('update', $center);
+
         return view('centers.edit', compact('center'));
     }
 
     public function update(UpdateCenterRequest $request, Center $center)
     {
+        $this->authorize('update', $center);
+
         $center->fill($request->validated());
 
         // Обработка фото (если новое фото загружено)
@@ -169,11 +169,15 @@ class CenterController extends Controller
 
     public function editDetails(Center $center)
     {
+        $this->authorize('update', $center);
+
         return view('centers.edit', compact('center'));
     }
 
     public function updateDetails(UpdateCenterRequest $request, Center $center)
     {
+        $this->authorize('update', $center);
+
         $center->fill($request->validated());
 
         $center->save();
@@ -182,15 +186,6 @@ class CenterController extends Controller
             ->route('centers.details.edit', $center->id)
             ->with('success', 'Профиль центра обновлен.');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Center $center)
-    {
-        //
-    }
-
 
     /**
      * @throws AuthorizationException

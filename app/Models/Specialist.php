@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
@@ -57,16 +56,6 @@ class Specialist extends Model
             unset($array[$key]);
 
         return $array;
-    }
-
-    /**
-     * Псевдоатрибут для получения полного ФИО.
-     */
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) => trim($attributes['name'] . ' ' . $attributes['last_name'] . ' ' . $attributes['middle_name']),
-        );
     }
 
     /**
@@ -128,19 +117,29 @@ class Specialist extends Model
         return $this->morphToMany(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
     }
 
+    /**
+     * Псевдоатрибут для получения полного ФИО.
+     */
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => trim($attributes['name'] . ' ' . $attributes['last_name'] . ' ' . $attributes['middle_name']),
+        );
+    }
+
     protected function telegramProfile(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value ? '@'.trim($value, '@') : null,
-            set: fn (?string $value) => $value ? trim($value, '@') : null,
+            get: fn(?string $value) => $value ? '@' . trim($value, '@') : null,
+            set: fn(?string $value) => $value ? trim($value, '@') : null,
         );
     }
 
     protected function vkProfile(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value ? $value : null,
-            set: fn (?string $value) => $value ? trim($value, '@') : null,
+            get: fn(?string $value) => $value ? $value : null,
+            set: fn(?string $value) => $value ? trim($value, '@') : null,
         );
     }
 }

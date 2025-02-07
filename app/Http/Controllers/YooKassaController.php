@@ -10,13 +10,13 @@ use App\Jobs\ActivateSubscription;
 use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Services\YooKassaService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use YooKassa\Model\Notification\NotificationFactory;
 use Illuminate\Support\Facades\Log;
 use YooKassa\Model\Notification\NotificationEventType;
+use YooKassa\Model\Notification\NotificationFactory;
 
 class YooKassaController extends Controller
 {
@@ -51,7 +51,7 @@ class YooKassaController extends Controller
         $response = $this->yooKassaService->createPayment(
             $subscription->getPrice(),
             route('payments.show', ['payment' => $payment->id]),
-            'Оплата подписки "'.$subscription->description.'"',
+            'Оплата подписки "' . $subscription->description . '"',
             [
                 'user_id' => Auth::id(),
                 'subscription_type' => $subscription->key
@@ -91,8 +91,7 @@ class YooKassaController extends Controller
             'meta' => $response->toArray()
         ]);
 
-        if ($payment->status->is(PaymentStatusEnum::SUCCEEDED))
-        {
+        if ($payment->status->is(PaymentStatusEnum::SUCCEEDED)) {
             $this->createActivateSubscription($payment);
             $payment->refresh();
             return view('payments.success', compact('payment'));
@@ -102,6 +101,34 @@ class YooKassaController extends Controller
             'paymentUrl' => $response->getConfirmation()->getConfirmationUrl(),
             'payment' => $payment
         ]);
+    }
+
+    public function createActivateSubscription(Payment $payment)
+    {
+        return DB::transaction(function () use ($payment) {
+            $subscription = PurchasedSubscription::updateOrCreate(
+                [
+                    'payment_id' => $payment->id,
+                ],
+                [
+                    'user_id' => $payment->user->id,
+                    'days' => 365,
+                    'subscription_level' => SubscriptionLevelEnum::fromKey($payment->meta['metadata']['subscription_type']),
+                    'amount' => $payment->amount,
+                    'currency' => $payment->currency,
+                ]
+            );
+
+            dispatch_sync(new ActivateSubscription($subscription));
+
+            $subscription->refresh();
+
+            if (Auth::check())
+                if (Auth::user()->is($subscription->user) or Auth::user()->is($payment->user))
+                    Auth::user()->refresh();
+
+            return $subscription;
+        });
     }
 
     public function handleWebhook(Request $request)
@@ -136,10 +163,8 @@ class YooKassaController extends Controller
                     Log::info('Payment succeeded', ['paymentId' => $paymentId]);
                     $user = $payment->user;
 
-                    if ($user instanceof User)
-                    {
-                        if (array_key_exists('subscription_type', $payment->meta['metadata']))
-                        {
+                    if ($user instanceof User) {
+                        if (array_key_exists('subscription_type', $payment->meta['metadata'])) {
                             $this->createActivateSubscription($payment);
                         }
                     }
@@ -172,34 +197,6 @@ class YooKassaController extends Controller
             Log::error('Webhook processing error', ['error' => $e->getMessage()]);
             return response()->json(['message' => __('Error processing webhook')], 400);
         }
-    }
-
-    public function createActivateSubscription(Payment $payment)
-    {
-        return DB::transaction(function () use ($payment) {
-            $subscription = PurchasedSubscription::updateOrCreate(
-                [
-                    'payment_id' => $payment->id,
-                ],
-                [
-                    'user_id' => $payment->user->id,
-                    'days' => 365,
-                    'subscription_level' => SubscriptionLevelEnum::fromKey($payment->meta['metadata']['subscription_type']),
-                    'amount' => $payment->amount,
-                    'currency' => $payment->currency,
-                ]
-            );
-
-            dispatch_sync(new ActivateSubscription($subscription));
-
-            $subscription->refresh();
-
-            if (Auth::check())
-                if (Auth::user()->is($subscription->user) or Auth::user()->is($payment->user))
-                    Auth::user()->refresh();
-
-            return $subscription;
-        });
     }
 
     public function paymentCancel(Payment $payment)

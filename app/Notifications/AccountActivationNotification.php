@@ -50,7 +50,7 @@ class AccountActivationNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Активируйте вашу учетную запись в АКПН')
-            ->greeting('Здравствуйте, '.$notifiable->fullName.',')
+            ->greeting('Здравствуйте, ' . $notifiable->fullName . ',')
             ->line('Добро пожаловать в АКПН!')
             ->line('Ваш личный кабинет на портале АКПН успешно создан! Осталось его активировать.')
             ->line('Ваш будущий логин: ' . $this->login)

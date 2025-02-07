@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class UserRoleable extends Model
 {
+    public $timestamps = true;
     protected $fillable = [
         'user_id',
         'roleable_id',
         'roleable_type',
     ];
-
-    public $timestamps = true;
 
     /**
      * Связь с пользователем.

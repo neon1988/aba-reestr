@@ -50,17 +50,15 @@ class SubscriptionActivatedNotification extends Notification implements ShouldQu
     public function toMail($notifiable)
     {
         $mail = (new MailMessage)
-            ->subject('Подписка "'.SubscriptionLevelEnum::getDescription($this->subscription->subscription_level).'" активирована')
-            ->greeting('Здравствуйте, '.$notifiable->fullName.',')
-            ->line('Ваша подписка "'.SubscriptionLevelEnum::getDescription($this->subscription->subscription_level).'" активирована');
+            ->subject('Подписка "' . SubscriptionLevelEnum::getDescription($this->subscription->subscription_level) . '" активирована')
+            ->greeting('Здравствуйте, ' . $notifiable->fullName . ',')
+            ->line('Ваша подписка "' . SubscriptionLevelEnum::getDescription($this->subscription->subscription_level) . '" активирована');
 
         if ($this->subscription->subscription_level == SubscriptionLevelEnum::Specialists) {
             $mail = $mail->action('Зарегистрировать страницу специалиста', route('join.specialist'));
-        }
-        elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::Centers) {
+        } elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::Centers) {
             $mail = $mail->action('Зарегистрировать страницу центра', route('join.center'));
-        }
-        elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::ParentsAndRelated) {
+        } elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::ParentsAndRelated) {
             $mail = $mail->action('Перейти на сайт', route('home'));
         }
 

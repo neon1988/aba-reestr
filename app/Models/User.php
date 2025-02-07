@@ -45,21 +45,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'subscription_ends_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ];
-    }
-
     public function toSearchableArray()
     {
         $array = $this->toArray();
@@ -74,30 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $array;
     }
 
-    /**
-     * Псевдоатрибут для получения полного ФИО.
-     */
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) => trim(($attributes['name'] ?? '') . ' ' . ($attributes['lastname'] ?? '') . ' ' . ($attributes['middlename'] ?? '')),
-        );
-    }
-
-    protected function nameInitials(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) => trim(mb_substr($attributes['name'], 0, 1) . mb_substr($attributes['lastname'], 0, 1)),
-        );
-    }
-
-    // Связь с созданными специалистами
     public function createdSpecialists()
     {
         return $this->hasMany(Specialist::class, 'create_user_id');
     }
 
-    // Связь с созданными центрами
     public function createdCenters()
     {
         return $this->hasMany(Center::class, 'create_user_id');
@@ -108,6 +74,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(File::class, 'file_user');
     }
 
+    // Связь с созданными специалистами
+
     /**
      * Связь с фотографией центра.
      */
@@ -115,6 +83,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(File::class, 'id', 'photo_id');
     }
+
+    // Связь с созданными центрами
 
     public function roles()
     {
@@ -166,17 +136,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->roles->whereIn('roleable_type', Staff::class)->count() > 0;
     }
 
-    public function webinarSubscriptions() :HasMany
-    {
-        return $this->hasMany(WebinarSubscription::class);
-    }
-
-    public function purchasedSubscriptions() :HasMany
+    public function purchasedSubscriptions(): HasMany
     {
         return $this->hasMany(PurchasedSubscription::class);
     }
 
-    public function payments() :HasMany
+    public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
     }
@@ -193,11 +158,48 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->save();
     }
 
-    public function isSubscriptionActive() : bool
+    public function webinarSubscriptions(): HasMany
+    {
+        return $this->hasMany(WebinarSubscription::class);
+    }
+
+    public function isSubscriptionActive(): bool
     {
         if ($this->subscription_level == SubscriptionLevelEnum::Free)
             return False;
 
         return $this->subscription_ends_at && $this->subscription_ends_at->isFuture();
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'subscription_ends_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
+    }
+
+    /**
+     * Псевдоатрибут для получения полного ФИО.
+     */
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => trim(($attributes['name'] ?? '') . ' ' . ($attributes['lastname'] ?? '') . ' ' . ($attributes['middlename'] ?? '')),
+        );
+    }
+
+    protected function nameInitials(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => trim(mb_substr($attributes['name'], 0, 1) . mb_substr($attributes['lastname'], 0, 1)),
+        );
     }
 }

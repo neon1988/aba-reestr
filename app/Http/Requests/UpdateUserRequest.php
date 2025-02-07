@@ -8,7 +8,6 @@ use App\Rules\FileExistsOnDiskRule;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\File;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -41,8 +40,7 @@ class UpdateUserRequest extends FormRequest
             ]
         ];
 
-        if ($this->user()->can('updateSubscription', User::class))
-        {
+        if ($this->user()->can('updateSubscription', User::class)) {
             $array = array_merge($array, [
                 'subscription_level' => [
                     'required',

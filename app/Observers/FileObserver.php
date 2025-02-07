@@ -24,15 +24,14 @@ class FileObserver
         if (!$file->creator instanceof User)
             $file->creator()->associate(Auth::user());
 
-        if (empty($file->dirname))
-        {
+        if (empty($file->dirname)) {
             $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
             $dirname = [];
 
             for ($i = 0; $i < 2; $i++)
                 $dirname[] = $characters[rand(0, strlen($characters) - 1)];
 
-            $file->dirname = 'files/'.implode('/', $dirname);
+            $file->dirname = 'files/' . implode('/', $dirname);
         }
 
         if (empty($file->size))

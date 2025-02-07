@@ -15,14 +15,6 @@ use Illuminate\View\View;
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
-        return view('auth.register');
-    }
-
-    /**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
@@ -43,5 +35,13 @@ class RegisteredUserController extends Controller
         Cache::forget('stats.usersCount');
 
         return redirect(route('join', absolute: false));
+    }
+
+    /**
+     * Display the registration view.
+     */
+    public function create(): View
+    {
+        return view('auth.register');
     }
 }

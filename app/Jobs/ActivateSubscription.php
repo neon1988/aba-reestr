@@ -16,6 +16,7 @@ class ActivateSubscription implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public int $uniqueFor = 3600;
     protected PurchasedSubscription $subscription;
 
     /**
@@ -39,8 +40,6 @@ class ActivateSubscription implements ShouldQueue, ShouldBeUnique
         if ($this->subscription->user instanceof User)
             $this->subscription->user->notify(new SubscriptionActivatedNotification($this->subscription));
     }
-
-    public int $uniqueFor = 3600;
 
     /**
      * Ограничиваем уникальность на уровне подписки.

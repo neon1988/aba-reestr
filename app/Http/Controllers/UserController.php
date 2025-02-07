@@ -40,22 +40,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Request $request, User $user): Factory|View|Application|UserResource
@@ -66,14 +50,6 @@ class UserController extends Controller
             return new UserResource($user);
         else
             return view('users.show', compact('user'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -133,14 +109,6 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     // Отображение формы для смены почты
     public function showChangeEmailForm()
     {
@@ -172,6 +140,8 @@ class UserController extends Controller
 
     public function webinars(User $user)
     {
+        $this->authorize('viewWebinars', $user);
+
         $upcomingWebinars = $user->webinars()
             ->upcoming()->with('cover')
             ->get();
@@ -194,6 +164,8 @@ class UserController extends Controller
     // Метод для отображения счетов и документов оплаты
     public function billingAndPaymentDocuments(User $user)
     {
+        $this->authorize('viewPayments', $user);
+
         $payments = $user->payments()
             ->orderBy('created_at', 'desc')
             ->simplePaginate();

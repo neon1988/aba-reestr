@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 class ConferenceController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -58,8 +59,7 @@ class ConferenceController extends Controller
             $conference = Conference::make($request->validated());
             $conference->creator()->associate($user);
 
-            if ($upload = $request->get('cover'))
-            {
+            if ($upload = $request->get('cover')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $file->storage = 'public';
@@ -69,8 +69,7 @@ class ConferenceController extends Controller
                 }
             }
 
-            if ($upload = $request->get('file'))
-            {
+            if ($upload = $request->get('file')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $file->storage = 'public';
@@ -110,14 +109,6 @@ class ConferenceController extends Controller
         }
 
         return view('conferences.show', ['item' => $conference]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Conference $conference)
-    {
-        //
     }
 
     /**

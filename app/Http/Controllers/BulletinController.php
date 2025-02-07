@@ -36,8 +36,7 @@ class BulletinController extends Controller
 
         $items->loadMissing('creator.photo');
 
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             return response()->json([
                 'view' => view('bulletins.list', compact('items'))->render()
             ]);
@@ -73,14 +72,12 @@ class BulletinController extends Controller
         $bulletin->status = StatusEnum::OnReview;
         $bulletin->save();
 
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             return [
                 'redirect_to' => route('bulletins.show', compact('bulletin')),
                 'bulletin' => new BulletinResource($bulletin)
             ];
-        }
-        else
+        } else
             return redirect()->route('bulletins.index')
                 ->with('success', 'Объявление успешно добавлено');
     }
@@ -117,15 +114,13 @@ class BulletinController extends Controller
         $bulletin->fill($request->validated());
         $bulletin->save();
 
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             $bulletin->loadMissing('creator.photo');
             return [
                 'redirect_to' => route('bulletins.show', compact('bulletin')),
                 'bulletin' => new BulletinResource($bulletin)
             ];
-        }
-        else
+        } else
             return redirect()
                 ->route('bulletins.index')
                 ->with('success', 'Объявление успешно обновлено');

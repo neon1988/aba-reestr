@@ -10,8 +10,8 @@ class KppRule implements Rule
     /**
      * Определяет, применимо ли правило к атрибуту.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -23,7 +23,7 @@ class KppRule implements Rule
     /**
      * Получить сообщение об ошибке.
      *
-     * @param  string  $attribute
+     * @param string $attribute
      * @return string
      */
     public function message()

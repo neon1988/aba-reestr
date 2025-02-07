@@ -2,12 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\EducationEnum;
 use App\Rules\FileExistsOnDiskRule;
 use App\Rules\PhoneRule;
 use App\Rules\TelegramUsername;
 use App\Rules\VkUsername;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\File;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -53,15 +52,13 @@ class ProfileController extends Controller
             return $user;
         });
 
-        if ($request->expectsJson())
-        {
+        if ($request->expectsJson()) {
             return response()->json([
                 'status' => 'success',
                 'message' => 'Профиль успешно обновлен.',
                 'data' => new UserResource($user), // Использование Resource для упорядоченного ответа
             ]);
-        }
-        else
+        } else
             return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 

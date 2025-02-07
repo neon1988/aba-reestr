@@ -9,8 +9,8 @@ class InnRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -39,19 +39,9 @@ class InnRule implements Rule
     }
 
     /**
-     * Сообщение об ошибке валидации.
-     *
-     * @return string
-     */
-    public function message()
-    {
-        return 'Поле :attribute должно быть корректным ИНН.';
-    }
-
-    /**
      * Проверка 10-значного ИНН.
      *
-     * @param  string  $inn
+     * @param string $inn
      * @return bool
      */
     private function validateInn10($inn)
@@ -63,9 +53,29 @@ class InnRule implements Rule
     }
 
     /**
+     * Расчет контрольной цифры.
+     *
+     * @param string $inn
+     * @param array $weights
+     * @return int
+     */
+    private function calculateControlDigit($inn, $weights)
+    {
+        $sum = 0;
+
+        for ($i = 0; $i < count($weights); $i++) {
+            $sum += $weights[$i] * (int)$inn[$i];
+        }
+
+        $controlDigit = $sum % 11;
+
+        return $controlDigit > 9 ? $controlDigit % 10 : $controlDigit;
+    }
+
+    /**
      * Проверка 12-значного ИНН.
      *
-     * @param  string  $inn
+     * @param string $inn
      * @return bool
      */
     private function validateInn12($inn)
@@ -80,22 +90,12 @@ class InnRule implements Rule
     }
 
     /**
-     * Расчет контрольной цифры.
+     * Сообщение об ошибке валидации.
      *
-     * @param  string  $inn
-     * @param  array  $weights
-     * @return int
+     * @return string
      */
-    private function calculateControlDigit($inn, $weights)
+    public function message()
     {
-        $sum = 0;
-
-        for ($i = 0; $i < count($weights); $i++) {
-            $sum += $weights[$i] * (int)$inn[$i];
-        }
-
-        $controlDigit = $sum % 11;
-
-        return $controlDigit > 9 ? $controlDigit % 10 : $controlDigit;
+        return 'Поле :attribute должно быть корректным ИНН.';
     }
 }

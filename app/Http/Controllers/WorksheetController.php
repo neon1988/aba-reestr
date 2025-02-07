@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 class WorksheetController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -111,14 +112,6 @@ class WorksheetController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Worksheet $worksheet)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateWorksheetRequest $request, Worksheet $worksheet)
@@ -176,6 +169,13 @@ class WorksheetController extends Controller
      */
     public function destroy(Worksheet $worksheet)
     {
-        //
+        $this->authorize('delete', $worksheet);
+
+        if ($worksheet->trashed())
+            $worksheet->restore();
+        else
+            $worksheet->delete();
+
+        return new WorksheetResource($worksheet);
     }
 }
