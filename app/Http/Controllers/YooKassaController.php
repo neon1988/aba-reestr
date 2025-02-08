@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
 use App\Services\YooKassaService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,8 @@ use YooKassa\Model\Notification\NotificationFactory;
 
 class YooKassaController extends Controller
 {
+    use AuthorizesRequests;
+
     protected YooKassaService $yooKassaService;
 
     public function __construct(YooKassaService $yooKassaService)
@@ -29,6 +32,8 @@ class YooKassaController extends Controller
 
     public function buySubscription(Request $request, int $type)
     {
+        $this->authorize('purchaseSubscription', User::class);
+
         if (!SubscriptionLevelEnum::hasValue($type))
             abort(404, 'Подписка не найдена');
 

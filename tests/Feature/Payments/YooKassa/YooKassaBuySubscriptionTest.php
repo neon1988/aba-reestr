@@ -8,6 +8,7 @@ use App\Enums\PaymentStatusEnum;
 use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
 use App\Services\YooKassaService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
@@ -18,7 +19,10 @@ class YooKassaBuySubscriptionTest extends TestCase
 
     public function test_buy_subscription_success()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'subscription_level' => SubscriptionLevelEnum::Free,
+            'subscription_ends_at' => Carbon::now()->addYear()
+        ]);
 
         $subscriptionType = SubscriptionLevelEnum::Specialists;
 
@@ -102,7 +106,10 @@ class YooKassaBuySubscriptionTest extends TestCase
 
     public function test_buy_subscription_fails_for_invalid_type()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'subscription_level' => SubscriptionLevelEnum::Free,
+            'subscription_ends_at' => Carbon::now()->addYear()
+        ]);
 
         $response = $this->actingAs($user)
             ->get(route('yookassa.buy-subscription', ['type' => 999])); // Несуществующая подписка
@@ -112,7 +119,11 @@ class YooKassaBuySubscriptionTest extends TestCase
 
     public function test_buy_subscription_fails_when_payment_creation_fails()
     {
-        $user = User::factory()->create();
+        $user = User::factory()
+            ->create([
+                'subscription_level' => SubscriptionLevelEnum::Free,
+                'subscription_ends_at' => Carbon::now()->addYear()
+            ]);
 
         $subscriptionType = SubscriptionLevelEnum::Specialists;
 

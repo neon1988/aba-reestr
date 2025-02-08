@@ -495,5 +495,7 @@
     "Lastname": "Фамилия",
     "Middlename": "Отчество",
     "Don't have an account?": "Вы еще не зарегистрированы?",
-    "You don't have a subscription or your subscription is inactive.": "У вас нет подписки или ваша подписка неактивна"
+    "You don't have a subscription or your subscription is inactive.": "У вас нет подписки или ваша подписка неактивна",
+    "You already have an active subscription": "У вас уже есть активная подписка",
+    "You do not have the required subscription level.": "У вас нет требуемого уровня подписки."
 }

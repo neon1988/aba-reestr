@@ -16,6 +16,14 @@ class UserPolicy extends Policy
         //
     }
 
+    public function purchaseSubscription(User $authUser): Response
+    {
+        if ($authUser->isSubscriptionActive())
+            return Response::deny(__("You already have an active subscription"));
+
+        return Response::allow();
+    }
+
     public function viewLogViewer(?User $user): Response
     {
         return Response::allow(__('You have permission to view the log viewer.'));
