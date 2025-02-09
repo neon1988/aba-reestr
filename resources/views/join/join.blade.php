@@ -24,7 +24,7 @@
             </p>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 cursor-pointer">
                 <!-- Card 1: Родители или смежники -->
-                <a href="{{ route('yookassa.buy-subscription', ['type' => SubscriptionLevelEnum::ParentsAndRelated]) }}"
+                <a href="{{ route('yookassa.buy-subscription', ['type' => SubscriptionLevelEnum::A]) }}"
                    class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300 flex flex-col justify-between">
                     <div>
                         <h3 class="text-xl font-semibold mb-4">Подписка A</h3>
@@ -72,7 +72,7 @@
                 </a>
 
                 <!-- Card 2: ABA специалисты -->
-                <a href="{{ route('yookassa.buy-subscription', ['type' => SubscriptionLevelEnum::Specialists]) }}"
+                <a href="{{ route('yookassa.buy-subscription', ['type' => SubscriptionLevelEnum::B]) }}"
                    class="bg-white p-6 border border-gray-200 rounded-lg shadow-md hover:shadow-xl transition duration-300 cursor-pointer  flex flex-col justify-between">
                     <div>
                         <h3 class="text-xl font-semibold mb-4">Подписка B</h3>

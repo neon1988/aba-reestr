@@ -35,7 +35,7 @@ class JoinControllerTest extends TestCase
     {
         $user = User::factory()
             ->create([
-                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_level' => SubscriptionLevelEnum::B,
                 'subscription_ends_at' => Carbon::now()->addYear()
             ]);
 

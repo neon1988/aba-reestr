@@ -18,9 +18,9 @@ return [
     ],
     SubscriptionLevelEnum::class => [
         SubscriptionLevelEnum::Free => 'Без подписки',
-        SubscriptionLevelEnum::ParentsAndRelated => 'Родители и смежники',
-        SubscriptionLevelEnum::Specialists => 'Специалисты',
-        SubscriptionLevelEnum::Centers => 'Центры',
+        SubscriptionLevelEnum::A => 'Подписка A',
+        SubscriptionLevelEnum::B => 'Подписка B',
+        SubscriptionLevelEnum::C => 'Подписка C',
     ],
     CurrencyEnum::class => [
         CurrencyEnum::RUB => 'руб.'

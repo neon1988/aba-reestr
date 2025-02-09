@@ -66,7 +66,7 @@ class SpecialistsTest extends TestCase
         Storage::fake(config('filesystems.default'));
 
         $user = User::factory()->create([
-            'subscription_level' => SubscriptionLevelEnum::Specialists,
+            'subscription_level' => SubscriptionLevelEnum::B,
             'subscription_ends_at' => Carbon::now()->addYear()
         ]);
 
@@ -143,7 +143,7 @@ class SpecialistsTest extends TestCase
 
         $user = User::factory()
             ->create([
-                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_level' => SubscriptionLevelEnum::B,
                 'subscription_ends_at' => Carbon::now()->addYear()
             ]);
         $user->photo_id = $photo->id;

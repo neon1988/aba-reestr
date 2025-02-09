@@ -39,7 +39,7 @@ class ActivateSubscriptionTest extends TestCase
         $subscription = PurchasedSubscription::factory()
             ->for($payment)
             ->create([
-                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_level' => SubscriptionLevelEnum::B,
                 'user_id' => $user->id,
                 'days' => $days,
                 'activated_at' => null,
@@ -57,7 +57,7 @@ class ActivateSubscriptionTest extends TestCase
         $user->refresh();
 
         $this->assertNotNull($subscription->activated_at);
-        $this->assertEquals(SubscriptionLevelEnum::Specialists, $user->subscription_level);
+        $this->assertEquals(SubscriptionLevelEnum::B, $user->subscription_level);
         $this->assertEquals(Carbon::createFromTimeString('2026-02-06 12:00:00.000000'), $user->subscription_ends_at);
 
         Notification::assertSentTo($user, SubscriptionActivatedNotification::class);
@@ -70,7 +70,7 @@ class ActivateSubscriptionTest extends TestCase
         // Создаем пользователя и подписку
         $user = User::factory()
             ->create([
-                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_level' => SubscriptionLevelEnum::B,
                 'subscription_ends_at' => '2026-02-06 12:00:00'
             ]);
 
@@ -84,7 +84,7 @@ class ActivateSubscriptionTest extends TestCase
         $subscription = PurchasedSubscription::factory()
             ->for($payment)
             ->create([
-                'subscription_level' => SubscriptionLevelEnum::Specialists,
+                'subscription_level' => SubscriptionLevelEnum::B,
                 'user_id' => $user->id,
                 'days' => $days,
                 'activated_at' => null,
@@ -102,7 +102,7 @@ class ActivateSubscriptionTest extends TestCase
         $user->refresh();
 
         $this->assertNotNull($subscription->activated_at);
-        $this->assertEquals(SubscriptionLevelEnum::Specialists, $user->subscription_level);
+        $this->assertEquals(SubscriptionLevelEnum::B, $user->subscription_level);
         $this->assertEquals(Carbon::createFromTimeString('2027-02-06 12:00:00.000000'), $user->subscription_ends_at);
 
         Notification::assertSentTo($user, SubscriptionActivatedNotification::class);

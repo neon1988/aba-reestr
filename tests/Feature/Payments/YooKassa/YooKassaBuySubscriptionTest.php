@@ -24,7 +24,7 @@ class YooKassaBuySubscriptionTest extends TestCase
             'subscription_ends_at' => Carbon::now()->addYear()
         ]);
 
-        $subscriptionType = SubscriptionLevelEnum::Specialists;
+        $subscriptionType = SubscriptionLevelEnum::B;
 
         $price = SubscriptionLevelEnum::coerce($subscriptionType)->getPrice();
 
@@ -33,9 +33,9 @@ class YooKassaBuySubscriptionTest extends TestCase
         $mockService->shouldReceive('createPayment')
             ->once()
             ->withArgs(function ($amount, $returnUrl, $description, $metadata) use ($user) {
-                $this->assertEquals(3500, $amount);
+                $this->assertEquals(SubscriptionLevelEnum::B()->getPrice(), $amount);
                 //$this->assertEquals(route('payments.show', ['uuid' => 42]), $returnUrl);
-                $this->assertEquals('Оплата подписки "Специалисты"', $description);
+                $this->assertEquals('Оплата подписки "Подписка B"', $description);
                 $this->assertArrayHasKey('user_id', $metadata);
                 $this->assertEquals($user->id, $metadata['user_id']);
                 $this->assertArrayHasKey('subscription_type', $metadata);
@@ -125,7 +125,7 @@ class YooKassaBuySubscriptionTest extends TestCase
                 'subscription_ends_at' => Carbon::now()->addYear()
             ]);
 
-        $subscriptionType = SubscriptionLevelEnum::Specialists;
+        $subscriptionType = SubscriptionLevelEnum::B;
 
         $mockService = Mockery::mock(YooKassaService::class);
         $mockService->shouldReceive('createPayment')->andReturn(null); // Эмулируем ошибку

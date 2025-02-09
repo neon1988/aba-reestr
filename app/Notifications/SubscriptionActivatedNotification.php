@@ -54,11 +54,11 @@ class SubscriptionActivatedNotification extends Notification implements ShouldQu
             ->greeting('Здравствуйте, ' . $notifiable->fullName . ',')
             ->line('Ваша подписка "' . SubscriptionLevelEnum::getDescription($this->subscription->subscription_level) . '" активирована');
 
-        if ($this->subscription->subscription_level == SubscriptionLevelEnum::Specialists) {
+        if ($this->subscription->subscription_level == SubscriptionLevelEnum::B) {
             $mail = $mail->action('Зарегистрировать страницу специалиста', route('join.specialist'));
-        } elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::Centers) {
+        } elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::C) {
             $mail = $mail->action('Зарегистрировать страницу центра', route('join.center'));
-        } elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::ParentsAndRelated) {
+        } elseif ($this->subscription->subscription_level == SubscriptionLevelEnum::A) {
             $mail = $mail->action('Перейти на сайт', route('home'));
         }
 

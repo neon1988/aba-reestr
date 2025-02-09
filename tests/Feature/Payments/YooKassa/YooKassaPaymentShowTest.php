@@ -31,7 +31,7 @@ class YooKassaPaymentShowTest extends TestCase
     {
         $yookassaId = uniqid();
 
-        $subscription = SubscriptionLevelEnum::Specialists;
+        $subscription = SubscriptionLevelEnum::B;
 
         $mockResponse = Mockery::mock();
         $mockResponse->shouldReceive('getId')->andReturn($yookassaId);

@@ -26,7 +26,7 @@ class YooKassaWebhookTest extends TestCase
         $this->app->instance(YooKassaService::class, $this->yooKassaMock);
     }
 
-    public function getObject($id, $subscription_type = SubscriptionLevelEnum::ParentsAndRelated)
+    public function getObject($id, $subscription_type = SubscriptionLevelEnum::A)
     {
         return [
             'id' => $id,
@@ -109,7 +109,7 @@ class YooKassaWebhookTest extends TestCase
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(true);
 
-        $subscription = SubscriptionLevelEnum::Specialists;
+        $subscription = SubscriptionLevelEnum::B;
 
         $payment = Payment::factory()
             ->for(User::factory()->state([
@@ -148,7 +148,7 @@ class YooKassaWebhookTest extends TestCase
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(true);
 
-        $subscription = SubscriptionLevelEnum::Specialists;
+        $subscription = SubscriptionLevelEnum::B;
 
         $payment = Payment::factory()
             ->create();
