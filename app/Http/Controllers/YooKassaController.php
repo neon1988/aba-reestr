@@ -103,7 +103,7 @@ class YooKassaController extends Controller
         }
 
         return view('payments.not_completed', [
-            'paymentUrl' => $response->getConfirmation()->getConfirmationUrl(),
+            'paymentUrl' => optional($response->getConfirmation())->getConfirmationUrl(),
             'payment' => $payment
         ]);
     }

@@ -123,7 +123,55 @@ class YooKassaPaymentShowTest extends TestCase
             ->assertOk()
             ->assertViewIs('payments.not_completed')
             ->assertViewHas(['paymentUrl' => $paymentUrl])
-            ->assertSee($paymentUrl);
+            ->assertSee($paymentUrl)
+            ->assertSeeText('Кажется, платеж не был завершён.')
+            ->assertSeeText('Отказаться от оплаты');
+
+        $payment->refresh();
+
+        $this->assertEquals(PaymentStatusEnum::PENDING, $payment->status);
+    }
+
+    public function test_canceled_payment()
+    {
+        $yookassaId = uniqid();
+
+        $mockResponse = Mockery::mock();
+        $mockResponse->shouldReceive('getId')->andReturn($yookassaId);
+        $mockResponse->shouldReceive('getStatus')->andReturn('canceled');
+
+        $mockPaymentMethod = Mockery::mock();
+        $mockPaymentMethod->shouldReceive('getType')->andReturn('bank_card');
+
+        $mockResponse->shouldReceive('getPaymentMethod')->andReturn($mockPaymentMethod);
+        $mockResponse->shouldReceive('toArray')->andReturn(['status' => 'pending']);
+
+        $mockResponse->shouldReceive('getConfirmation')->andReturn(null);
+
+        $this->yooKassaMock->shouldReceive('getPaymentInfo')
+            ->with(Mockery::on(fn($id) => (string) $id === $yookassaId))
+            ->andReturn($mockResponse);
+
+        $payment = Payment::factory()
+            ->create([
+                'payment_provider' => PaymentProvider::YooKassa,
+                'payment_id' => $yookassaId
+            ]);
+
+        $user = $payment->user;
+
+        // Выполняем запрос
+        $response = $this->actingAs($user)
+            ->get(route('payments.show', ['payment' => $payment->id]))
+            ->assertOk()
+            ->assertViewIs('payments.not_completed')
+            ->assertViewHas(['payment'])
+            ->assertSeeText('Платеж был отменен')
+            ->assertDontSeeText('Отказаться от оплаты');
+
+        $payment->refresh();
+
+        $this->assertEquals(PaymentStatusEnum::CANCELED, $payment->status);
     }
 
     protected function tearDown(): void
