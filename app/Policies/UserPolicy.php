@@ -45,15 +45,15 @@ class UserPolicy extends Policy
         return Response::deny(__('You are not authorized to update this profile.'));
     }
 
-    public function createSpecialist(User $authUser): Response
+    public function createSpecialist(User $authUser, User $user): Response
     {
-        if (!$authUser->isSubscriptionActive())
+        if (!$user->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
-        if ($authUser->subscription_level != SubscriptionLevelEnum::B)
+        if ($user->subscription_level != SubscriptionLevelEnum::B)
             return Response::deny(__('You do not have the required subscription level.'));
 
-        if ($authUser->isSpecialist())
+        if ($user->isSpecialist())
             return Response::deny(__('You are already a specialist.'));
 
         return Response::allow(__('You can create a new specialist.'));

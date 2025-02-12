@@ -13,8 +13,10 @@ use App\Models\Country;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
+use App\Models\Staff;
 use App\Models\User;
 use App\Notifications\SpecialistApprovedNotification;
+use App\Notifications\SpecialistPendingReviewNotification;
 use App\Notifications\SpecialistRejectedNotification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -81,7 +83,7 @@ class SpecialistController extends Controller
     {
         $user = Auth::user();
 
-        $this->authorize('createSpecialist', $user);
+        $this->authorize('createSpecialist', Auth::user());
 
         if ($user->specialists()->first())
             abort(403, 'Специалист уже привязан');
@@ -138,6 +140,16 @@ class SpecialistController extends Controller
 
             return $specialist;
         });
+
+        $users = Staff::whereJsonContains('settings_notifications->new_specialist', true)
+            ->get()
+            ->flatMap->users
+            ->unique('id');
+
+        foreach ($users as $user) {
+            $user->notify(new SpecialistPendingReviewNotification($specialist));
+        }
+
 
         if ($request->expectsJson()) {
             return [

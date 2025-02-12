@@ -15,6 +15,7 @@ class Staff extends Model
     protected $fillable = [
         'role',
         'settings_access',
+        'settings_notifications'
     ];
 
     /**
@@ -22,6 +23,6 @@ class Staff extends Model
      */
     public function users(): MorphToMany
     {
-        return $this->morphToMany(User::class, 'roleable', 'roleables', 'roleable_id', 'user_id');
+        return $this->morphToMany(User::class, 'roleable', 'user_roleables', 'roleable_id', 'user_id');
     }
 }

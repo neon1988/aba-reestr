@@ -111,6 +111,16 @@ class YooKassaController extends Controller
     public function createActivateSubscription(Payment $payment)
     {
         return DB::transaction(function () use ($payment) {
+
+            if (!array_key_exists('metadata', $payment->meta))
+                return False;
+
+            if (!array_key_exists('subscription_type', $payment->meta['metadata']))
+                return False;
+
+            if (!SubscriptionLevelEnum::hasKey($payment->meta['metadata']['subscription_type']))
+                return False;
+
             $subscription = PurchasedSubscription::updateOrCreate(
                 [
                     'payment_id' => $payment->id,

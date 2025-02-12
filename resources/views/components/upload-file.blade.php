@@ -1,4 +1,4 @@
-@props(['parent_value_name' => '', 'max_files' => 5, 'url'])
+@props(['parent_value_name' => '', 'max_files' => 5, 'url', 'accept' => '*'])
 
 <div x-data="fileUploadHandler({{ $max_files }}, '{{ $url}}')"
      x-init="files = normalizeFiles({{ $parent_value_name }})"
@@ -64,7 +64,8 @@
         multiple
         @change="handleFiles"
         x-show="files.length < maxFiles"
-        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100"
+        accept="{{ $accept }}"
+        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-cyan-600 file:text-white hover:file:bg-cyan-700 file:cursor-pointer"
     />
 
     <input type="hidden" x-model="files"/>

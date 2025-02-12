@@ -5,9 +5,9 @@
 
     <h3 class="text-lg font-semibold text-gray-800 mb-8">Редактировать профиль специалиста</h3>
 
-    <x-error-messages />
+    <x-error-messages/>
 
-    <x-success-message />
+    <x-success-message/>
 
     <form x-data="formHandler()"
           @submit.prevent="submit"
@@ -30,17 +30,20 @@
             <div>
                 <label class="block text-gray-700">Фото</label>
 
-                <div >
+                <div>
                     <x-upload-file
                         parent_value_name="form.photo"
                         max_files="1"
                         url="{{ route('files.store') }}"
+                        accept="image/*"
                     />
                 </div>
                 <template x-if="form.invalid('photo')">
                     <div x-text="form.errors.photo" class="text-sm text-red-600 space-y-1"></div>
                 </template>
-                Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+                <span class="text-sm text-gray-700">
+                    Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+                </span>
             </div>
 
             <!-- Имя -->
@@ -140,8 +143,17 @@
             <!-- Профиль VK -->
             <div>
                 <label class="block text-gray-700">Профиль VK</label>
+
                 <input name="vk_profile" type="text" x-model="form.vk_profile"
                        @change="form.validate('vk_profile')"
+                       x-on:paste.prevent="
+      const clipboardData = event.clipboardData || window.clipboardData;
+      const pastedText = clipboardData.getData('text').trim();
+      const regex = /^(?:https?:\/\/)?(?:www\.)?vk\.com\/([^\/?#]+)/i;
+      const match = pastedText.match(regex);
+      const username = match ? match[1] : pastedText;
+      $event.target.value = username;
+    "
                        class="w-full border border-gray-300 rounded-md p-2
                   @error('vk_profile') border-red-500 @enderror"
                        value="{{ old('vk_profile', $specialist->vk_profile ?? '') }}">
@@ -215,17 +227,20 @@
             <div>
                 <label class="block text-gray-700">Сертификаты</label>
 
-                <div >
+                <div>
                     <x-upload-file
                         parent_value_name="form.certificates"
                         max_files="9"
                         url="{{ route('files.store') }}"
+                        accept="image/*"
                     />
                 </div>
                 <template x-if="form.invalid('certificates')">
                     <div x-text="form.errors.certificates" class="text-sm text-red-600 space-y-1"></div>
                 </template>
+                <span class="text-sm text-gray-700">
                 Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+                </span>
             </div>
         </div>
         <div>
@@ -234,7 +249,13 @@
             </x-primary-button>
 
             <template x-if="response && response.data.status == 'success'">
-                <span x-text="response.data.message" class="text-sm text-green-600 ml-3"></span>
+
+                <span class="text-sm text-green-600 ml-3">
+                    <span class="text-green-600" x-text="response.data.message"></span>
+                    <a href="{{ route('specialists.show', compact('specialist')) }}"
+                        class="text-cyan-600 hover:underline">Просмотреть профиль</a>
+                </span>
+
             </template>
         </div>
     </form>

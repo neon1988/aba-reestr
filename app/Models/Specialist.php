@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laravel\Scout\Searchable;
+use Litlife\Url\Url;
 
 #[ObservedBy([SpecialistObserver::class])]
 class Specialist extends Model
@@ -139,7 +140,25 @@ class Specialist extends Model
     {
         return Attribute::make(
             get: fn(?string $value) => $value ? $value : null,
-            set: fn(?string $value) => $value ? trim($value, '@') : null,
+            set: function (?string $value) {
+                $value = trim($value);
+
+                if (filter_var($value, FILTER_VALIDATE_URL)) {
+                    $url = Url::fromString($value);
+
+                    if ($url->getHost() == 'vk.com') {
+                        return trim($url->getPath(), '/');
+                    }
+
+                } else {
+                    $value = trim($value, '@');
+
+                    if (empty($value))
+                        return null;
+                }
+
+                return $value;
+            }
         );
     }
 }

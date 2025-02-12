@@ -68,7 +68,7 @@
                         @can('createSpecialist', Auth::user())
                             <a href="{{ route('join.specialist') }}"
                                class="text-white bg-orange-700 font-semibold py-2 px-3 h-full flex items-center justify-center">
-                                Регистрация
+                                Добавить
                             </a>
                         @endcan
                     @endif
@@ -103,10 +103,16 @@
                             <div id="userMenu" x-show="open"
                                  class="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg"
                                  style="display: none">
-                                @if (Auth::user()->isSpecialist())
-                                    <a href="{{ route('specialists.show', Auth::user()->getSpecialistId()) }}"
+                                @can('createSpecialist', Auth::user())
+                                    <a href="{{ route('join.specialist') }}"
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница специалиста</a>
-                                @endif
+                                @else
+                                    @if (Auth::user()->isSpecialist())
+                                        <a href="{{ route('specialists.show', Auth::user()->getSpecialistId()) }}"
+                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница специалиста</a>
+                                    @endif
+                                @endcan
+
                                 @if (Auth::user()->isCenter())
                                     <a href="{{ route('centers.show', Auth::user()->getCenterId()) }}"
                                        class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Страница центра</a>

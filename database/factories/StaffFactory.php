@@ -38,6 +38,9 @@ class StaffFactory extends Factory
                 'can_delete' => true,
                 'can_view' => true,
             ]),
+            'settings_notifications' => json_encode([
+                'new_specialist' => true
+            ]),
         ]);
     }
 }

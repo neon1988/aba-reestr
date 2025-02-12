@@ -9,10 +9,12 @@ use App\Models\Image;
 use App\Models\Specialist;
 use App\Models\User;
 use App\Models\Country;
+use App\Notifications\SpecialistPendingReviewNotification;
 use Carbon\Carbon;
 use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Imagick;
 use ImagickPixel;
@@ -62,6 +64,12 @@ class SpecialistsTest extends TestCase
      */
     public function testStoreMethod()
     {
+        Notification::fake();
+
+        $admin = User::factory()
+            ->staff()
+            ->create();
+
         $this->seed(WorldSeeder::class);
         Storage::fake(config('filesystems.default'));
 
@@ -125,6 +133,8 @@ class SpecialistsTest extends TestCase
 
         $file = $specialist->files()->first();
         $this->assertNotNull($file);
+
+        Notification::assertSentTo($admin, SpecialistPendingReviewNotification::class);
     }
 
     /**

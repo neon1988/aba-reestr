@@ -39,12 +39,15 @@
                         parent_value_name="form.photo"
                         max_files="1"
                         url="{{ route('files.store') }}"
+                        accept="image/*"
                     />
                 </div>
                 <template x-if="form.invalid('photo')">
                     <div x-text="form.errors.photo" class="text-sm text-red-600 space-y-1"></div>
                 </template>
+                <span class="text-sm text-gray-700">
                 Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+                </span>
             </div>
 
             <!-- Имя -->

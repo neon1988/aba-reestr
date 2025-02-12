@@ -31,10 +31,13 @@
                         <x-upload-file
                             parent_value_name="formData.photos"
                             max_files="1"
-                            url="{{ route('images.store') }}">
+                            url="{{ route('images.store') }}"
+                            accept="image/*">
                         </x-upload-file>
+                        <span class="text-sm text-gray-700">
 
                         Максимальный размер {{ formatFileSize(convertToBytes(config('upload.image_max_size'))) }}
+                        </span>
 
                         <ul class="text-sm text-red-500 mt-1">
                             <template x-for="error in errors.photos">
@@ -226,7 +229,9 @@
                             <li x-text="error"></li>
                         </template>
                     </ul>
+                    <span class="text-sm text-gray-700">
                     Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
+                    </span>
                 </div>
 
                 <x-primary-button>Отправить заявку</x-primary-button>
