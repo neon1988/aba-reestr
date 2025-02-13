@@ -33,3 +33,9 @@ update-app:
 # Команда для входа в консоль контейнера app
 enter:
 	docker compose -f $(COMPOSE_FILE) exec $(APP_CONTAINER_NAME) /bin/bash
+
+tinker:
+	docker compose -f $(COMPOSE_FILE) exec $(APP_CONTAINER_NAME) php artisan tinker
+
+migrate:
+	docker compose -f $(COMPOSE_FILE) exec $(APP_CONTAINER_NAME) php artisan migrate

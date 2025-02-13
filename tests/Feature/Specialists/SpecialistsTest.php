@@ -7,6 +7,7 @@ use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
+use App\Models\Staff;
 use App\Models\User;
 use App\Models\Country;
 use App\Notifications\SpecialistPendingReviewNotification;
@@ -66,8 +67,16 @@ class SpecialistsTest extends TestCase
     {
         Notification::fake();
 
+        $staff = Staff::factory()
+            ->admin()
+            ->create();
+
         $admin = User::factory()
-            ->staff()
+            ->withStaff($staff)
+            ->create();
+
+        $admin2 = User::factory()
+            ->withStaff($staff)
             ->create();
 
         $this->seed(WorldSeeder::class);
@@ -135,6 +144,7 @@ class SpecialistsTest extends TestCase
         $this->assertNotNull($file);
 
         Notification::assertSentTo($admin, SpecialistPendingReviewNotification::class);
+        Notification::assertSentTo($admin2, SpecialistPendingReviewNotification::class);
     }
 
     /**

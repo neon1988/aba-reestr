@@ -81,4 +81,11 @@ class UserFactory extends Factory
             }
         });
     }
+
+    public function withStaff(Staff $staff = null)
+    {
+        return $this->afterCreating(function (User $user) use ($staff) {
+            $user->staffs()->attach($staff ?? Staff::factory()->create());
+        });
+    }
 }
