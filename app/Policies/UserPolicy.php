@@ -18,6 +18,9 @@ class UserPolicy extends Policy
 
     public function purchaseSubscription(User $authUser): Response
     {
+        if ($authUser->isStaff())
+            return Response::allow();
+
         if ($authUser->isSubscriptionActive())
             return Response::deny(__("You already have an active subscription"));
 
@@ -40,6 +43,8 @@ class UserPolicy extends Policy
      */
     public function update(User $authUser, User $user): Response
     {
+        if ($authUser->isStaff())
+            return Response::allow();
         if ($authUser->is($user))
             return Response::allow(__('You can update your own profile.'));
         return Response::deny(__('You are not authorized to update this profile.'));
@@ -56,11 +61,16 @@ class UserPolicy extends Policy
         if ($user->isSpecialist())
             return Response::deny(__('You are already a specialist.'));
 
+        if ($authUser->isStaff())
+            return Response::allow();
+
         return Response::allow(__('You can create a new specialist.'));
     }
 
     public function updateSubscription(User $authUser): Response
     {
+        if ($authUser->isStaff())
+            return Response::allow();
         return Response::deny(__('You are not authorized to change users subscription.'));
     }
 
@@ -69,6 +79,8 @@ class UserPolicy extends Policy
      */
     public function viewWebinars(User $authUser, User $user): Response
     {
+        if ($authUser->isStaff())
+            return Response::allow();
         if ($authUser->is($user))
             return Response::allow(__('You can view your own webinars.'));
         return Response::deny(__('You are not authorized to view this user’s webinars.'));
@@ -79,6 +91,8 @@ class UserPolicy extends Policy
      */
     public function viewPayments(User $authUser, User $user): Response
     {
+        if ($authUser->isStaff())
+            return Response::allow();
         if ($authUser->is($user))
             return Response::allow(__('You can view your own payments.'));
         return Response::deny(__('You are not authorized to view this user’s payments.'));

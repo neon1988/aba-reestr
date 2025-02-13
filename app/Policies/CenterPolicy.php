@@ -13,6 +13,9 @@ class CenterPolicy extends Policy
      */
     public function create(User $user): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
+
         return Response::deny(__('You do not have permission to create center.'));
     }
 
@@ -27,6 +30,9 @@ class CenterPolicy extends Policy
                 : Response::deny(__('You do not have permission to update this center.'));
         }
 
+        if ($user->isStaff())
+            return Response::allow();
+
         return Response::deny(__('You do not have permission to update this center.'));
     }
 
@@ -35,6 +41,9 @@ class CenterPolicy extends Policy
      */
     public function approve(User $user, Center $center): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
+
         return Response::deny(__('You do not have permission to approve this center.'));
     }
 
@@ -43,6 +52,9 @@ class CenterPolicy extends Policy
      */
     public function reject(User $user, Center $center): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
+
         return Response::deny(__('You do not have permission to reject this center.'));
     }
 }

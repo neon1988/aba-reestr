@@ -14,9 +14,10 @@ class ConferencePolicy extends Policy
      */
     public function view(User $user, Conference $conference): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         if (!$user->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-
         return Response::allow();
     }
 
@@ -25,6 +26,8 @@ class ConferencePolicy extends Policy
      */
     public function create(User $user): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         return Response::deny(__('You are not allowed to create a conference.'));
     }
 
@@ -33,6 +36,8 @@ class ConferencePolicy extends Policy
      */
     public function update(User $user, Conference $conference): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         return Response::deny(__('You are not allowed to update this conference.'));
     }
 
@@ -41,6 +46,8 @@ class ConferencePolicy extends Policy
      */
     public function delete(User $user, Conference $conference): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         return Response::deny(__('You are not allowed to delete this conference.'));
     }
 
@@ -49,9 +56,10 @@ class ConferencePolicy extends Policy
      */
     public function toggleSubscription(User $user, Conference $conference): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         if (!$user->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-
         return Response::allow();
     }
 
@@ -60,9 +68,10 @@ class ConferencePolicy extends Policy
      */
     public function download(User $user, Conference $conference): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         if (!$user->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-
         return Response::allow();
     }
 }

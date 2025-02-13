@@ -19,10 +19,13 @@ class BulletinPolicy extends Policy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Bulletin $bulletin): Response
+    public function update(User $authUser, Bulletin $bulletin): Response
     {
-        if (!$bulletin->isCreator($user))
+        if (!$bulletin->isCreator($authUser))
             return Response::deny(__('You are not the creator of this bulletin.'));
+
+        if ($authUser->isStaff())
+            return Response::allow();
 
         return Response::allow();
     }
@@ -35,6 +38,9 @@ class BulletinPolicy extends Policy
         if (!$bulletin->isCreator($user))
             return Response::deny(__('You are not the creator of this bulletin.'));
 
+        if ($user->isStaff())
+            return Response::allow();
+
         return Response::allow();
     }
 
@@ -43,6 +49,8 @@ class BulletinPolicy extends Policy
      */
     public function approve(User $user, Bulletin $bulletin): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         return Response::deny(__('You do not have permission to approve this bulletin.'));
     }
 
@@ -51,6 +59,8 @@ class BulletinPolicy extends Policy
      */
     public function reject(User $user, Bulletin $bulletin): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
         return Response::deny(__('You do not have permission to reject this bulletin.'));
     }
 }

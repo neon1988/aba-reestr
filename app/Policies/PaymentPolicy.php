@@ -13,6 +13,9 @@ class PaymentPolicy extends Policy
      */
     public function view(User $user, Payment $payment): Response
     {
+        if ($user->isStaff())
+            return Response::allow();
+
         if ($user->is($payment->user))
             return Response::allow(__('You are allowed to view this payment.'));
 
