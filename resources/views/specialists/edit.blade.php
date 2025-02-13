@@ -300,7 +300,6 @@
                     this.errors = {}
                     this.form.submit()
                         .then(async response => {
-                            this.form.reset();
                             this.response = response;
                         })
                         .catch(error => {

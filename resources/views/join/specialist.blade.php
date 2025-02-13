@@ -276,6 +276,7 @@
             return {
                 form: null,
                 errors: {},
+                response: null,
                 init: function () {
                     this.form = this.$form('post', this.$el.action, {
                         photo: '{{ old('photo') }}',
@@ -295,9 +296,9 @@
                 submit() {
                     this.form.submit()
                         .then(response => {
-                            this.form.reset();
+                            this.response = response;
                             //let response_json = await response.json()
-                            window.location.href = response.data['redirect_to']
+                            window.location.href = this.response.data['redirect_to']
                         })
                         .catch(error => {
                             this.errors = error.response.data.errors
