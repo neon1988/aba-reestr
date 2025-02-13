@@ -4,12 +4,7 @@ namespace Tests\Feature\Centers;
 
 use App\Models\Center;
 use App\Models\User;
-use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use Imagick;
-use ImagickPixel;
 use Tests\TestCase;
 
 class CentersTest extends TestCase

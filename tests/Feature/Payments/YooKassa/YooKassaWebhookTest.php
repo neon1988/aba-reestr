@@ -87,8 +87,7 @@ class YooKassaWebhookTest extends TestCase
         ];
     }
 
-    /** @test */
-    public function it_rejects_request_from_untrusted_ip()
+    public function test_it_rejects_request_from_untrusted_ip()
     {
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(false);
@@ -103,8 +102,7 @@ class YooKassaWebhookTest extends TestCase
         $response->assertStatus(400)->assertJson(['message' => 'Untrusted IP']);
     }
 
-    /** @test */
-    public function it_processes_successful_payment_and_upgrades_subscription()
+    public function test_it_processes_successful_payment_and_upgrades_subscription()
     {
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(true);
@@ -142,8 +140,7 @@ class YooKassaWebhookTest extends TestCase
         $this->assertNotNull($purchasedSubscription);
     }
 
-    /** @test */
-    public function it_logs_waiting_for_capture_event()
+    public function test_it_logs_waiting_for_capture_event()
     {
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(true);
@@ -166,8 +163,7 @@ class YooKassaWebhookTest extends TestCase
             ->assertJson(['message' => 'OK']);
     }
 
-    /** @test */
-    public function it_logs_canceled_payment()
+    public function test_it_logs_canceled_payment()
     {
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(true);

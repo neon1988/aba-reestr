@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\SubscriptionLevelEnum;
+use Carbon\Carbon;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -14,6 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
+use Opcodes\LogViewer\Facades\Cache;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -205,5 +207,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::make(
             get: fn(mixed $value, array $attributes) => trim(mb_substr($attributes['name'], 0, 1) . mb_substr($attributes['lastname'], 0, 1)),
         );
+    }
+
+    public function setLastVerificationEmailSentTime(Carbon $time)
+    {
+        Cache::tags('user')->put('last_verification_email_sent_time', $time);
+    }
+
+    public function getLastVerificationEmailSentTimestamp() :int
+    {
+        $time = Cache::tags('user')->get('last_verification_email_sent_time');
+        if ($time instanceof \Carbon\Carbon)
+            return $time->getTimestamp();
+        else
+            return 0;
     }
 }

@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Users;
 
-use App\Models\Specialist;
-use Carbon\Carbon;
-use Tests\TestCase;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Enums\SubscriptionLevelEnum;
+use App\Models\Specialist;
+use App\Models\User;
 use App\Policies\UserPolicy;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserCreateSpecialistPolicyTest extends TestCase
 {

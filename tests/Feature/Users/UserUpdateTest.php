@@ -6,17 +6,14 @@ use App\Enums\SubscriptionLevelEnum;
 use App\Http\Resources\FileResource;
 use App\Models\File;
 use App\Models\User;
-use App\Models\Image;
-use App\Http\Requests\UpdateUserRequest;
 use Carbon\Carbon;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserUpdateTest extends TestCase
 {
     use RefreshDatabase;
-    /** @test */
+
     public function testUpdateUser()
     {
         $user = User::factory()->staff()->create();

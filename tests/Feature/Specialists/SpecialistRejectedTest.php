@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Specialists;
 
+use App\Enums\StatusEnum;
+use App\Models\Specialist;
+use App\Models\User;
+use App\Notifications\SpecialistRejectedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use App\Models\Specialist;
-use App\Models\User;
-use App\Enums\StatusEnum;
-use App\Notifications\SpecialistRejectedNotification;
 
 class SpecialistRejectedTest extends TestCase
 {

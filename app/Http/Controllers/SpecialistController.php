@@ -202,7 +202,8 @@ class SpecialistController extends Controller
                             $specialist->photo->delete();
 
                         if ($user instanceof User) {
-                            $user->photo->delete();
+                            if ($user->photo instanceof File)
+                                $user->photo->delete();
                             $user->photo_id = $file->id;
                             $user->save();
                         }
@@ -244,7 +245,7 @@ class SpecialistController extends Controller
                 ->json([
                     'user' => new SpecialistResource($specialist),
                     'status' => 'success',
-                    'message' => 'Профиль успешно обновлен.',
+                    'message' => 'Профиль специалиста обновлен.',
                 ]);
         else
             return redirect()
@@ -291,7 +292,7 @@ class SpecialistController extends Controller
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $file->storage = 'public';
                         $file->save();
-                        $specialist->files()->attach($file);
+                        $specialist->additional_courses()->attach($file);
                     }
                 }
             }

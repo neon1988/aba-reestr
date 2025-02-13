@@ -4,7 +4,6 @@ namespace Tests\Feature\Notifications;
 
 use App\Models\Specialist;
 use App\Models\User;
-use App\Notifications\SpecialistApprovedNotification;
 use App\Notifications\SpecialistRejectedNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -13,8 +12,8 @@ use Tests\TestCase;
 class SpecialistRejectedNotificationTest extends TestCase
 {
     use RefreshDatabase;
-    /** @test */
-    public function it_uses_the_mail_channel()
+
+    public function test_it_uses_the_mail_channel()
     {
         $specialist = Specialist::factory()->create(); // Создание специалиста
 
@@ -24,8 +23,8 @@ class SpecialistRejectedNotificationTest extends TestCase
         $this->assertEquals(['mail'], $notification->via($specialist));
     }
 
-    /** @test */
-    public function it_creates_the_mail_message_correctly()
+
+    public function test_it_creates_the_mail_message_correctly()
     {
         $specialist = Specialist::factory()->create(); // Создание специалиста
         $user = User::factory()->create(); // Создание специалиста

@@ -29,6 +29,13 @@ class FileFactory extends Factory
         ];
     }
 
+    public function withUser(User $user = null)
+    {
+        return $this->afterCreating(function (File $file) use ($user) {
+            $file->creator()->associate($user ?? User::factory()->create());
+        });
+    }
+
     /**
      * Состояние для видеофайла.
      */

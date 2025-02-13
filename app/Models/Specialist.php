@@ -105,6 +105,11 @@ class Specialist extends Model
         return $this->belongsToMany(File::class, 'specialist_file');
     }
 
+    public function additional_courses()
+    {
+        return $this->belongsToMany(File::class, 'specialist_additional_courses');
+    }
+
     public function certificates()
     {
         return $this->belongsToMany(File::class, 'specialist_certificates');

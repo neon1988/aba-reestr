@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Bulletins;
 
-use App\Models\User;
-use App\Models\Bulletin;
 use App\Enums\StatusEnum;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,8 +11,7 @@ class BulletinUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function authorized_user_can_create_bulletin()
+    public function test_authorized_user_can_create_bulletin()
     {
         $user = User::factory()->create();
 

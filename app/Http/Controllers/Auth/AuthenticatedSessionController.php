@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -22,18 +26,41 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
         if (Auth::user()->isCenter())
-            return redirect()->intended(route('centers.show', Auth::user()->getCenterId()));
+            $next = route('centers.show', Auth::user()->getCenterId());
         elseif (Auth::user()->isSpecialist())
-            return redirect()->intended(route('specialists.show', Auth::user()->getSpecialistId()));
+            $next = route('specialists.show', Auth::user()->getSpecialistId());
         else
-            return redirect()->intended(route('join'));
+        {
+            if (Auth::user()->isSubscriptionActive())
+            {
+                $next = match (Auth::user()->subscription_level) {
+                    SubscriptionLevelEnum::B => route('join.specialist'),
+                    SubscriptionLevelEnum::C => route('join.center'),
+                    default => route('home'),
+                };
+            }
+            else
+                $next = route('join');
+        }
+
+        if ($request->expectsJson())
+        {
+            return response([
+                'message' => __('Login successful.'),
+                'redirect_to' => $next
+            ], 201);
+        }
+        else
+        {
+            return redirect()->intended($next);
+        }
     }
 
     /**

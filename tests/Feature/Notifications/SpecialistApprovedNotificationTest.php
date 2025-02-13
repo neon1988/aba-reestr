@@ -12,8 +12,8 @@ use Tests\TestCase;
 class SpecialistApprovedNotificationTest extends TestCase
 {
     use RefreshDatabase;
-    /** @test */
-    public function it_uses_the_mail_channel()
+
+    public function test_it_uses_the_mail_channel()
     {
         $specialist = Specialist::factory()->create(); // Создание специалиста
 
@@ -23,8 +23,7 @@ class SpecialistApprovedNotificationTest extends TestCase
         $this->assertEquals(['mail'], $notification->via($specialist));
     }
 
-    /** @test */
-    public function it_creates_the_mail_message_correctly()
+    public function test_it_creates_the_mail_message_correctly()
     {
         $specialist = Specialist::factory()->create(); // Создание специалиста
         $user = User::factory()->create(); // Создание специалиста

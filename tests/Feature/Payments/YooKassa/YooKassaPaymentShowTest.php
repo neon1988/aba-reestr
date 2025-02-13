@@ -9,7 +9,6 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Services\YooKassaService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Session;
 use Mockery;
 use Tests\TestCase;
 
