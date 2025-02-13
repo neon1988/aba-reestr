@@ -141,7 +141,7 @@ class SpecialistController extends Controller
             return $specialist;
         });
 
-        $users = Staff::whereJsonContains('settings_notifications->new_specialist', true)
+        $users = Staff::whereJsonContains('settings_notifications', ['new_specialist' => true])
             ->get()
             ->flatMap->users
             ->unique('id');
@@ -149,7 +149,6 @@ class SpecialistController extends Controller
         foreach ($users as $user) {
             $user->notify(new SpecialistPendingReviewNotification($specialist));
         }
-
 
         if ($request->expectsJson()) {
             return [
