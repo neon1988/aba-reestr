@@ -47,7 +47,7 @@ class UserCreateSpecialistPolicyTest extends TestCase
             'subscription_ends_at' => Carbon::now()->addYear(),
             'subscription_level' => SubscriptionLevelEnum::B,
         ]);
-        $speialist = Specialist::factory()->withUser($user)->create();
+        $specialist = Specialist::factory()->withUser($user)->create();
 
         $policy = new UserPolicy();
 
@@ -71,14 +71,22 @@ class UserCreateSpecialistPolicyTest extends TestCase
         $this->assertEquals(__('You can create a new specialist.'), $response->message());
     }
 
-    public function test_user_who_is_already_specialist_cannot_create_another_specialist()
+    public function test_user_admin_who_is_already_specialist_cannot_create_specialist()
     {
-        $user = User::factory()->create([
+        $user = User::factory()->staff()->create([
             'subscription_ends_at' => Carbon::now()->addYear(),
             'subscription_level' => SubscriptionLevelEnum::B,
         ]);
-        $speialist = Specialist::factory()->withUser($user)->create();
+        $specialist = Specialist::factory()->withUser($user)->create();
 
+        $this->assertTrue($user->isStaff());
+
+        $policy = new UserPolicy();
+
+        $response = $policy->createSpecialist($user, $user);
+
+        $this->assertFalse($response->allowed());
+        $this->assertEquals(__('You are already a specialist.'), $response->message());
         $this->assertFalse($user->can('createSpecialist', $user));
     }
 }
