@@ -31,7 +31,6 @@
                         <!-- Имя специалиста -->
                         <div class="mb-5">
                             <h2 class="text-4xl font-semibold text-gray-800">{{ $specialist->name }} {{ $specialist->lastname }}</h2>
-                            <p class="text text-gray-600">{{ $specialist->middlename }}</p>
                         </div>
 
                         <div class="flex flex-col sm:flex-row justify-between">

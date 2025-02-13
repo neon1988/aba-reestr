@@ -131,6 +131,7 @@
                 <label class="block text-gray-700">Профиль телеграмм</label>
                 <input name="telegram_profile" type="text" x-model="form.telegram_profile"
                        @change="form.validate('telegram_profile')"
+                       x-on:paste.prevent="handleTelegramPaste"
                        class="w-full border border-gray-300 rounded-md p-2
                   @error('telegram_profile') border-red-500 @enderror"
                        value="{{ old('telegram_profile', $specialist->telegram_profile ?? '') }}">
@@ -143,17 +144,9 @@
             <!-- Профиль VK -->
             <div>
                 <label class="block text-gray-700">Профиль VK</label>
-
                 <input name="vk_profile" type="text" x-model="form.vk_profile"
                        @change="form.validate('vk_profile')"
-                       x-on:paste.prevent="
-      const clipboardData = event.clipboardData || window.clipboardData;
-      const pastedText = clipboardData.getData('text').trim();
-      const regex = /^(?:https?:\/\/)?(?:www\.)?vk\.com\/([^\/?#]+)/i;
-      const match = pastedText.match(regex);
-      const username = match ? match[1] : pastedText;
-      $event.target.value = username;
-    "
+                       x-on:paste.prevent="handleVKProfilePaste"
                        class="w-full border border-gray-300 rounded-md p-2
                   @error('vk_profile') border-red-500 @enderror"
                        value="{{ old('vk_profile', $specialist->vk_profile ?? '') }}">
@@ -297,6 +290,22 @@
                             this.errors = error.response.data.errors
                         });
                 },
+                handleVKProfilePaste() {
+                    const clipboardData = event.clipboardData || window.clipboardData;
+                    const pastedText = clipboardData.getData('text').trim();
+                    const regex = /^(?:https?:\/\/)?(?:www\.)?vk\.com\/([^\/?#]+)/i;
+                    const match = pastedText.match(regex);
+                    const username = match ? match[1] : pastedText;
+                    this.form.vk_profile = username;
+                },
+                handleTelegramPaste() {
+                    const clipboardData = event.clipboardData || window.clipboardData;
+                    const pastedText = clipboardData.getData('text').trim();
+                    const regex = /^(?:https?:\/\/)?(?:t\.me\/|www\.telegram\.me\/)([^\/?#]+)/i;
+                    const match = pastedText.match(regex);
+                    const username = match ? match[1] : pastedText;
+                    this.form.telegram_profile = username;
+                }
             }
         }
     </script>
