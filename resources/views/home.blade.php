@@ -3,20 +3,20 @@
 @section('content')
 
     <!-- Hero Section -->
-    <section class="bg-cyan-100 text-center py-10 sm:rounded-t">
+    <section class="bg-cyan-100 text-center py-10 sm:rounded-t-lg">
         <div class="container mx-auto px-4 lg:px-10">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Добро пожаловать на страницу проекта ABA Expert!</h1>
+            <h1 class="text-4xl font-bold text-cyan-600 mb-6">Добро пожаловать на страницу проекта ABA Expert!</h1>
             <p class="text-lg text-gray-700 mb-6">
                 ABA Expert – это проект для поведенческих аналитиков, родителей детей с аутизмом,
                 а также всех профессионалов, работающих в сфере аутизма и других нарушений развития.
             </p>
             <p class="text-lg text-gray-700">
                 Здесь вы можете найти контакты квалифицированных
-                <a href="{{ route('specialists.index') }}">специалистов</a>,
+                <a href="{{ route('specialists.index') }}" class="text-cyan-600 hover:underline">специалистов</a>,
                 работающих в области ABA-терапии,
-                <a href="{{ route('bulletins.index') }}">разместить объявление</a>,
+                <a href="{{ route('bulletins.index') }}" class="text-cyan-600 hover:underline">разместить объявление</a>,
                 а также получить доступ к
-                <a href="{{ route('worksheets.index') }}">полезным видео-лекциям,
+                <a href="{{ route('worksheets.index') }}" class="text-cyan-600 hover:underline">полезным видео-лекциям,
                     пособиям для работы</a>.</p>
             {{--
         <a href="{{ route('centers.index') }}"
@@ -59,7 +59,7 @@
     </section>
 --}}
     <!-- Specialists Section -->
-    <section id="specialists" class="p-4 lg:p-8 bg-gray-50">
+    <section id="specialists" class="p-4 lg:p-8 bg-gray-50 sm:rounded-b-lg">
         <div class="container mx-auto text-center">
             <a href="{{ route('specialists.index') }}">
                 <h2 class="text-3xl font-semibold text-gray-900 mb-6">Специалисты ABA</h2>

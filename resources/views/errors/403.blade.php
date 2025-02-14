@@ -5,8 +5,8 @@
 @section('content')
 
     <div class="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-lg">
-        <h1 class="text-6xl font-extrabold text-cyan-500 pb-5">403</h1>
-        <h2 class="text-2xl font-semibold text-gray-800 pb-5">Доступ запрещен</h2>
+        <h1 class="text-6xl font-bold text-cyan-500 pb-5">403</h1>
+        <h2 class="text-2xl font-bold text-gray-800 pb-5">Доступ запрещен</h2>
         <p class="text-gray-600">
             @if (isset($exception))
                 {{ __($exception->getMessage()) }}

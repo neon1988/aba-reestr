@@ -8,8 +8,9 @@
     <title>ABA Expert - реестр специалистов и центров</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -241,7 +242,7 @@
         <a href="{{ route('offer.show') }}">Публичная оферта</a>
     </div>
     <div class="container mx-auto text-center mb-4">
-        <p>&copy; 2024 ABA Expert - реестр специалистов и центров. Все права защищены.</p>
+        <p>&copy; {{ date('Y') }} ABA Expert - реестр специалистов и центров. Все права защищены.</p>
     </div>
     <div class="container mx-auto text-center text-sm">
         Информация, размещенная на сайте служит информационным целям, администрация сайта не несет ответственность за

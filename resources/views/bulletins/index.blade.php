@@ -17,7 +17,7 @@
 
         <div x-data="searchResults()" x-init="container = $refs.contentElement.innerHTML">
             <!-- Search Section -->
-            <section class="pt-4 pb-4 sm:pb-4 bg-white rounded-t">
+            <section class="pt-4 pb-4 sm:pb-4 bg-white rounded-t-lg">
                 <div class="container mx-auto text-center">
                     <form @submit.prevent="submitForm" x-ref="form" action="{{ route('bulletins.index') }}" method="get"
                           enctype="multipart/form-data" class="space-y-6">
@@ -39,7 +39,7 @@
             </section>
 
             <!-- Centers List Section -->
-            <section id="bulletins" class="py-2 pb-4 px-2 lg:px-4 bg-gray-50 sm:rounded-b">
+            <section id="bulletins" class="py-2 pb-4 px-2 lg:px-4 bg-gray-50 sm:rounded-b-lg">
                 <div x-html="container" x-ref="contentElement" class="container mx-auto">
                     @include('bulletins.list', ['items' => $items])
                 </div>

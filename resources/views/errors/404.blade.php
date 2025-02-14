@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h1 class="text-6xl font-extrabold text-cyan-500 pb-5">404</h1>
+        <h1 class="text-6xl font-bold text-cyan-500 pb-5">404</h1>
         <h2 class="text-3xl font-semibold text-gray-800 pb-5">Страница не найдена</h2>
         <p class="text-gray-600">К сожалению, страница, которую вы ищете, не существует или была перемещена.</p>
         <a href="{{ url('/') }}"

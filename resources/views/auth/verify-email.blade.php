@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="w-full max-w-md bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg">
+    <div class="w-full max-w-md bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg">
         <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 text-center mb-4">
             Спасибо за регистрацию!
         </h2>
