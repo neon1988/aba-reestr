@@ -192,7 +192,10 @@ class WorksheetController extends Controller
             return response('')
                 ->header('X-Accel-Redirect', $file->url)
                 ->header('Content-Disposition', 'attachment; filename="' . $file->name . '"')
-                ->header('Content-Type', 'application/x-force-download');
+                ->header('Content-Type', 'application/x-force-download')
+                ->header('Cache-Control', 'public, max-age=' . intval(60 * 60 * 31))  // Устанавливает кэш на 24 часа
+                ->header('Last-Modified', gmdate('D, d M Y H:i:s', strtotime($file->updated_at)) . ' GMT')
+                ->header('ETag', md5($file->id . $file->updated_at . $file->size));
         } else {
             return redirect()->to($file->url);
         }
