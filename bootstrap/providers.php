@@ -5,4 +5,5 @@ return [
     App\Providers\HorizonServiceProvider::class,
     App\Providers\ValidationServiceProvider::class,
     Barryvdh\Debugbar\ServiceProvider::class,
+    Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
 ];

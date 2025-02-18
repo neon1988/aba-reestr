@@ -33,6 +33,9 @@ class FileExistsOnDiskRule implements ValidationRule
     // Метод для проверки существования файла на диске
     protected function checkFileExistence(mixed $file, Closure $fail): void
     {
+        if (is_string($file))
+            $fail('Ошибка загрузки файла');
+
         if (is_array($file)) {
             if (!array_key_exists('path', $file) or !array_key_exists('storage', $file)) {
                 $fail('Файл не найден');

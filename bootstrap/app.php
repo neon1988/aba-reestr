@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\SEOMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -25,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+
         $middleware->validateCsrfTokens(except: [
             'api/*'
         ]);
@@ -33,6 +35,10 @@ return Application::configure(basePath: dirname(__DIR__))
             EnsureFrontendRequestsAreStateful::class,  // Добавлено для работы с CSRF и аутентификацией
             'throttle:api',  // Защита от DDoS атак
             SubstituteBindings::class,  // Для работы с маршрутами
+        ]);
+
+        $middleware->appendToGroup('web', [
+            SEOMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

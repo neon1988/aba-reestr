@@ -57,7 +57,7 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
+        if (!$authUser->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
@@ -70,7 +70,7 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
+        if (!$authUser->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
@@ -83,7 +83,7 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
+        if (!$authUser->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
@@ -96,7 +96,7 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
+        if (!$authUser->isSubscriptionActive())
             return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();

@@ -129,7 +129,13 @@ class Specialist extends Model
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn(mixed $value, array $attributes) => trim($attributes['name'] . ' ' . $attributes['last_name'] . ' ' . $attributes['middle_name']),
+            get: fn(mixed $value, array $attributes) => trim(
+                implode(' ', array_filter([
+                    $attributes['name'] ?? null,
+                    $attributes['lastname'] ?? null,
+                    $attributes['middlename'] ?? null
+                ]))
+            ),
         );
     }
 
