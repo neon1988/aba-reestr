@@ -77,7 +77,7 @@ class WorksheetController extends Controller
             if ($upload = $request->get('file')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->storage = 'public';
+                        $file->storage = 'private';
                         $file->save();
                         $worksheet->file_id = $file->id;
                     }
