@@ -23,6 +23,6 @@
         @endif
     </p>
     <p class="text-gray-600 mt-4">
-        {{ $item->description }}
+        {{ mb_strimwidth($item->description, 0, 150, '...') }}
     </p>
 </a>

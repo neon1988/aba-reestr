@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -49,5 +50,31 @@ class AuthenticationTest extends TestCase
 
         $this->assertGuest();
         $response->assertRedirect('/');
+    }
+
+    public function test_intended(): void
+    {
+        $user = User::factory()
+            ->create();
+
+        $verificationUrl = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        session(['url.intended' => $verificationUrl]);
+
+        $response = $this->postJson(route('login'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ])->assertStatus(201);
+
+        $this->assertAuthenticated();
+
+        $response->assertJson([
+                'message' => __('Login successful.'),
+                'redirect_to' => $verificationUrl
+            ]);
     }
 }

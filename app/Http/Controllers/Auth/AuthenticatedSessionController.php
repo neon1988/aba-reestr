@@ -32,22 +32,27 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        if (Auth::user()->isCenter())
-            $next = route('centers.show', Auth::user()->getCenterId());
-        elseif (Auth::user()->isSpecialist())
-            $next = route('specialists.show', Auth::user()->getSpecialistId());
-        else
+        $next = $request->session()->pull('url.intended', '');
+
+        if (empty($next))
         {
-            if (Auth::user()->isSubscriptionActive())
-            {
-                $next = match (Auth::user()->subscription_level) {
-                    SubscriptionLevelEnum::B => route('join.specialist'),
-                    SubscriptionLevelEnum::C => route('join.center'),
-                    default => route('home'),
-                };
-            }
+            if (Auth::user()->isCenter())
+                $next = route('centers.show', Auth::user()->getCenterId());
+            elseif (Auth::user()->isSpecialist())
+                $next = route('specialists.show', Auth::user()->getSpecialistId());
             else
-                $next = route('join');
+            {
+                if (Auth::user()->isSubscriptionActive())
+                {
+                    $next = match (Auth::user()->subscription_level) {
+                        SubscriptionLevelEnum::B => route('join.specialist'),
+                        SubscriptionLevelEnum::C => route('join.center'),
+                        default => route('home'),
+                    };
+                }
+                else
+                    $next = route('join');
+            }
         }
 
         if ($request->expectsJson())

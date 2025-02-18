@@ -3,9 +3,12 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
@@ -54,5 +57,25 @@ class EmailVerificationTest extends TestCase
         $this->actingAs($user)->get($verificationUrl);
 
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
+    }
+
+    public function test_verification_notification(): void
+    {
+        Notification::fake();
+        Carbon::setTestNow('2024-01-01');
+
+        $user = User::factory()->unverified()->create();
+
+        $this->actingAs($user)
+            ->post(route('verification.send'))
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $user->refresh();
+
+        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        $this->assertEquals(1704067200, $user->fresh()->getLastVerificationEmailSentTimestamp());
+
+        Notification::assertSentTo([$user], VerifyEmail::class);
     }
 }

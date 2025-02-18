@@ -19,8 +19,7 @@ class EmailVerificationNotificationController extends Controller
         }
 
         $request->user()->setLastVerificationEmailSentTime(Carbon::now());
-
-        session(['last_verification_email_sent_time' => now()]);
+        $request->user()->sendEmailVerificationNotification();
 
         return back()->with('status', 'verification-link-sent');
     }

@@ -19,6 +19,10 @@ class JoinController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
 
+            if (!$user->hasVerifiedEmail()) {
+                return view('auth.verify-email');
+            }
+
             if ($user->isSubscriptionActive()) {
                 if ($user->isSpecialist())
                     return redirect()->route('specialists.show', Auth::user()->getSpecialistId());

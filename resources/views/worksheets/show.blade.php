@@ -14,16 +14,12 @@
                              :alt="$item->title"
                              width="900" height="900" quality="90"
                              class="w-full h-60 object-cover rounded-lg" />
-                    <div class="absolute bottom-4 left-4 bg-cyan-600 text-white text-sm px-3 py-1 rounded-lg">
-                        {{ mb_strtoupper($item->file->extension) }}
-                    </div>
                 </div>
             @endif
 
             <!-- Webinar Info -->
             <div class="mt-6">
-                <h1 class="text-3xl font-bold text-gray-800">{{ $item->title }}
-                    ({{ mb_strtoupper($item->file->extension) }})</h1>
+                <h1 class="text-3xl font-bold text-gray-800">{{ $item->title }}</h1>
             </div>
 
             <div class="mt-6">

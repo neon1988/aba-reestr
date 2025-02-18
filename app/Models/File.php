@@ -119,6 +119,9 @@ class File extends Model
 
     public function isVideo(): bool
     {
-        return in_array(mb_strtolower($this->extension), ['mp4', 'avi', 'mkv']);
+        return in_array(mb_strtolower($this->extension), [
+            'mp4', 'webm', 'ogg', // наиболее широко поддерживаются в современных браузерах.
+            'avi', 'mkv', 'mov', 'wmv', 'flv', 'm4v' // могут потребовать сторонних кодеков или не воспроизводиться в некоторых браузерах.
+        ]);
     }
 }
