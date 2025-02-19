@@ -149,7 +149,7 @@
             isImage(name) {
                 if (name === undefined)
                     return false;
-                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+                const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
                 return imageExtensions.some((ext) => name.toLowerCase().endsWith(ext));
             },
 
