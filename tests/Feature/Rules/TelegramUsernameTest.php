@@ -43,6 +43,8 @@ class TelegramUsernameTest extends TestCase
             ['@1abc2'],          // @ + строка из 5 символов, содержащая 3 буквы ("abc")
             ['@a1b2c3'],         // аналогично
             ['123abcde'],        // цифры в начале
+            ['_adfgsdfgsdfg'],         // аналогично
+            ['sdfgsdfgabcde_'],        // цифры в начале
         ];
     }
 

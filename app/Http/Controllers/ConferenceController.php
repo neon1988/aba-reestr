@@ -72,8 +72,7 @@ class ConferenceController extends Controller
             if ($upload = $request->get('file')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->storage = 'private';
-                        $file->save();
+                        $file->moveToStorage('private');
                         $conference->file_id = $file->id;
                     }
                 }
@@ -138,8 +137,7 @@ class ConferenceController extends Controller
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $conference->file()->delete();
-                        $file->storage = 'public';
-                        $file->save();
+                        $file->moveToStorage('private');
                         $conference->file_id = $file->id;
                         $conference->save();
                     }

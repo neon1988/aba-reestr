@@ -99,9 +99,7 @@ class CenterController extends Controller
             foreach ($request->get('files') as $upload) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->storage = 'public';
-                        $file->save();
-
+                        $file->moveToStorage('private');
                         $center->files()->syncWithoutDetaching([$file->id]);
                     }
                 }
