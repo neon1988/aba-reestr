@@ -13,7 +13,19 @@ class UserVkProfileAttributeTest extends TestCase
         $user = new Specialist();
 
         // Пример ссылки на профиль
-        $url = 'https://vk.com/annavolkova_aba';
+        $url = 'http://vk.com/annavolkova_aba';
+        $user->vk_profile = $url;
+
+        // Проверяем, что из URL извлекается правильное имя пользователя
+        $this->assertEquals('annavolkova_aba', $user->vk_profile);
+    }
+
+    public function testSetSubdomainVkProfileUrl()
+    {
+        $user = new Specialist();
+
+        // Пример ссылки на профиль
+        $url = 'https://'.uniqid().'.vk.com/annavolkova_aba';
         $user->vk_profile = $url;
 
         // Проверяем, что из URL извлекается правильное имя пользователя

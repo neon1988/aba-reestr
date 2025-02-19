@@ -5,7 +5,9 @@
              width="600" height="600" quality="90"
              class="w-full h-40 object-cover rounded-lg" />
 
-    <h3 class="text-xl font-semibold text-gray-800 mt-4">{{ $item->title }}</h3>
+    <h3 class="text-xl font-semibold text-gray-800 mt-4">
+        {{ $item->title }} @if (optional($item->file)->isVideo()) (Видео) @endif
+    </h3>
 
     <p class="text-gray-600 mt-2">Автор: {{ $item->creator->full_name }}</p>
     <p class="text-gray-600 mt-2">

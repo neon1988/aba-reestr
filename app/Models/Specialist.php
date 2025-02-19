@@ -157,7 +157,7 @@ class Specialist extends Model
                 if (filter_var($value, FILTER_VALIDATE_URL)) {
                     $url = Url::fromString($value);
 
-                    if ($url->getHost() == 'vk.com') {
+                    if (preg_match('/(^|\.)vk\.com$/i', $url->getHost())) {
                         return trim($url->getPath(), '/');
                     }
 
@@ -170,6 +170,24 @@ class Specialist extends Model
 
                 return $value;
             }
+        );
+    }
+
+    protected function telegramUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function(mixed $value, array $attributes) {
+                return 'https://t.me/'. trim($attributes['telegram_profile'], '@');
+            },
+        );
+    }
+
+    protected function vkUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function(mixed $value, array $attributes) {
+                return 'https://vk.com/'. trim($attributes['vk_profile'], '@');
+            },
         );
     }
 }

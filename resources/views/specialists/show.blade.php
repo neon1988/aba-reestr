@@ -34,6 +34,11 @@
                         </div>
 
                         <div class="flex flex-col sm:flex-row justify-between">
+                            <span class="text-gray-500">Образование:</span>
+                            <span
+                                class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ App\Enums\EducationEnum::getDescription($specialist->education) }}</span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row justify-between">
                             <span class="text-gray-500">Страна:</span>
                             <span
                                 class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">{{ __($specialist->country) }}</span>
@@ -70,7 +75,7 @@
                             <div class="flex flex-col sm:flex-row justify-between">
                                 <span class="text-gray-500">Telegram: </span>
                                 <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">
-                                <a href="https://t.me/{{ $specialist->telegram_profile }}"
+                                <a href="{{ $specialist->telegram_url }}"
                                    class="text-cyan-600 hover:underline"
                                    target="_blank">
                                     {{ $specialist->telegram_profile }}
@@ -83,7 +88,7 @@
                             <div class="flex flex-col sm:flex-row justify-between">
                                 <span class="text-gray-500">VK: </span>
                                 <span class="text-gray-700 mt-1 sm:mt-0 sm:ml-3 break-words">
-                                <a href="https://vk.com/{{ $specialist->vk_profile }}"
+                                <a href="{{ $specialist->vk_url }}"
                                    class="text-cyan-600 hover:underline" target="_blank">
                                     {{ $specialist->vk_profile }}
                                 </a>
