@@ -160,8 +160,11 @@ class ConferenceController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Conference $conference)
+    public function destroy($conference)
     {
+        $conference = Conference::withTrashed()
+            ->findOrFail($conference);
+
         $this->authorize('delete', $conference);
 
         if ($conference->trashed())

@@ -40,16 +40,16 @@
 
                     <!-- Remember Me -->
                     <div class="block mt-4">
-                        <label for="remember_me" class="inline-flex items-center">
-                            <input id="remember_me" type="checkbox"
+                        <label for="remember" class="inline-flex items-center">
+                            <input id="remember" type="checkbox"
                                    class="rounded border-gray-300 text-cyan-600 shadow-sm focus:ring-cyan-500"
                                    name="remember"
-                                   x-model="form.remember_me"
-                                   @change="form.validate('remember_me')">
+                                   x-model="form.remember"
+                                   @change="form.validate('remember')">
                             <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                         </label>
-                        <template x-if="form.invalid('remember_me')">
-                            <div x-text="form.errors.remember_me" class="text-sm text-red-600 space-y-1"></div>
+                        <template x-if="form.invalid('remember')">
+                            <div x-text="form.errors.remember" class="text-sm text-red-600 space-y-1"></div>
                         </template>
                     </div>
 
@@ -108,7 +108,7 @@
                                 this.form = this.$form('post', this.$el.action, {
                                     email: '{{ old('email') }}',
                                     password: '{{ old('password') }}',
-                                    remember_me: '{{ old('remember_me') }}',
+                                    remember: Boolean({{ Js::from(old('remember', true)) }})
                                 }).setErrors({{ Js::from($errors->messages()) }})
                             },
                             submit() {
@@ -117,7 +117,6 @@
                                 this.form.submit()
                                     .then(async response => {
                                         this.response = response;
-                                        console.log(this.response);
                                         window.location.href = this.response.data['redirect_to']
                                     })
                                     .catch(error => {

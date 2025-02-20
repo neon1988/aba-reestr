@@ -25,7 +25,7 @@
             </div>
 
             <div class="mt-6">
-                <p class="text-gray-700 leading-relaxed">{{ $item->description }}</p>
+                <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $item->description }}</p>
             </div>
 
             <div class="mt-8">

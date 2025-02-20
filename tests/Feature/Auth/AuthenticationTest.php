@@ -25,7 +25,24 @@ class AuthenticationTest extends TestCase
         $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'password',
-        ])->assertRedirect();
+            'remember' => '0'
+        ])->assertSessionHasNoErrors()
+            ->assertRedirect();
+
+        $this->assertAuthenticated();
+    }
+
+    public function test_remember_me(): void
+    {
+        $user = User::factory()
+            ->create();
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+            'remember' => '1'
+        ])->assertSessionHasNoErrors()
+            ->assertRedirect();
 
         $this->assertAuthenticated();
     }
@@ -37,7 +54,8 @@ class AuthenticationTest extends TestCase
         $this->post('/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
-        ]);
+        ])->assertSessionHasErrors()
+            ->assertRedirect();
 
         $this->assertGuest();
     }

@@ -151,8 +151,11 @@ class WebinarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Webinar $webinar)
+    public function destroy($webinar)
     {
+        $webinar = Webinar::withTrashed()
+            ->findOrFail($webinar);
+
         $this->authorize('delete', $webinar);
 
         if ($webinar->trashed())

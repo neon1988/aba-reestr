@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\Center;
+use App\Models\Conference;
+use App\Models\Specialist;
+use App\Models\Webinar;
+use App\Models\Worksheet;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -32,7 +37,7 @@ Breadcrumbs::for('specialists.index', function (BreadcrumbTrail $trail) {
     $trail->push('Специалисты', route('specialists.index'));
 });
 
-Breadcrumbs::for('specialists.show', function (BreadcrumbTrail $trail, $specialist) {
+Breadcrumbs::for('specialists.show', function (BreadcrumbTrail $trail, Specialist $specialist) {
     $trail->parent('specialists.index');
     $trail->push($specialist->fullName, route('specialists.show', $specialist));
 });
@@ -43,7 +48,7 @@ Breadcrumbs::for('centers.index', function (BreadcrumbTrail $trail) {
     $trail->push('Центры', route('centers.index'));
 });
 
-Breadcrumbs::for('centers.show', function (BreadcrumbTrail $trail, $center) {
+Breadcrumbs::for('centers.show', function (BreadcrumbTrail $trail, Center $center) {
     $trail->parent('centers.index');
     $trail->push($center->name, route('centers.show', $center));
 });
@@ -76,7 +81,7 @@ Breadcrumbs::for('webinars.index', function (BreadcrumbTrail $trail) {
     $trail->push('Вебинары', route('webinars.index'));
 });
 
-Breadcrumbs::for('webinars.show', function (BreadcrumbTrail $trail, $webinar) {
+Breadcrumbs::for('webinars.show', function (BreadcrumbTrail $trail, Webinar $webinar) {
     $trail->parent('webinars.index');
     $trail->push($webinar->title, route('webinars.show', $webinar));
 });
@@ -86,7 +91,7 @@ Breadcrumbs::for('worksheets.index', function (BreadcrumbTrail $trail) {
     $trail->push('Библиотека', route('worksheets.index'));
 });
 
-Breadcrumbs::for('worksheets.show', function (BreadcrumbTrail $trail, $worksheet) {
+Breadcrumbs::for('worksheets.show', function (BreadcrumbTrail $trail, Worksheet $worksheet) {
     $trail->parent('worksheets.index');
     $trail->push($worksheet->title, route('worksheets.show', $worksheet));
 });
@@ -96,7 +101,7 @@ Breadcrumbs::for('conferences.index', function (BreadcrumbTrail $trail) {
     $trail->push('Мероприятия', route('conferences.index'));
 });
 
-Breadcrumbs::for('conferences.show', function (BreadcrumbTrail $trail, $conference) {
+Breadcrumbs::for('conferences.show', function (BreadcrumbTrail $trail, Conference $conference) {
     $trail->parent('conferences.index');
     $trail->push($conference->title, route('conferences.show', $conference));
 });

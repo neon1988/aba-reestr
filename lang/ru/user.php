@@ -11,5 +11,6 @@ return [
         'current_password' => 'Текущий пароль',
         'subscription_level' => 'Уровень подписки',
         'subscription_ends_at' => 'Дата окончания подписки',
+        'remember' => 'Запомнить меня'
     ],
 ];

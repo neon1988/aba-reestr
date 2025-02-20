@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\EducationEnum;
 use App\Enums\StatusEnum;
+use App\Models\File;
 use App\Models\Image;
 use App\Models\Specialist;
 use App\Models\User;
@@ -32,7 +33,7 @@ class SpecialistFactory extends Factory
             'phone' => $this->faker->numerify('+###########'),
             'status' => StatusEnum::Accepted,
             'create_user_id' => User::factory(),
-            'photo_id' => Image::factory(),
+            'photo_id' => File::factory()->image(),
             'center_name' => $this->faker->company
         ];
     }

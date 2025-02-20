@@ -165,8 +165,10 @@ class WorksheetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Worksheet $worksheet)
+    public function destroy($worksheet)
     {
+        $worksheet = Worksheet::withTrashed()->findOrFail($worksheet);
+
         $this->authorize('delete', $worksheet);
 
         if ($worksheet->trashed())

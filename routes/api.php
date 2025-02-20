@@ -58,13 +58,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('webinars/upcoming', [WebinarController::class, 'upcoming'])->name('webinars.upcoming');
     Route::get('webinars/ended', [WebinarController::class, 'ended'])->name('webinars.ended');
-    Route::resource('webinars', WebinarController::class)->only(['show']);
+    Route::resource('webinars', WebinarController::class)->only(['show', 'destroy']);
     Route::post('webinars', [WebinarController::class, 'store'])->name('webinars.store')
         ->middleware([HandlePrecognitiveRequests::class]);
     Route::patch('webinars/{webinar}', [WebinarController::class, 'update'])->name('webinars.update')
         ->middleware([HandlePrecognitiveRequests::class]);
 
-    Route::resource('worksheets', WorksheetController::class)->only(['index', 'show']);
+    Route::resource('worksheets', WorksheetController::class)->only(['index', 'show', 'destroy']);
     Route::post('worksheets', [WorksheetController::class, 'store'])->name('worksheets.store')
         ->middleware([HandlePrecognitiveRequests::class]);
     Route::patch('worksheets/{worksheet}', [WorksheetController::class, 'update'])->name('worksheets.update')
@@ -72,7 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('conferences/upcoming', [ConferenceController::class, 'upcoming'])->name('conferences.upcoming');
     Route::get('conferences/ended', [ConferenceController::class, 'ended'])->name('conferences.ended');
-    Route::resource('conferences', ConferenceController::class)->only(['index', 'show']);
+    Route::resource('conferences', ConferenceController::class)->only(['index', 'show', 'destroy']);
     Route::post('conferences', [ConferenceController::class, 'store'])->name('conferences.store')
         ->middleware([HandlePrecognitiveRequests::class]);
     Route::patch('conferences/{conference}', [ConferenceController::class, 'update'])->name('conferences.update')
