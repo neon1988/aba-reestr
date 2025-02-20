@@ -6,26 +6,24 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CleanupTempFiles extends Command
+class PurgeSoftDeletedRecords extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'purge:temp {model} {days=7 : Number of days after which records should be permanently deleted}';
+    protected $signature = 'purge:soft-deleted {model} {days=30 : Number of days after which records should be permanently deleted}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Удаляет не использованные temp файлы';
+    protected $description = 'Permanently delete soft-deleted records older than a specified time';
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle()
     {
@@ -45,27 +43,18 @@ class CleanupTempFiles extends Command
         // Определите время, после которого записи должны быть удалены
         $thresholdDate = Carbon::now()->subDays($days); // Пример: записи старше 30 дней
 
-        $this->info("Starting purge for temp records in $modelClass older than $days days...");
+        $this->info("Starting purge for soft-deleted records in $modelClass older than $days days...");
 
-        $modelClass::where('storage', 'temp')
-            ->where('created_at', '<', $thresholdDate)
+        $modelClass::onlyTrashed()
+            ->where('deleted_at', '<', $thresholdDate)
             ->chunkById(100, function ($records) {
                 foreach ($records as $record) {
-                    $this->item($record);
+                    $this->info("Deleting record ID {$record->id}...");
+                    $record->forceDelete();
                 }
             });
 
-        $this->info("Temp records older than {$thresholdDate} have been purged.");
+        $this->info("Soft-deleted records older than {$thresholdDate} have been purged.");
         return Command::SUCCESS;
-    }
-
-    public function item($record) : bool
-    {
-        if ($record->storage != 'temp')
-            return false;
-
-        $this->info("Deleting record ID {$record->id}...");
-        $record->forceDelete();
-        return true;
     }
 }

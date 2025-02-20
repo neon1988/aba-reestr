@@ -1,6 +1,6 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "ABA Expert - реестр специалистов и центров",
+  "short_name": "ABA Expert",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
