@@ -185,6 +185,30 @@ class YooKassaWebhookTest extends TestCase
         $response->assertStatus(200)->assertJson(['message' => 'OK']);
     }
 
+    public function test_no_payment_type()
+    {
+        $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
+            ->andReturn(true);
+
+        $subscription = SubscriptionLevelEnum::B;
+
+        $payment = Payment::factory()
+            ->create();
+
+        $user = $payment->user;
+
+        $payload = $this->getObject($payment->payment_id, $subscription);
+        unset ($payload['payment_method']);
+
+        $response = $this->postJson(route('yookassa.webhook'), [
+            'event' => NotificationEventType::PAYMENT_CANCELED,
+            "url" => "https://www.example.com/notification_url",
+            'object' => $payload
+        ])
+            ->assertStatus(200)
+            ->assertJson(['message' => 'OK']);
+    }
+
     protected function tearDown(): void
     {
         Mockery::close();

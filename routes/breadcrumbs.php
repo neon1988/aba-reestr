@@ -37,9 +37,11 @@ Breadcrumbs::for('specialists.index', function (BreadcrumbTrail $trail) {
     $trail->push('Специалисты', route('specialists.index'));
 });
 
-Breadcrumbs::for('specialists.show', function (BreadcrumbTrail $trail, Specialist $specialist) {
+Breadcrumbs::for('specialists.show', function (BreadcrumbTrail $trail, $specialist) {
     $trail->parent('specialists.index');
-    $trail->push($specialist->fullName, route('specialists.show', $specialist));
+    if ($specialist instanceof Specialist) {
+        $trail->push($specialist->fullName, route('specialists.show', $specialist));
+    }
 });
 
 // Centers
@@ -48,9 +50,11 @@ Breadcrumbs::for('centers.index', function (BreadcrumbTrail $trail) {
     $trail->push('Центры', route('centers.index'));
 });
 
-Breadcrumbs::for('centers.show', function (BreadcrumbTrail $trail, Center $center) {
+Breadcrumbs::for('centers.show', function (BreadcrumbTrail $trail, $center) {
     $trail->parent('centers.index');
-    $trail->push($center->name, route('centers.show', $center));
+    if ($center instanceof Center) {
+        $trail->push($center->name, route('centers.show', $center));
+    }
 });
 
 // Profile > Edit
@@ -81,9 +85,11 @@ Breadcrumbs::for('webinars.index', function (BreadcrumbTrail $trail) {
     $trail->push('Вебинары', route('webinars.index'));
 });
 
-Breadcrumbs::for('webinars.show', function (BreadcrumbTrail $trail, Webinar $webinar) {
+Breadcrumbs::for('webinars.show', function (BreadcrumbTrail $trail, $webinar) {
     $trail->parent('webinars.index');
-    $trail->push($webinar->title, route('webinars.show', $webinar));
+    if ($webinar instanceof Webinar) {
+        $trail->push($webinar->title, route('webinars.show', $webinar));
+    }
 });
 
 Breadcrumbs::for('worksheets.index', function (BreadcrumbTrail $trail) {
@@ -91,9 +97,11 @@ Breadcrumbs::for('worksheets.index', function (BreadcrumbTrail $trail) {
     $trail->push('Библиотека', route('worksheets.index'));
 });
 
-Breadcrumbs::for('worksheets.show', function (BreadcrumbTrail $trail, Worksheet $worksheet) {
+Breadcrumbs::for('worksheets.show', function (BreadcrumbTrail $trail, $worksheet) {
     $trail->parent('worksheets.index');
-    $trail->push($worksheet->title, route('worksheets.show', $worksheet));
+    if ($worksheet instanceof Worksheet) {
+        $trail->push($worksheet->title, route('worksheets.show', $worksheet));
+    }
 });
 
 Breadcrumbs::for('conferences.index', function (BreadcrumbTrail $trail) {
@@ -101,9 +109,11 @@ Breadcrumbs::for('conferences.index', function (BreadcrumbTrail $trail) {
     $trail->push('Мероприятия', route('conferences.index'));
 });
 
-Breadcrumbs::for('conferences.show', function (BreadcrumbTrail $trail, Conference $conference) {
+Breadcrumbs::for('conferences.show', function (BreadcrumbTrail $trail, $conference) {
     $trail->parent('conferences.index');
-    $trail->push($conference->title, route('conferences.show', $conference));
+    if ($conference instanceof Conference) {
+        $trail->push($conference->title, route('conferences.show', $conference));
+    }
 });
 
 // Privacy Policy

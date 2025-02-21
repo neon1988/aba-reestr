@@ -169,7 +169,7 @@ class YooKassaController extends Controller
 
             $payment->update([
                 'status' => $response->getStatus(),
-                'payment_method' => $response->getPaymentMethod()->getType(),
+                'payment_method' => optional($response->getPaymentMethod())->getType(),
                 'meta' => $response->toArray()
             ]);
 

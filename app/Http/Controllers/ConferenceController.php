@@ -99,8 +99,6 @@ class ConferenceController extends Controller
      */
     public function show(Request $request, Conference $conference)
     {
-        $this->authorize('view', $conference);
-
         $conference->load('cover', 'creator', 'file');
 
         if ($request->expectsJson()) {
