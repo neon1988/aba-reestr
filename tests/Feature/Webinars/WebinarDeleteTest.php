@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Webinars;
+namespace Tests\Feature\Webinars;
 
 use App\Models\User;
 use App\Models\Webinar;

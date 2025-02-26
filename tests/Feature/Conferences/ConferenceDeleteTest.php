@@ -1,9 +1,9 @@
 <?php
 
-namespace Feature\Conferences;
+namespace Tests\Feature\Conferences;
 
-use App\Models\User;
 use App\Models\Conference;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

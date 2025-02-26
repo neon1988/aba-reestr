@@ -1,8 +1,7 @@
 <?php
 
-namespace Feature\Bulletins;
+namespace Tests\Feature\Bulletins;
 
-use App\Enums\StatusEnum;
 use App\Models\Bulletin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

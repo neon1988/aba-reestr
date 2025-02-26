@@ -1,11 +1,9 @@
 <?php
 
-namespace Feature\Webinars;
+namespace Tests\Feature\Webinars;
 
-use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
 use App\Models\Webinar;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

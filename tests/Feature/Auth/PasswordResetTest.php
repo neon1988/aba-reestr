@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Auth;
 
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 
 class PasswordResetTest extends TestCase
 {

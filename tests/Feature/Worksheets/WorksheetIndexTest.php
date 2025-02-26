@@ -1,11 +1,9 @@
 <?php
 
-namespace Feature\Worksheets;
+namespace Tests\Feature\Worksheets;
 
-use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
 use App\Models\Worksheet;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

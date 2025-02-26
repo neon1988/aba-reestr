@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Worksheets;
+namespace Tests\Feature\Worksheets;
 
 use App\Models\User;
 use App\Models\Worksheet;

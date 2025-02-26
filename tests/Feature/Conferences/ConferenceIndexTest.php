@@ -1,11 +1,9 @@
 <?php
 
-namespace Feature\Conferences;
+namespace Tests\Feature\Conferences;
 
-use App\Enums\SubscriptionLevelEnum;
 use App\Models\Conference;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

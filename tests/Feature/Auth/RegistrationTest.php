@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Auth;
 
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 
 class RegistrationTest extends TestCase
 {

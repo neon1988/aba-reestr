@@ -3,14 +3,11 @@
 namespace Tests\Feature\Specialists;
 
 use App\Enums\SubscriptionLevelEnum;
-use App\Http\Resources\FileResource;
-use App\Models\File;
 use App\Models\Specialist;
 use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\WorldSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SpecialistLocationAndWorkTest extends TestCase
