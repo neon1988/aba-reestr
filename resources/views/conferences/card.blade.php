@@ -16,9 +16,9 @@
         @endisset
     </div>
     <p class="text-gray-600 mt-2">
-        @can('buy', $item)
+        @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))
             Цена: {{ $item->price }} р.
-        @endcan
+        @endif
     </p>
     <p class="text-gray-600 mt-4">
         {{ mb_strimwidth($item->description, 0, 150, '...') }}

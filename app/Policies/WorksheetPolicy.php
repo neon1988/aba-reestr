@@ -79,9 +79,6 @@ class WorksheetPolicy extends Policy
      */
     public function buy(?User $authUser, Worksheet $worksheet): Response
     {
-        if (empty($authUser))
-            return Response::allow();
-
         if (!$worksheet->isPaid())
             return Response::deny(__("The worksheet is not paid."));
 

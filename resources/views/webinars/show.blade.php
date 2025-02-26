@@ -47,12 +47,14 @@
                         </a>
                     @endif
 
-                    @can('purchaseSubscription', \App\Models\User::class)
-                        <a href="{{ route('join') }}"
-                           class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
-                            Оформить подписку для получения доступа
-                        </a>
-                    @endcan
+                    @if ($item->isPaid())
+                        @can('purchaseSubscription', \App\Models\User::class)
+                            <a href="{{ route('join') }}"
+                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
+                                Оформить подписку для получения доступа
+                            </a>
+                        @endcan
+                    @endif
 
                     @can ('toggleSubscription', $item)
 
@@ -122,7 +124,7 @@
 
                     @endcan
 
-                    @can('buy', $item)
+                    @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))
                         <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
                             <p class="text-gray-700 text-lg mb-4">
                                 Или можете приобрести данный материал отдельно за <span

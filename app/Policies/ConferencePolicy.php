@@ -104,9 +104,6 @@ class ConferencePolicy extends Policy
      */
     public function buy(?User $authUser, Conference $conference): Response
     {
-        if (empty($authUser))
-            return Response::allow();
-
         if (!$conference->isPaid())
             return Response::deny(__("The conference is not paid."));
 

@@ -137,9 +137,6 @@ class WebinarPolicy extends Policy
      */
     public function buy(?User $authUser, Webinar $webinar): Response
     {
-        if (empty($authUser))
-            return Response::allow();
-
         if (!$webinar->isPaid())
             return Response::deny(__("The webinar is not paid."));
 
