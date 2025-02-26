@@ -3,6 +3,7 @@
 namespace Feature\Worksheets;
 
 use App\Enums\SubscriptionLevelEnum;
+use App\Models\File;
 use App\Models\User;
 use App\Models\Worksheet;
 use Carbon\Carbon;
@@ -19,9 +20,12 @@ class WorksheetDownloadTest extends TestCase
             ->create([
                 'subscription_level' => SubscriptionLevelEnum::A,
                 'subscription_ends_at' => Carbon::now()->addYear()
-            ]);;
+            ]);
 
         $worksheet = Worksheet::factory()
+            ->has(File::factory()->state([
+                'storage' => 'private',
+            ])->randomType(['pdf']))
             ->create();
 
         $response = $this->actingAs($user)

@@ -181,7 +181,10 @@ class WorksheetController extends Controller
 
     public function download(Worksheet $worksheet)
     {
-        $this->authorize('download', $worksheet);
+        if ($worksheet->isVideo())
+            $this->authorize('watch', $worksheet);
+        else
+            $this->authorize('download', $worksheet);
 
         $file = $worksheet->file;
 

@@ -17,8 +17,11 @@ class ImageResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
-        $array['url'] = Storage::disk($array['storage'])->url($array['dirname'] . '/' . $array['name']);
-        $array['path'] = (string)Url::fromString($array['dirname'] . '/' . $array['name']);
+        if (!empty($array['storage']) && !empty($array['dirname']) && !empty($array['name'])) {
+            $filePath = $array['dirname'] . '/' . $array['name'];
+            $array['url'] = Storage::disk($array['storage'])->url($filePath);
+            $array['path'] = (string)Url::fromString($filePath);
+        }
         return $array;
     }
 }

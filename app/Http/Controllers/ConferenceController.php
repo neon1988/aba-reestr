@@ -178,7 +178,10 @@ class ConferenceController extends Controller
      */
     public function download(Conference $conference)
     {
-        $this->authorize('download', $conference);
+        if ($conference->isVideo())
+            $this->authorize('watch', $conference);
+        else
+            $this->authorize('download', $conference);
 
         $file = $conference->file;
 

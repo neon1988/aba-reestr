@@ -212,7 +212,10 @@ class WebinarController extends Controller
 
     public function download(Webinar $webinar)
     {
-        $this->authorize('download', $webinar);
+        if ($webinar->isVideo())
+            $this->authorize('watch', $webinar);
+        else
+            $this->authorize('download', $webinar);
 
         $file = $webinar->record_file;
 
