@@ -27,6 +27,15 @@ class Conference extends Model
         'price',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
+    }
+
     /**
      * Скоуп для предстоящих мероприятий.
      *
@@ -68,15 +77,24 @@ class Conference extends Model
 
     public function file(): hasOne
     {
-        return $this->hasOne(File::class, 'id', 'file_id');
+        return $this->hasOne(File::class, 'id', 'file_id')->withDefault();
     }
 
-    protected function casts(): array
+    public function isPaid(): bool
     {
-        return [
-            'start_at' => 'datetime',
-            'end_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ];
+        return (float) $this->price > 0;
+    }
+
+    public function hasRecordFile() :bool
+    {
+        if (!$this->file)
+            return false;
+
+        return !$this->file->trashed();
+    }
+
+    public function isVideo(): bool
+    {
+        return $this->file?->isVideo() ?? false;
     }
 }

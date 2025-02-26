@@ -264,5 +264,7 @@
     style="display: none;">
 </div>
 
+@stack('scripts')
+
 </body>
 </html>

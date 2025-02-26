@@ -16,13 +16,16 @@ class UserPolicy extends Policy
         //
     }
 
-    public function purchaseSubscription(User $authUser): Response
+    public function purchaseSubscription(?User $authUser): Response
     {
-        if ($authUser->isStaff())
+        if (empty($authUser))
             return Response::allow();
 
         if ($authUser->isSubscriptionActive())
             return Response::deny(__("You already have an active subscription"));
+
+        if ($authUser->isStaff())
+            return Response::allow();
 
         return Response::allow();
     }

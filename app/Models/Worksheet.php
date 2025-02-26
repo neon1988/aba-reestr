@@ -35,12 +35,22 @@ class Worksheet extends Model
     // Отношение к файлу обложки (например, для изображения)
     public function cover()
     {
-        return $this->belongsTo(File::class, 'cover_id');
+        return $this->belongsTo(File::class, 'cover_id')->withDefault();
     }
 
     // Отношение к файлу материала
     public function file()
     {
-        return $this->belongsTo(File::class, 'file_id');
+        return $this->belongsTo(File::class, 'file_id')->withDefault();
+    }
+
+    public function isPaid(): bool
+    {
+        return (float) $this->price > 0;
+    }
+
+    public function isVideo(): bool
+    {
+        return $this->file?->isVideo() ?? false;
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 
 class RegistrationTest extends TestCase
 {
@@ -18,6 +19,10 @@ class RegistrationTest extends TestCase
 
     public function test_new_users_can_register(): void
     {
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $response = $this->post('/register', [
             'name' => 'Test User',
             'lastname' => 'Lastname',
@@ -26,6 +31,7 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'password',
             'accept_private_policy' => 'true',
             'accept_offer' => 'true',
+            'g-recaptcha-response' => '1'
         ])->assertSessionHasNoErrors();
 
         $this->assertAuthenticated();

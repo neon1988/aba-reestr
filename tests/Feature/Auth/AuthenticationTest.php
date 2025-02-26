@@ -21,15 +21,20 @@ class AuthenticationTest extends TestCase
     public function test_users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
+        $fakeIp = '123.45.67.89';
 
         $response = $this->post('/login', [
             'email' => $user->email,
             'password' => 'password',
             'remember' => '0'
+        ], [
+            'REMOTE_ADDR' => $fakeIp  // Передаем фейковый IP-адрес
         ])->assertSessionHasNoErrors()
             ->assertRedirect();
 
         $this->assertAuthenticated();
+
+        $this->assertEquals($fakeIp, $user->fresh()->last_login_ip);
     }
 
     public function test_remember_me(): void

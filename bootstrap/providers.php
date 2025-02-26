@@ -6,4 +6,5 @@ return [
     App\Providers\ValidationServiceProvider::class,
     Barryvdh\Debugbar\ServiceProvider::class,
     Artesaos\SEOTools\Providers\SEOToolsServiceProvider::class,
+    Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
 ];

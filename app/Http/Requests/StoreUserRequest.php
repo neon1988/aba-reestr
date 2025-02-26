@@ -22,7 +22,8 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'accept_private_policy' => ['accepted'],
-            'accept_offer' => ['accepted']
+            'accept_offer' => ['accepted'],
+            'g-recaptcha-response' => 'required|captcha'
         ];
     }
 

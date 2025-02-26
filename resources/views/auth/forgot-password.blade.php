@@ -26,6 +26,14 @@
                         <x-input-error :messages="$errors->get('email')" class="mt-2"/>
                     </div>
 
+                    <div class="mt-4">
+                        {!! NoCaptcha::display() !!}
+                        @push('scripts')
+                            {!! NoCaptcha::renderJs(config('app.locale')) !!}
+                        @endpush
+                        <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2"/>
+                    </div>
+
                     <div class="flex items-center justify-end mt-4">
                         <x-primary-button>
                             Отправить ссылку

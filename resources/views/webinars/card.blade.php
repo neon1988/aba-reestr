@@ -28,11 +28,9 @@
         @endif
     </div>
     <p class="text-gray-600 mt-2">
-        @empty($item->price)
-            Бесплатно
-        @else
+        @can('buy', $item)
             Цена: {{ $item->price }} р.
-        @endif
+        @endcan
     </p>
     <p class="text-gray-600 mt-4">
         {{ mb_strimwidth($item->description, 0, 150, '...') }}

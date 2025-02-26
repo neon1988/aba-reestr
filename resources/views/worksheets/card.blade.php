@@ -3,20 +3,20 @@
     <x-image :url="optional($item->cover)->url"
              :alt="$item->title"
              width="600" height="600" quality="90"
-             class="w-full h-40 object-cover rounded-lg" />
+             class="w-full h-40 object-cover rounded-lg"/>
 
     <h3 class="text-xl font-semibold text-gray-800 mt-4">
-        {{ $item->title }} @if (optional($item->file)->isVideo()) (Видео) @endif
+        {{ $item->title }} @if ($item->isVideo())
+            (Видео)
+        @endif
     </h3>
 
     <p class="text-gray-600 mt-2">Автор: {{ $item->creator->full_name }}</p>
-    <p class="text-gray-600 mt-2">
-        @empty($item->price)
-            Бесплатно
-        @else
+    @can('buy', $item)
+        <p class="text-gray-600 mt-2">
             Цена: {{ $item->price }} р.
-        @endif
-    </p>
+        </p>
+    @endcan
     <p class="text-gray-600 mt-4">
         {{ mb_strimwidth($item->description, 0, 150, '...') }}
     </p>

@@ -27,6 +27,15 @@ class Webinar extends Model
         'price'
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'start_at' => 'datetime',
+            'end_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
+    }
+
     /**
      * Скоуп для предстоящих мероприятий.
      *
@@ -68,7 +77,20 @@ class Webinar extends Model
 
     public function record_file(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
-        return $this->hasOne(File::class, 'id', 'record_file_id');
+        return $this->hasOne(File::class, 'id', 'record_file_id')->withDefault();
+    }
+
+    public function hasRecordFile() :bool
+    {
+        if (!$this->record_file)
+            return false;
+
+        return !$this->record_file->trashed();
+    }
+
+    public function isVideo(): bool
+    {
+        return $this->file?->isVideo() ?? false;
     }
 
     public function subscriptions(): HasMany
@@ -87,12 +109,8 @@ class Webinar extends Model
         return $this->belongsToMany(User::class, 'webinar_subscriptions')->withTimestamps();
     }
 
-    protected function casts(): array
+    public function isPaid(): bool
     {
-        return [
-            'start_at' => 'datetime',
-            'end_at' => 'datetime',
-            'deleted_at' => 'datetime',
-        ];
+        return (float) $this->price > 0;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Webinar;
+use App\Models\Worksheet;
 use Illuminate\Auth\Access\Response;
 
 class WebinarPolicy extends Policy
@@ -15,8 +16,9 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$authUser->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        if ($webinar->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
         return Response::allow();
     }
 
@@ -57,8 +59,10 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$authUser->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        if ($webinar->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
     }
@@ -70,8 +74,9 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$authUser->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        if ($webinar->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
     }
@@ -83,8 +88,31 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$authUser->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        if ($webinar->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can watch the webinar.
+     */
+    public function watch(User $authUser, Webinar $webinar): Response
+    {
+        if (!$webinar->hasRecordFile())
+            return Response::deny(__("The webinar has no record."));
+
+        if (!$webinar->isVideo())
+            return Response::deny(__("You can only watch it if the file is a video file."));
+
+        if ($authUser->isStaff())
+            return Response::allow();
+
+        if ($webinar->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
     }
@@ -96,8 +124,31 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$authUser->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        if ($webinar->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can buy the webinar.
+     */
+    public function buy(?User $authUser, Webinar $webinar): Response
+    {
+        if (empty($authUser))
+            return Response::allow();
+
+        if (!$webinar->isPaid())
+            return Response::deny(__("The webinar is not paid."));
+
+        if ($authUser->isStaff())
+            return Response::deny();
+
+        if ($webinar->isPaid())
+            if ($authUser->isSubscriptionActive())
+                return Response::deny(__("You can't buy it because you already have a subscription"));
 
         return Response::allow();
     }

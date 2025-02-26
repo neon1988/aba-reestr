@@ -43,10 +43,54 @@ class WorksheetPolicy extends Policy
      */
     public function download(User $authUser, Worksheet $worksheet): Response
     {
+        if ($worksheet->isVideo())
+            return Response::deny(__("The video file cannot be downloaded."));
+
         if ($authUser->isStaff())
             return Response::allow();
-        if (!$authUser->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        if ($worksheet->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can watch the worksheet.
+     */
+    public function watch(User $authUser, Worksheet $worksheet): Response
+    {
+        if (!$worksheet->isVideo())
+            return Response::deny(__("You can only watch it if the file is a video file."));
+
+        if ($authUser->isStaff())
+            return Response::allow();
+
+        if ($worksheet->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can buy the worksheet.
+     */
+    public function buy(?User $authUser, Worksheet $worksheet): Response
+    {
+        if (empty($authUser))
+            return Response::allow();
+
+        if (!$worksheet->isPaid())
+            return Response::deny(__("The worksheet is not paid."));
+
+        if ($authUser->isStaff())
+            return Response::deny();
+
+        if ($worksheet->isPaid())
+            if ($authUser->isSubscriptionActive())
+                return Response::deny(__("You can't buy it because you already have a subscription"));
 
         return Response::allow();
     }

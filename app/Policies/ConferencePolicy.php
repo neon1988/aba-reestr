@@ -16,8 +16,9 @@ class ConferencePolicy extends Policy
     {
         if ($user->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        if ($conference->isPaid())
+            if (!$user->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
         return Response::allow();
     }
 
@@ -58,8 +59,30 @@ class ConferencePolicy extends Policy
     {
         if ($user->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        if ($conference->isPaid())
+            if (!$user->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can watch the conference.
+     */
+    public function watch(User $authUser, Conference $conference): Response
+    {
+        if (!$conference->hasRecordFile())
+            return Response::deny(__("The conference has no record."));
+
+        if (!$conference->isVideo())
+            return Response::deny(__("You can only watch it if the file is a video file."));
+
+        if ($authUser->isStaff())
+            return Response::allow();
+
+        if ($conference->isPaid())
+            if (!$authUser->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+
         return Response::allow();
     }
 
@@ -70,8 +93,30 @@ class ConferencePolicy extends Policy
     {
         if ($user->isStaff())
             return Response::allow();
-        if (!$user->isSubscriptionActive())
-            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        if ($conference->isPaid())
+            if (!$user->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        return Response::allow();
+    }
+
+    /**
+     * Determine whether the user can buy the conference.
+     */
+    public function buy(?User $authUser, Conference $conference): Response
+    {
+        if (empty($authUser))
+            return Response::allow();
+
+        if (!$conference->isPaid())
+            return Response::deny(__("The conference is not paid."));
+
+        if ($authUser->isStaff())
+            return Response::deny();
+
+        if ($conference->isPaid())
+            if ($authUser->isSubscriptionActive())
+                return Response::deny(__("You can't buy it because you already have a subscription"));
+
         return Response::allow();
     }
 }

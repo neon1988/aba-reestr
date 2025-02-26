@@ -7,6 +7,7 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use Anhskohbo\NoCaptcha\Facades\NoCaptcha;
 
 class PasswordResetTest extends TestCase
 {
@@ -23,9 +24,18 @@ class PasswordResetTest extends TestCase
     {
         Notification::fake();
 
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user = User::factory()->create();
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $this->post('/forgot-password', [
+            'email' => $user->email,
+            'g-recaptcha-response' => '1'
+        ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();
 
         Notification::assertSentTo($user, ResetPassword::class);
     }
@@ -34,9 +44,18 @@ class PasswordResetTest extends TestCase
     {
         Notification::fake();
 
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user = User::factory()->create();
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $this->post('/forgot-password', [
+            'email' => $user->email,
+            'g-recaptcha-response' => '1'
+        ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();;
 
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) {
             $response = $this->get('/reset-password/'.$notification->token);
@@ -51,9 +70,18 @@ class PasswordResetTest extends TestCase
     {
         Notification::fake();
 
+        NoCaptcha::shouldReceive('verifyResponse')
+            ->once()
+            ->andReturn(true);
+
         $user = User::factory()->create();
 
-        $this->post('/forgot-password', ['email' => $user->email]);
+        $this->post('/forgot-password', [
+            'email' => $user->email,
+            'g-recaptcha-response' => '1'
+        ])
+            ->assertSessionHasNoErrors()
+            ->assertRedirect();;
 
         Notification::assertSentTo($user, ResetPassword::class, function ($notification) use ($user) {
             $response = $this->post('/reset-password', [
