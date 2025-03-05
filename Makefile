@@ -28,7 +28,10 @@ build:
 	docker compose -f $(COMPOSE_FILE) build
 
 update-app:
-	docker compose -f $(COMPOSE_FILE) up --no-deps -d $(APP_CONTAINER_NAME) $(HORIZON_CONTAINER_NAME)
+	docker rollout -f $(COMPOSE_FILE) $(APP_CONTAINER_NAME)
+
+update-horizon:
+	docker rollout -f $(COMPOSE_FILE) $(HORIZON_CONTAINER_NAME)
 
 # Команда для входа в консоль контейнера app
 enter:

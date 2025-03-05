@@ -12,11 +12,6 @@
     </h3>
 
     <p class="text-gray-600 mt-2">Автор: {{ $item->creator->full_name }}</p>
-    @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))
-        <p class="text-gray-600 mt-2">
-            Цена: {{ $item->price }} р.
-        </p>
-    @endif
     <p class="text-gray-600 mt-4">
         {{ mb_strimwidth($item->description, 0, 150, '...') }}
     </p>

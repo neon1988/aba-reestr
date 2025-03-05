@@ -1,4 +1,18 @@
 services:
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - app-network
   app:
     build:
       context: .
@@ -11,8 +25,6 @@ services:
     user: "${WWWUSER}:${WWWGROUP}"
     environment:
       - XDG_CONFIG_HOME=/tmp
-    ports:
-      - "8000:8000" # Проброс порта для Octane
     depends_on:
       - pgsql
       - memcached
@@ -21,6 +33,11 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.routers.app.rule=Host(`127.0.0.1`)"
+      - "traefik.http.services.app.loadbalancer.server.port=8000"
   horizon:
     image: aba-reestr-image
     command: ["php", "/var/www/html/artisan", "horizon"]

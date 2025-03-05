@@ -15,11 +15,6 @@
             <span class="font-medium">Конец:</span> <x-time :time="$item->end_at" />
         @endisset
     </div>
-    <p class="text-gray-600 mt-2">
-        @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))
-            Цена: {{ $item->price }} р.
-        @endif
-    </p>
     <p class="text-gray-600 mt-4">
         {{ mb_strimwidth($item->description, 0, 150, '...') }}
     </p>
