@@ -77,7 +77,7 @@ class WorksheetController extends Controller
             if ($upload = $request->get('file')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->moveToStorage('private');
+                        $file->moveToStorage('public');
                         $worksheet->file_id = $file->id;
                     }
                 }
@@ -141,7 +141,7 @@ class WorksheetController extends Controller
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $worksheet->file()->delete();
-                        $file->moveToStorage('private');
+                        $file->moveToStorage('public');
                         $worksheet->file_id = $file->id;
                         $worksheet->save();
                     }

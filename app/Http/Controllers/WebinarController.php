@@ -128,7 +128,7 @@ class WebinarController extends Controller
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $webinar->record_file()->delete();
-                        $file->moveToStorage('private');
+                        $file->moveToStorage('public');
                         $webinar->record_file_id = $file->id;
                         $webinar->save();
                     }

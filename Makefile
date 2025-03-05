@@ -28,10 +28,10 @@ build:
 	docker compose -f $(COMPOSE_FILE) build
 
 update-app:
-	docker rollout -f $(COMPOSE_FILE) $(APP_CONTAINER_NAME)
+	docker rollout -f $(COMPOSE_FILE) $(APP_CONTAINER_NAME) --wait-after-healthy 15
 
 update-horizon:
-	docker rollout -f $(COMPOSE_FILE) $(HORIZON_CONTAINER_NAME)
+	docker rollout -f $(COMPOSE_FILE) $(HORIZON_CONTAINER_NAME) --wait-after-healthy 15
 
 # Команда для входа в консоль контейнера app
 enter:
