@@ -53,4 +53,13 @@ class ConferenceFactory extends Factory
             ];
         });
     }
+
+    public function withFile($file = null): Factory
+    {
+        return $this->state(function () use ($file) {
+            return [
+                'file_id' => $file,
+            ];
+        });
+    }
 }

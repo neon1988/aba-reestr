@@ -30,4 +30,19 @@ class WorksheetFactory extends Factory
             'price' => $this->faker->randomNumber(1) * 200,
         ];
     }
+
+    /**
+     * Устанавливает файл записи вебинара, если передан внешний файл.
+     *
+     * @param null $file
+     * @return Factory
+     */
+    public function withFile($file = null): Factory
+    {
+        return $this->state(function () use ($file) {
+            return [
+                'file_id' => $file,
+            ];
+        });
+    }
 }

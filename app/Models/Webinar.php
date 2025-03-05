@@ -90,7 +90,7 @@ class Webinar extends Model
 
     public function isVideo(): bool
     {
-        return $this->file?->isVideo() ?? false;
+        return $this->record_file?->isVideo() ?? false;
     }
 
     public function subscriptions(): HasMany

@@ -55,4 +55,13 @@ class WebinarFactory extends Factory
             ];
         });
     }
+
+    public function withFile($file = null): Factory
+    {
+        return $this->state(function () use ($file) {
+            return [
+                'record_file_id' => $file,
+            ];
+        });
+    }
 }
