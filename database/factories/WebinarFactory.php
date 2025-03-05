@@ -50,7 +50,7 @@ class WebinarFactory extends Factory
                 'start_at' => $startAt,
                 'end_at' => $endAt,
                 'record_file_id' => File::factory()->state([
-                    'storage' => 'private',
+                    'storage' => 'public',
                 ])->randomType(['video'])
             ];
         });
