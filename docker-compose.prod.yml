@@ -36,7 +36,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app.entrypoints=web"
-      - "traefik.http.routers.app.rule=Host(`127.0.0.1`)"
+      - "traefik.http.routers.app.rule=Host(`aba-expert.ru`, `api.aba-expert.ru`)"
       - "traefik.http.services.app.loadbalancer.server.port=8000"
   horizon:
     image: aba-reestr-image
