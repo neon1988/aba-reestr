@@ -5,11 +5,9 @@
     controls
     preload="auto"
     data-setup='{}'
-    {{ $attributes->merge(['class' => 'video-js w-full rounded-lg']) }}>
+    {{ $attributes->merge(['class' => 'video-js vjs-fluid']) }}>
     <source src="{{ $url }}" type="video/mp4"></source>
-    <p class="vjs-no-js">
-
-    </p>
+    <p class="vjs-no-js"></p>
 </video>
 
 @pushOnce('head')
