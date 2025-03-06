@@ -113,4 +113,12 @@ class Webinar extends Model
     {
         return (float) $this->price > 0;
     }
+
+    public function isEnded(): bool
+    {
+        if (empty($this->end_at))
+            return false;
+
+        return (bool) $this->end_at <= now();
+    }
 }

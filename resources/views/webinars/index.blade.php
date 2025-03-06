@@ -14,15 +14,17 @@
             </p>
         </div>
 
-        <!-- Список вебинаров -->
-        <div>
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Предстоящие вебинары</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($upcomingWebinars as $item)
-                    @include('webinars.card', compact('item'))
-                @endforeach
+        @if ($upcomingWebinars->count() > 0)
+            <!-- Список вебинаров -->
+            <div>
+                <h2 class="text-2xl font-semibold text-gray-700 mb-6">Предстоящие вебинары</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($upcomingWebinars as $item)
+                        @include('webinars.card', compact('item'))
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <!-- Список вебинаров -->
         <div class="mt-5">

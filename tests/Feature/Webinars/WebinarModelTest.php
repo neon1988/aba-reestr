@@ -34,4 +34,18 @@ class WebinarModelTest extends TestCase
         $this->assertFalse($webinar->record_file->isVideo());
         $this->assertFalse($webinar->isVideo());
     }
+
+    public function test_is_ended()
+    {
+        $webinar = Webinar::factory()
+            ->ended()
+            ->create();
+
+        $this->assertTrue($webinar->isEnded());
+
+        $webinar = Webinar::factory()
+            ->create();
+
+        $this->assertFalse($webinar->isEnded());
+    }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Webinars;
 
 use App\Enums\SubscriptionLevelEnum;
+use App\Models\File;
 use App\Models\User;
 use App\Models\Webinar;
 use Carbon\Carbon;
@@ -13,16 +14,19 @@ class WebinarDownloadTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_download_worksheet()
+    public function test_download_webinar()
     {
         $user = User::factory()
             ->create([
                 'subscription_level' => SubscriptionLevelEnum::A,
                 'subscription_ends_at' => Carbon::now()->addYear()
-            ]);;
+            ]);
+
+        $file = File::factory()
+            ->create(['storage' => 'private']);
 
         $webinar = Webinar::factory()
-            ->ended()
+            ->withFile($file)
             ->create();
 
         $response = $this->actingAs($user)

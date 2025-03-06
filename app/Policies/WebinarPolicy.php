@@ -86,6 +86,9 @@ class WebinarPolicy extends Policy
      */
     public function toggleSubscription(User $authUser, Webinar $webinar): Response
     {
+        if ($webinar->isEnded())
+            return Response::deny(__("Webinar is ended"));
+
         if ($authUser->isStaff())
             return Response::allow();
 
