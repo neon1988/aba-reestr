@@ -17,7 +17,7 @@ use App\Http\Controllers\YooKassaController;
 use App\Http\Middleware\DBTransactionMiddleware;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
 
 Route::get('/', [OtherController::class, 'home'])->name('home');
 
@@ -119,5 +119,15 @@ Route::get('/notification-preview', [PreviewController::class, 'notification'])-
 Route::get('/privacy-policy', [OtherController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/offer', [OtherController::class, 'offer'])->name('offer.show');
 Route::get('/contacts', [OtherController::class, 'contacts'])->name('contacts');
+
+Route::get('/debug', function (Request $request) {
+    return response()->json([
+        'full_url' => $request->fullUrl(), // Полный URL запроса
+        'ip' => $request->ip(), // IP пользователя
+        'forwarded_for' => $request->header('X-Forwarded-For'), // IP, если через прокси
+        'forwarded_proto' => $request->header('X-Forwarded-Proto'), // IP, если через прокси
+        'user_agent' => $request->header('User-Agent'), // Информация о браузере
+    ]);
+});
 
 require __DIR__.'/auth.php';

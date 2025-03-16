@@ -3,10 +3,12 @@ services:
     image: traefik:v2.9
     container_name: traefik
     command:
+      - "--entrypoints.web.address=:8000"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:8000"
+      - "--serverstransport.insecureSkipVerify=true"
+      - "--entrypoints.web.forwardedHeaders.trustedIPs=0.0.0.0/0"
     ports:
       - "8000:8000"
     volumes:
@@ -39,6 +41,7 @@ services:
       - "traefik.http.routers.app.entrypoints=web"
       - "traefik.http.routers.app.rule=Host(`aba-expert.ru`, `api.aba-expert.ru`)"
       - "traefik.http.services.app.loadbalancer.server.port=8000"
+      - "traefik.http.middlewares.query.rawQuery=true"
   horizon:
     image: aba-reestr-image
     command: ["php", "/var/www/html/artisan", "horizon"]
