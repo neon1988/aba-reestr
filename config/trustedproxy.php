@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 
 return [
-    'proxies' => '*', // Доверять всем прокси (или укажите конкретный IP)
+    'proxies' => '0.0.0.0/0', // Доверять всем прокси (или укажите конкретный IP)
     'headers' => Request::HEADER_X_FORWARDED_FOR |
         Request::HEADER_X_FORWARDED_HOST |
         Request::HEADER_X_FORWARDED_PORT |
