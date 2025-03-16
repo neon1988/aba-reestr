@@ -43,8 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->trustProxies(
             at: [
-                '0.0.0.0/0',    // Первый прокси
-                '172.19.0.1'  // Второй прокси
+                '0.0.0.0/0'
             ],
             headers: Request::HEADER_X_FORWARDED_FOR |
             Request::HEADER_X_FORWARDED_HOST |
