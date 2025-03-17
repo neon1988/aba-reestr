@@ -64,7 +64,9 @@
                         </ul>
                     </div>
                     <div>
-                        <p class="text-center mt-4 font-semibold">1900 ₽/год</p>
+                        <p class="text-center mt-4 font-semibold">
+                            {{ SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::A)->getPrice() }} ₽/год
+                        </p>
                         <div class="text-center mt-4">
                             <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
                         </div>
@@ -136,7 +138,9 @@
                         </ul>
                     </div>
                     <div>
-                        <p class="text-center mt-4 font-semibold">3500 ₽/год</p>
+                        <p class="text-center mt-4 font-semibold">
+                            {{ SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::B)->getPrice() }} ₽/год
+                        </p>
                         <div class="text-center mt-4">
                             <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
                         </div>
@@ -216,7 +220,9 @@
                         </ul>
                     </div>
                     <div>
-                        <p class="text-center mt-4 font-semibold">4800 ₽/год</p>
+                        <p class="text-center mt-4 font-semibold">
+                            {{ SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::C)->getPrice() }} ₽/год
+                        </p>
                         <div class="text-center mt-4">
                             <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
                         </div>
