@@ -17,8 +17,8 @@ final class SubscriptionLevelEnum extends Enum implements LocalizedEnum
         return match ($this->value) {
             self::Free => 0,
             self::A => 100,
-            self::B => 100,
-            self::C => 100,
+            self::B => 101,
+            self::C => 102,
             default => throw new \InvalidArgumentException('Unknown subscription level'),
         };
     }
