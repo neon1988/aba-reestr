@@ -56,7 +56,8 @@ class YooKassaController extends Controller
         $response = $this->yooKassaService->createPayment(
             $subscription->getPrice(),
             route('payments.show', ['payment' => $payment->id]),
-            'Оплата подписки "' . $subscription->description . '"',
+            'Доступ к материалам по подписке "'.$subscription->description.' - 1 месяц, плюс 11 месяцев в подарок"',
+            Auth::user()->email,
             [
                 'user_id' => Auth::id(),
                 'subscription_type' => $subscription->key

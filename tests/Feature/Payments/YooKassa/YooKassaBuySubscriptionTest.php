@@ -32,13 +32,14 @@ class YooKassaBuySubscriptionTest extends TestCase
         $mockService->shouldReceive('getNewIdempotenceKey')->andReturn(42);
         $mockService->shouldReceive('createPayment')
             ->once()
-            ->withArgs(function ($amount, $returnUrl, $description, $metadata) use ($user) {
+            ->withArgs(function ($amount, $returnUrl, $description, $email, $metadata) use ($user) {
                 $this->assertEquals(SubscriptionLevelEnum::B()->getPrice(), $amount);
                 //$this->assertEquals(route('payments.show', ['uuid' => 42]), $returnUrl);
-                $this->assertEquals('Оплата подписки "Подписка B"', $description);
+                $this->assertEquals('Доступ к материалам по подписке "Подписка B - 1 месяц, плюс 11 месяцев в подарок"', $description);
                 $this->assertArrayHasKey('user_id', $metadata);
                 $this->assertEquals($user->id, $metadata['user_id']);
                 $this->assertArrayHasKey('subscription_type', $metadata);
+                $this->assertEquals($user->email, $email);
 
                 return true;
             })
@@ -86,7 +87,7 @@ class YooKassaBuySubscriptionTest extends TestCase
         $this->assertNotNull($payment);
         $this->assertEquals("test_yookassa_id", $payment->payment_id);
         $this->assertEquals(PaymentProvider::YooKassa, $payment->payment_provider);
-        $this->assertEquals(3500, $payment->amount);
+        $this->assertEquals(SubscriptionLevelEnum::B()->getPrice(), $payment->amount);
         $this->assertEquals(CurrencyEnum::RUB, $payment->currency);
         $this->assertEquals(PaymentStatusEnum::PENDING, $payment->status);
         $this->assertEquals(['mocked' => 'data'], $payment->meta);

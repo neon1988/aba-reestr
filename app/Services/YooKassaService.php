@@ -22,7 +22,10 @@ class YooKassaService
         return $this->client;
     }
 
-    public function createPayment($amount, $returnUrl, $description, $metadata = [], $idempotenceKey = null)
+    public function createPayment(
+        float $amount, string $returnUrl, string $description, string $userEmail,
+        array $metadata = [], ?string $idempotenceKey = null
+    )
     {
         if (empty($idempotenceKey))
             $idempotenceKey = uniqid('', true);
@@ -40,6 +43,22 @@ class YooKassaService
                 'capture' => true,
                 'description' => $description,
                 'metadata' => $metadata,
+                'receipt' => [
+                    "customer" => [
+                        "email" => $userEmail
+                    ],
+                    "items" => [
+                        [
+                            "description" => $description,
+                            "quantity" => 1,
+                            "amount" => [
+                                "value" => $amount,
+                                "currency" => "RUB"
+                            ],
+                            "vat_code" => 1
+                        ]
+                    ]
+                ]
             ], $idempotenceKey);
 
             return $response;
@@ -60,7 +79,7 @@ class YooKassaService
         return $response;
     }
 
-    public function cancelPayment(string $paymentId, $idempotenceKey = null)
+    public function cancelPayment(string $paymentId, ?string $idempotenceKey = null)
     {
         return $this->client->cancelPayment($paymentId, $idempotenceKey);
     }
