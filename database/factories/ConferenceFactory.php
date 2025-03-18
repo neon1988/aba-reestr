@@ -25,6 +25,7 @@ class ConferenceFactory extends Factory
             'description' => $this->faker->paragraph(3),
             'start_at' => $this->faker->dateTimeBetween('now', '+1 year'),
             'end_at' => $this->faker->dateTimeBetween('+1 year', '+2 years'),
+            'registration_url' => $this->faker->url(),
             'cover_id' => File::factory()->image(),
             'created_at' => now(),
             'updated_at' => now(),

@@ -37,7 +37,7 @@ class StoreConferenceRequest extends FormRequest
             'registration_url' => [
                 'nullable',
                 'url',
-                Rule::requiredIf(fn ($input) => !empty($input['price']))
+                Rule::requiredIf(fn () => !empty(request()->input('price')))
             ],
             'start_at' => [
                 'required',

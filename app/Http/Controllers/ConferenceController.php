@@ -91,7 +91,7 @@ class ConferenceController extends Controller
             ];
         } else
             return redirect()->route('conferences.index')
-                ->with('success', 'Мероприятие успешно добавлена');
+                ->with('success', 'Мероприятие успешно добавлено');
     }
 
     /**
@@ -152,7 +152,7 @@ class ConferenceController extends Controller
         } else
             return redirect()
                 ->route('conferences.index')
-                ->with('success', 'Мероприятие обновлена');
+                ->with('success', 'Мероприятие обновлено.');
     }
 
     /**
