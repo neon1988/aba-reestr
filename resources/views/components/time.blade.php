@@ -1,6 +1,15 @@
 @php use Carbon\Carbon; @endphp
-@props(['time', 'format' => 'D MMMM YYYY, HH:mm'])
+@props(['time'])
 
-<span {{ $attributes }}>
-    {{ Carbon::parse($time)->locale(config('app.locale'))->isoFormat($format) }}
-</span>
+<span
+    x-data="{ localTime: '' }"
+    x-init="
+        let utcDate = new Date('{{ Carbon::parse($time)->toISOString() }}');
+        localTime = utcDate.toLocaleString('{{ config('app.locale') }}', {
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+    "
+    x-text="localTime"
+    {{ $attributes }}
+></span>
