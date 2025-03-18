@@ -12,6 +12,8 @@ return [
         'created_at' => 'Дата создания',
         'updated_at' => 'Дата обновления',
         'deleted_at' => 'Дата удаления',
+        'stream_url' => 'Ссылка на трансляцию',
+        'registration_url' => 'Ссылка на форму регистрации',
     ],
     'messages' => [
         'created_success' => 'Мероприятие успешно создана.',

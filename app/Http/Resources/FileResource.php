@@ -22,6 +22,8 @@ class FileResource extends JsonResource
             $array['url'] = Storage::disk($array['storage'])->url($filePath);
             $array['path'] = (string)Url::fromString($filePath);
         }
+        if (empty($array['id']))
+            $array = [];
         return $array;
     }
 }

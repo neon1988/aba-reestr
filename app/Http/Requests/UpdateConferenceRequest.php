@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\FileExistsOnDiskRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateConferenceRequest extends FormRequest
 {
@@ -33,22 +34,19 @@ class UpdateConferenceRequest extends FormRequest
                 'nullable',
                 'numeric'
             ],
-            'stream_url' => [
+            'registration_url' => [
                 'nullable',
-                'url'
+                'url',
+                Rule::requiredIf(fn ($input) => !empty($input['price']))
             ],
             'start_at' => [
                 'required',
                 'date'
             ],
             'end_at' => [
-                'required',
+                'nullable',
                 'date',
                 'after:start_at',
-            ],
-            'file' => [
-                'nullable',
-                new FileExistsOnDiskRule()
             ]
         ];
 

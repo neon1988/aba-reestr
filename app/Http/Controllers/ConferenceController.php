@@ -200,4 +200,48 @@ class ConferenceController extends Controller
             return redirect()->to($file->url);
         }
     }
+
+    public function toggleSubscription(Request $request, Conference $conference)
+    {
+        $this->authorize('toggleSubscription', $conference);
+
+        // Получаем текущего пользователя
+        $user = Auth::user();
+
+        // Проверяем, подписан ли уже пользователь на этот вебинар
+        $subscription = $user->conferenceSubscriptions()
+            ->where('conference_id', $conference->id)
+            ->first();
+
+        if ($subscription) {
+            $this->authorize('unsubscribe', $conference);
+            // Если подписка есть, отменяем подписку
+            $subscription->delete();
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Вы успешно отменили регистрацию на вебинар'
+                ]);
+            } else {
+                return redirect()->route('conferences.show', compact('conference'));
+            }
+        } else {
+            $this->authorize('subscribe', $conference);
+            // Если подписки нет, создаем новую подписку
+            $newSubscription = WebinarSubscription::create([
+                'user_id' => $user->id,
+                'conference_id' => $conference->id,
+                'subscribed_at' => Carbon::now(),
+            ]);
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Вы успешно зарегистрировались на вебинар',
+                    'subscription' => new WebinarResource($newSubscription)
+                ], 201);
+            } else {
+                return redirect()->route('conferences.show', compact('conference'));
+            }
+        }
+    }
 }

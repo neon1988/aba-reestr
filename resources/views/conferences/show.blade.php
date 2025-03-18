@@ -38,15 +38,6 @@
 
                 <!-- Call to Action -->
                 <div class="mt-8">
-                    @if (Auth::check() and Auth::user()->isSubscriptionActive())
-                        @if (!$item->hasRecordFile())
-                            <a
-                                href="{{ $item->stream_url }}" target="_blank"
-                                class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition mb-4">
-                                Открыть ссылку на конференцию
-                            </a>
-                        @endif
-                    @endif
 
                     @if ($item->isPaid())
                         @can('purchaseSubscription', \App\Models\User::class)
@@ -57,71 +48,13 @@
                         @endcan
                     @endif
 
-                    @can ('toggleSubscription', $item)
-                        <div
-                            x-data="webinarSubscription({{ empty($userSubscription) ? 'false' : 'true' }}, '{{ route('webinars.toggle_subscription', ['webinar' => $item->id]) }}')">
-                            <!-- Кнопка для подписки -->
-                            <button
-                                x-cloak
-                                x-on:click.prevent="subscribe"
-                                class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
-                                <span x-show="!loading && !isSubscribed">Подписаться на конференцию</span>
-                                <span x-show="!loading && isSubscribed">Отписаться от конференции</span>
-                                <span x-show="loading">Загрузка...</span>
-                            </button>
-
-                            <!-- Сообщения от сервера -->
-                            <div x-show="message" x-text="message" class="mt-4 text-center font-semibold"
-                                 :class="messageType === 'error' ? 'text-red-500' : 'text-green-500'"></div>
-                        </div>
-
-                        <script>
-                            function webinarSubscription(isSubscribed, url) {
-                                return {
-                                    // Храним состояние подписки
-                                    isSubscribed: isSubscribed,
-                                    url: url,
-                                    loading: false,
-                                    message: '', // Сообщение от сервера
-                                    messageType: '', // Тип сообщения (success или error)
-
-                                    // Отправка запроса на сервер для подписки
-                                    async subscribe() {
-                                        try {
-                                            this.loading = true;
-                                            this.message = ''; // Сбросить сообщение перед новым запросом
-
-                                            // Сделать запрос на сервер
-                                            const response = await fetch(this.url, {
-                                                method: 'POST',
-                                                headers: {
-                                                    'X-Requested-With': 'XMLHttpRequest',
-                                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                                }
-                                            });
-
-                                            const data = await response.json();
-
-                                            this.message = data.message;
-
-                                            if (response.ok) {
-                                                this.isSubscribed = data.subscription;
-                                                this.messageType = 'success';
-                                            } else {
-                                                this.messageType = 'error';
-                                            }
-                                            this.loading = false;
-                                        } catch (error) {
-                                            console.error('Ошибка при подписке:', error);
-                                            this.loading = false;
-                                            this.messageType = 'error';
-                                            this.message = error.message;
-                                        }
-                                    }
-                                };
-                            }
-                        </script>
-
+                    @can ('view', $item)
+                        @if (!empty($item['registration_url']))
+                            <a href="{{ $item['registration_url'] }}" target="_blank"
+                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
+                                Отправить заявку на участие
+                            </a>
+                        @endif
                     @endcan
 
                     @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))

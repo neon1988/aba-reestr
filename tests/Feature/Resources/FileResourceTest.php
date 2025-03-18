@@ -17,6 +17,7 @@ class FileResourceTest extends TestCase
 
         // Данные файла в виде массива
         $fileData = [
+            'id' => 42,
             'storage' => 'public',
             'dirname' => 'uploads',
             'name' => 'test.jpg',
@@ -44,6 +45,7 @@ class FileResourceTest extends TestCase
 
         // Данные файла в виде массива
         $fileData = [
+            'id' => 42,
             'dirname' => 'uploads',
             'name' => 'test.jpg',
         ];
@@ -57,5 +59,16 @@ class FileResourceTest extends TestCase
         // Проверяем, что данные корректно преобразуются
         $this->assertEquals('uploads', $array['dirname']);
         $this->assertEquals('test.jpg', $array['name']);
+    }
+
+    public function test_file_not_existed()
+    {
+        // Создаем ресурс
+        $resource = new FileResource(['id' => null]); // Передаем массив вместо stdClass
+
+        // Преобразуем в массив
+        $array = $resource->toArray(new Request());
+
+        $this->assertEquals([], $array);
     }
 }
