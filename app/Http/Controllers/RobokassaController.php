@@ -119,8 +119,7 @@ class RobokassaController extends Controller
 
         $payment = Payment::where('user_id', Auth::id())
             ->where('payment_provider', PaymentProvider::RoboKassa)
-            ->where('payment_id', $validated['InvId'])
-            ->firstOrFail();
+            ->findOrFail($validated['InvId']);
 
         $payment->update([
             'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::SUCCEEDED),
@@ -163,7 +162,7 @@ class RobokassaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'OutSum' => 'required|numeric|min:0.01', # OutSum=1.000000
-            'InvId' => 'required|integer', #InvId=55
+            'InvId' => 'required|integer|min:1', #InvId=55
             'crc' => 'required|string', #crc=2745738D76E6E357D5A9FEF3FCB916C7
             'Fee' => 'required|numeric', #Fee=0.030000
             'EMail' => 'nullable|email|max:255', #EMail=test@test.com
