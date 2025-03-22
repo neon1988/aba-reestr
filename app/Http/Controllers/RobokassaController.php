@@ -205,8 +205,10 @@ class RobokassaController extends Controller
             ->where('payment_provider', PaymentProvider::RoboKassa)
             ->findOrFail($id);
 
-        var_dump($this->robokassaService->checkPaymentStatus($payment->id));
+        $data = $this->robokassaService->checkPaymentStatus($payment->id);
 
+        Log::info('Robokassa payment show', $data);
 
+        var_dump($data);
     }
 }
