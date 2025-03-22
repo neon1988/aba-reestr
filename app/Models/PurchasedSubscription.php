@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 
 class PurchasedSubscription extends Model
@@ -32,6 +33,11 @@ class PurchasedSubscription extends Model
     public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
+    }
+
+    public function purchases(): MorphMany
+    {
+        return $this->morphMany(Purchase::class, 'purchasable');
     }
 
     public function activate(): void

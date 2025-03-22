@@ -42,6 +42,15 @@ class UserFactory extends Factory
         ];
     }
 
+    // ➤ Состояние для успешного платежа
+    public function withoutSubscription()
+    {
+        return $this->state(fn (array $attributes) => [
+            'subscription_level' => SubscriptionLevelEnum::Free,
+            'subscription_ends_at' => null
+        ]);
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      */

@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 
 class ActivateSubscription implements ShouldQueue, ShouldBeUnique
 {
@@ -39,6 +40,12 @@ class ActivateSubscription implements ShouldQueue, ShouldBeUnique
 
         if ($this->subscription->user instanceof User)
             $this->subscription->user->notify(new SubscriptionActivatedNotification($this->subscription));
+
+        $this->subscription->refresh();
+
+        if (Auth::check() and $this->subscription->user instanceof User)
+            if (Auth::user()->is($this->subscription->user))
+                Auth::user()->refresh();
     }
 
     /**

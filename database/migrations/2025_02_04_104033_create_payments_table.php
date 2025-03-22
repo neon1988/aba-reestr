@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('payment_id')->nullable();
-            $table->enum('payment_provider', PaymentProvider::getValues());
+            $table->smallInteger('payment_provider');
             $table->decimal('amount', 10, 2);
             $table->enum('currency', CurrencyEnum::getValues());
             $table->enum('status', PaymentStatusEnum::getValues());

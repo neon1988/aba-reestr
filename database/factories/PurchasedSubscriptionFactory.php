@@ -26,4 +26,12 @@ class PurchasedSubscriptionFactory extends Factory
             'currency' => $this->faker->randomElement(CurrencyEnum::getValues()),
         ];
     }
+
+    // ➤ Если нужно задать конкретного пользователя
+    public function paid(): PurchasedSubscriptionFactory
+    {
+        return $this->state(fn (array $attributes) => [
+            'subscription_level' => $this->faker->randomElement([SubscriptionLevelEnum::A, SubscriptionLevelEnum::B, SubscriptionLevelEnum::C]),
+        ]);
+    }
 }

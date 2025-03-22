@@ -9,6 +9,7 @@ use App\Http\Controllers\JoinController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RobokassaController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
@@ -82,6 +83,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('yookassa.buy-subscription')
         ->middleware(DBTransactionMiddleware::class);
 
+    Route::get('/robokassa/buy-subscription/{type}', [RobokassaController::class, 'buySubscription'])
+        ->name('robokassa.buy-subscription')
+        ->middleware(DBTransactionMiddleware::class);
+
+    Route::get('/robokassa/methods', [RobokassaController::class, 'getPaymentMethods'])->name('robokassa.methods');
+    Route::get('/robokassa/payments/show/{id}', [RobokassaController::class, 'paymentShow'])->name('robokassa.payments.show');
+    Route::get('/robokassa/payments/success', [RobokassaController::class, 'paymentSuccess'])->name('robokassa.payments.success');
+    Route::get('/robokassa/payments/failed', [RobokassaController::class, 'paymentFailed'])->name('robokassa.payments.failed');
+
     Route::get('/payments/{payment}', [YooKassaController::class, 'paymentShow'])
         ->name('payments.show')
         ->middleware(DBTransactionMiddleware::class);
@@ -99,6 +109,10 @@ Route::get('/files/{file}', [FileController::class, 'download'])->name('files.do
 
 Route::post('/yookassa/webhook', [YooKassaController::class, 'handleWebhook'])
     ->name('yookassa.webhook')
+    ->middleware(DBTransactionMiddleware::class);
+
+Route::get('/robokassa/webhook', [RobokassaController::class, 'handleWebhook'])
+    ->name('robokassa.webhook')
     ->middleware(DBTransactionMiddleware::class);
 
 Route::middleware('auth')->group(function () {

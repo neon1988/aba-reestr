@@ -8,4 +8,5 @@ use BenSampo\Enum\Enum;
 final class PaymentProvider extends Enum implements LocalizedEnum
 {
     const YooKassa = 0;
+    const RoboKassa = 1;
 }

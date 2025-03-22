@@ -36,6 +36,7 @@
         "opcodesio/log-viewer": "^3.12",
         "predis/predis": "^2.0",
         "propaganistas/laravel-disposable-email": "^2.4",
+        "robokassa/sdk-php": "dev-main",
         "yoomoney/yookassa-sdk-php": "^3.8"
     },
     "require-dev": {

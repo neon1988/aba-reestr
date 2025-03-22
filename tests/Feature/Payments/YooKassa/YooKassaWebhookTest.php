@@ -110,11 +110,10 @@ class YooKassaWebhookTest extends TestCase
         $subscription = SubscriptionLevelEnum::B;
 
         $payment = Payment::factory()
-            ->for(User::factory()->state([
-                'subscription_level' => SubscriptionLevelEnum::Free,
-                'subscription_ends_at' => null
-            ]))
-            ->create();
+            ->for(User::factory()->withoutSubscription())
+            ->create([
+                'payment_provider' => PaymentProvider::YooKassa
+            ]);
 
         $user = $payment->user;
 
@@ -147,8 +146,15 @@ class YooKassaWebhookTest extends TestCase
 
         $subscription = SubscriptionLevelEnum::B;
 
-        $payment = Payment::factory()
+        $user = User::factory()
+            ->withoutSubscription()
             ->create();
+
+        $payment = Payment::factory()
+            ->forUser($user)
+            ->create([
+                'payment_provider' => PaymentProvider::YooKassa
+            ]);
 
         $user = $payment->user;
 
@@ -168,7 +174,11 @@ class YooKassaWebhookTest extends TestCase
         $this->yooKassaMock->shouldReceive('getClient->isNotificationIPTrusted')
             ->andReturn(true);
 
-        $payment = Payment::factory()->create([
+        $user = User::factory()
+            ->withoutSubscription()
+            ->create();
+
+        $payment = Payment::factory()->forUser($user)->create([
             'payment_provider' => PaymentProvider::YooKassa
         ]);
 
@@ -192,8 +202,15 @@ class YooKassaWebhookTest extends TestCase
 
         $subscription = SubscriptionLevelEnum::B;
 
-        $payment = Payment::factory()
+        $user = User::factory()
+            ->withoutSubscription()
             ->create();
+
+        $payment = Payment::factory()
+            ->forUser($user)
+            ->create([
+                'payment_provider' => PaymentProvider::YooKassa
+            ]);
 
         $user = $payment->user;
 
