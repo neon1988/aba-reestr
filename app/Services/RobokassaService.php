@@ -39,12 +39,13 @@ class RobokassaService
     /**
      * @throws Exception
      */
-    public function createPayment(float $amount, string $invoiceID, string $description): string
+    public function createPayment(float $amount, string $invoiceID, string $description, array $receipt = []): string
     {
         $params = [
             'OutSum' => $amount,
             'InvoiceID' => $invoiceID,
-            'Description' => $description
+            'Description' => $description,
+            'Receipt' => $receipt
         ];
 
         return $this->robokassa->sendPaymentRequestCurl($params);

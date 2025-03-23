@@ -21,7 +21,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class RobokassaController extends Controller
@@ -79,10 +78,24 @@ class RobokassaController extends Controller
             'purchasable_type' => PurchasedSubscription::class,
         ]);
 
+        $description = 'Доступ к материалам по подписке "' . $subscriptionType->description . ' - 1 месяц, плюс 11 месяцев в подарок"';
+
         $paymentUrl = $this->robokassaService->createPayment(
             $subscriptionType->getPrice(),
             $payment->id,
-            'Доступ к материалам по подписке "' . $subscription->description . ' - 1 месяц, плюс 11 месяцев в подарок"'
+            $description,
+            [
+                "items" => [
+                    [
+                        "name" => addslashes($description),
+                        "quantity" => 1,
+                        "sum" => $subscriptionType->getPrice(),
+                        "payment_method" => "full_payment",
+                        "payment_object" => "service",
+                        "tax" => "none"
+                    ]
+                ]
+            ]
         );
 
         return response()->redirectTo($paymentUrl);
@@ -141,10 +154,8 @@ class RobokassaController extends Controller
 
     public function checkActivateSubscription(Payment $payment): void
     {
-        if ($payment->status->is(PaymentStatusEnum::SUCCEEDED))
-        {
-            foreach ($payment->purchases()->with('purchasable')->get() as $purchase)
-            {
+        if ($payment->status->is(PaymentStatusEnum::SUCCEEDED)) {
+            foreach ($payment->purchases()->with('purchasable')->get() as $purchase) {
                 if ($purchase->purchasable instanceof PurchasedSubscription)
                     dispatch_sync(new ActivateSubscription($purchase->purchasable));
             }

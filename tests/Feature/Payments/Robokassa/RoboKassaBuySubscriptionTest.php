@@ -53,9 +53,32 @@ class RoboKassaBuySubscriptionTest extends TestCase
         $robokassaMock = Mockery::mock(\App\Services\RobokassaService::class);
         $this->app->instance(\App\Services\RobokassaService::class, $robokassaMock);
 
+        $description = 'Доступ к материалам по подписке "' .
+            SubscriptionLevelEnum::fromValue(SubscriptionLevelEnum::B)->description .
+            ' - 1 месяц, плюс 11 месяцев в подарок"';
+
+        // Ожидаемые параметры платежа
+        $expectedPaymentData = [
+            "items" => [
+                [
+                    "name" => addslashes($description),
+                    "quantity" => 1,
+                    "sum" => $subscriptionPrice,
+                    "payment_method" => "full_payment",
+                    "payment_object" => "service",
+                    "tax" => "none"
+                ]
+            ]
+        ];
+
         $paymentId = Str::uuid();
         $robokassaMock->shouldReceive('createPayment')
             ->once()
+            ->withArgs(function ($amount, $id, $desc, $data) use ($subscriptionPrice, $expectedPaymentData, $description) {
+                return $amount === $subscriptionPrice
+                    && $desc === $description
+                    && $data == $expectedPaymentData;
+            })
             ->andReturn("https://robokassa.test/payment/{$paymentId}");
 
         $response = $this->get(route('robokassa.buy-subscription', ['type' => $paidSubscriptionType]))
