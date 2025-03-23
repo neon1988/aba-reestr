@@ -87,7 +87,7 @@ class RobokassaController extends Controller
             [
                 "items" => [
                     [
-                        "name" => addslashes($description),
+                        "name" => $description,
                         "quantity" => 1,
                         "sum" => $subscriptionType->getPrice(),
                         "payment_method" => "full_payment",
@@ -200,7 +200,7 @@ class RobokassaController extends Controller
             'amount' => $validated['OutSum'],
             'status' => PaymentStatusEnum::coerce(PaymentStatusEnum::SUCCEEDED),
             'payment_method' => $validated['PaymentMethod'] ?? null,
-            'currency' => $validated['IncCurrLabel'],
+            'currency' => CurrencyEnum::RUB,
             'meta' => $validated,
         ]);
 
