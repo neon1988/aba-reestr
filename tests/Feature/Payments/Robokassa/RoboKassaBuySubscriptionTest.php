@@ -61,7 +61,7 @@ class RoboKassaBuySubscriptionTest extends TestCase
         $expectedPaymentData = [
             "items" => [
                 [
-                    "name" => addslashes($description),
+                    "name" => $description,
                     "quantity" => 1,
                     "sum" => $subscriptionPrice,
                     "payment_method" => "full_payment",
