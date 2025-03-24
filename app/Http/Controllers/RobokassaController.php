@@ -57,9 +57,11 @@ class RobokassaController extends Controller
                 'amount' => $subscriptionType->getPrice(),
                 'currency' => CurrencyEnum::RUB,
                 'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::PENDING)->key,
-                'meta' => []
+                'meta' => null
             ]
         );
+        $payment->payment_id = $payment->id;
+        $payment->save();
 
         $subscription = PurchasedSubscription::create(
             [
@@ -78,7 +80,7 @@ class RobokassaController extends Controller
             'purchasable_type' => PurchasedSubscription::class,
         ]);
 
-        $description = 'Доступ к материалам по тарифу ' . $subscriptionType->key . '';
+        $description = 'Доступ к материалам по тарифу ' . $subscriptionType->key;
 
         $paymentUrl = $this->robokassaService->createPayment(
             $subscriptionType->getPrice(),
@@ -89,7 +91,7 @@ class RobokassaController extends Controller
                     [
                         "name" => $description,
                         "quantity" => 1,
-                        "sum" => $subscriptionType->getPrice(),
+                        "sum" => $subscription->amount,
                         "payment_method" => "full_payment",
                         "payment_object" => "service",
                         "tax" => "none"

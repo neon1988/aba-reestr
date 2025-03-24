@@ -90,6 +90,7 @@ class RoboKassaBuySubscriptionTest extends TestCase
         $this->assertEquals($subscriptionPrice, $payment->amount);
         $this->assertEquals(PaymentProvider::RoboKassa, $payment->payment_provider);
         $this->assertEquals(PaymentStatusEnum::PENDING, $payment->status);
+        $this->assertEquals($payment->id, $payment->payment_id);
 
         $purchases = $payment->purchases()->get();
 
