@@ -78,7 +78,7 @@ class RobokassaController extends Controller
             'purchasable_type' => PurchasedSubscription::class,
         ]);
 
-        $description = 'Доступ к материалам по подписке "' . $subscriptionType->description . ' - 1 месяц, плюс 11 месяцев в подарок"';
+        $description = 'Доступ к материалам по тарифу ' . $subscriptionType->key . '';
 
         $paymentUrl = $this->robokassaService->createPayment(
             $subscriptionType->getPrice(),

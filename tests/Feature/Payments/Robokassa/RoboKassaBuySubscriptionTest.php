@@ -53,9 +53,8 @@ class RoboKassaBuySubscriptionTest extends TestCase
         $robokassaMock = Mockery::mock(\App\Services\RobokassaService::class);
         $this->app->instance(\App\Services\RobokassaService::class, $robokassaMock);
 
-        $description = 'Доступ к материалам по подписке "' .
-            SubscriptionLevelEnum::fromValue(SubscriptionLevelEnum::B)->description .
-            ' - 1 месяц, плюс 11 месяцев в подарок"';
+        $description = 'Доступ к материалам по тарифу ' .
+            SubscriptionLevelEnum::fromValue(SubscriptionLevelEnum::B)->key;
 
         // Ожидаемые параметры платежа
         $expectedPaymentData = [
