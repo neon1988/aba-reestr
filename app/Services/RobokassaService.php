@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Exception;
+use Illuminate\Support\Facades\App;
 use Robokassa\Robokassa;
 
 class RobokassaService
@@ -39,13 +40,14 @@ class RobokassaService
     /**
      * @throws Exception
      */
-    public function createPayment(float $amount, string $invoiceID, string $description, array $receipt = []): string
+    public function createPayment(float $amount, string $invoiceID, string $description, array $receipt = [], string $locale = null): string
     {
         $params = [
             'OutSum' => $amount,
             'InvoiceID' => $invoiceID,
             'Description' => $description,
-            'Receipt' => $receipt
+            'Receipt' => $receipt,
+            'Culture' => $locale ?? App::getLocale()
         ];
 
         return $this->robokassa->sendPaymentRequestCurl($params);
