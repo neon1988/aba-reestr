@@ -65,6 +65,12 @@ services:
       - ./storage:/var/www/html/storage
       - ./public:/var/www/html/public
     user: "${WWWUSER}:${WWWGROUP}"
+    healthcheck:
+      test: ["CMD", "php", "/var/www/html/artisan", "schedule:run", "--no-interaction"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     depends_on:
       - app
       - pgsql
