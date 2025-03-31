@@ -97,7 +97,7 @@ class YooKassaController extends Controller
             'meta' => $response->toArray()
         ]);
 
-        if ($payment->status->is(PaymentStatusEnum::SUCCEEDED)) {
+        if (PaymentStatusEnum::SUCCEEDED()->is($payment->status)) {
             $this->createActivateSubscription($payment);
             $payment->refresh();
             return view('payments.success', compact('payment'));

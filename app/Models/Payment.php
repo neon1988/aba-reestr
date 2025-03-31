@@ -36,7 +36,13 @@ class Payment extends Model
         if ($value instanceof PaymentStatusEnum)
             $this->attributes['status'] = $value;
         else
-            $this->attributes['status'] = PaymentStatusEnum::fromKey(mb_strtoupper($value));
+        {
+            if (PaymentStatusEnum::hasKey(mb_strtoupper($value)))
+                $this->attributes['status'] = PaymentStatusEnum::fromKey(mb_strtoupper($value))->value;
+            else
+                $this->attributes['status'] = PaymentStatusEnum::fromValue($value)->value;
+        }
+
     }
 
     public function setCurrencyAttribute($value): void

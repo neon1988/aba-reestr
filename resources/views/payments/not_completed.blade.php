@@ -9,7 +9,7 @@
                 Платеж не завершён
             </h1>
             <p class="text-gray-600 mb-6 text-center">
-                @if ($payment->status->is(PaymentStatusEnum::CANCELED))
+                @if (PaymentStatusEnum::CANCELED()->is($payment->status))
                     Платеж был отменен
                 @else
                     Кажется, платеж не был завершён. Пожалуйста, попробуйте снова или выберите другой вариант.
@@ -22,7 +22,7 @@
                         Вернуться к платежу
                     </a>
                 @endif
-                @if (!$payment->status->is(PaymentStatusEnum::CANCELED))
+                @if (!PaymentStatusEnum::CANCELED()->is($payment->status))
                     <a href="{{ route('payments.cancel', compact('payment')) }}"
                        class="block text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
                         Отказаться от оплаты

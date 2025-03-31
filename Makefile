@@ -30,6 +30,9 @@ build:
 update-app:
 	docker rollout -f $(COMPOSE_FILE) $(APP_CONTAINER_NAME) --wait-after-healthy 15
 
+update-scheduler:
+	docker rollout -f $(COMPOSE_FILE) scheduler --wait-after-healthy 15
+
 update-horizon:
 	docker rollout -f $(COMPOSE_FILE) $(HORIZON_CONTAINER_NAME) --wait-after-healthy 15
 

@@ -58,6 +58,20 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+  scheduler:
+    image: aba-reestr-image
+    command: ["/bin/sh", "-c", "while true; do php /var/www/html/artisan schedule:run; sleep 60; done"]
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./public:/var/www/html/public
+    user: "${WWWUSER}:${WWWGROUP}"
+    depends_on:
+      - app
+      - pgsql
+      - redis
+    restart: unless-stopped
+    networks:
+      - app-network
   pgsql:
     image: 'postgres:17'
     ports:

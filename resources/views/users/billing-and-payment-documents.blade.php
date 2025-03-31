@@ -20,10 +20,7 @@
         @foreach ($payments as $payment)
             <tr class="border-t">
                 <td class="px-4 py-2 text-gray-800">
-                    <a href="{{ route('payments.show', $payment) }}"
-                       class="font-bold text-cyan-600 hover:underline">
-                        {{ $payment->payment_id }}
-                    </a>
+                    {{ $payment->payment_id }}
                 </td>
                 <td class="px-4 py-2 text-gray-800">{{ PaymentProvider::getDescription($payment->payment_provider) }}</td>
                 <td class="px-4 py-2 text-gray-800">

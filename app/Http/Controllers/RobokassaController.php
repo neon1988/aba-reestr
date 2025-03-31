@@ -27,7 +27,7 @@ class RobokassaController extends Controller
 {
     use AuthorizesRequests;
 
-    protected $robokassaService;
+    protected RobokassaService $robokassaService;
 
     public function __construct(RobokassaService $robokassaService)
     {

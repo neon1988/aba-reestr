@@ -28,7 +28,7 @@ class PaymentFactory extends Factory
             'payment_provider' => $this->faker->randomElement(PaymentProvider::getValues()),
             'amount' => $this->faker->randomFloat(2, 10, 1000),
             'currency' => $this->faker->randomElement(CurrencyEnum::getValues()),
-            'status' => $this->faker->randomElement(PaymentStatusEnum::getKeys()),
+            'status' => $this->faker->randomElement(PaymentStatusEnum::getValues()),
             'payment_method' => $this->faker->randomElement(['card', 'bank_transfer', 'paypal', 'crypto']),
             'meta' => ['metadata' => ['subscription_type' => $this->faker->randomElement(SubscriptionLevelEnum::getValues())]],
         ];
