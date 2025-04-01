@@ -77,7 +77,8 @@ class WorksheetController extends Controller
             if ($upload = $request->get('file')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->moveToStorage('public');
+                        $file->storage = 'public';
+                        $file->save();
                         $worksheet->file_id = $file->id;
                     }
                 }
@@ -89,13 +90,14 @@ class WorksheetController extends Controller
         });
 
         if ($request->expectsJson()) {
+            $worksheet->refresh();
             return [
                 'redirect_to' => route('worksheets.show', compact('worksheet')),
-                'worksheet' => new WorksheetResource($worksheet)
+                'worksheet' => new WorksheetResource($worksheet->load(['creator', 'cover', 'file']))
             ];
         } else
             return redirect()->route('worksheets.index')
-                ->with('success', 'Вебинар успешно добавлен');
+                ->with('success', 'Материал успешно создан');
     }
 
     /**
@@ -141,7 +143,8 @@ class WorksheetController extends Controller
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $worksheet->file()->delete();
-                        $file->moveToStorage('public');
+                        $file->storage = 'public';
+                        $file->save();
                         $worksheet->file_id = $file->id;
                         $worksheet->save();
                     }
@@ -154,12 +157,12 @@ class WorksheetController extends Controller
         if ($request->expectsJson()) {
             return [
                 'redirect_to' => route('worksheets.show', compact('worksheet')),
-                'worksheet' => new WorksheetResource($worksheet)
+                'worksheet' => new WorksheetResource($worksheet->load(['creator', 'cover', 'file']))
             ];
         } else
             return redirect()
                 ->route('worksheets.index')
-                ->with('success', 'Объявление успешно обновлено');
+                ->with('success', 'Материал успешно обновлен');
     }
 
     /**

@@ -70,9 +70,10 @@ class WebinarController extends Controller
         });
 
         if ($request->expectsJson()) {
+            $webinar->refresh();
             return [
                 'redirect_to' => route('webinars.show', compact('webinar')),
-                'webinar' => new WebinarResource($webinar)
+                'webinar' => new WebinarResource($webinar->load('cover', 'creator')),
             ];
         } else
             return redirect()->route('webinars.index')
@@ -128,7 +129,8 @@ class WebinarController extends Controller
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $webinar->record_file()->delete();
-                        $file->moveToStorage('public');
+                        $file->storage = 'public';
+                        $file->save();
                         $webinar->record_file_id = $file->id;
                         $webinar->save();
                     }
@@ -138,14 +140,15 @@ class WebinarController extends Controller
         });
 
         if ($request->expectsJson()) {
+
             return [
                 'redirect_to' => route('webinars.show', compact('webinar')),
-                'webinar' => new WebinarResource($webinar)
+                'webinar' => new WebinarResource($webinar->load('cover', 'creator', 'record_file')),
             ];
         } else
             return redirect()
                 ->route('webinars.index')
-                ->with('success', 'Объявление успешно обновлено');
+                ->with('success', 'Вебинар успешно обновлен');
     }
 
     /**

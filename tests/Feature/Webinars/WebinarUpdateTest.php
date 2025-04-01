@@ -1,48 +1,48 @@
 <?php
 
-namespace Tests\Feature\Conferences;
+namespace Tests\Feature\Webinars;
 
-use App\Http\Resources\ConferenceResource;
-use App\Models\File;
+use App\Http\Resources\WebinarResource;
 use App\Models\User;
-use App\Models\Conference;
+use App\Models\Webinar;
+use App\Models\File;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ConferenceUpdateTest extends TestCase
+class WebinarUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_updates_a_conference_and_redirects_with_success_message()
+    public function test_it_updates_a_webinar_and_redirects_with_success_message()
     {
         // Создаем пользователя для авторизации
         $user = User::factory()->staff()->create();
 
         // Создаем вебинар
-        $conference = Conference::factory()->create();
+        $webinar = Webinar::factory()->create();
 
         // Создаем связанные объекты (например, файл)
         $coverFile = File::factory()
             ->withUser($user)->temp()->image()
             ->create();
 
-        $file = File::factory()
+        $recordFile = File::factory()
             ->withUser($user)->temp()->pdf()
             ->create();
 
-        $requestData = Conference::factory()->create()->fresh()->toArray();
+        $requestData = Webinar::factory()->create()->fresh()->toArray();
         $requestData['cover'] = $coverFile->toArray();
-        $requestData['file'] = $file->toArray();
+        $requestData['record_file'] = $recordFile->toArray();
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
         $response = $this->actingAs($user)
-            ->patch(route('api.conferences.update', $conference), $requestData)
+            ->patch(route('api.webinars.update', $webinar), $requestData)
             ->assertSessionHasNoErrors()
-            ->assertRedirect(route('conferences.index'))
-            ->assertSessionHas('success', 'Мероприятие обновлено.');
+            ->assertRedirect(route('webinars.index'))
+            ->assertSessionHas('success', 'Вебинар успешно обновлен');
 
         // Проверяем, что вебинар был обновлен в базе данных
-        $this->assertDatabaseHas('conferences', [
+        $this->assertDatabaseHas('webinars', [
             'title' => $requestData['title'],
             'description' => $requestData['description'],
         ]);
@@ -50,13 +50,13 @@ class ConferenceUpdateTest extends TestCase
         // Проверяем, что файлы были перемещены и прикреплены
         $coverFile->refresh();
         $this->assertEquals('public', $coverFile->storage);
-        $this->assertEquals($coverFile->id, $conference->fresh()->cover_id);
+        $this->assertEquals($coverFile->id, $webinar->fresh()->cover_id);
         $this->assertTrue($coverFile->exists());
 
-        $file->refresh();
-        $this->assertEquals('public', $file->storage);
-        $this->assertEquals($file->id, $conference->fresh()->file_id);
-        $this->assertTrue($file->exists());
+        $recordFile->refresh();
+        $this->assertEquals('public', $recordFile->storage);
+        $this->assertEquals($recordFile->id, $webinar->fresh()->record_file_id);
+        $this->assertTrue($recordFile->exists());
     }
 
     public function test_expects_json()
@@ -65,32 +65,32 @@ class ConferenceUpdateTest extends TestCase
         $user = User::factory()->staff()->create();
 
         // Создаем вебинар
-        $conference = Conference::factory()->create();
+        $webinar = Webinar::factory()->create();
 
         // Создаем связанные объекты (например, файл)
         $coverFile = File::factory()
             ->withUser($user)->temp()->image()
             ->create();
 
-        $file = File::factory()
+        $recordFile = File::factory()
             ->withUser($user)->temp()->pdf()
             ->create();
 
-        $requestData = Conference::factory()->create()->fresh()->toArray();
+        $requestData = Webinar::factory()->create()->fresh()->toArray();
         $requestData['cover'] = $coverFile->toArray();
-        $requestData['file'] = $file->toArray();
+        $requestData['record_file'] = $recordFile->toArray();
 
         // Проверка, что запрос прошел успешно и возвращает JSON
         $response = $this->actingAs($user)
-            ->patchJson(route('api.conferences.update', $conference), $requestData)
+            ->patchJson(route('api.webinars.update', $webinar), $requestData)
             ->assertOk();
 
-        $conference->refresh();
-        $conference->load(['creator', 'cover', 'file']);
+        $webinar->refresh();
+        $webinar->load(['creator', 'cover', 'record_file']);
 
         $response->assertJson([
-            'redirect_to' => route('conferences.show', compact('conference')),
-            'conference' => (new ConferenceResource($conference))->toArray(request())
+            'redirect_to' => route('webinars.show', compact('webinar')),
+            'webinar' => (new WebinarResource($webinar))->toArray(request())
         ]);
     }
 }

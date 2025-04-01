@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -65,17 +66,32 @@ class User extends Authenticatable implements MustVerifyEmail
         return $array;
     }
 
-    public function createdSpecialists()
+    public function createdSpecialists(): HasMany
     {
         return $this->hasMany(Specialist::class, 'create_user_id');
     }
 
-    public function createdCenters()
+    public function createdCenters(): HasMany
     {
         return $this->hasMany(Center::class, 'create_user_id');
     }
 
-    public function files()
+    public function createdWorksheets(): HasMany
+    {
+        return $this->hasMany(Worksheet::class, 'create_user_id');
+    }
+
+    public function createdWebinars(): HasMany
+    {
+        return $this->hasMany(Webinar::class, 'create_user_id');
+    }
+
+    public function createdConferences(): HasMany
+    {
+        return $this->hasMany(Conference::class, 'create_user_id');
+    }
+
+    public function files(): BelongsToMany
     {
         return $this->belongsToMany(File::class, 'file_user');
     }
@@ -85,7 +101,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Связь с фотографией центра.
      */
-    public function photo(): \Illuminate\Database\Eloquent\Relations\hasOne
+    public function photo(): hasOne
     {
         return $this->hasOne(File::class, 'id', 'photo_id');
     }

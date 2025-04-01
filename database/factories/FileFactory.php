@@ -33,6 +33,7 @@ class FileFactory extends Factory
     {
         return $this->afterCreating(function (File $file) use ($user) {
             $file->creator()->associate($user ?? User::factory()->create());
+            $file->push();
         });
     }
 

@@ -22,12 +22,26 @@ class File extends Model
 
     protected mixed $sourceStream = null;
 
+    protected $appends = ['path'];
+
+    public function getPathAttribute(): string
+    {
+        return $this->dirname.'/'.$this->name;
+    }
+
     public function getDirname(): string
     {
         $idDirname = new IdDirname($this->id);
         $dirname = 'files/' . implode('/', $idDirname->getDirnameArrayEncoded());
         $url = (new Url)->withDirname(trim($dirname, '/'));
         return $url->getPath();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'price' => 'float'
+        ];
     }
 
     public function getSourceStream()

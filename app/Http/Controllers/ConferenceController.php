@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreConferenceRequest;
 use App\Http\Requests\UpdateConferenceRequest;
 use App\Http\Resources\ConferenceResource;
+use App\Http\Resources\WebinarResource;
 use App\Models\Conference;
 use App\Models\File;
+use App\Models\WebinarSubscription;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +75,8 @@ class ConferenceController extends Controller
             if ($upload = $request->get('file')) {
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
-                        $file->moveToStorage('public');
+                        $file->storage = 'public';
+                        $file->save();
                         $conference->file_id = $file->id;
                     }
                 }
@@ -85,9 +89,10 @@ class ConferenceController extends Controller
         });
 
         if ($request->expectsJson()) {
+            $conference->refresh();
             return [
                 'redirect_to' => route('conferences.show', compact('conference')),
-                'conference' => new ConferenceResource($conference)
+                'conference' => new ConferenceResource($conference->load(['cover', 'file', 'creator'])),
             ];
         } else
             return redirect()->route('conferences.index')
@@ -135,7 +140,8 @@ class ConferenceController extends Controller
                 if ($file = File::find($upload['id'])) {
                     if ($file->storage == 'temp' and Auth::user()->is($file->creator)) {
                         $conference->file()->delete();
-                        $file->moveToStorage('public');
+                        $file->storage = 'public';
+                        $file->save();
                         $conference->file_id = $file->id;
                         $conference->save();
                     }
@@ -147,7 +153,7 @@ class ConferenceController extends Controller
         if ($request->expectsJson()) {
             return [
                 'redirect_to' => route('conferences.show', compact('conference')),
-                'conference' => new ConferenceResource($conference)
+                'conference' => new ConferenceResource($conference->load(['cover', 'file', 'creator'])),
             ];
         } else
             return redirect()

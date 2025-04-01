@@ -25,6 +25,13 @@ class Worksheet extends Model
     // Указываем поля для работы с датами
     protected $dates = ['deleted_at'];
 
+    protected function casts(): array
+    {
+        return [
+            'price' => 'float'
+        ];
+    }
+
     public function toSearchableArray()
     {
         $array = $this->toArray();
