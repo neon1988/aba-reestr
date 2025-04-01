@@ -26,7 +26,8 @@ return [
         CurrencyEnum::RUB => 'руб.'
     ],
     PaymentProvider::class => [
-        PaymentProvider::YooKassa => 'Ю.Касса'
+        PaymentProvider::YooKassa => 'Ю.Касса',
+        PaymentProvider::RoboKassa => 'Robokassa'
     ],
     PaymentStatusEnum::class => [
         PaymentStatusEnum::PENDING => 'Ожидает обработки', // Платеж в процессе обработки
