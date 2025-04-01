@@ -15,6 +15,8 @@ class WorksheetResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
+        $array['creator'] = new UserResource($this->whenLoaded('creator'));
+        $array['cover'] = new FileResource($this->whenLoaded('cover'));
         return $array;
     }
 }

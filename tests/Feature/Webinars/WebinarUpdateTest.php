@@ -90,7 +90,7 @@ class WebinarUpdateTest extends TestCase
 
         $response->assertJson([
             'redirect_to' => route('webinars.show', compact('webinar')),
-            'webinar' => (new WebinarResource($webinar))->toArray(request())
+            'webinar' => json_decode((new WebinarResource($webinar))->toJson(), true)
         ]);
     }
 }

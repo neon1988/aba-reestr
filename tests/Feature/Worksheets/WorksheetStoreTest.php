@@ -97,7 +97,7 @@ class WorksheetStoreTest extends TestCase
 
         $response->assertJson([
             'redirect_to' => route('worksheets.show', compact('worksheet')),
-            'worksheet' => (new WorksheetResource($worksheet))->toArray(request())
+            'worksheet' => json_decode((new WorksheetResource($worksheet))->toJson(), true)
         ]);
     }
 }

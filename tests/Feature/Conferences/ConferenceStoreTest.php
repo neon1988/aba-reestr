@@ -83,7 +83,7 @@ class ConferenceStoreTest extends TestCase
 
         $response->assertJson([
             'redirect_to' => route('conferences.show', compact('conference')),
-            'conference' => (new ConferenceResource($conference))->toArray(request())
+            'conference' => json_decode((new ConferenceResource($conference))->toJson(), true)
         ]);
     }
 }
