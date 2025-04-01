@@ -17,11 +17,6 @@ class FileResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
-        if (!empty($array['storage']) && !empty($array['dirname']) && !empty($array['name'])) {
-            $filePath = $array['dirname'] . '/' . $array['name'];
-            $array['url'] = Storage::disk($array['storage'])->url($filePath);
-            $array['path'] = (string)Url::fromString($filePath);
-        }
         if (empty($array['id']))
             $array = [];
         return $array;

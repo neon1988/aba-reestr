@@ -22,7 +22,7 @@ class File extends Model
 
     protected mixed $sourceStream = null;
 
-    protected $appends = ['path'];
+    protected $appends = ['path', 'url'];
 
     public function getPathAttribute(): string
     {

@@ -97,4 +97,12 @@ class UserFactory extends Factory
             $user->staffs()->attach($staff ?? Staff::factory()->create());
         });
     }
+
+    public function withPhoto(File $file = null)
+    {
+        return $this->afterCreating(function (User $user) use ($file) {
+            $user->photo_id = $file->id;
+            $user->push();
+        });
+    }
 }
