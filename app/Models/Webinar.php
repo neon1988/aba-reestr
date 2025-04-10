@@ -44,7 +44,10 @@ class Webinar extends Model
      */
     public function scopeUpcoming(Builder $query): Builder
     {
-        return $query->where('start_at', '>', now());
+        return $query->where(function (Builder $query) {
+            return $query->where('end_at', '>', now())
+                ->orWhereNull('end_at');
+        });
     }
 
     /**
@@ -55,7 +58,7 @@ class Webinar extends Model
      */
     public function scopeEnded(Builder $query): Builder
     {
-        return $query->where('end_at', '<', now());
+        return $query->where('end_at', '<=', now());
     }
 
     /**
