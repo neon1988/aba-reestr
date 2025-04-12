@@ -1,8 +1,12 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DUr1ZzPm.css",
+    "file": "assets/app-Cy3-tZ7k.css",
     "src": "resources/css/app.css",
     "isEntry": true
+  },
+  "resources/images/IBAO_CEU_Provider.png": {
+    "file": "assets/IBAO_CEU_Provider-Db6Svlos.png",
+    "src": "resources/images/IBAO_CEU_Provider.png"
   },
   "resources/images/logo_118.png": {
     "file": "assets/logo_118-zx8K4A0z.png",
