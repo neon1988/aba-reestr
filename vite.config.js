@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/images/logo_118.png',
                 'resources/images/logo_236.png',
+                'resources/images/IBAO_CEU_Provider.png',
             ],
             refresh: true,
         })

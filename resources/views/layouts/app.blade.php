@@ -243,10 +243,17 @@
 
 <!-- Footer -->
 <footer class="bg-cyan-600 text-white py-6 mt-4">
-    <div class="container mx-auto text-center mb-4 space-x-6">
+    <div class="container mx-auto text-center space-x-6">
         <a href="{{ route('contacts') }}">Контакты</a>
         <a href="{{ route('privacy-policy') }}">Политика обработки персональных данных</a>
         <a href="{{ route('offer.show') }}">Публичная оферта</a>
+        <a href="https://aba-family.ru" target="_blank">Aba-family.ru</a>
+    </div>
+    <div class="flex justify-center mx-auto text-center space-x-6">
+        <x-image :url="Vite::asset('resources/images/IBAO_CEU_Provider.png')"
+                 alt="IBAO CEU Provider"
+                 width="400" height="400" quality="90"
+                 class="max-w-48"/>
     </div>
     <div class="container mx-auto text-center mb-4">
         <p>&copy; {{ date('Y') }} ABA Expert - реестр специалистов и центров. Все права защищены.</p>
