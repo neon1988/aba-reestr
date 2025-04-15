@@ -103,6 +103,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/webinars/{webinar}/download', [WebinarController::class, 'download'])->name('webinars.download');
     Route::get('/worksheets/{worksheet}/download', [WorksheetController::class, 'download'])->name('worksheets.download');
     Route::get('/conferences/{conference}/download', [ConferenceController::class, 'download'])->name('conferences.download');
+
+    Route::get('/join/discount_b_subscription', [JoinController::class, 'discount'])->name('join.discount');
 });
 
 Route::get('/files/{file}', [FileController::class, 'download'])->name('files.download');

@@ -11,6 +11,7 @@ use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
 use App\Services\RobokassaService;
+use App\Services\SubscriptionPriceService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -37,7 +38,7 @@ class RobokassaController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function buySubscription(Request $request, int $type)
+    public function buySubscription(Request $request, SubscriptionPriceService $service, int $type)
     {
         $this->authorize('purchaseSubscription', User::class);
 
@@ -49,12 +50,14 @@ class RobokassaController extends Controller
         if ($subscriptionType->getPrice() == 0)
             abort(403, 'Подписка должна быть платной');
 
+        $finalPrice = $service->getFinalPrice(SubscriptionLevelEnum::coerce($subscriptionType));
+
         $payment = Payment::create(
             [
                 'payment_id' => null,
                 'payment_provider' => PaymentProvider::RoboKassa,
                 'user_id' => Auth::id(),
-                'amount' => $subscriptionType->getPrice(),
+                'amount' => $finalPrice,
                 'currency' => CurrencyEnum::RUB,
                 'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::PENDING)->key,
                 'meta' => null
@@ -70,7 +73,7 @@ class RobokassaController extends Controller
                 'days' => 365,
                 'user_id' => Auth::id(),
                 'subscription_level' => SubscriptionLevelEnum::coerce($type),
-                'amount' => $subscriptionType->getPrice(),
+                'amount' => $finalPrice,
                 'currency' => CurrencyEnum::RUB,
             ]
         );
@@ -83,7 +86,7 @@ class RobokassaController extends Controller
         $description = 'Доступ к материалам по тарифу ' . $subscriptionType->key;
 
         $paymentUrl = $this->robokassaService->createPayment(
-            $subscriptionType->getPrice(),
+            $finalPrice,
             $payment->id,
             $description,
             [

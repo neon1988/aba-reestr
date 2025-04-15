@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Models\Country;
 use App\Models\User;
+use App\Services\SubscriptionPriceService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,7 +18,7 @@ class JoinController extends Controller
 {
     use AuthorizesRequests;
 
-    public function join(Request $request): RedirectResponse|View
+    public function join(Request $request, SubscriptionPriceService $service): RedirectResponse|View
     {
         if (Auth::check()) {
             $user = Auth::user();
@@ -35,7 +38,33 @@ class JoinController extends Controller
             }
         }
 
-        return view('join.join');
+        $prices = [
+            SubscriptionLevelEnum::A => [
+                'base_price' => SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::A)->getPrice(),
+                'final_price' => $service->getFinalPrice(SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::A))
+            ],
+            SubscriptionLevelEnum::B => [
+                'base_price' => SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::B)->getPrice(),
+                'final_price' => $service->getFinalPrice(SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::B))
+            ],
+            SubscriptionLevelEnum::C => [
+                'base_price' => SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::C)->getPrice(),
+                'final_price' => $service->getFinalPrice(SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::C))
+            ],
+        ];
+
+        return view('join.join', compact('prices'));
+    }
+
+    public function discount(Request $request): RedirectResponse|View
+    {
+        session(['subscription_discount' => [
+            'value' => 10,
+            'active_until' => Carbon::now()->addHour()
+        ]]);
+
+        return redirect()
+            ->route('join');
     }
 
     public function specialist(Request $request)

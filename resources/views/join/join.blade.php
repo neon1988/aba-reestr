@@ -65,7 +65,12 @@
                     </div>
                     <div>
                         <p class="text-center mt-4 font-semibold">
-                            {{ SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::A)->getPrice() }} ₽/год
+                            @if ($prices[SubscriptionLevelEnum::A]['base_price'] != $prices[SubscriptionLevelEnum::A]['final_price'])
+                                <span class="line-through">{{ $prices[SubscriptionLevelEnum::A]['base_price'] }}</span>
+                                {{ $prices[SubscriptionLevelEnum::A]['final_price'] }} ₽/год
+                            @else
+                                {{ $prices[SubscriptionLevelEnum::A]['final_price'] }} ₽/год
+                            @endif
                         </p>
                         <div class="text-center mt-4">
                             <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
@@ -139,7 +144,12 @@
                     </div>
                     <div>
                         <p class="text-center mt-4 font-semibold">
-                            {{ SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::B)->getPrice() }} ₽/год
+                            @if ($prices[SubscriptionLevelEnum::B]['base_price'] != $prices[SubscriptionLevelEnum::B]['final_price'])
+                                <span class="line-through">{{ $prices[SubscriptionLevelEnum::B]['base_price'] }}</span>
+                                {{ $prices[SubscriptionLevelEnum::B]['final_price'] }} ₽/год
+                            @else
+                                {{ $prices[SubscriptionLevelEnum::B]['final_price'] }} ₽/год
+                            @endif
                         </p>
                         <div class="text-center mt-4">
                             <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
@@ -221,7 +231,12 @@
                     </div>
                     <div>
                         <p class="text-center mt-4 font-semibold">
-                            {{ SubscriptionLevelEnum::coerce(SubscriptionLevelEnum::C)->getPrice() }} ₽/год
+                            @if ($prices[SubscriptionLevelEnum::C]['base_price'] != $prices[SubscriptionLevelEnum::C]['final_price'])
+                                <span class="line-through">{{ $prices[SubscriptionLevelEnum::C]['base_price'] }}</span>
+                                {{ $prices[SubscriptionLevelEnum::C]['final_price'] }} ₽/год
+                            @else
+                                {{ $prices[SubscriptionLevelEnum::C]['final_price'] }} ₽/год
+                            @endif
                         </p>
                         <div class="text-center mt-4">
                             <button class="px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600">Выбрать</button>
