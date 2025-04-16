@@ -10,6 +10,7 @@ use App\Jobs\ActivateSubscription;
 use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
+use App\Services\SubscriptionPriceService;
 use App\Services\YooKassaService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -30,23 +31,25 @@ class YooKassaController extends Controller
         $this->yooKassaService = $yooKassaService;
     }
 
-    public function buySubscription(Request $request, int $type)
+    public function buySubscription(Request $request, SubscriptionPriceService $service, int $type)
     {
         $this->authorize('purchaseSubscription', User::class);
 
         if (!SubscriptionLevelEnum::hasValue($type))
             abort(404, 'Подписка не найдена');
 
-        $subscription = SubscriptionLevelEnum::coerce($type);
+        $subscriptionType = SubscriptionLevelEnum::coerce($type);
 
-        if ($subscription->getPrice() == 0)
+        if ($subscriptionType->getPrice() == 0)
             abort(403, 'Подписка должна быть платной');
+
+        $finalPrice = $service->getFinalPrice(SubscriptionLevelEnum::coerce($subscriptionType));
 
         $payment = Payment::create(
             [
                 'payment_provider' => PaymentProvider::YooKassa,
                 'user_id' => Auth::id(),
-                'amount' => $subscription->getPrice(),
+                'amount' => $finalPrice,
                 'currency' => CurrencyEnum::RUB,
                 'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::CANCELED)->key,
                 'meta' => []
@@ -54,13 +57,13 @@ class YooKassaController extends Controller
         );
 
         $response = $this->yooKassaService->createPayment(
-            $subscription->getPrice(),
+            $finalPrice,
             route('payments.show', ['payment' => $payment->id]),
-            'Доступ к материалам по подписке "'.$subscription->description.' - 1 месяц, плюс 11 месяцев в подарок"',
+            'Доступ к материалам по подписке "'.$subscriptionType->description.' - 1 месяц, плюс 11 месяцев в подарок"',
             Auth::user()->email,
             [
                 'user_id' => Auth::id(),
-                'subscription_type' => $subscription->key
+                'subscription_type' => $subscriptionType->key
             ]
         );
 
@@ -70,7 +73,7 @@ class YooKassaController extends Controller
         $payment->update([
             'payment_id' => $response->getId(),
             'payment_provider' => PaymentProvider::YooKassa,
-            'amount' => $subscription->getPrice(),
+            'amount' => $finalPrice,
             'currency' => CurrencyEnum::RUB,
             'status' => $response->getStatus(),
             'payment_method' => $response->getPaymentMethod(),

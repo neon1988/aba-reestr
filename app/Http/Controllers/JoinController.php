@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Enums\SubscriptionLevelEnum;
 use App\Models\Country;
-use App\Models\User;
 use App\Services\SubscriptionPriceService;
 use Carbon\Carbon;
+use Carbon\CarbonTimeZone;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class JoinController extends Controller
@@ -56,12 +55,16 @@ class JoinController extends Controller
         return view('join.join', compact('prices'));
     }
 
-    public function discount(Request $request): RedirectResponse|View
+    public function discount_b_subscription_22(Request $request): RedirectResponse|View
     {
-        session(['subscription_discount' => [
-            'value' => 10,
-            'active_until' => Carbon::now()->addHour()
-        ]]);
+        session([
+            'subscription_discount' => [
+                SubscriptionLevelEnum::B => [
+                    'percent' => 100 - (35 * 100 / 45), # 4500 р. => 3500 р.
+                    'active_until' => Carbon::create(2025, 4, 21, 0, 0, 0, new CarbonTimeZone('Europe/Moscow'))
+                ]
+            ]
+        ]);
 
         return redirect()
             ->route('join');

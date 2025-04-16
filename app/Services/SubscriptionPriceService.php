@@ -9,21 +9,22 @@ class SubscriptionPriceService
 {
     public function getFinalPrice(SubscriptionLevelEnum $level): float
     {
-        $basePrice = $level->getPrice();
-        $discountData = session('subscription_discount', null);
-        $discount = 0;
+        $discountData = session('subscription_discount', []);
 
-        // Проверяем, есть ли скидка и действительна ли она
-        if ($discountData && isset($discountData['value'], $discountData['active_until'])) {
-            $activeUntil = Carbon::parse($discountData['active_until']);
-            if (Carbon::now()->lessThanOrEqualTo($activeUntil)) {
-                $discount = $discountData['value'];
-            } else {
-                // Если скидка просрочена, удаляем её из сессии
-                session()->forget('subscription_discount');
+        $basePrice = $level->getPrice();
+        $percent = 0;
+
+        foreach ($discountData as $subscription => $data)
+        {
+            if ($level->is($subscription))
+            {
+                $activeUntil = Carbon::parse($data['active_until']);
+                if (Carbon::now()->lessThanOrEqualTo($activeUntil)) {
+                    $percent = $data['percent'];
+                }
             }
         }
 
-        return $basePrice * (1 - $discount / 100); // Скидка в процентах
+        return $basePrice - ($basePrice * $percent / 100);
     }
 }
