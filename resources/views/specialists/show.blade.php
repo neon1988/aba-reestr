@@ -142,13 +142,24 @@
                 </div>
 
                 <div class="mt-8">
-                    <div class=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @foreach($specialist->certificates as $certificate)
                             <a href="{{ optional($certificate)->url }}" target="_blank"
                                class="relative group flex items-center justify-center bg-gray-100 rounded-lg p-2">
-                                <x-image :url="optional($certificate)->url"
-                                         width="500" height="500" quality="90"
-                                         class="rounded-lg shadow-lg" />
+                                @if (optional($certificate)->isImage())
+                                    <x-image :url="optional($certificate)->url"
+                                             width="500" height="500" quality="90"
+                                             class="rounded-lg shadow-lg"/>
+                                @else
+                                    <div class="flex flex-col items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-inner">
+                                        <div class="text-5xl font-bold text-gray-600 uppercase">
+                                            Файл {{ optional($certificate)->extension }}
+                                        </div>
+                                        <div class="text-sm text-gray-500 mt-1">
+                                            Нажмите для просмотра
+                                        </div>
+                                    </div>
+                                @endif
                             </a>
                         @endforeach
                     </div>

@@ -138,4 +138,11 @@ class File extends Model
             'avi', 'mkv', 'mov', 'wmv', 'flv', 'm4v' // могут потребовать сторонних кодеков или не воспроизводиться в некоторых браузерах.
         ]);
     }
+
+    public function isImage(): bool
+    {
+        return in_array(mb_strtolower($this->extension), [
+            'jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff', 'svg'
+        ]);
+    }
 }
