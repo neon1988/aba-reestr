@@ -59,6 +59,7 @@ class PaymentUpdate extends Command
     public function robokassa(): void
     {
         $data = $this->robokassaService->checkPaymentStatus($this->payment->payment_id);
+
         Log::info('Robokassa payment show', $data);
 
         $this->payment->meta = $data;

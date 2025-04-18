@@ -223,7 +223,7 @@ class RobokassaController extends Controller
 
         $data = $this->robokassaService->checkPaymentStatus($payment->id);
 
-        Log::info('Robokassa payment show', $data);
+        Log::info('Robokassa payment '.$id.' show', $data);
 
         var_dump($data);
     }
