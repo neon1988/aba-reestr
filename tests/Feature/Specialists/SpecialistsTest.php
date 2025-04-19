@@ -41,6 +41,26 @@ class SpecialistsTest extends TestCase
     }
 
     /**
+     * Тестирование метода index
+     *
+     * @return void
+     */
+    public function testIndexMethodWithSearchQuery()
+    {
+        $user = User::factory()->create();
+
+        $specialists = Specialist::factory()
+            ->count(3)
+            ->create();
+
+        $response = $this->actingAs($user)
+            ->get(route('specialists.index', ['search' => 'test']))
+            ->assertOk()
+            ->assertViewIs('specialists.index')
+            ->assertViewHas('specialists');
+    }
+
+    /**
      * Тестирование метода store
      *
      * @return void

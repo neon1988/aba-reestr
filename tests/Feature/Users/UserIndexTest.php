@@ -18,4 +18,13 @@ class UserIndexTest extends TestCase
             ->getJson(route('api.users.index'))
             ->assertOk();
     }
+
+    public function testIndexWithSearchQuery()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->getJson(route('api.users.index', ['search' => 'test']))
+            ->assertOk();
+    }
 }

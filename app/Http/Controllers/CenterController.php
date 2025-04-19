@@ -9,6 +9,7 @@ use App\Http\Resources\CenterResource;
 use App\Models\Center;
 use App\Models\File;
 use App\Models\Image;
+use App\Models\Specialist;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +31,13 @@ class CenterController extends Controller
 
         $status = $request->input('status', StatusEnum::Accepted);
 
-        $centers = Center::search($request->input('search'))
+        $search = trim($request->input('search'));
+
+        $query = filled($search)
+            ? Center::search($search)
+            : Center::query();
+
+        $centers = $query
             ->where('status', $status)
             ->orderBy('created_at', 'desc')
             ->paginate(9)
