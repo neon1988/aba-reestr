@@ -45,3 +45,11 @@ tinker:
 
 migrate:
 	docker compose -f $(COMPOSE_FILE) exec $(APP_CONTAINER_NAME) php artisan migrate
+
+update:
+	@echo "Updating project..." && \
+	git pull && \
+	make build && \
+	make update-app && \
+	make update-scheduler && \
+	make update-horizon
