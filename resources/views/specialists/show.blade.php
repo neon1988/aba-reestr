@@ -155,10 +155,10 @@
                                     @else
                                         <div
                                             class="flex flex-col items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-inner">
-                                            <div class="text-5xl font-bold text-gray-600 uppercase">
+                                            <div class="text-xl font-bold text-gray-600 uppercase px-4 pt-8 pb-2">
                                                 Файл {{ optional($certificate)->extension }}
                                             </div>
-                                            <div class="text-sm text-gray-500 mt-1">
+                                            <div class="text-sm text-gray-500 mt-1 px-4 pb-8 pt-2 text-center">
                                                 Нажмите для просмотра
                                             </div>
                                         </div>
