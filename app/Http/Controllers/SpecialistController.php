@@ -167,7 +167,12 @@ class SpecialistController extends Controller
         if ($request->expectsJson())
             return new SpecialistResource($specialist);
 
-        return view('specialists.show', compact('specialist'));
+        if ($specialist->certificates->count() > 0)
+            $certificates = $specialist->certificates;
+        else
+            $certificates = $specialist->files;
+
+        return view('specialists.show', compact('specialist', 'certificates'));
     }
 
     public function edit(Specialist $specialist)
