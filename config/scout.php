@@ -141,7 +141,7 @@ return [
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
             Specialist::class => [
-                 'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
+                'filterableAttributes'=> ['__soft_deleted', 'status', 'create_user_id'],
                 'sortableAttributes' => ['created_at'],
             ],
             Center::class => [

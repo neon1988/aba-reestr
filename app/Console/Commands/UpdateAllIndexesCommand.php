@@ -17,6 +17,8 @@ class UpdateAllIndexesCommand extends Command
 
     public function handle()
     {
+        $this->call('scout:sync-index-settings');
+
         $models = [
             'App\Models\Center',
             'App\Models\Specialist',
@@ -30,8 +32,6 @@ class UpdateAllIndexesCommand extends Command
                 $this->call('scout:flush', ['model' => $model]);
             $this->call('scout:import', ['model' => $model]);
         }
-
-        $this->call('scout:sync-index-settings');
 
         $this->info('Все индексы обновлены.');
     }
