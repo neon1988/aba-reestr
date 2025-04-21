@@ -36,6 +36,7 @@ class Worksheet extends Model
     {
         $array = $this->toArray();
         $array['extension'] = $this->file ? $this->file->extension : null;
+        $array['tags'] = $this->tags ? $this->tags->pluck('name')->toArray() : null;
         return $array;
     }
 

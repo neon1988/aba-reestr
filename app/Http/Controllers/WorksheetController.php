@@ -27,10 +27,14 @@ class WorksheetController extends Controller
     public function index(Request $request): AnonymousResourceCollection|Factory|View|Application
     {
         $extension = $request->get('extension');
+        $tag = $request->get('tag');
 
         $items = Worksheet::search($request->input('search'))
             ->when($extension, function ($query, $extension) {
                 return $query->where('extension', $extension);
+            })
+            ->when($tag, function ($query, $tag) {
+                return $query->whereIn('tags', [$tag]);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(9)
@@ -42,7 +46,14 @@ class WorksheetController extends Controller
             return WorksheetResource::collection($items);
         }
 
-        return view('worksheets.index', compact('items', 'extension'));
+        if (!empty($extension))
+            $activeTab = $extension;
+        elseif (!empty($tag))
+            $activeTab = $tag;
+        else
+            $activeTab = null;
+
+        return view('worksheets.index', compact('items', 'extension', 'activeTab'));
     }
 
     /**

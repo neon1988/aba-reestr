@@ -14,7 +14,7 @@
         </div>
 
         <!-- Переключение разделов -->
-        <div x-data="{ activeTab: '{{ $extension }}' }" class="mb-8">
+        <div x-data="{ activeTab: '{{ $activeTab }}' }" class="mb-8">
             <div class="flex space-x-4 border-b border-gray-200">
                 <a href="{{ route('worksheets.index') }}"
                    class="px-4 py-2 text-gray-700 font-semibold hover:text-cyan-600"
@@ -30,6 +30,11 @@
                     class="px-4 py-2 text-gray-700 font-semibold hover:text-cyan-600"
                     :class="{ 'border-b-2 border-cyan-600 text-cyan-600': activeTab === 'mp4' }">
                     Видео материалы
+                </a>
+                <a href="{{ route('worksheets.index', ['tag' => 'Протокол']) }}"
+                   class="px-4 py-2 text-gray-700 font-semibold hover:text-cyan-600"
+                   :class="{ 'border-b-2 border-cyan-600 text-cyan-600': activeTab === 'Протокол' }">
+                    Протоколы
                 </a>
             </div>
 
