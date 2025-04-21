@@ -35,6 +35,10 @@ class StoreWorksheetRequest extends FormRequest
             'file' => [
                 'required',
                 new FileExistsOnDiskRule()
+            ],
+            'tags' => [
+                'nullable',
+                'array'
             ]
         ];
     }

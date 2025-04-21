@@ -51,6 +51,11 @@ class Worksheet extends Model
         return $this->belongsTo(File::class, 'file_id')->withDefault();
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'worksheet_tag');
+    }
+
     public function isPaid(): bool
     {
         return (float) $this->price > 0;

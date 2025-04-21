@@ -6,6 +6,7 @@ use App\Http\Requests\StoreWorksheetRequest;
 use App\Http\Requests\UpdateWorksheetRequest;
 use App\Http\Resources\WorksheetResource;
 use App\Models\File;
+use App\Models\Tag;
 use App\Models\Worksheet;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -86,6 +87,18 @@ class WorksheetController extends Controller
 
             $worksheet->creator()->associate($user);
             $worksheet->save();
+
+            if ($request->has('tags')) {
+                $worksheet->tags()->sync(collect($request->get('tags'))->map(function ($tagName) {
+                    $tag = Tag::whereRaw('LOWER(name) = ?', [mb_strtolower($tagName)])->first();
+
+                    if (!$tag)
+                        $tag = Tag::create(['name' => $tagName]);
+
+                    return $tag->id;
+                }));
+            }
+
             return $worksheet;
         });
 
@@ -105,7 +118,7 @@ class WorksheetController extends Controller
      */
     public function show(Request $request, Worksheet $worksheet): Factory|Application|View|WorksheetResource
     {
-        $worksheet->load('cover', 'file', 'creator');
+        $worksheet->load('cover', 'file', 'creator', 'tags');
         if ($request->expectsJson()) {
             return new WorksheetResource($worksheet);
         }
@@ -126,6 +139,15 @@ class WorksheetController extends Controller
 
             $worksheet->fill($request->validated());
             $worksheet->save();
+
+            $worksheet->tags()->sync(collect($request->get('tags'))->map(function ($tagName) {
+                $tag = Tag::whereRaw('LOWER(name) = ?', [mb_strtolower($tagName)])->first();
+
+                if (!$tag)
+                    $tag = Tag::create(['name' => $tagName]);
+
+                return $tag->id;
+            }));
 
             if ($upload = $request->get('cover')) {
                 if ($file = File::find($upload['id'])) {
