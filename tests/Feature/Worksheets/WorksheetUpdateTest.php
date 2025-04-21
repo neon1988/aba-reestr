@@ -20,7 +20,9 @@ class WorksheetUpdateTest extends TestCase
         $user = User::factory()->staff()->create();
 
         // Создаем рабочий лист
-        $worksheet = Worksheet::factory()->create();
+        $worksheet = Worksheet::factory()
+            ->withTags(4)
+            ->create();
 
         // Создаем связанные файлы
         $coverFile = File::factory()
@@ -31,12 +33,15 @@ class WorksheetUpdateTest extends TestCase
             ->withUser($user)->temp()->pdf()
             ->create();
 
+        $this->assertEquals(4, $worksheet->tags->count());
+
         // Подготавливаем данные для запроса
         $requestData = [
             'title' => 'Updated Test Worksheet',
             'description' => 'Updated description',
             'cover' => (new FileResource($coverFile))->toArray(request()),
-            'file' => (new FileResource($worksheetFile))->toArray(request())
+            'file' => (new FileResource($worksheetFile))->toArray(request()),
+            'tags' => ['tag1', 'tag2']
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
@@ -62,6 +67,11 @@ class WorksheetUpdateTest extends TestCase
         $this->assertEquals('public', $worksheetFile->storage);
         $this->assertEquals($worksheetFile->id, $worksheet->fresh()->file_id);
         $this->assertTrue($worksheetFile->exists());
+
+        $tags = $worksheet->tags()->get();
+
+        $this->assertEquals(2, $tags->count());
+        $this->assertEquals(['tag1', 'tag2'], $tags->pluck('name')->toArray());
     }
 
     public function test_expects_json()

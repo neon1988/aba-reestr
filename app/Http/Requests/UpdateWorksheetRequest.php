@@ -35,6 +35,10 @@ class UpdateWorksheetRequest extends FormRequest
             'file' => [
                 'required',
                 new FileExistsOnDiskRule()
+            ],
+            'tags' => [
+                'nullable',
+                'array'
             ]
         ];
     }

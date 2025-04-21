@@ -4,8 +4,10 @@ namespace Database\Factories;
 
 use App\Models\File;
 use App\Models\Image;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Worksheet>
@@ -43,6 +45,21 @@ class WorksheetFactory extends Factory
             return [
                 'file_id' => $file,
             ];
+        });
+    }
+
+    public function withTags(Collection|array|int $count = 3): Factory
+    {
+        return $this->afterCreating(function ($worksheet) use ($count) {
+            $tags = collect();
+
+            if (is_int($count)) {
+                $tags = Tag::factory()->count($count)->create();
+            } elseif ($count instanceof Collection || is_array($count)) {
+                $tags = collect($count);
+            }
+
+            $worksheet->tags()->sync($tags->pluck('id'));
         });
     }
 }

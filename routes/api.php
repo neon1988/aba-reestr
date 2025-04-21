@@ -8,6 +8,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebinarController;
 use App\Http\Controllers\WorksheetController;
@@ -80,6 +81,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('images', ImageController::class)->only(['store']);
     Route::resource('files', FileController::class)->only(['store']);
+
+    Route::get('tags', [TagController::class, 'index'])->name('tags.index');
 });
 
 Route::get('countries', [WorldController::class, 'countries'])->name('countries.index');

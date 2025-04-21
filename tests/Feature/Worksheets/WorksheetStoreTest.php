@@ -33,7 +33,8 @@ class WorksheetStoreTest extends TestCase
             'title' => 'Test Worksheet',
             'description' => 'Test description',
             'cover' => (new FileResource($coverFile))->toArray(request()),
-            'file' => (new FileResource($worksheetFile))->toArray(request())
+            'file' => (new FileResource($worksheetFile))->toArray(request()),
+            'tags' => ['tag1', 'tag2']
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
@@ -59,6 +60,15 @@ class WorksheetStoreTest extends TestCase
         $this->assertEquals('public', $worksheetFile->storage);
         $this->assertEquals($worksheetFile->id, Worksheet::latest()->first()->file_id);
         $this->assertTrue($worksheetFile->exists());
+
+        $worksheet = Worksheet::latest()->first();
+
+        $this->assertNotNull($worksheet);
+
+        $tags = $worksheet->tags;
+
+        $this->assertEquals(2, $tags->count());
+        $this->assertEquals(['tag1', 'tag2'], $tags->pluck('name')->toArray());
     }
 
     public function test_expects_json()

@@ -36,6 +36,7 @@ class Worksheet extends Model
     {
         $array = $this->toArray();
         $array['extension'] = $this->file ? $this->file->extension : null;
+        $array['tags'] = $this->tags ? $this->tags->pluck('name')->toArray() : null;
         return $array;
     }
 
@@ -49,6 +50,11 @@ class Worksheet extends Model
     public function file()
     {
         return $this->belongsTo(File::class, 'file_id')->withDefault();
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'worksheet_tag');
     }
 
     public function isPaid(): bool
