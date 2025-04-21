@@ -42,7 +42,7 @@
                     @if ($item->isPaid())
                         @can('purchaseSubscription', \App\Models\User::class)
                             <a href="{{ route('join') }}"
-                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
+                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">
                                 Оформить подписку для получения доступа
                             </a>
                         @endcan
@@ -51,7 +51,7 @@
                     @can ('view', $item)
                         @if (!empty($item['registration_url']))
                             <a href="{{ $item['registration_url'] }}" target="_blank"
-                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
+                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">
                                 Отправить заявку на участие
                             </a>
                         @endif

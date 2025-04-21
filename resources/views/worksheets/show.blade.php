@@ -41,8 +41,9 @@
                     @can('download', $item)
                         <a
                             href="{{ route('worksheets.download', ['worksheet' => $item]) }}" target="_blank"
-                            class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition mb-4">
+                            class="w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition mb-4">
                             Скачать {{ mb_strtoupper(optional($item->file)->extension) }}
+                            @if ($item->file instanceof \App\Models\File) - {{ formatFileSize($item->file->size) }} @endif
                         </a>
                     @endcan
 
@@ -50,7 +51,7 @@
                         @can('purchaseSubscription', \App\Models\User::class)
                             <div class="mb-6">
                                 <a href="{{ route('join') }}"
-                                   class="w-full inline-block text-center bg-cyan-600 text-white font-semibold py-3 rounded-lg hover:bg-cyan-700 transition">
+                                   class="w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">
                                     Оформить подписку для получения доступа
                                 </a>
                             </div>
