@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\PurchasedSubscription;
 use App\Models\User;
+use App\Notifications\PromocodeNotification;
 use App\Notifications\SubscriptionActivatedNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -39,7 +40,10 @@ class ActivateSubscription implements ShouldQueue, ShouldBeUnique
         $this->subscription->activate();
 
         if ($this->subscription->user instanceof User)
+        {
             $this->subscription->user->notify(new SubscriptionActivatedNotification($this->subscription));
+            $this->subscription->user->notify((new PromocodeNotification())->delay(now()->addMinute()));
+        }
 
         $this->subscription->refresh();
 

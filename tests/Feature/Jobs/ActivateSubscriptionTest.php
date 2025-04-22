@@ -8,6 +8,7 @@ use App\Jobs\ActivateSubscription;
 use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
+use App\Notifications\PromocodeNotification;
 use App\Notifications\SubscriptionActivatedNotification;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -61,6 +62,7 @@ class ActivateSubscriptionTest extends TestCase
         $this->assertEquals(Carbon::createFromTimeString('2026-02-06 12:00:00.000000'), $user->subscription_ends_at);
 
         Notification::assertSentTo($user, SubscriptionActivatedNotification::class);
+        Notification::assertSentTo($user, PromocodeNotification::class);
     }
 
     public function test_append_subscription_time()
@@ -106,5 +108,6 @@ class ActivateSubscriptionTest extends TestCase
         $this->assertEquals(Carbon::createFromTimeString('2027-02-06 12:00:00.000000'), $user->subscription_ends_at);
 
         Notification::assertSentTo($user, SubscriptionActivatedNotification::class);
+        Notification::assertSentTo($user, PromocodeNotification::class);
     }
 }
