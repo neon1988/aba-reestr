@@ -17,7 +17,6 @@
                             Поиск
                         </button>
                     </div>
-
                 </form>
             </div>
         </section>
@@ -37,7 +36,6 @@
 
     <script>
         function searchResults() {
-
             return {
                 formData: {
                     search: '',
