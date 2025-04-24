@@ -16,8 +16,9 @@
     <p class="text-gray-600 mb-2">Образование: {{ App\Enums\EducationEnum::getDescription($specialist->education) }}</p>
 
     <!-- Адрес специалиста -->
-    <p class="text-gray-600 mb-2">г. {{ __($specialist->city) ?? 'Не указан' }},
-        {{ $specialist->region ?? '' }}</p>
+    <p class="text-gray-600 mb-2">
+        {{ implode(', ', array_filter([empty($specialist->city) ? null : 'г. '.__($specialist->city), $specialist->region])) }}
+    </p>
 
     @isset($specialist->center_name)
         <!-- Центр, в котором работает специалист -->

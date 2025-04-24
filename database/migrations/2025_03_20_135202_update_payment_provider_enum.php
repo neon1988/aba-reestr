@@ -25,7 +25,7 @@ return new class extends Migration
             // Если нужно, добавьте другие изменения
             DB::statement("ALTER TABLE payments ALTER COLUMN payment_provider SET NOT NULL");
 
-            DB::statement("alter table public.payments drop constraint payments_payment_provider_check;");
+            DB::statement("alter table payments drop constraint if exists payments_payment_provider_check;");
         }
     }
 

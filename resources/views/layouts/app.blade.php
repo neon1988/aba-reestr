@@ -234,7 +234,7 @@
 </div>
 
 <main class="flex flex-grow items-center justify-center">
-    <div class="flex flex-col mt-20">
+    <div class="flex flex-col mt-20 sm:w-auto w-full">
         <div class="w-full max-w-2xl sm:px-3 lg:max-w-7xl">
             @yield('content')
         </div>

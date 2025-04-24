@@ -180,9 +180,8 @@
                             <div x-text="form.errors.files" class="text-sm text-red-600 space-y-1"></div>
                         </template>
                         <div class="text-gray-600 text-sm">
-                            Укажите Ваше образование в ABA. Пример: "3 модуля Юлии Эрц, 5 модулей Шаг впереди",
-                            магистратура
-                            ИПАП и т. д."
+                            Укажите Ваше образование в ABA.
+                            Пример: "3 модуля Юлии Эрц, 5 модулей Шаг впереди", магистратура ИПАП и т. д."
                             <span class="text-sm text-gray-700">
                             Максимальный размер {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
                             </span>
