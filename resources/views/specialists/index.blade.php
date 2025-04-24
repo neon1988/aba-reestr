@@ -3,6 +3,7 @@
 @section('content')
 
     <div x-data="searchResults()" x-init="container = $refs.contentElement.innerHTML">
+
         <!-- Search Section -->
         <section class="pt-6 pb-6 bg-white sm:rounded-t-lg">
             <div class="container mx-auto text-center">
