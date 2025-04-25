@@ -31,11 +31,7 @@ class UserController extends Controller
     {
         $search = trim($request->input('search'));
 
-        $query = filled($search)
-            ? User::search($search)
-            : User::query();
-
-        $users = $query
+        $users = User::search($search)
             ->orderBy('created_at', 'desc')
             ->paginate(9)
             ->withQueryString();

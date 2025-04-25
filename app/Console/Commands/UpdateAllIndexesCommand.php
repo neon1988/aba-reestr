@@ -7,15 +7,9 @@ use Illuminate\Console\Command;
 class UpdateAllIndexesCommand extends Command
 {
     protected $signature = 'scout:update-all-indexes {--flush}';
-
     protected $description = 'Обновить все индексы в Scout';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function handle()
+    public function handle(): void
     {
         $this->call('scout:sync-index-settings');
 
