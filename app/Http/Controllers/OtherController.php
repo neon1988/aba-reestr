@@ -20,12 +20,12 @@ class OtherController extends Controller
 {
     public function home(Request $request): View
     {
-        $centers = Cache::remember('home.centers', 60, function () {
+        $centers = Cache::remember('home.centers', 30, function () {
             return Center::inRandomOrder()->take(3)->accepted()->get();
         });
 
-        $specialists = Cache::remember('home.specialists', 60, function () {
-            return Specialist::inRandomOrder()->take(3)->accepted()->get();
+        $specialists = Cache::remember('home.specialists', 30, function () {
+            return Specialist::inRandomOrder()->take(9)->accepted()->get();
         });
 
         $centers->load('photo');

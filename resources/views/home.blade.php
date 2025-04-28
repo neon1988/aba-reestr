@@ -17,17 +17,12 @@
                 <a href="{{ route('bulletins.index') }}" class="text-cyan-600 hover:underline">разместить объявление</a>,
                 а также получить доступ к
                 <a href="{{ route('worksheets.index') }}" class="text-cyan-600 hover:underline">полезным видео-лекциям,
-                    пособиям для работы</a>.</p>
-            {{--
-        <a href="{{ route('centers.index') }}"
-           class="bg-cyan-600 text-white py-2 px-6 rounded-full hover:bg-cyan-700 transition duration-300">Найти
-            центр</a>
-        --}}
+                    пособиям для работы</a>.
+            </p>
         </div>
     </section>
 
     <!-- Search Section -->
-
     <section class="py-12 bg-white">
         <div class="container mx-auto text-center">
             <h2 class="text-3xl font-semibold text-gray-900 mb-6">Поиск специалистов</h2>
@@ -43,31 +38,27 @@
         </div>
     </section>
 
-    <!-- Centers Section -->
-    {{--
-    <section id="centers" class="p-4 lg:p-8 bg-gray-50">
-        <div class="container mx-auto text-center">
-            <a href="{{ route('centers.index') }}">
-                <h2 class="text-3xl font-semibold text-gray-900 mb-6">Центры ABA</h2>
-            </a>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
-                @foreach ($centers as $center)
-                    @include('centers.card')
-                @endforeach
-            </div>
-        </div>
-    </section>
---}}
     <!-- Specialists Section -->
     <section id="specialists" class="p-4 lg:p-8 bg-gray-50 sm:rounded-b-lg">
         <div class="container mx-auto text-center">
             <a href="{{ route('specialists.index') }}">
                 <h2 class="text-3xl font-semibold text-gray-900 mb-6">Специалисты ABA</h2>
             </a>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
-                @foreach ($specialists as $specialist)
-                    @include('specialists.card')
-                @endforeach
+            <div class="relative overflow-y-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
+                    @foreach ($specialists as $specialist)
+                        @include('specialists.card')
+                    @endforeach
+                </div>
+                <!-- Градиентная маска для прозрачности снизу -->
+                <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none"></div>
+            </div>
+            <!-- Ссылка "Еще специалисты" -->
+            <div class="mt-8">
+                <a href="{{ route('specialists.index') }}"
+                   class="inline-block bg-cyan-600 text-white py-3 px-6 rounded-lg hover:bg-cyan-700 transition duration-300">
+                    Еще специалисты
+                </a>
             </div>
         </div>
     </section>
