@@ -22,12 +22,11 @@
                     @if($item->tags->isNotEmpty())
                         <div class="flex flex-wrap gap-2 mb-4">
                             @foreach($item->tags as $tag)
-                                <span class="bg-cyan-100 text-cyan-800 text-sm
-                                font-medium px-3 py-1 rounded-full">{{ $tag->name }}</span>
+                                <a href="{{ route('worksheets.index', ['tag' => $tag->name]) }}"
+                                   class="bg-cyan-100 text-cyan-800 text-sm font-medium px-3 py-1 rounded-full">{{ $tag->name }}</a>
                             @endforeach
                         </div>
                     @endif
-
                     <h1 class="text-3xl font-bold text-gray-800">
                         {{ $item->title }}
                     </h1>

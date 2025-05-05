@@ -28,6 +28,9 @@ class WorksheetController extends Controller
     {
         $extension = $request->get('extension');
         $tag = $request->get('tag');
+        $price = $request->get('price');
+        if (is_numeric($price))
+            $price = floatval($price);
 
         $items = Worksheet::search($request->input('search'))
             ->when($extension, function ($query, $extension) {
@@ -36,24 +39,28 @@ class WorksheetController extends Controller
             ->when($tag, function ($query, $tag) {
                 return $query->whereIn('tags', [$tag]);
             })
+            ->when($price, function ($query, $price) {
+                return $query->where('price', $price);
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(9)
             ->withQueryString();
 
         $items->load('cover', 'file', 'creator');
 
-        if ($request->expectsJson()) {
+        if ($request->expectsJson())
             return WorksheetResource::collection($items);
-        }
 
-        if (!empty($extension))
+        if ($price === 0.0)
+            $activeTab = 'Бесплатные';
+        elseif (!empty($extension))
             $activeTab = $extension;
         elseif (!empty($tag))
             $activeTab = $tag;
         else
             $activeTab = null;
 
-        return view('worksheets.index', compact('items', 'extension', 'activeTab'));
+        return view('worksheets.index', compact('items', 'extension', 'tag'));
     }
 
     /**

@@ -36,7 +36,7 @@ class SpecialistApprovedNotificationTest extends TestCase
         $this->assertInstanceOf(MailMessage::class, $mailMessage);
         $this->assertEquals('Ваш профиль специалиста одобрен!', $mailMessage->subject);
         $this->assertStringContainsString('Здравствуйте, '.$user->fullName.'!', $mailMessage->greeting);
-        $this->assertStringContainsString('Мы рады сообщить, что ваш профиль специалиста был успешно одобрен.', $mailMessage->introLines[0]);
-        $this->assertStringContainsString(route('specialists.show', ['specialist' => $specialist]), $mailMessage->actionUrl);
+        $this->assertStringContainsString('🎉 Ваш профиль специалиста был успешно одобрен и теперь виден пользователям!', $mailMessage->introLines[0]);
+        $this->assertStringContainsString(route('specialists.edit', ['specialist' => $specialist]), $mailMessage->actionUrl);
     }
 }
