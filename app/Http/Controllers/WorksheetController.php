@@ -39,7 +39,7 @@ class WorksheetController extends Controller
             ->when($tag, function ($query, $tag) {
                 return $query->whereIn('tags', [$tag]);
             })
-            ->when($price, function ($query, $price) {
+            ->when($price !== null, function ($query) use ($price) {
                 return $query->where('price', $price);
             })
             ->orderBy('created_at', 'desc')
@@ -50,15 +50,6 @@ class WorksheetController extends Controller
 
         if ($request->expectsJson())
             return WorksheetResource::collection($items);
-
-        if ($price === 0.0)
-            $activeTab = 'Бесплатные';
-        elseif (!empty($extension))
-            $activeTab = $extension;
-        elseif (!empty($tag))
-            $activeTab = $tag;
-        else
-            $activeTab = null;
 
         return view('worksheets.index', compact('items', 'extension', 'tag'));
     }

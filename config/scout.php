@@ -158,7 +158,7 @@ return [
                 'sortableAttributes' => ['created_at'],
             ],
             Worksheet::class => [
-                'filterableAttributes'=> ['__soft_deleted', 'extension', 'tags'],
+                'filterableAttributes'=> ['__soft_deleted', 'extension', 'tags', 'price'],
                 'sortableAttributes' => ['created_at'],
             ],
             Tag::class => [
