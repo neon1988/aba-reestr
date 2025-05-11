@@ -7,6 +7,7 @@ use App\Models\Specialist;
 use App\Models\User;
 use App\Notifications\SpecialistApprovedNotification;
 use App\Notifications\SubscriptionActivatedNotification;
+use App\Notifications\SupervisionInvitation;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,10 +24,7 @@ class PreviewController extends Controller
             $user = User::factory()
                 ->create();
 
-            $specialist = Specialist::factory()
-                ->create();
-
-            $message = (new SpecialistApprovedNotification($specialist))->toMail($user);
+            $message = (new SupervisionInvitation())->toMail($user);
 
             $markdown = new Markdown(view(), config('mail.markdown'));
 
