@@ -28,7 +28,7 @@ class Notification extends BaseNotification
     public function viaConnections(): array
     {
         return [
-            'mail' => 'database',
+            'mail' => config('queue.default'),
             'database' => 'sync',
         ];
     }
