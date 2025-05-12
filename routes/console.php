@@ -15,5 +15,3 @@ Schedule::command('purge:temp "App\Models\File" 1')->daily();
 Schedule::command('purge:soft-deleted "App\Models\File" 30')->daily();
 
 Schedule::command('disposable:update')->weekly();
-
-Schedule::command('notify:supervision-invitation')->hourly();

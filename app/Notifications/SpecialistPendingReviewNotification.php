@@ -6,7 +6,6 @@ use App\Models\Specialist;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class SpecialistPendingReviewNotification extends Notification implements ShouldQueue
 {

@@ -5,7 +5,6 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class AccountActivationNotification extends Notification implements ShouldQueue
 {
@@ -16,7 +15,7 @@ class AccountActivationNotification extends Notification implements ShouldQueue
      *
      * @var string
      */
-    protected $activationLink;
+    protected string $activationLink;
 
     /**
      * Создание нового экземпляра уведомления.
@@ -24,7 +23,7 @@ class AccountActivationNotification extends Notification implements ShouldQueue
      * @param string $activationLink
      * @return void
      */
-    public function __construct($activationLink)
+    public function __construct(string $activationLink)
     {
         $this->activationLink = $activationLink;
     }

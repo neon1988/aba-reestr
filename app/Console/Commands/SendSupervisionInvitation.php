@@ -16,7 +16,7 @@ class SendSupervisionInvitation extends Command
      *
      * @var string
      */
-    protected $signature = 'notify:supervision-invitation {--limit=10 : Максимум писем}';
+    protected $signature = 'notify:supervision-invitation';
 
     /**
      * The console command description.
@@ -24,6 +24,8 @@ class SendSupervisionInvitation extends Command
      * @var string
      */
     protected $description = 'Рассылает приглашение на супервизию';
+
+    private int $sent = 0;
 
     /**
      * Execute the console command.
@@ -37,28 +39,30 @@ class SendSupervisionInvitation extends Command
             return;
         }
 
-        $limit = (int) $this->option('limit');
-        $sent = 0;
+        $this->sent = 0;
 
         // Находим пользователей, которым ещё не отправляли
         $users = User::where('subscription_level', SubscriptionLevelEnum::B)
             ->whereNotNull('email')
-            ->take($limit)
             ->get();
 
         foreach ($users as $user) {
             $this->sendToUser($user);
-            $sent++;
         }
 
-        $this->info("Отправлено $sent приглашений.");
+        $this->info("Отправлено $this->sent приглашений.");
     }
 
     public function sendToUser(User $user): void
     {
         if (!Cache::has($this->getKeyByID($user->id)))
         {
-            $user->notify(new SupervisionInvitation());
+            $user->notify((new SupervisionInvitation())->delay([
+                'mail' => now()->addMinutes($this->sent * 2)
+            ]));
+
+            $this->sent++;
+
             Cache::put($this->getKeyByID($user->id), 1);
         }
     }
