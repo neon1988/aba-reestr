@@ -5,9 +5,9 @@ namespace App\Console\Commands;
 use App\Enums\SubscriptionLevelEnum;
 use App\Models\User;
 use App\Notifications\SupervisionInvitation;
+use App\Notifications\SupervisionReminder;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
 class SendSupervisionInvitation extends Command
 {
@@ -50,25 +50,15 @@ class SendSupervisionInvitation extends Command
             $this->sendToUser($user);
         }
 
-        $this->info("Отправлено $this->sent приглашений.");
+        $this->info("Отправлено $this->sent.");
     }
 
     public function sendToUser(User $user): void
     {
-        if (!Cache::has($this->getKeyByID($user->id)))
-        {
-            $user->notify((new SupervisionInvitation())->delay([
-                'mail' => now()->addMinutes($this->sent * 2)
-            ]));
+        $user->notify((new SupervisionReminder())->delay([
+            'mail' => now()->addMinutes($this->sent * 2)
+        ]));
 
-            $this->sent++;
-
-            Cache::put($this->getKeyByID($user->id), 1);
-        }
-    }
-
-    public function getKeyByID(int $id): string
-    {
-        return 'supervision_invitations_sent_'.$id;
+        $this->sent++;
     }
 }
