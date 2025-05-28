@@ -116,4 +116,23 @@ class ConferencePolicy extends Policy
 
         return Response::allow();
     }
+
+    /**
+     * Determine whether the user can request participation
+     */
+    public function requestParticipation(User $user, Conference $conference): Response
+    {
+        if (empty($conference->registration_url))
+            return Response::deny(__("There is no registration link in this conference."));
+        if ($conference->isEnded())
+            return Response::deny(__("The conference is ended"));
+        if ($conference->hasRecordFile())
+            return Response::deny(__("The conference is already on the record"));
+        if ($user->isStaff())
+            return Response::allow();
+        if ($conference->isPaid())
+            if (!$user->isSubscriptionActive())
+                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        return Response::allow();
+    }
 }

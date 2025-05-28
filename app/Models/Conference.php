@@ -80,7 +80,7 @@ class Conference extends Model
 
     public function file(): hasOne
     {
-        return $this->hasOne(File::class, 'id', 'file_id')->withDefault();
+        return $this->hasOne(File::class, 'id', 'file_id');
     }
 
     public function isPaid(): bool
@@ -99,5 +99,13 @@ class Conference extends Model
     public function isVideo(): bool
     {
         return $this->file?->isVideo() ?? false;
+    }
+
+    public function isEnded(): bool
+    {
+        if (empty($this->end_at))
+            return false;
+
+        return $this->end_at <= now();
     }
 }

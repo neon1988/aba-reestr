@@ -80,7 +80,7 @@ class Webinar extends Model
 
     public function record_file(): \Illuminate\Database\Eloquent\Relations\hasOne
     {
-        return $this->hasOne(File::class, 'id', 'record_file_id')->withDefault();
+        return $this->hasOne(File::class, 'id', 'record_file_id');
     }
 
     public function hasRecordFile() :bool
@@ -122,6 +122,6 @@ class Webinar extends Model
         if (empty($this->end_at))
             return false;
 
-        return (bool) $this->end_at <= now();
+        return $this->end_at <= now();
     }
 }

@@ -1,10 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
+
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-center">
             <div class="bg-white shadow-lg rounded-lg max-w-4xl w-full p-6">
-
                 @can('watch', $item)
                     <x-video :url="route('conferences.download', ['conference' => $item])"/>
                 @else
@@ -19,26 +18,29 @@
                         </div>
                     </div>
                 @endcan
-
                 <!-- Webinar Info -->
                 <div class="mt-6">
                     <h1 class="text-3xl font-bold text-gray-800">{{ $item->title }}</h1>
-
                     <div class="mt-4 text-gray-600">
-                        <p class="text-lg">
-                            <span class="font-semibold">Дата:</span>
-                            <x-time :time="$item->start_at"/>
-                        </p>
+                        @isset($item->start_at)
+                            <p class="text-lg">
+                                <span class="font-semibold">Дата начала:</span>
+                                <x-time :time="$item->start_at"/>
+                            </p>
+                        @endisset
+                        @isset($item->end_at)
+                            <p class="text-lg">
+                                <span class="font-semibold">Дата окончания:</span>
+                                <x-time :time="$item->end_at"/>
+                            </p>
+                        @endisset
                     </div>
                 </div>
-
                 <div class="mt-6">
-                    <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{{ $item->description }}</p>
+                    <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{!! $item->description !!}</p>
                 </div>
-
                 <!-- Call to Action -->
                 <div class="mt-8">
-
                     @if ($item->isPaid())
                         @can('purchaseSubscription', \App\Models\User::class)
                             <a href="{{ route('join') }}"
@@ -47,16 +49,12 @@
                             </a>
                         @endcan
                     @endif
-
-                    @can ('view', $item)
-                        @if (!empty($item['registration_url']))
-                            <a href="{{ $item['registration_url'] }}" target="_blank"
-                               class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">
-                                Отправить заявку на участие
-                            </a>
-                        @endif
+                    @can ('requestParticipation', $item)
+                        <a href="{{ $item->registration_url }}" target="_blank"
+                           class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">
+                            Отправить заявку на участие
+                        </a>
                     @endcan
-
                     @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))
                         <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
                             <p class="text-gray-700 text-lg mb-4">
@@ -72,7 +70,6 @@
                             </p>
                         </div>
                     @endif
-
                 </div>
             </div>
         </div>

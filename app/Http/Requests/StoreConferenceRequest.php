@@ -47,6 +47,10 @@ class StoreConferenceRequest extends FormRequest
                 'nullable',
                 'date',
                 'after:start_at',
+            ],
+            'file' => [
+                'nullable',
+                new FileExistsOnDiskRule()
             ]
         ];
 

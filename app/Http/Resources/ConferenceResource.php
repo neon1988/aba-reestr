@@ -15,6 +15,8 @@ class ConferenceResource extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
+        $array['cover'] = new FileResource($this->whenLoaded('cover'));
+        $array['file'] = new FileResource($this->whenLoaded('file'));
         return $array;
     }
 }

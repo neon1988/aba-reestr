@@ -229,15 +229,9 @@
                             <li x-text="error"></li>
                         </template>
                     </ul>
-                    <span class="text-sm text-gray-700">
-                    Максимальный размер  {{ formatFileSize(convertToBytes(config('upload.document_max_size'))) }}
-                    </span>
                 </div>
-
                 <x-primary-button>Отправить заявку</x-primary-button>
-
             </form>
-
         </div>
     </div>
     </div>

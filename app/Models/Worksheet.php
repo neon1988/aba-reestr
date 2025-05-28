@@ -43,13 +43,13 @@ class Worksheet extends Model
     // Отношение к файлу обложки (например, для изображения)
     public function cover()
     {
-        return $this->belongsTo(File::class, 'cover_id')->withDefault();
+        return $this->belongsTo(File::class, 'cover_id');
     }
 
     // Отношение к файлу материала
     public function file()
     {
-        return $this->belongsTo(File::class, 'file_id')->withDefault();
+        return $this->belongsTo(File::class, 'file_id');
     }
 
     public function tags()
