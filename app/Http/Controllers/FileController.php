@@ -32,48 +32,50 @@ class FileController extends Controller
         $extension = Url::fromString($upload->getClientOriginalName())->getExtension();
         $name = $upload->getClientOriginalName();
 
-        try {
-            $image = new Imagick();
-            $image->readImageFile($stream);
-            if (strpos($image->getImageMimeType(), 'image/') === 0)
-            {
-                $orientation = $image->getImageOrientation();
-                switch($orientation) {
-                    case imagick::ORIENTATION_BOTTOMRIGHT:
-                        $image->rotateimage(new ImagickPixel('none'), 180); // rotate 180 degrees
-                        break;
-                    case imagick::ORIENTATION_RIGHTTOP:
-                        $image->rotateimage(new ImagickPixel('none'), 90); // rotate 90 degrees CW
-                        break;
-                    case imagick::ORIENTATION_LEFTBOTTOM:
-                        $image->rotateimage(new ImagickPixel('none'), -90); // rotate 90 degrees CCW
-                        break;
+        if (str_starts_with($upload->getMimeType(), 'image/')) {
+            try {
+                $image = new Imagick();
+                $image->readImageFile($stream);
+                if (strpos($image->getImageMimeType(), 'image/') === 0)
+                {
+                    $orientation = $image->getImageOrientation();
+                    switch($orientation) {
+                        case imagick::ORIENTATION_BOTTOMRIGHT:
+                            $image->rotateimage(new ImagickPixel('none'), 180); // rotate 180 degrees
+                            break;
+                        case imagick::ORIENTATION_RIGHTTOP:
+                            $image->rotateimage(new ImagickPixel('none'), 90); // rotate 90 degrees CW
+                            break;
+                        case imagick::ORIENTATION_LEFTBOTTOM:
+                            $image->rotateimage(new ImagickPixel('none'), -90); // rotate 90 degrees CCW
+                            break;
+                    }
+                    $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT);
+                    $image->stripImage();
+                    // Проверяем, нужно ли уменьшать изображение
+                    if ($image->getImageWidth() > config('upload.max_image_width') ||
+                        $image->getImageHeight() > config('upload.max_image_height')) {
+                        $image->thumbnailImage(
+                            config('upload.max_image_width'),
+                            config('upload.max_image_height'),
+                            true
+                        );
+                    }
+
+                    $image->setImageCompressionQuality(90);
+                    $image->setImageFormat('webp');
+
+                    $extension = 'webp';
+                    $name = Url::fromString($name)->withExtension($extension);
+
+                    $stream = fopen('php://memory', 'r+'); // Создаем поток в памяти
+                    fwrite($stream, $image->getImageBlob()); // Записываем данные
+                    rewind($stream); // Перемещаем указатель в начало
                 }
-                $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT);
-                $image->stripImage();
-                // Проверяем, нужно ли уменьшать изображение
-                if ($image->getImageWidth() > config('upload.max_image_width') ||
-                    $image->getImageHeight() > config('upload.max_image_height')) {
-                    $image->thumbnailImage(
-                        config('upload.max_image_width'),
-                        config('upload.max_image_height'),
-                        true
-                    );
-                }
 
-                $image->setImageCompressionQuality(90);
-                $image->setImageFormat('webp');
+            } catch (\Exception $e) {
 
-                $extension = 'webp';
-                $name = Url::fromString($name)->withExtension($extension);
-
-                $stream = fopen('php://memory', 'r+'); // Создаем поток в памяти
-                fwrite($stream, $image->getImageBlob()); // Записываем данные
-                rewind($stream); // Перемещаем указатель в начало
             }
-
-        } catch (\Exception $e) {
-
         }
 
         $file = new File();
