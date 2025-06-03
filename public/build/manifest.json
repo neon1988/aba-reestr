@@ -8,13 +8,29 @@
     "file": "assets/IBAO_CEU_Provider-X0Q9xWHu.png",
     "src": "resources/images/IBAO_CEU_Provider.png"
   },
+  "resources/images/forums.jpg": {
+    "file": "assets/forums-B1jwx_MO.jpg",
+    "src": "resources/images/forums.jpg"
+  },
   "resources/images/logo_118.png": {
     "file": "assets/logo_118-zx8K4A0z.png",
     "src": "resources/images/logo_118.png"
   },
+  "resources/images/logo_1200.png": {
+    "file": "assets/logo_1200-CA7vuEpk.png",
+    "src": "resources/images/logo_1200.png"
+  },
   "resources/images/logo_236.png": {
     "file": "assets/logo_236-BcdKgMzw.png",
     "src": "resources/images/logo_236.png"
+  },
+  "resources/images/materials.jpg": {
+    "file": "assets/materials-BDtMUEmg.jpg",
+    "src": "resources/images/materials.jpg"
+  },
+  "resources/images/supervisia.jpg": {
+    "file": "assets/supervisia-BJJ9maC7.jpg",
+    "src": "resources/images/supervisia.jpg"
   },
   "resources/js/app.js": {
     "file": "assets/app-CbwmUb1p.js",
