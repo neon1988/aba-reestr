@@ -1,5 +1,9 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import { glob } from 'glob';
+
+// Получаем все изображения из папки и подпапок
+const imageFiles = glob.sync('resources/images/**/*.{png,jpg,jpeg,gif,svg}', { nodir: true });
 
 export default defineConfig({
     plugins: [
@@ -7,13 +11,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/images/logo_118.png',
-                'resources/images/logo_236.png',
-                'resources/images/logo_1200.png',
-                'resources/images/IBAO_CEU_Provider.png',
-                'resources/images/materials.jpg',
-                'resources/images/supervisia.jpg',
-                'resources/images/forums.jpg',
+                ...imageFiles, // Добавляем все найденные изображения
             ],
             refresh: true,
         })

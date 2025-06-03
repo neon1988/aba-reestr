@@ -3,7 +3,7 @@
 @section('main')
 
     <div
-        class="md:h-[28rem] mt-16 h-[45rem] flex items-center justify-center bg-gradient-radial to-[#004f6e] via-[#2e9ca6] from-[#5DABA4] w-full flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-12">
+        class="md:h-[28rem] mt-16 h-[42rem] pb-6 md:pb-0 flex items-center justify-center bg-gradient-radial to-[#004f6e] via-[#2e9ca6] from-[#5DABA4] w-full flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-12">
         <!-- Логотип -->
         <div class="w-72 h-72 flex items-center justify-center md:ml-8 mt-8 md:mt-0">
             <x-image :url="Vite::asset('resources/images/logo_1200.png')" :width=300 :height=300 />
@@ -19,14 +19,14 @@
                 Объединяем экспертов. Расширяем практику. Продвигаем науку.
             </p>
             <a href="{{ route('join') }}"
-                class="bg-gray-200 text-gray-500 font-semibold py-2 px-6 rounded hover:bg-gray-100 transition drop-shadow-md">
+                class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded hover:bg-gray-100 transition drop-shadow-md">
                 СТАТЬ ЧАСТЬЮ СООБЩЕСТВА
             </a>
         </div>
     </div>
 
     <section class="bg-gray-150 text-center my-10 px-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:space-x-12 mb-4 font-thin text-lg text-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-start md:space-x-12 mb-4 font-normal text-lg text-gray-800">
             ABA Expert – это проект для поведенческих аналитиков, родителей детей с аутизмом, а также всех
             профессионалов, работающих в сфере аутизма и других нарушений развития.
             Здесь вы можете найти контакты квалифицированных специалистов, работающих в области ABA-терапии, разместить
