@@ -233,27 +233,31 @@
     </div>
 </div>
 
-<main class="flex flex-grow items-center justify-center">
-    <div class="flex flex-col mt-20 sm:w-auto w-full">
-        <div class="w-full max-w-2xl sm:px-3 lg:max-w-7xl">
-            @yield('content')
+@hasSection('main')
+    @yield('main')
+@else
+    <main class="flex flex-grow items-center justify-center">
+        <div class="flex flex-col mt-20 sm:w-auto w-full">
+            <div class="w-full max-w-2xl sm:px-3 lg:max-w-7xl">
+                @yield('content')
+            </div>
         </div>
-    </div>
-</main>
+    </main>
+@endif
 
 <!-- Footer -->
-<footer class="bg-cyan-600 text-white py-6 mt-4">
+<footer class="bg-cyan-600 text-white py-6">
     <div class="container mx-auto text-center space-x-6">
         <a href="{{ route('contacts') }}">Контакты</a>
         <a href="{{ route('privacy-policy') }}">Политика обработки персональных данных</a>
         <a href="{{ route('offer.show') }}">Публичная оферта</a>
         <a href="https://aba-family.ru" target="_blank">Aba-family.ru</a>
     </div>
-    <div class="flex justify-center mx-auto text-center space-x-6">
+    <div class="flex justify-center mx-auto text-center space-x-6 p-8">
         <x-image :url="Vite::asset('resources/images/IBAO_CEU_Provider.png')"
                  alt="IBAO CEU Provider"
                  width="400" height="400" quality="90"
-                 class="max-w-48"/>
+                 class="max-w-32"/>
     </div>
     <div class="container mx-auto text-center mb-4">
         <p>&copy; {{ date('Y') }} ABA Expert - реестр специалистов и центров. Все права защищены.</p>

@@ -49,6 +49,7 @@ class AppServiceProvider extends ServiceProvider
         Route::pattern('payment', '[0-9]+');
         Route::pattern('conference', '[0-9]+');
         Route::pattern('bulletin', '[0-9]+');
+        Route::pattern('file', '[0-9]+');
 
         RateLimiter::for('smtp.bz', function (object $job) {
             return Limit::perHour(100);

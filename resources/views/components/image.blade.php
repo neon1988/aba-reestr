@@ -1,5 +1,7 @@
 @php use Illuminate\Support\Facades\Vite; use Litlife\Url\Url; @endphp
-@props(['url', 'width', 'height', 'quality'])
+@props([
+    'url', 'width', 'height', 'quality' => 90
+    ])
 
 @php
     $url = is_string($url) ? $url : Vite::asset('resources/images/logo_236.png'); // Замените 'default-url' на нужное значение по умолчанию
