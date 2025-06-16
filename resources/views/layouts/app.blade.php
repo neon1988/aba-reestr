@@ -236,7 +236,7 @@
 @hasSection('main')
     @yield('main')
 @else
-    <main class="flex flex-grow items-center justify-center">
+    <main class="flex flex-grow items-center justify-center mb-4">
         <div class="flex flex-col mt-20 sm:w-auto w-full">
             <div class="w-full max-w-2xl sm:px-3 lg:max-w-7xl">
                 @yield('content')
