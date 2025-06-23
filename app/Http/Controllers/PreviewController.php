@@ -25,7 +25,7 @@ class PreviewController extends Controller
             $user = User::factory()
                 ->create();
 
-            $message = (new SupervisionReminder())->toMail($user);
+            $message = (new SupervisionInvitation())->toMail($user);
 
             $markdown = new Markdown(view(), config('mail.markdown'));
 

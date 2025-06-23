@@ -1,0 +1,6 @@
+.git
+.husky
+node_modules
+vendor
+storage
+tests

@@ -32,12 +32,14 @@ class SendSupervisionInvitation extends Command
      */
     public function handle(): void
     {
+        /*
         $deadline = Carbon::create(2025, 5, 20, 19, 0); // 20 мая 2025 в 19:00
 
         if (now()->greaterThanOrEqualTo($deadline)) {
             $this->info("Супервизия уже началась. Рассылка остановлена.");
             return;
         }
+        */
 
         $this->sent = 0;
 
@@ -55,7 +57,7 @@ class SendSupervisionInvitation extends Command
 
     public function sendToUser(User $user): void
     {
-        $user->notify((new SupervisionReminder())->delay([
+        $user->notify((new SupervisionInvitation())->delay([
             'mail' => now()->addMinutes($this->sent * 2)
         ]));
 
