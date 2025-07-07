@@ -17,6 +17,7 @@
                         <x-input-label for="email" :value="__('Email')"/>
                         <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
                                       :value="old('email')" x-model="form.email" @change="form.validate('email')"
+                                      @input="form.email = form.email.toLowerCase()"
                                       autofocus autocomplete="username"/>
                         <template x-if="form.invalid('email')">
                             <div x-text="form.errors.email" class="text-sm text-red-600 space-y-1"></div>

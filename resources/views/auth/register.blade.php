@@ -7,26 +7,30 @@
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <!-- Name -->
-                    <div>
+                    <div x-data="{ name: '' }">
                         <x-input-label for="name" :value="__('Name')"/>
                         <x-text-input id="name" class="block mt-1 w-full" type="text"
                                       name="name" :value="old('name')"
+                                      x-model="name" @input="name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()"
                                       required autofocus autocomplete="name"/>
                         <x-input-error :messages="$errors->get('name')" class="mt-2"/>
                     </div>
                     <!-- Lastname -->
-                    <div class="mt-4">
+                    <div class="mt-4" x-data="{ lastname: '' }">
                         <x-input-label for="lastname" :value="__('Lastname')"/>
                         <x-text-input id="lastname" class="block mt-1 w-full" type="text"
                                       name="lastname" :value="old('lastname')"
+                                      x-model="lastname" @input="lastname = lastname.charAt(0).toUpperCase() + lastname.slice(1).toLowerCase()"
                                       required autofocus autocomplete="lastname"/>
                         <x-input-error :messages="$errors->get('lastname')" class="mt-2"/>
                     </div>
                     <!-- Email Address -->
-                    <div class="mt-4">
+                    <div class="mt-4" x-data="{ email: '' }">
                         <x-input-label for="email" :value="__('Email')"/>
                         <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
                                       :value="old('email')"
+                                      x-model="email" @input="email = email.toLowerCase()"
+                                      style="text-transform: lowercase;"
                                       required autocomplete="username"/>
                         <x-input-error :messages="$errors->get('email')" class="mt-2"/>
                     </div>
