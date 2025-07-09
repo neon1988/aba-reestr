@@ -7,6 +7,7 @@ use App\Models\File;
 use App\Models\Image;
 use App\Models\Staff;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -48,6 +49,22 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'subscription_level' => SubscriptionLevelEnum::Free,
             'subscription_ends_at' => null
+        ]);
+    }
+
+    public function withInactiveSubscription($subscriptionLevel)
+    {
+        return $this->state(fn (array $attributes) => [
+            'subscription_level' => $subscriptionLevel,
+            'subscription_ends_at' => Carbon::now()->subMinutes(1),
+        ]);
+    }
+
+    public function withActiveSubscription($subscriptionLevel)
+    {
+        return $this->state(fn (array $attributes) => [
+            'subscription_level' => $subscriptionLevel,
+            'subscription_ends_at' => Carbon::now()->addMonths(12),
         ]);
     }
 
