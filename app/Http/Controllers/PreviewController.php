@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conference;
 use App\Models\PurchasedSubscription;
 use App\Models\Specialist;
 use App\Models\User;
+use App\Notifications\ConferenceInvitation;
+use App\Notifications\ConferenceInvitationNotification;
 use App\Notifications\SpecialistApprovedNotification;
 use App\Notifications\SubscriptionActivatedNotification;
 use App\Notifications\SupervisionInvitation;
@@ -25,7 +28,9 @@ class PreviewController extends Controller
             $user = User::factory()
                 ->create();
 
-            $message = (new SupervisionInvitation())->toMail($user);
+            $conference = Conference::findOrFail(14);
+
+            $message = (new ConferenceInvitationNotification($conference))->toMail($user);
 
             $markdown = new Markdown(view(), config('mail.markdown'));
 

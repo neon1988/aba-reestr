@@ -1,3 +1,4 @@
+@php use App\Enums\SubscriptionLevelEnum; @endphp
 @extends('layouts.app')
 @section('content')
 
@@ -39,8 +40,19 @@
                 <div class="mt-6">
                     <p class="text-gray-700 leading-relaxed whitespace-pre-wrap">{!! $item->description !!}</p>
                 </div>
+                @if (!empty($item->available_for_subscriptions))
+                    <div class="mt-3">
+                        <div class="inline-block">Доступно на тарифах:</div>
+                        @foreach ($item->available_for_subscriptions as $subscription)
+                            <div
+                                class="inline-block bg-cyan-600 text-white text-xs font-medium mr-1 mb-1 px-2.5 py-0.5 rounded">
+                                {{ SubscriptionLevelEnum::fromValue($subscription)->description }}
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
                 <!-- Call to Action -->
-                <div class="mt-8">
+                <div class="mt-4">
                     @if ($item->isPaid())
                         @can('purchaseSubscription', \App\Models\User::class)
                             <a href="{{ route('join') }}"

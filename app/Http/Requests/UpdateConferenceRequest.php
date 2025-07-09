@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Rules\FileExistsOnDiskRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -51,6 +52,14 @@ class UpdateConferenceRequest extends FormRequest
             'file' => [
                 'nullable',
                 new FileExistsOnDiskRule()
+            ],
+            'available_for_subscriptions' => [
+                'nullable',
+                'array',
+            ],
+            'available_for_subscriptions.*' => [
+                'integer',
+                Rule::in(SubscriptionLevelEnum::getValues())
             ]
         ];
 

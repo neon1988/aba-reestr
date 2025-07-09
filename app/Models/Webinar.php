@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Observers\WebinarObserver;
 use App\Traits\UserCreated;
+use Database\Factories\WebinarFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[ObservedBy([WebinarObserver::class])]
 class Webinar extends Model
 {
-    /** @use HasFactory<\Database\Factories\WebinarFactory> */
+    /** @use HasFactory<WebinarFactory> */
     use HasFactory, UserCreated, SoftDeletes;
 
     protected $fillable = [

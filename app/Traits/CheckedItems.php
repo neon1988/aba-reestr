@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 trait CheckedItems
 {
-
     public function status_changed_user(): \Illuminate\Database\Eloquent\Relations\HasOne|HasOne
     {
         return $this->hasOne('App\User', 'id', 'status_changed_user_id');

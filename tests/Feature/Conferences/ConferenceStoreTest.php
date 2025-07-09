@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Conferences;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Http\Resources\ConferenceResource;
 use App\Models\File;
 use App\Models\User;
@@ -30,6 +31,7 @@ class ConferenceStoreTest extends TestCase
         $requestData = Conference::factory()->create()->fresh()->toArray();
         $requestData['cover'] = $coverFile->toArray();
         $requestData['file'] = $file->toArray();
+        $requestData['available_for_subscriptions'] = [SubscriptionLevelEnum::A, SubscriptionLevelEnum::C];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
         $response = $this->actingAs($user)
@@ -51,6 +53,7 @@ class ConferenceStoreTest extends TestCase
         $this->assertEquals('public', $coverFile->storage);
         $this->assertNotNull($conference->cover);
         $this->assertTrue($coverFile->exists());
+        $this->assertEquals([SubscriptionLevelEnum::A, SubscriptionLevelEnum::C], $conference->available_for_subscriptions);
 
         $file->refresh();
         $this->assertEquals('public', $file->storage);

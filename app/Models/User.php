@@ -225,7 +225,7 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function setLastVerificationEmailSentTime(Carbon $time)
+    public function setLastVerificationEmailSentTime(Carbon $time): void
     {
         Cache::tags('user')->put('last_verification_email_sent_time', $time);
     }
@@ -237,5 +237,13 @@ class User extends Authenticatable implements MustVerifyEmail
             return $time->getTimestamp();
         else
             return 0;
+    }
+
+    public function scopeActiveSubscription($query)
+    {
+        return $query->where(function ($query) {
+            $query->where('subscription_ends_at', '>=', Carbon::now())
+                ->orWhereNull('subscription_ends_at');
+        });
     }
 }

@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $search = trim($request->input('search'));
+        $search = trim($request->input('search', ''));
 
         $users = User::search($search)
             ->orderBy('created_at', 'desc')

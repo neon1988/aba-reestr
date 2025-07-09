@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionLevelEnum;
 use App\Observers\ConferenceObserver;
 use App\Traits\UserCreated;
+use Carbon\Carbon;
 use Database\Factories\ConferenceFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,6 +27,7 @@ class Conference extends Model
         'end_at',
         'registration_url',
         'price',
+        'available_for_subscriptions'
     ];
 
     protected function casts(): array
@@ -33,6 +36,8 @@ class Conference extends Model
             'start_at' => 'datetime',
             'end_at' => 'datetime',
             'deleted_at' => 'datetime',
+            'last_notified_at' => 'datetime',
+            'available_for_subscriptions' => 'array'
         ];
     }
 
@@ -107,5 +112,24 @@ class Conference extends Model
             return false;
 
         return $this->end_at <= now();
+    }
+
+    public function shouldNotifyAgain() :bool
+    {
+        if (empty($this->last_notified_at))
+            return true;
+
+        return $this->last_notified_at->lessThan(Carbon::now()->subMinutes(5));
+    }
+
+    public function isAvailableForSubscription($number): bool
+    {
+        $array = (array)$this->available_for_subscriptions;
+        $array = array_filter($array, fn($n) => $n !== SubscriptionLevelEnum::Free);
+
+        if (empty($array))
+            return true;
+
+        return in_array($number, $array);
     }
 }

@@ -11,7 +11,10 @@ use App\Models\File;
 use App\Models\WebinarSubscription;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -249,5 +252,21 @@ class ConferenceController extends Controller
                 return redirect()->route('conferences.show', compact('conference'));
             }
         }
+    }
+
+    public function sendInvitations(Request $request, Conference $conference): RedirectResponse|JsonResponse
+    {
+        $this->authorize('sendInvitations', $conference);
+
+        Artisan::call('conference:send-invitations', ['id' => $conference->id]);
+
+        $conference->refresh();
+
+        return $request->expectsJson() ?
+            response()->json([
+                'conference' => new ConferenceResource($conference),
+                'success' => __('Invitations have been sent successfully')
+            ]) :
+            redirect()->route('conferences.show', compact('conference'));
     }
 }

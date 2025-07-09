@@ -83,6 +83,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('files', FileController::class)->only(['store']);
 
     Route::get('tags', [TagController::class, 'index'])->name('tags.index');
+
+    Route::get('/conferences/{conference}/send-invitations', [ConferenceController::class, 'sendInvitations'])->name('conferences.send-invitations');
 });
 
 Route::get('countries', [WorldController::class, 'countries'])->name('countries.index');
