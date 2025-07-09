@@ -18,7 +18,7 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid())
-            if (!$user->isSubscriptionActive() and $conference->isAvailableForSubscription($user->subscription_level))
+            if (!$user->isSubscriptionActive() or !$conference->isAvailableForSubscription($user->subscription_level))
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
         return Response::allow();
     }
@@ -61,7 +61,7 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid())
-            if (!$user->isSubscriptionActive() and $conference->isAvailableForSubscription($user->subscription_level))
+            if (!$user->isSubscriptionActive() or !$conference->isAvailableForSubscription($user->subscription_level))
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
         return Response::allow();
     }
@@ -81,7 +81,7 @@ class ConferencePolicy extends Policy
             return Response::allow();
 
         if ($conference->isPaid())
-            if (!$authUser->isSubscriptionActive() and $conference->isAvailableForSubscription($authUser->subscription_level))
+            if (!$authUser->isSubscriptionActive() or !$conference->isAvailableForSubscription($authUser->subscription_level))
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
@@ -95,7 +95,7 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid())
-            if (!$user->isSubscriptionActive() and $conference->isAvailableForSubscription($user->subscription_level))
+            if (!$user->isSubscriptionActive() or !$conference->isAvailableForSubscription($user->subscription_level))
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
         return Response::allow();
     }
@@ -132,7 +132,7 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid())
-            if (!$user->isSubscriptionActive() and $conference->isAvailableForSubscription($user->subscription_level))
+            if (!$user->isSubscriptionActive() or !$conference->isAvailableForSubscription($user->subscription_level))
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
         return Response::allow();
     }

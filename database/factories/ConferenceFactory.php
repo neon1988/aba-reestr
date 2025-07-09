@@ -31,6 +31,7 @@ class ConferenceFactory extends Factory
             'updated_at' => now(),
             'create_user_id' => User::factory(),
             'price' => $this->faker->randomNumber(1) * 200,
+            'url_button_text' => $this->faker->sentence(2)
         ];
     }
 

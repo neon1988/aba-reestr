@@ -60,6 +60,10 @@ class UpdateConferenceRequest extends FormRequest
             'available_for_subscriptions.*' => [
                 'integer',
                 Rule::in(SubscriptionLevelEnum::getValues())
+            ],
+            'url_button_text' => [
+                'required',
+                'string'
             ]
         ];
 

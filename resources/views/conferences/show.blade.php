@@ -64,7 +64,7 @@
                     @can ('requestParticipation', $item)
                         <a href="{{ $item->registration_url }}" target="_blank"
                            class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">
-                            Отправить заявку на участие
+                            {{ $item->url_button_text ?? 'Открыть ссылку' }}
                         </a>
                     @endcan
                     @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))

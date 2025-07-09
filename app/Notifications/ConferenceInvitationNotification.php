@@ -47,7 +47,7 @@ class ConferenceInvitationNotification extends Notification implements ShouldQue
 
         if (!empty($this->conference->registration_url)) {
             $message->line('')
-                ->action('Перейти', $this->conference->registration_url);
+                ->action($this->conference->url_button_text, $this->conference->registration_url);
         }
 
         $message->line('')

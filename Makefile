@@ -52,4 +52,5 @@ update:
 	make build && \
 	make update-app && \
 	make update-scheduler && \
-	make update-horizon
+	make update-horizon && \
+	make migrate

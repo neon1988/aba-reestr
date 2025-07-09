@@ -33,5 +33,6 @@ class ConferenceInvitationTest extends TestCase
         $this->assertStringContainsString('', $mailMessage->introLines[3]);
         $this->assertStringContainsString('До встречи! Команда ABA Expert', $mailMessage->salutation);
         $this->assertStringContainsString($conference->registration_url, $mailMessage->actionUrl);
+        $this->assertStringContainsString($conference->url_button_text, $mailMessage->actionText);
     }
 }

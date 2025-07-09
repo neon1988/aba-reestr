@@ -27,7 +27,8 @@ class Conference extends Model
         'end_at',
         'registration_url',
         'price',
-        'available_for_subscriptions'
+        'available_for_subscriptions',
+        'url_button_text'
     ];
 
     protected function casts(): array
@@ -37,7 +38,8 @@ class Conference extends Model
             'end_at' => 'datetime',
             'deleted_at' => 'datetime',
             'last_notified_at' => 'datetime',
-            'available_for_subscriptions' => 'array'
+            'available_for_subscriptions' => 'array',
+            'url_button_text' => 'string'
         ];
     }
 
