@@ -25,8 +25,9 @@ class ConferenceInvitationNotification extends Notification implements ShouldQue
 
     public function toMail(object $notifiable): MailMessage
     {
-        $startDate = $this->conference->start_at?->format('d.m.Y');
-        $startTime = $this->conference->start_at?->format('H:i');
+        $startAt = $this->conference->start_at?->setTimezone('Europe/Moscow');
+        $startDate = $startAt->format('d.m.Y');
+        $startTime = $startAt->format('H:i');
 
         $message = (new MailMessage)
             ->subject("Приглашение на мероприятие: {$this->conference->title}")
