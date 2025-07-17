@@ -27,9 +27,13 @@ class Payment extends Model
         'meta',
     ];
 
-    protected $casts = [
-        'meta' => 'array',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'meta' => 'array',
+            'amount' => 'float'
+        ];
+    }
 
     public function setStatusAttribute($value): void
     {

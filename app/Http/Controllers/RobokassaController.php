@@ -7,9 +7,12 @@ use App\Enums\PaymentProvider;
 use App\Enums\PaymentStatusEnum;
 use App\Enums\SubscriptionLevelEnum;
 use App\Jobs\ActivateSubscription;
+use App\Models\Conference;
 use App\Models\Payment;
 use App\Models\PurchasedSubscription;
 use App\Models\User;
+use App\Models\Webinar;
+use App\Models\Worksheet;
 use App\Services\RobokassaService;
 use App\Services\SubscriptionPriceService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -17,12 +20,14 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class RobokassaController extends Controller
 {
@@ -106,6 +111,61 @@ class RobokassaController extends Controller
         return response()->redirectTo($paymentUrl);
     }
 
+    public function buy(Request $request, string $type, string $id): RedirectResponse
+    {
+        $class = Relation::getMorphedModel($type);
+
+        if (empty($class) or !class_exists($class))
+            abort(404, __('Invalid purchase type.'));
+
+        $purchasable = $class::findOrFail($id);
+
+        $this->authorize('buy', $purchasable);
+
+        $price = $purchasable->price;
+
+        $payment = Payment::create(
+            [
+                'payment_id' => null,
+                'payment_provider' => PaymentProvider::RoboKassa,
+                'user_id' => Auth::id(),
+                'amount' => $price,
+                'currency' => CurrencyEnum::RUB,
+                'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::PENDING)->key,
+                'meta' => null
+            ]
+        );
+        $payment->payment_id = $payment->id;
+        $payment->save();
+
+        $payment->purchases()->create([
+            'purchasable_id' => $purchasable->id,
+            'purchasable_type' => $class,
+        ]);
+
+        $description = $purchasable->getPurchasableDescription();
+
+        $paymentUrl = $this->robokassaService->createPayment(
+            $price,
+            $payment->id,
+            $description,
+            [
+                "items" => [
+                    [
+                        "name" => $description,
+                        "quantity" => 1,
+                        "sum" => $price,
+                        "payment_method" => "full_payment",
+                        "payment_object" => "service",
+                        "tax" => "none"
+                    ]
+                ]
+            ]
+        );
+
+        return response()->redirectTo($paymentUrl);
+    }
+
     /**
      * @throws \Exception
      */
@@ -141,11 +201,19 @@ class RobokassaController extends Controller
 
         $payment->update([
             'status' => PaymentStatusEnum::fromValue(PaymentStatusEnum::SUCCEEDED),
-            'payment_method' => $validated['PaymentMethod'] ?? null,
             'meta' => $validated
         ]);
 
         $this->checkActivateSubscription($payment);
+
+        foreach ($payment->purchases()->with('purchasable')->get() as $purchase) {
+            if ($purchase->purchasable instanceof Webinar)
+                return redirect()->route('webinars.show', $purchase->purchasable);
+            if ($purchase->purchasable instanceof Worksheet)
+                return redirect()->route('worksheets.show', $purchase->purchasable);
+            if ($purchase->purchasable instanceof Conference)
+                return redirect()->route('conferences.show', $purchase->purchasable);
+        }
 
         return view('payments.success');
     }
@@ -172,9 +240,8 @@ class RobokassaController extends Controller
      */
     public function handleWebhook(Request $request)
     {
-        if (!$this->robokassaService->isValidIP($request->ip())) {
+        if (!$this->robokassaService->isValidIP($request->ip()))
             abort(403, 'Untrusted Robokassa IP ' . $request->ip());
-        }
 
         $validator = Validator::make($request->all(), [
             'OutSum' => 'required|numeric|min:0.01', # OutSum=1.000000

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\SubscriptionLevelEnum;
 use App\Observers\ConferenceObserver;
+use App\Traits\Purchasable;
 use App\Traits\UserCreated;
 use Carbon\Carbon;
 use Database\Factories\ConferenceFactory;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Conference extends Model
 {
     /** @use HasFactory<ConferenceFactory> */
-    use HasFactory, SoftDeletes, UserCreated;
+    use HasFactory, SoftDeletes, UserCreated, Purchasable;
 
     protected $fillable = [
         'title',
@@ -39,7 +40,8 @@ class Conference extends Model
             'deleted_at' => 'datetime',
             'last_notified_at' => 'datetime',
             'available_for_subscriptions' => 'array',
-            'url_button_text' => 'string'
+            'url_button_text' => 'string',
+            'price' => 'float'
         ];
     }
 
@@ -90,11 +92,6 @@ class Conference extends Model
         return $this->hasOne(File::class, 'id', 'file_id');
     }
 
-    public function isPaid(): bool
-    {
-        return (float) $this->price > 0;
-    }
-
     public function hasRecordFile() :bool
     {
         if (!$this->file)
@@ -133,5 +130,10 @@ class Conference extends Model
             return true;
 
         return in_array($number, $array);
+    }
+
+    public function getPurchasableDescription(): string
+    {
+        return __('Access to the conference ":title"', ['title' => $this->title]);
     }
 }

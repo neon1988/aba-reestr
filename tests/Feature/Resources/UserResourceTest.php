@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Resources;
+namespace Tests\Feature\Resources;
 
 use App\Http\Resources\FileResource;
 use App\Http\Resources\UserResource;

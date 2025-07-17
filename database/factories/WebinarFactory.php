@@ -35,6 +35,24 @@ class WebinarFactory extends Factory
         ];
     }
 
+    public function paid($price = 42): Factory
+    {
+        return $this->state(function (array $attributes) use ($price) {
+            return [
+                'price' => $price
+            ];
+        });
+    }
+
+    public function free(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'price' => 0
+            ];
+        });
+    }
+
     /**
      * Indicate that the conference has ended.
      *
@@ -61,6 +79,15 @@ class WebinarFactory extends Factory
         return $this->state(function () use ($file) {
             return [
                 'record_file_id' => $file,
+            ];
+        });
+    }
+
+    public function withoutRecord(): Factory
+    {
+        return $this->state(function () {
+            return [
+                'record_file_id' => null
             ];
         });
     }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Conference;
+use App\Models\Webinar;
+use App\Models\Worksheet;
 use App\Policies\UserPolicy;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -12,6 +15,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -54,5 +58,11 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('smtp.bz', function (object $job) {
             return Limit::perHour(100);
         });
+
+        Relation::morphMap([
+            'webinar' => Webinar::class,
+            'worksheet' => Worksheet::class,
+            'conference' => Conference::class
+        ]);
     }
 }

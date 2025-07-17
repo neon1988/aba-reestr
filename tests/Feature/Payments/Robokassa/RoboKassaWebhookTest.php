@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Payments\Robokassa;
+namespace Tests\Feature\Payments\Robokassa;
 
 use App\Enums\PaymentProvider;
 use App\Enums\PaymentStatusEnum;

@@ -18,6 +18,8 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid()) {
+            if ($conference->isPurchasedByUser($user))
+                return Response::allow();
             if (!$user->isSubscriptionActive())
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
             if (!$conference->isAvailableForSubscription($user->subscription_level))
@@ -64,6 +66,8 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid()) {
+            if ($conference->isPurchasedByUser($user))
+                return Response::allow();
             if (!$user->isSubscriptionActive())
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
             if (!$conference->isAvailableForSubscription($user->subscription_level))
@@ -87,6 +91,8 @@ class ConferencePolicy extends Policy
             return Response::allow();
 
         if ($conference->isPaid()) {
+            if ($conference->isPurchasedByUser($authUser))
+                return Response::allow();
             if (!$authUser->isSubscriptionActive())
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
             if (!$conference->isAvailableForSubscription($authUser->subscription_level))
@@ -103,6 +109,8 @@ class ConferencePolicy extends Policy
         if ($user->isStaff())
             return Response::allow();
         if ($conference->isPaid()) {
+            if ($conference->isPurchasedByUser($user))
+                return Response::allow();
             if (!$user->isSubscriptionActive())
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
             if (!$conference->isAvailableForSubscription($user->subscription_level))
@@ -122,9 +130,11 @@ class ConferencePolicy extends Policy
         if ($authUser->isStaff())
             return Response::deny();
 
-        if ($conference->isPaid())
-            if ($authUser->isSubscriptionActive())
-                return Response::deny(__("You can't buy it because you already have a subscription"));
+        if ($authUser->isSubscriptionActive())
+            return Response::deny(__("You can't buy it because you already have a subscription"));
+
+        if ($conference->isPurchasedByUser($authUser))
+            return Response::deny(__("You have already bought this product."));
 
         return Response::allow();
     }

@@ -87,6 +87,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('robokassa.buy-subscription')
         ->middleware(DBTransactionMiddleware::class);
 
+    Route::get('/robokassa/buy/{type}/{id}', [RobokassaController::class, 'buy'])
+        ->name('robokassa.buy')
+        ->middleware(DBTransactionMiddleware::class);
+
     Route::get('/robokassa/methods', [RobokassaController::class, 'getPaymentMethods'])->name('robokassa.methods');
     Route::get('/robokassa/payments/show/{id}', [RobokassaController::class, 'paymentShow'])->name('robokassa.payments.show');
     Route::get('/robokassa/payments/success', [RobokassaController::class, 'paymentSuccess'])->name('robokassa.payments.success');

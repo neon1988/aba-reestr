@@ -33,6 +33,24 @@ class WorksheetFactory extends Factory
         ];
     }
 
+    public function paid($price = 42): Factory
+    {
+        return $this->state(function (array $attributes) use ($price) {
+            return [
+                'price' => $price
+            ];
+        });
+    }
+
+    public function free(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'price' => 0
+            ];
+        });
+    }
+
     /**
      * Устанавливает файл записи вебинара, если передан внешний файл.
      *

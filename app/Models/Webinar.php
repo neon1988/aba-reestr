@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\WebinarObserver;
+use App\Traits\Purchasable;
 use App\Traits\UserCreated;
 use Database\Factories\WebinarFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Webinar extends Model
 {
     /** @use HasFactory<WebinarFactory> */
-    use HasFactory, UserCreated, SoftDeletes;
+    use HasFactory, UserCreated, SoftDeletes, Purchasable;
 
     protected $fillable = [
         'title',
@@ -34,6 +35,7 @@ class Webinar extends Model
             'start_at' => 'datetime',
             'end_at' => 'datetime',
             'deleted_at' => 'datetime',
+            'price' => 'float'
         ];
     }
 
@@ -113,16 +115,16 @@ class Webinar extends Model
         return $this->belongsToMany(User::class, 'webinar_subscriptions')->withTimestamps();
     }
 
-    public function isPaid(): bool
-    {
-        return (float) $this->price > 0;
-    }
-
     public function isEnded(): bool
     {
         if (empty($this->end_at))
             return false;
 
         return $this->end_at <= now();
+    }
+
+    public function getPurchasableDescription(): string
+    {
+        return __('Access to the webinar ":title"', ['title' => $this->title]);
     }
 }

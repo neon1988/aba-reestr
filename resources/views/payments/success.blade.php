@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="bg-white shadow-lg rounded-lg p-8 text-center max-w-md mx-auto mt-10">
         <div class="flex items-center justify-center w-24 h-24 mx-auto bg-green-100 text-green-500 rounded-full shadow-md">
@@ -17,7 +16,9 @@
         </p>
         <div class="mt-6">
             @can('createSpecialist', Auth::user())
-                <x-primary-link-button href="{{ route('join.specialist') }}" class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                <x-primary-link-button
+                    href="{{ route('join.specialist') }}"
+                    class="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
                     Добавить страницу специалиста
                 </x-primary-link-button>
             @endcan

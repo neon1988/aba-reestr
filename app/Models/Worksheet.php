@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\WorksheetObserver;
+use App\Traits\Purchasable;
 use App\Traits\UserCreated;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Laravel\Scout\Searchable;
 #[ObservedBy([WorksheetObserver::class])]
 class Worksheet extends Model
 {
-    use HasFactory, SoftDeletes, UserCreated, Searchable;
+    use HasFactory, SoftDeletes, UserCreated, Searchable, Purchasable;
 
     // Поля, которые могут быть массово назначены
     protected $fillable = [
@@ -57,13 +58,13 @@ class Worksheet extends Model
         return $this->belongsToMany(Tag::class, 'worksheet_tag');
     }
 
-    public function isPaid(): bool
-    {
-        return (float) $this->price > 0;
-    }
-
     public function isVideo(): bool
     {
         return $this->file?->isVideo() ?? false;
+    }
+
+    public function getPurchasableDescription(): string
+    {
+        return __('Access to the worksheet ":title"', ['title' => $this->title]);
     }
 }

@@ -41,7 +41,8 @@ class WorksheetUpdateTest extends TestCase
             'description' => 'Updated description',
             'cover' => (new FileResource($coverFile))->toArray(request()),
             'file' => (new FileResource($worksheetFile))->toArray(request()),
-            'tags' => ['tag1', 'tag2']
+            'tags' => ['tag1', 'tag2'],
+            'price' => null
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
@@ -59,13 +60,15 @@ class WorksheetUpdateTest extends TestCase
 
         // Проверяем, что файлы были перемещены и прикреплены
         $coverFile->refresh();
+        $worksheet->refresh();
+        $this->assertEquals(0, $worksheet->price);
         $this->assertEquals('public', $coverFile->storage);
-        $this->assertEquals($coverFile->id, $worksheet->fresh()->cover_id);
+        $this->assertEquals($coverFile->id, $worksheet->cover_id);
         $this->assertTrue($coverFile->exists());
 
         $worksheetFile->refresh();
         $this->assertEquals('public', $worksheetFile->storage);
-        $this->assertEquals($worksheetFile->id, $worksheet->fresh()->file_id);
+        $this->assertEquals($worksheetFile->id, $worksheet->file_id);
         $this->assertTrue($worksheetFile->exists());
 
         $tags = $worksheet->tags()->get();
@@ -96,7 +99,8 @@ class WorksheetUpdateTest extends TestCase
             'title' => 'Updated Test Worksheet',
             'description' => 'Updated description',
             'cover' => (new FileResource($coverFile))->toArray(request()),
-            'file' => (new FileResource($worksheetFile))->toArray(request())
+            'file' => (new FileResource($worksheetFile))->toArray(request()),
+            'price' => '420'
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
@@ -108,6 +112,7 @@ class WorksheetUpdateTest extends TestCase
         $worksheet->refresh();
         $worksheet->load(['creator', 'cover', 'file']);
 
+        $this->assertEquals(420, $worksheet->price);
         $response->assertJson([
             'redirect_to' => route('worksheets.show', compact('worksheet')),
             'worksheet' => json_decode((new WorksheetResource($worksheet))->toJson(), true)

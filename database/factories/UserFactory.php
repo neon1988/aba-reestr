@@ -60,7 +60,7 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function withActiveSubscription($subscriptionLevel)
+    public function withActiveSubscription($subscriptionLevel = SubscriptionLevelEnum::A)
     {
         return $this->state(fn (array $attributes) => [
             'subscription_level' => $subscriptionLevel,

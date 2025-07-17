@@ -498,5 +498,8 @@
     "You don't have a subscription or your subscription is inactive.": "У вас нет подписки или ваша подписка неактивна",
     "You already have an active subscription": "У вас уже есть активная подписка",
     "You do not have the required subscription level.": "У вас нет требуемого уровня подписки.",
-    "Invalid signature.": "Недействительная подпись."
+    "Invalid signature.": "Недействительная подпись.",
+    "Access to the conference \":title\"": "Доступ к мероприятию \":title\"",
+    "Access to the webinar \":title\"": "Доступ к вебинару \":title\"",
+    "Access to the worksheet \":title\"": "Доступ к материалу \":title\""
 }

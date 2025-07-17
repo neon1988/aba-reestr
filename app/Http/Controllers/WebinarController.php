@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateWebinarRequest;
 use App\Http\Resources\WebinarResource;
 use App\Models\Conference;
 use App\Models\File;
+use App\Models\Purchase;
 use App\Models\Webinar;
 use App\Models\WebinarSubscription;
 use Carbon\Carbon;

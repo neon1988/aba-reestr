@@ -49,9 +49,13 @@ class WorksheetPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($worksheet->isPaid())
+        if ($worksheet->isPaid()) {
+            if ($worksheet->isPurchasedByUser($authUser))
+                return Response::allow();
+
             if (!$authUser->isSubscriptionActive())
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        }
 
         return Response::allow();
     }
@@ -67,9 +71,13 @@ class WorksheetPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($worksheet->isPaid())
+        if ($worksheet->isPaid()) {
+            if ($worksheet->isPurchasedByUser($authUser))
+                return Response::allow();
+
             if (!$authUser->isSubscriptionActive())
                 return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        }
 
         return Response::allow();
     }
@@ -85,9 +93,11 @@ class WorksheetPolicy extends Policy
         if ($authUser->isStaff())
             return Response::deny();
 
-        if ($worksheet->isPaid())
-            if ($authUser->isSubscriptionActive())
-                return Response::deny(__("You can't buy it because you already have a subscription"));
+        if ($authUser->isSubscriptionActive())
+            return Response::deny(__("You can't buy it because you already have a subscription"));
+
+        if ($worksheet->isPurchasedByUser($authUser))
+            return Response::deny(__("You have already bought this product."));
 
         return Response::allow();
     }

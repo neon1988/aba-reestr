@@ -9,6 +9,7 @@ use App\Enums\SubscriptionLevelEnum;
 use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payment>
@@ -34,12 +35,43 @@ class PaymentFactory extends Factory
         ];
     }
 
+    public function succeeded()
+    {
+        return $this->state(fn(array $attributes) => [
+            'status' => PaymentStatusEnum::SUCCEEDED,
+        ]);
+    }
+
+    public function cancelled()
+    {
+        return $this->state(fn(array $attributes) => [
+            'status' => PaymentStatusEnum::CANCELED,
+        ]);
+    }
+
+    public function pending()
+    {
+        return $this->state(fn(array $attributes) => [
+            'status' => PaymentStatusEnum::PENDING,
+        ]);
+    }
+
     // ➤ Если нужно задать конкретного пользователя
     public function forUser(User $user)
     {
         return $this->state(fn(array $attributes) => [
             'user_id' => $user->id,
         ]);
+    }
+
+    public function withPurchase(mixed $item)
+    {
+        return $this->afterCreating(function (Payment $payment) use ($item) {
+            $payment->purchases()->create([
+                'purchasable_id' => $item->id,
+                'purchasable_type' => array_search(get_class($item), Relation::morphMap(), true),
+            ]);
+        });
     }
 
     public function withSubscription()

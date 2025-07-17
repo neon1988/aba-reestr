@@ -82,4 +82,22 @@ class ConferenceFactory extends Factory
             ];
         });
     }
+
+    public function withRequiredLevel($level = null): Factory
+    {
+        return $this->state(function () use($level) {
+            return [
+                'available_for_subscriptions' => [$level],
+            ];
+        });
+    }
+
+    public function withoutRecord(): Factory
+    {
+        return $this->state(function () {
+            return [
+                'file_id' => null
+            ];
+        });
+    }
 }

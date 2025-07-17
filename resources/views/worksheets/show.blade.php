@@ -1,3 +1,4 @@
+@use('Illuminate\Database\Eloquent\Relations\Relation')
 @extends('layouts.app')
 
 @section('content')
@@ -62,14 +63,14 @@
                     @if ((auth()->guest() and $item->isPaid()) or (auth()->check() and auth()->user()->can('buy', $item)))
                         <div class="mt-6 bg-gray-100 p-4 rounded-lg shadow-md">
                             <p class="text-gray-700 text-lg mb-4">
-                                Или можете приобрести данный материал отдельно за <span
+                                Или можете приобрести доступ к данному материалу отдельно за <span
                                     class="font-semibold text-gray-800">{{ $item->price }} р.</span>
                             </p>
                             <p class="text-gray-600">
                                 Для оформления покупки
-                                <a href="{{ route('contacts') }}"
+                                <a href="{{ route('robokassa.buy', ['type' => array_search(get_class($item), Relation::morphMap(), true), 'id' => $item->id]) }}"
                                    class="text-cyan-600 hover:text-cyan-800">
-                                    свяжитесь с нами
+                                    нажмите сюда
                                 </a>
                             </p>
                         </div>
