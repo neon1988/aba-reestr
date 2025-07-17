@@ -26,7 +26,9 @@ class BulletinController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Bulletin::search($request->input('search'))
+        $search = trim($request->input('search', '') ?? '');
+
+        $items = Bulletin::search($search)
             ->where('status', $request->input('status', StatusEnum::Accepted))
             ->orderBy('created_at', 'desc')
             ->paginate(9)

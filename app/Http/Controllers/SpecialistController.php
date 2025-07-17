@@ -36,7 +36,9 @@ class SpecialistController extends Controller
      */
     public function index(Request $request)
     {
-        $specialists = Specialist::search($request->input('search'))
+        $search = trim($request->input('search', '') ?? '');
+
+        $specialists = Specialist::search($search)
             ->where('status', $request->input('status', StatusEnum::Accepted))
             ->orderBy('created_at', 'desc')
             ->paginate(9)
