@@ -140,7 +140,7 @@ class RobokassaController extends Controller
 
         $payment->purchases()->create([
             'purchasable_id' => $purchasable->id,
-            'purchasable_type' => $class,
+            'purchasable_type' => Relation::getMorphAlias($class),
         ]);
 
         $description = $purchasable->getPurchasableDescription();

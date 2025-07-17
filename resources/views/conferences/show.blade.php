@@ -53,7 +53,7 @@
                 @endif
                 <!-- Call to Action -->
                 <div class="mt-4">
-                    @if ($item->isPaid())
+                    @if ($item->isPaid() and auth()->user()->can('buy', $item))
                         @can('purchaseSubscription', \App\Models\User::class)
                             <a href="{{ route('join') }}"
                                class="mb-3 w-full inline-block text-center bg-cyan-600 text-white font-semibold p-3 rounded-lg hover:bg-cyan-700 transition">

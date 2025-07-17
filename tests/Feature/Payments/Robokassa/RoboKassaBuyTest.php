@@ -81,6 +81,14 @@ class RoboKassaBuyTest extends TestCase
 
         $this->assertEquals(1, $purchases->count());
 
+        $purchase = $purchases->first();
+
+        $this->assertNotNull($purchase);
+        $this->assertNotNull($purchase->purchasable);
+        $this->assertEquals('worksheet', $purchase->purchasable_type);
+        $this->assertEquals(1, $purchase->purchasable_id);
+        $this->assertTrue($purchase->is($purchase->purchasable->purchases()->first()));
+
         // Проверяем, что был редирект на страницу оплаты
         $response->assertRedirect("https://robokassa.test/payment/{$paymentId}");
     }
@@ -141,6 +149,13 @@ class RoboKassaBuyTest extends TestCase
 
         $this->assertEquals(1, $purchases->count());
 
+        $purchase = $purchases->first();
+
+        $this->assertNotNull($purchase);
+        $this->assertNotNull($purchase->purchasable);
+        $this->assertEquals('conference', $purchase->purchasable_type);
+        $this->assertEquals(1, $purchase->purchasable_id);
+
         // Проверяем, что был редирект на страницу оплаты
         $response->assertRedirect("https://robokassa.test/payment/{$paymentId}");
     }
@@ -200,6 +215,13 @@ class RoboKassaBuyTest extends TestCase
         $purchases = $payment->purchases()->get();
 
         $this->assertEquals(1, $purchases->count());
+
+        $purchase = $purchases->first();
+
+        $this->assertNotNull($purchase);
+        $this->assertNotNull($purchase->purchasable);
+        $this->assertEquals('webinar', $purchase->purchasable_type);
+        $this->assertEquals(1, $purchase->purchasable_id);
 
         // Проверяем, что был редирект на страницу оплаты
         $response->assertRedirect("https://robokassa.test/payment/{$paymentId}");

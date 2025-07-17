@@ -49,7 +49,7 @@
                         </a>
                     @endcan
 
-                    @if ($item->isPaid())
+                    @if ($item->isPaid() and auth()->user()->can('buy', $item))
                         @can('purchaseSubscription', \App\Models\User::class)
                             <div class="mb-6">
                                 <a href="{{ route('join') }}"
