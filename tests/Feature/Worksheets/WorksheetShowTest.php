@@ -53,4 +53,13 @@ class WorksheetShowTest extends TestCase
             ->get(route('worksheets.show', 1))
             ->assertNotFound();
     }
+
+    public function test_guest()
+    {
+        $worksheet = Worksheet::factory()
+            ->create();
+
+        $response = $this->get(route('worksheets.show', $worksheet))
+            ->assertOk();
+    }
 }

@@ -53,4 +53,13 @@ class ConferenceShowTest extends TestCase
             ->get(route('conferences.show', 1))
             ->assertNotFound();
     }
+
+    public function test_guest()
+    {
+        $conference = Conference::factory()
+            ->create();
+
+        $response = $this->get(route('conferences.show', $conference))
+            ->assertOk();
+    }
 }

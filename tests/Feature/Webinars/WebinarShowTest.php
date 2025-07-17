@@ -53,4 +53,13 @@ class WebinarShowTest extends TestCase
             ->get(route('webinars.show', 1))
             ->assertNotFound();
     }
+
+    public function test_guest()
+    {
+        $webinar = Webinar::factory()
+            ->create();
+
+        $response = $this->get(route('webinars.show', $webinar))
+            ->assertOk();
+    }
 }
