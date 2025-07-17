@@ -32,7 +32,7 @@ class UpdateConferenceRequest extends FormRequest
                 'string'
             ],
             'price' => [
-                'nullable',
+                'required',
                 'numeric'
             ],
             'registration_url' => [

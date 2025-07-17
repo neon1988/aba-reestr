@@ -93,4 +93,41 @@ class WebinarUpdateTest extends TestCase
             'webinar' => json_decode((new WebinarResource($webinar))->toJson(), true)
         ]);
     }
+
+    public function test_empty_price()
+    {
+        // Создаем пользователя для авторизации
+        $user = User::factory()->staff()->create();
+
+        // Создаем вебинар
+        $webinar = Webinar::factory()->create();
+
+        // Создаем связанные объекты (например, файл)
+        $coverFile = File::factory()
+            ->withUser($user)->temp()->image()
+            ->create();
+
+        $recordFile = File::factory()
+            ->withUser($user)->temp()->pdf()
+            ->create();
+
+        $requestData = Webinar::factory()->create()->fresh()->toArray();
+        $requestData['cover'] = $coverFile->toArray();
+        $requestData['record_file'] = $recordFile->toArray();
+        $requestData['price'] = 0;
+
+        // Проверка, что запрос прошел успешно и возвращает JSON
+        $response = $this->actingAs($user)
+            ->patchJson(route('api.webinars.update', $webinar), $requestData)
+            ->assertOk();
+
+        $webinar->refresh();
+        $webinar->load(['creator', 'cover', 'record_file']);
+
+        $this->assertDatabaseHas('webinars', [
+            'title' => $requestData['title'],
+            'description' => $requestData['description'],
+            'price' => 0
+        ]);
+    }
 }

@@ -25,7 +25,7 @@ class UpdateWorksheetRequest extends FormRequest
                 'string',
             ],
             'price' => [
-                'nullable',
+                'required',
                 'numeric'
             ],
             'cover' => [

@@ -42,7 +42,7 @@ class WorksheetUpdateTest extends TestCase
             'cover' => (new FileResource($coverFile))->toArray(request()),
             'file' => (new FileResource($worksheetFile))->toArray(request()),
             'tags' => ['tag1', 'tag2'],
-            'price' => null
+            'price' => 0
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут

@@ -34,7 +34,8 @@ class WorksheetStoreTest extends TestCase
             'description' => 'Test description',
             'cover' => (new FileResource($coverFile))->toArray(request()),
             'file' => (new FileResource($worksheetFile))->toArray(request()),
-            'tags' => ['tag1', 'tag2']
+            'tags' => ['tag1', 'tag2'],
+            'price' => 0
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут
@@ -90,7 +91,8 @@ class WorksheetStoreTest extends TestCase
             'title' => 'Test Worksheet',
             'description' => 'Test description',
             'cover' => (new FileResource($coverFile))->toArray(request()),
-            'file' => (new FileResource($worksheetFile))->toArray(request())
+            'file' => (new FileResource($worksheetFile))->toArray(request()),
+            'price' => 0
         ];
 
         // Проверка, что запрос прошел успешно и редиректит на нужный маршрут

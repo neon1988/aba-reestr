@@ -78,4 +78,34 @@ class WebinarStoreTest extends TestCase
             'webinar' => json_decode((new WebinarResource($webinar))->toJson(), true)
         ]);
     }
+
+    public function test_store_empty_price()
+    {
+        // Создаем пользователя для авторизации
+        $user = User::factory()->staff()->create();
+
+        // Создаем связанные объекты (например, файл)
+        $coverFile = File::factory()
+            ->withUser($user)->temp()->image()
+            ->create();
+
+        $requestData = Webinar::factory()->create()->fresh()->toArray();
+        $requestData['cover'] = $coverFile->toArray();
+        $requestData['price'] = 0;
+
+        // Проверка, что запрос прошел успешно и возвращает JSON
+        $response = $this->actingAs($user)
+            ->postJson(route('api.webinars.store'), $requestData)
+            ->assertOk();
+
+        $webinar = $user->createdWebinars()->first();
+
+        $this->assertEquals(0, $webinar->price);
+
+        $this->assertDatabaseHas('webinars', [
+            'title' => $requestData['title'],
+            'description' => $requestData['description'],
+            'price' => 0,
+        ]);
+    }
 }

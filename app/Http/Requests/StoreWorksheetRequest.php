@@ -25,7 +25,7 @@ class StoreWorksheetRequest extends FormRequest
                 'string',
             ],
             'price' => [
-                'nullable',
+                'required',
                 'numeric'
             ],
             'cover' => [
