@@ -15,14 +15,7 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if ($webinar->isPaid()) {
-            if ($webinar->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $webinar);
     }
 
     /**
@@ -63,15 +56,7 @@ class WebinarPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($webinar->isPaid()) {
-            if ($webinar->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $webinar);
     }
 
     /**
@@ -81,15 +66,7 @@ class WebinarPolicy extends Policy
     {
         if ($authUser->isStaff())
             return Response::allow();
-        if ($webinar->isPaid()) {
-            if ($webinar->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $webinar);
     }
 
     /**
@@ -103,15 +80,7 @@ class WebinarPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($webinar->isPaid()) {
-            if ($webinar->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $webinar);
     }
 
     /**
@@ -128,15 +97,7 @@ class WebinarPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($webinar->isPaid()) {
-            if ($webinar->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $webinar);
     }
 
     /**
@@ -147,15 +108,7 @@ class WebinarPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($webinar->isPaid()) {
-            if ($webinar->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $webinar);
     }
 
     /**
@@ -174,6 +127,23 @@ class WebinarPolicy extends Policy
 
         if ($webinar->isPurchasedByUser($authUser))
             return Response::deny(__("You have already bought this product."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Общая логика проверки для платного контента
+     */
+    private function checkPaidAccess(User $user, Webinar $webinar): Response
+    {
+        if (!$webinar->isPaid())
+            return Response::allow();
+
+        if ($webinar->isPurchasedByUser($user))
+            return Response::allow();
+
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
     }

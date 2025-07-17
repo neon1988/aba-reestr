@@ -20,7 +20,6 @@
                         </div>
                     </div>
                 @endcan
-                <!-- Webinar Info -->
                 <div class="mt-6">
                     <h1 class="text-3xl font-bold text-gray-800">{{ $item->title }}</h1>
                     <div class="mt-4 text-gray-600">

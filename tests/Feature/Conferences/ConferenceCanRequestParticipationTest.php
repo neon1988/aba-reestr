@@ -2,9 +2,11 @@
 
 namespace Tests\Feature\Conferences;
 
+use App\Enums\PaymentProvider;
 use App\Enums\SubscriptionLevelEnum;
 use App\Models\Conference;
 use App\Models\File;
+use App\Models\Payment;
 use App\Models\User;
 use App\Policies\ConferencePolicy;
 use Carbon\Carbon;
@@ -115,6 +117,24 @@ class ConferenceCanRequestParticipationTest extends TestCase
         $conference = Conference::factory()->free()->create([
             'registration_url' => 'https://example.com',
         ]);
+
+        $response = (new ConferencePolicy)->requestParticipation($user, $conference);
+        $this->assertTrue($response->allowed());
+    }
+
+    public function test_allows_if_paid_and_purchased_by_user()
+    {
+        $user = User::factory()->withoutSubscription()->create();
+
+        $conference = Conference::factory()->paid()->create();
+
+        Payment::factory()
+            ->forUser($user)
+            ->withPurchase($conference)
+            ->succeeded()
+            ->create([
+                'payment_provider' => PaymentProvider::RoboKassa
+            ]);
 
         $response = (new ConferencePolicy)->requestParticipation($user, $conference);
         $this->assertTrue($response->allowed());

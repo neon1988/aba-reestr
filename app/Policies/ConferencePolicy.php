@@ -17,15 +17,7 @@ class ConferencePolicy extends Policy
     {
         if ($user->isStaff())
             return Response::allow();
-        if ($conference->isPaid()) {
-            if ($conference->isPurchasedByUser($user))
-                return Response::allow();
-            if (!$user->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-            if (!$conference->isAvailableForSubscription($user->subscription_level))
-                return Response::deny(__("Unavailable for your subscription"));
-        }
-        return Response::allow();
+        return $this->checkPaidAccess($user, $conference);
     }
 
     /**
@@ -65,15 +57,8 @@ class ConferencePolicy extends Policy
     {
         if ($user->isStaff())
             return Response::allow();
-        if ($conference->isPaid()) {
-            if ($conference->isPurchasedByUser($user))
-                return Response::allow();
-            if (!$user->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-            if (!$conference->isAvailableForSubscription($user->subscription_level))
-                return Response::deny(__("Unavailable for your subscription"));
-        }
-        return Response::allow();
+
+        return $this->checkPaidAccess($user, $conference);
     }
 
     /**
@@ -90,15 +75,7 @@ class ConferencePolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($conference->isPaid()) {
-            if ($conference->isPurchasedByUser($authUser))
-                return Response::allow();
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-            if (!$conference->isAvailableForSubscription($authUser->subscription_level))
-                return Response::deny(__("Unavailable for your subscription"));
-        }
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $conference);
     }
 
     /**
@@ -108,15 +85,7 @@ class ConferencePolicy extends Policy
     {
         if ($user->isStaff())
             return Response::allow();
-        if ($conference->isPaid()) {
-            if ($conference->isPurchasedByUser($user))
-                return Response::allow();
-            if (!$user->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-            if (!$conference->isAvailableForSubscription($user->subscription_level))
-                return Response::deny(__("Unavailable for your subscription"));
-        }
-        return Response::allow();
+        return $this->checkPaidAccess($user, $conference);
     }
 
     /**
@@ -152,15 +121,8 @@ class ConferencePolicy extends Policy
             return Response::deny(__("The conference is already on the record"));
         if ($user->isStaff())
             return Response::allow();
-        if ($conference->isPaid())
-        {
-            if (!$user->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-            if (!$conference->isAvailableForSubscription($user->subscription_level))
-                return Response::deny(__("Unavailable for your subscription"));
-        }
 
-        return Response::allow();
+        return $this->checkPaidAccess($user, $conference);
     }
 
     public function sendInvitations(User $user, Conference $conference): Response
@@ -176,6 +138,30 @@ class ConferencePolicy extends Policy
 
         if (!$conference->shouldNotifyAgain())
             return Response::deny(__("The notifications were sent very recently."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Общая логика проверки для платного контента
+     */
+    private function checkPaidAccess(User $user, Conference $conference): Response
+    {
+        if (!$conference->isPaid()) {
+            return Response::allow();
+        }
+
+        if ($conference->isPurchasedByUser($user)) {
+            return Response::allow();
+        }
+
+        if (!$user->isSubscriptionActive()) {
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
+        }
+
+        if (!$conference->isAvailableForSubscription($user->subscription_level)) {
+            return Response::deny(__("Unavailable for your subscription"));
+        }
 
         return Response::allow();
     }

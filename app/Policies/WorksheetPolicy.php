@@ -49,15 +49,7 @@ class WorksheetPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($worksheet->isPaid()) {
-            if ($worksheet->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $worksheet);
     }
 
     /**
@@ -71,15 +63,7 @@ class WorksheetPolicy extends Policy
         if ($authUser->isStaff())
             return Response::allow();
 
-        if ($worksheet->isPaid()) {
-            if ($worksheet->isPurchasedByUser($authUser))
-                return Response::allow();
-
-            if (!$authUser->isSubscriptionActive())
-                return Response::deny(__("You don't have a subscription or your subscription is inactive."));
-        }
-
-        return Response::allow();
+        return $this->checkPaidAccess($authUser, $worksheet);
     }
 
     /**
@@ -98,6 +82,23 @@ class WorksheetPolicy extends Policy
 
         if ($worksheet->isPurchasedByUser($authUser))
             return Response::deny(__("You have already bought this product."));
+
+        return Response::allow();
+    }
+
+    /**
+     * Общая логика проверки для платного контента
+     */
+    private function checkPaidAccess(User $user, Worksheet $worksheet): Response
+    {
+        if (!$worksheet->isPaid())
+            return Response::allow();
+
+        if ($worksheet->isPurchasedByUser($user))
+            return Response::allow();
+
+        if (!$user->isSubscriptionActive())
+            return Response::deny(__("You don't have a subscription or your subscription is inactive."));
 
         return Response::allow();
     }
