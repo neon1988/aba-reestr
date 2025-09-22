@@ -141,6 +141,8 @@ class SpecialistController extends Controller
             return $specialist;
         });
 
+        $specialist->searchable();
+
         $users = Staff::whereJsonContains('settings_notifications', ['new_specialist' => true])
             ->get()->flatMap->users
             ->unique('id');
