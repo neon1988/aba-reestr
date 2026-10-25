@@ -19,7 +19,7 @@ RUN git clone --depth 1 --branch v3.4.0 https://github.com/php-memcached-dev/php
  && cd /tmp/ext && phpize && ./configure && make -j"$(nproc)" && make install \
  && docker-php-ext-enable memcached && rm -rf /tmp/ext
 
-RUN git clone --depth 1 --branch 6.2.0 https://github.com/phpredis/phpredis.git /tmp/ext \
+RUN git clone --depth 1 --branch 6.3.0 https://github.com/phpredis/phpredis.git /tmp/ext \
  && cd /tmp/ext && phpize && ./configure && make -j"$(nproc)" && make install \
  && docker-php-ext-enable redis && rm -rf /tmp/ext
 
