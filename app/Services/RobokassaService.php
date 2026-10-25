@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use Illuminate\Support\Facades\App;
+use Robokassa\Client\HttpClient;
 use Robokassa\Robokassa;
 
 class RobokassaService
@@ -34,7 +35,8 @@ class RobokassaService
         $this->password1 = $params['password1'];
         $this->password2 = $params['password2'];
 
-        $this->robokassa = new Robokassa($params);
+        $httpClient = new HttpClient();
+        $this->robokassa = new Robokassa($params, $httpClient);
     }
 
     /**
