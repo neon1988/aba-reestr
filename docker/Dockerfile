@@ -11,9 +11,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl intl bcmath gd zip
 
 # Установка PECL расширений
-RUN pecl install imagick && docker-php-ext-enable imagick \
- && pecl install memcached && docker-php-ext-enable memcached \
- && pecl install redis && docker-php-ext-enable redis
+RUN git clone --depth 1 --branch 3.8.0 https://github.com/Imagick/imagick.git /tmp/ext \
+ && cd /tmp/ext && phpize && ./configure && make -j"$(nproc)" && make install \
+ && docker-php-ext-enable imagick && rm -rf /tmp/ext
+
+RUN git clone --depth 1 --branch v3.3.0 https://github.com/php-memcached-dev/php-memcached.git /tmp/ext \
+ && cd /tmp/ext && phpize && ./configure && make -j"$(nproc)" && make install \
+ && docker-php-ext-enable memcached && rm -rf /tmp/ext
+
+RUN git clone --depth 1 --branch 6.2.0 https://github.com/phpredis/phpredis.git /tmp/ext \
+ && cd /tmp/ext && phpize && ./configure && make -j"$(nproc)" && make install \
+ && docker-php-ext-enable redis && rm -rf /tmp/ext \
 
 # Установка Composer из официального образа
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
