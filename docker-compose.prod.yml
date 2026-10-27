@@ -22,10 +22,14 @@ services:
     environment:
       - XDG_CONFIG_HOME=/tmp
     depends_on:
-      - pgsql
-      - memcached
-      - meilisearch
-      - redis
+      pgsql:
+        condition: service_healthy
+      memcached:
+        condition: service_started
+      meilisearch:
+        condition: service_started
+      redis:
+        condition: service_started
     restart: unless-stopped
     networks:
       - app-network
@@ -92,9 +96,6 @@ services:
       test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
       retries: 3
       timeout: 5s
-    depends_on:
-      pgsql:
-        condition: service_healthy
   memcached:
     image: 'memcached:alpine'
     expose:
