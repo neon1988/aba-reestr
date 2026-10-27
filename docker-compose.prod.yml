@@ -1,20 +1,14 @@
 services:
   traefik:
-    image: traefik:v2.9
+    image: traefik:v3.6
     container_name: traefik
     command:
       - "--entrypoints.web.address=:8000"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.forwardedHeaders.trustedIPs=0.0.0.0/0"
-      - "--serverstransport.insecureSkipVerify=true"
+      - "--entrypoints.web.forwardedHeaders.trustedIPs=127.0.0.1/32"
     ports:
       - "127.0.0.1:8000:8000"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    restart: unless-stopped
-    networks:
-      - app-network
   app:
     build:
       context: .
@@ -98,6 +92,9 @@ services:
       test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
       retries: 3
       timeout: 5s
+    depends_on:
+      pgsql:
+        condition: service_healthy
   memcached:
     image: 'memcached:alpine'
     expose:
