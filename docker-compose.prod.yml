@@ -58,6 +58,7 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    pull_policy: never
   scheduler:
     image: aba-reestr-image
     command: ["/bin/sh", "-c", "while true; do php /var/www/html/artisan schedule:run; sleep 60; done"]
@@ -78,6 +79,7 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    pull_policy: never
   pgsql:
     image: 'postgres:17'
     ports:
