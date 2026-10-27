@@ -9,7 +9,7 @@ services:
       - "--entrypoints.web.forwardedHeaders.trustedIPs=0.0.0.0/0"
       - "--serverstransport.insecureSkipVerify=true"
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     restart: unless-stopped
@@ -81,7 +81,7 @@ services:
   pgsql:
     image: 'postgres:17'
     ports:
-      - '${FORWARD_DB_PORT:-5432}:5432'
+      - '127.0.0.1:${FORWARD_DB_PORT:-5432}:5432'
     environment:
       PGPASSWORD: '${DB_PASSWORD:-secret}'
       POSTGRES_DB: '${DB_DATABASE}'
