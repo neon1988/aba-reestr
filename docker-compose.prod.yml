@@ -6,14 +6,21 @@ services:
       - "--entrypoints.web.address=:8000"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.forwardedHeaders.trustedIPs=127.0.0.1/32"
+      - "--entrypoints.web.forwardedHeaders.trustedIPs=127.0.0.1/32,172.16.0.0/12"
     ports:
       - "127.0.0.1:8000:8000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: unless-stopped
+    networks:
+      - app-network
+
   app:
     build:
       context: .
       dockerfile: docker/Dockerfile
     image: aba-reestr-image
+    pull_policy: build
     command: ["php", "/var/www/html/artisan", "octane:frankenphp"]
     volumes:
       - ./storage:/var/www/html/storage
@@ -38,15 +45,16 @@ services:
       - "traefik.http.routers.app.entrypoints=web"
       - "traefik.http.routers.app.rule=Host(`aba-expert.ru`, `api.aba-expert.ru`, `dev.aba-expert.ru`)"
       - "traefik.http.services.app.loadbalancer.server.port=8000"
+
   horizon:
     image: aba-reestr-image
+    pull_policy: never
     command: ["php", "/var/www/html/artisan", "horizon"]
     volumes:
       - ./storage:/var/www/html/storage
       - ./public:/var/www/html/public
-    stop_signal: SIGTERM # Set this for graceful shutdown if you're using fpm-apache or fpm-nginx
+    stop_signal: SIGTERM
     healthcheck:
-      # This is our native healthcheck script for Horizon
       test: ["CMD", "/usr/local/bin/healthcheck-horizon"]
       start_period: 10s
     depends_on:
@@ -56,9 +64,10 @@ services:
     restart: unless-stopped
     networks:
       - app-network
-    pull_policy: never
+
   scheduler:
     image: aba-reestr-image
+    pull_policy: never
     command: ["/bin/sh", "-c", "while true; do php /var/www/html/artisan schedule:run; sleep 60; done"]
     volumes:
       - ./storage:/var/www/html/storage
@@ -77,7 +86,7 @@ services:
     restart: unless-stopped
     networks:
       - app-network
-    pull_policy: never
+
   pgsql:
     image: 'postgres:17'
     ports:
@@ -94,8 +103,10 @@ services:
       - app-network
     healthcheck:
       test: ["CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}"]
-      retries: 3
+      interval: 5s
+      retries: 10
       timeout: 5s
+
   memcached:
     image: 'memcached:alpine'
     expose:
@@ -103,6 +114,7 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+
   meilisearch:
     image: getmeili/meilisearch:v1.11.3
     environment:
@@ -114,6 +126,7 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+
   redis:
     image: redis:alpine
     expose:
@@ -123,9 +136,11 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+
 networks:
   app-network:
     driver: bridge
+
 volumes:
   pgsql:
     driver: local
